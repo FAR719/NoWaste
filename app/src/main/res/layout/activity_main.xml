@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <SearchView
-        android:id="@+id/WasteSearchView"
+        android:id="@+id/wasteSearchView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,12 +16,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/categoriesCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WasteSearchView" />
+        app:layout_constraintTop_toBottomOf="@+id/wasteSearchView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
