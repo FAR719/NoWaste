@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "927978818099",
+    "firebase_url": "https://nowaste-b7167.firebaseio.com",
+    "project_id": "nowaste-b7167",
+    "storage_bucket": "nowaste-b7167.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927978818099:android:96588e40e62c074b02b146",
+        "android_client_info": {
+          "package_name": "com.far.nowaste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927978818099-vn40sa2ttjmpkf21gcrqf0lhn14j0s1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo4au2hFlw4oaEfyg7WlkdiR7NnqiTdhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927978818099-vn40sa2ttjmpkf21gcrqf0lhn14j0s1s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
