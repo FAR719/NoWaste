@@ -11,16 +11,4 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-
-    <string-array name="wasteTypes">
-        <item>Secco</item>
-        <item>Plastica</item>
-        <item>Carta</item>
-        <item>Organico</item>
-        <item>Vetro</item>
-        <item>Metalli</item>
-        <!--Escluso momentaneamente: <item>Ingombranti</item> -->
-        <item>Elettrici</item>
-        <item>Speciali</item>
-    </string-array>
 </resources>
