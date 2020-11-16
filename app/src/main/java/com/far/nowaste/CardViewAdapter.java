@@ -21,7 +21,7 @@ public class CardViewAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    //efinizione metodi necessari
+    // definizione metodi necessari
     @Override
     public int getCount() {
         return wasteTypes.length;
