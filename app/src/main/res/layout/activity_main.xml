@@ -18,7 +18,8 @@
         android:layout_below="@+id/wasteSearchView"
         android:rowCount="4"
         android:columnCount="2"
-        >
+        android:layout_margin="15dp">
+
         <!--CardViewSecco-->
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
