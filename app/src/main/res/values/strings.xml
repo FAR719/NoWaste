@@ -19,7 +19,7 @@
         <item>Organico</item>
         <item>Vetro</item>
         <item>Metalli</item>
-        <item>Ingombranti</item>
+        <!--Escluso momentaneamente: <item>Ingombranti</item> -->
         <item>Elettrici</item>
         <item>Speciali</item>
     </string-array>
