@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 
 public class MainActivity extends AppCompatActivity {
 
     //definizione variabili
+    SearchView wasteSearchView;
     CardView seccoCardView;
     CardView plasticaCardView;
     CardView cartaCardView;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //collega le view
+        wasteSearchView = (SearchView)findViewById(R.id.wasteSearchView);
         seccoCardView = (CardView)findViewById(R.id.seccoCardView);
         plasticaCardView = (CardView)findViewById(R.id.plasticaCardView);
         cartaCardView = (CardView)findViewById(R.id.cartaCardView);
@@ -36,7 +39,22 @@ public class MainActivity extends AppCompatActivity {
         elettriciCardView = (CardView)findViewById(R.id.elettriciCardView);
         specialiCardView = (CardView)findViewById(R.id.specialiCardView);
 
-        //definizione onClick secco
+        // definizione onClick searchView
+        wasteSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
+                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
+                startActivity(cardDetailActivity);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        // definizione onClick secco
         seccoCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick plastica
+        // definizione onClick plastica
         plasticaCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick carta
+        // definizione onClick carta
         cartaCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick organico
+        // definizione onClick organico
         organicoCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick vetro
+        // definizione onClick vetro
         vetroCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick metalli
+        // definizione onClick metalli
         metalliCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick elettrici
+        // definizione onClick elettrici
         elettriciCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
-        //definizione onClick speciali
+        // definizione onClick speciali
         specialiCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

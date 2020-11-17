@@ -9,7 +9,9 @@
     <SearchView
         android:id="@+id/wasteSearchView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:queryHint="Cerca rifiuto"
+        android:iconifiedByDefault="true"/>
 
     <!--nuovo layout per la cardview-->
     <GridLayout
