@@ -1,74 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    //un tasto può essere cliccato una volta sola
-
-    <group android:checkableBehavior="single">
-    </group>
-
-    //creo i primi 4 tasti del menu
-
-    <group>
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/scatola"
-            android:title="Home" />
-
-        <item
-            android:id="@+id/nav_secco"
-            android:icon="@drawable/scatola"
-            android:title="Secco" />
-
-        <item
-            android:id="@+id/nav_vetro"
-            android:icon="@drawable/scatola"
-            android:title="Bus" />
-
-        <item
-            android:id="@+id/nav_plane"
-            android:icon="@drawable/scatola"
-            android:title="Umido" />
-    </group>
-
-    <item android:title="Profile">
-
-        <menu>
-
-            //login
-
-            <group android:checkableBehavior="single">
-
-                <item
-                    android:id="@+id/nav_login"
-                    android:icon="@drawable/login"
-                    android:title="Login" />
-
-                <item
-                    android:id="@+id/nav_profile"
-                    android:icon="@drawable/profile"
-                    android:title="Profile" />
-
-                <item
-                    android:id="@+id/nav_logout"
-                    android:icon="@drawable/logout_icon"
-                    android:title="Logout" />
-            </group>
-        </menu>
-    </item>
-
-    <item android:title="Communicate">
-
-        <menu>
-
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/share"
-                android:title="Share" />
-
-            <item
-                android:id="@+id/nav_rate"
-                android:icon="@drawable/rate_us"
-                android:title="Rate Us" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item android:title="Item" />
+    <item android:title="Item" />
 </menu>

@@ -1,15 +1,20 @@
 package com.far.nowaste;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.SearchView;
 
 public class MainActivity extends AppCompatActivity {
+
+    // toolbar
+    private Toolbar mToolbar;
 
     //definizione variabili
     SearchView wasteSearchView;
@@ -22,13 +27,16 @@ public class MainActivity extends AppCompatActivity {
     CardView elettriciCardView;
     CardView specialiCardView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //collega le view
+        // toolbar
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+
+        // collega le view
         wasteSearchView = (SearchView)findViewById(R.id.wasteSearchView);
         seccoCardView = (CardView)findViewById(R.id.seccoCardView);
         plasticaCardView = (CardView)findViewById(R.id.plasticaCardView);
@@ -126,5 +134,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(cardDetailActivity);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }
