@@ -15,27 +15,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
-    private Toolbar mToolbar;
+    Toolbar mToolbar;
 
     // navigationView
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
 
     //definizione variabili
     SearchView wasteSearchView;
-    CardView seccoCardView;
-    CardView plasticaCardView;
-    CardView cartaCardView;
-    CardView organicoCardView;
-    CardView vetroCardView;
-    CardView metalliCardView;
-    CardView elettriciCardView;
-    CardView specialiCardView;
+    MaterialCardView seccoCardView;
+    MaterialCardView plasticaCardView;
+    MaterialCardView cartaCardView;
+    MaterialCardView organicoCardView;
+    MaterialCardView vetroCardView;
+    MaterialCardView metalliCardView;
+    MaterialCardView elettriciCardView;
+    MaterialCardView specialiCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +53,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // collega le view
         wasteSearchView = (SearchView)findViewById(R.id.wasteSearchView);
-        seccoCardView = (CardView)findViewById(R.id.seccoCardView);
-        plasticaCardView = (CardView)findViewById(R.id.plasticaCardView);
-        cartaCardView = (CardView)findViewById(R.id.cartaCardView);
-        organicoCardView = (CardView)findViewById(R.id.organicoCardView);
-        vetroCardView = (CardView)findViewById(R.id.vetroCardView);
-        metalliCardView = (CardView)findViewById(R.id.metalliCardView);
-        elettriciCardView = (CardView)findViewById(R.id.elettriciCardView);
-        specialiCardView = (CardView)findViewById(R.id.specialiCardView);
+        seccoCardView = (MaterialCardView) findViewById(R.id.seccoCardView);
+        plasticaCardView = (MaterialCardView)findViewById(R.id.plasticaCardView);
+        cartaCardView = (MaterialCardView)findViewById(R.id.cartaCardView);
+        organicoCardView = (MaterialCardView)findViewById(R.id.organicoCardView);
+        vetroCardView = (MaterialCardView)findViewById(R.id.vetroCardView);
+        metalliCardView = (MaterialCardView)findViewById(R.id.metalliCardView);
+        elettriciCardView = (MaterialCardView)findViewById(R.id.elettriciCardView);
+        specialiCardView = (MaterialCardView)findViewById(R.id.specialiCardView);
 
         // navigationView
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);

@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class CardDetailActivity extends AppCompatActivity {
 
     // toolbar
-    private Toolbar mToolbar;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
