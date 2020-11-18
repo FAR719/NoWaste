@@ -19,4 +19,9 @@
         <item name="colorOnSurface">@color/black</item>
         <item name="colorOnError">@color/white</item>
     </style>
+    <style name="Theme.NoWaste.PopupOverlay" parent="Theme.NoWaste">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorAccent">@color/teal_200</item>
+    </style>
 </resources>
