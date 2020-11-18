@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView)findViewById(R.id.nav_view);
 
         // collega le view
-        wasteSearchView = (SearchView)findViewById(R.id.wasteSearchView);
         seccoCardView = (MaterialCardView) findViewById(R.id.seccoCardView);
         plasticaCardView = (MaterialCardView)findViewById(R.id.plasticaCardView);
         cartaCardView = (MaterialCardView)findViewById(R.id.cartaCardView);
@@ -80,21 +78,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        // definizione onClick searchView
-        wasteSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
-                startActivity(cardDetailActivity);
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
 
         // definizione onClick secco
         seccoCardView.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
         mSearchItem = menu.findItem(R.id.m_search);
 
@@ -191,6 +174,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Called when SearchView is expanding
                 animateSearchToolbar(1, true, true);
                 return true;
+            }
+        });
+
+        //set querylistener
+        MenuItem menuItem = menu.findItem(R.id.m_search);
+        androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(menuItem);
+
+        wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
+                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
+                startActivity(cardDetailActivity);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
 

@@ -39,20 +39,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <SearchView
-            android:id="@+id/wasteSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/main_appbarlayout"
-            android:iconifiedByDefault="true"
-            android:queryHint="Cerca rifiuto" />
-
         <!--nuovo layout per la cardview-->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/wasteSearchView"
+            android:layout_below="@+id/main_appbarlayout"
             android:rowCount="4"
             android:columnCount="2"
             android:layout_margin="15dp">
