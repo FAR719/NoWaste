@@ -32,12 +32,4 @@ public class CardDetailActivity extends AppCompatActivity {
         String wasteType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
         detailsTextView.setText(wasteType);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
 }
