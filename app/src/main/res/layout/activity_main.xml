@@ -28,7 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:collapseIcon="@drawable/ic_arrow_back"
-                app:theme="@style/ToolbarTheme" />
+                app:theme="@style/ToolbarTheme"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
             <View
                 android:id="@+id/anchor_dropdown"

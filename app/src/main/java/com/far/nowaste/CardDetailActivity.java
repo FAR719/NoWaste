@@ -25,6 +25,9 @@ public class CardDetailActivity extends AppCompatActivity {
         // definizione variabili
         TextView detailsTextView = (TextView) findViewById(R.id.detailsTextView);
 
+        // back arrow
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // to launch the activity
         Intent in = getIntent();
 
