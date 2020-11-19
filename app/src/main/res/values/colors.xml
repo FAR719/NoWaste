@@ -11,6 +11,9 @@
     <color name="black2">#121212</color>
     <color name="cinnamon_satin">#cf6679</color>
 
+    <color name="basil">#17632B</color>
+    <color name="pine">#04511E</color>
+
     <color name="material_light_primary_text">#DE000000</color>
     <color name="material_light_hint_text">#61000000</color>
     <color name="material_light_active_icon">#8A000000</color>

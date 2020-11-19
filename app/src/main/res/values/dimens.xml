@@ -7,4 +7,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_text_padding">10dp</dimen>
+    <dimen name="card_text_size">16sp</dimen>
+    <dimen name="card_icon_width_height">70dp</dimen>
 </resources>
