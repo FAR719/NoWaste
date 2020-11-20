@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:collapseIcon="@drawable/ic_arrow_back"
-                app:theme="@style/ToolbarTheme"/>
+                app:theme="@style/ToolbarTheme"
+                app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"/>
 
             <!--View per le suggestion-->
             <View
@@ -70,7 +71,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_plastica"/>
+                        android:src="@drawable/ic_card_plastica"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_organico"/>
+                        android:src="@drawable/ic_card_organico"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_indifferenziata"/>
+                        android:src="@drawable/ic_card_indifferenziata"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -172,7 +173,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_carta"/>
+                        android:src="@drawable/ic_card_carta"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -206,7 +207,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_vetro"/>
+                        android:src="@drawable/ic_card_vetro"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,7 +241,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_metalli"/>
+                        android:src="@drawable/ic_card_metalli"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -274,7 +275,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_elettrici"/>
+                        android:src="@drawable/ic_card_elettrici"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -308,7 +309,7 @@
                     <ImageView
                         android:layout_width="@dimen/card_icon_width_height"
                         android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_ingombranti"/>
+                        android:src="@drawable/ic_card_ingombranti"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
