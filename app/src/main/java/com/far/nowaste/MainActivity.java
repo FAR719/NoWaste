@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
 
-        mSearchItem = menu.findItem(R.id.m_search);
+        MenuItem mSearchItem = menu.findItem(R.id.m_search);
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -178,8 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         //set querylistener
-        MenuItem menuItem = menu.findItem(R.id.m_search);
-        androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(menuItem);
+        androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(mSearchItem);
 
         wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
