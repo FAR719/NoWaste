@@ -81,78 +81,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        // definizione onClick secco
-        seccoCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "SECCO");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick plastica
-        plasticaCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "PLASTICA");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick carta
-        cartaCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "CARTA");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick organico
-        organicoCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "ORGANICO");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick vetro
-        vetroCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "VETRO");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick metalli
-        metalliCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "METALLI");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick elettrici
-        elettriciCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "ELETTRICI");
-                startActivity(cardDetailActivity);
-            }
-        });
-        // definizione onClick speciali
-        specialiCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", "SPECIALI");
-                startActivity(cardDetailActivity);
-            }
-        });
+        // definizione onClick cardView
+        clickCard(plasticaCardView, "PLASTICA");
+        clickCard(organicoCardView, "ORGANICO");
+        clickCard(seccoCardView,"SECCO");
+        clickCard(cartaCardView, "CARTA");
+        clickCard(vetroCardView, "VETRO");
+        clickCard(metalliCardView,"METALLI");
+        clickCard(elettriciCardView, "ELETTRICI");
+        clickCard(specialiCardView, "SPECIALI");
     }
 
     @Override
@@ -270,13 +207,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return resources.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
-    // metodo per restituire il colore del tema
+    // metodo per restituire il colore selezionato del tema
     private static int getThemeColor(Context context, int id) {
         Resources.Theme theme = context.getTheme();
         TypedArray a = theme.obtainStyledAttributes(new int[]{id});
         int result = a.getColor(0, 0);
         a.recycle();
         return result;
+    }
+
+    // definizione metodo per onClickCardView (valido per ogni carta)
+    private void clickCard(View view, String string) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
+                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
+                startActivity(cardDetailActivity);
+            }
+        });
     }
 
     @Override
