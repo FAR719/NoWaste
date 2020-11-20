@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.NoWaste" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/mine_shaft</item>
+        <item name="colorPrimary">@color/toolbar</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
@@ -10,10 +10,10 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black2</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/statusbar</item>
         <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/black2</item>
-        <item name="colorSurface">@color/black2</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/background</item>
         <item name="colorError">@color/cinnamon_satin</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
