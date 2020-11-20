@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "548258829939",
+    "firebase_url": "https://nowastefar.firebaseio.com",
+    "project_id": "nowastefar",
+    "storage_bucket": "nowastefar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548258829939:android:e63a067c9578b21239fc06",
+        "android_client_info": {
+          "package_name": "com.far.nowaste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548258829939-cpt094jf0rvc6bbgtrn9vdhbovn6igde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc5w1BkfRd8ZXKI6jqpEDtp5PORPfKkEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548258829939-cpt094jf0rvc6bbgtrn9vdhbovn6igde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
