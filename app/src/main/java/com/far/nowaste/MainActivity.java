@@ -24,7 +24,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
-import android.widget.SearchView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
@@ -33,14 +32,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // toolbar
     Toolbar mToolbar;
-    MenuItem mSearchItem;
 
     // navigationView
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
 
-    //definizione variabili
-    SearchView wasteSearchView;
+    // cardView
     MaterialCardView seccoCardView;
     MaterialCardView plasticaCardView;
     MaterialCardView cartaCardView;
@@ -58,10 +56,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // toolbar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        // background DayNight
+        mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // navigationView
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
+        // background daynight
+        navigationView.getHeaderView(0).setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // collega le view
         seccoCardView = (MaterialCardView) findViewById(R.id.seccoCardView);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         specialiCardView = (MaterialCardView)findViewById(R.id.specialiCardView);
 
         // navigationView
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -268,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return resources.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
+    // metodo per restituire il colore del tema
     private static int getThemeColor(Context context, int id) {
         Resources.Theme theme = context.getTheme();
         TypedArray a = theme.obtainStyledAttributes(new int[]{id});

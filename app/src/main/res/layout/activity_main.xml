@@ -10,10 +10,11 @@
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/nav_menu"
         android:id="@+id/nav_view"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"/>
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"
+        android:fitsSystemWindows="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,9 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:collapseIcon="@drawable/ic_arrow_back"
-                app:theme="@style/ToolbarTheme"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:theme="@style/ToolbarTheme"/>
 
             <!--View per le suggestion-->
             <View
