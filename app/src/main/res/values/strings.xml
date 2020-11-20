@@ -8,9 +8,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="nav_menu_sez1">Generale</string>
+    <string name="nav_menu_home">Home</string>
+    <string name="nav_menu_curiosita">Curiosità</string>
+    <string name="nav_menu_calendario">Calendario</string>
+    <string name="nav_menu_luoghi">Luoghi</string>
+    <string name="nav_menu_sez2">Info</string>
+    <string name="nav_menu_contattaci">Contattaci</string>
+    <string name="nav_menu_impostazioni">Impostazioni</string>
 
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
