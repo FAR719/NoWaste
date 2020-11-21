@@ -15,19 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/descrizioneSingleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descrizione"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameSingleTextView" />
-    <TextView
         android:id="@+id/smaltimentoSingleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smaltimento"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descrizioneSingleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/nameSingleTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,8 @@ public class CardDetailActivity extends AppCompatActivity {
     private FirestoreRecyclerAdapter adapter;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +51,18 @@ public class CardDetailActivity extends AppCompatActivity {
         // to launch the activity
         Intent in = getIntent();
 
-        /*// display the name
-        String wasteType = in.getStringExtra("com.far.nowaste.CARD_TYPE");*/
-
         // recyclerView + FireBase
         mFirestoreList = findViewById(R.id.card_recyclerview);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        //variabile
+        String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
+
         // query
         Query query = firebaseFirestore.collection("rifiuti")
-               // .orderBy("nome", Query.Direction.DESCENDING )
-                //.limit(10);
-        //Query queryVetro = firebaseFirestore.collection("rifiuti").whereEqualTo("materiale","Vetro").orderBy("nome").limit(10);
+                .whereEqualTo("materiale",stringCardType )
+                .orderBy("nome");
+
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
@@ -77,7 +79,6 @@ public class CardDetailActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull RifiutoViewHolder holder, int position, @NonNull Rifiuto model) {
                 holder.rName.setText(model.getNome());
                 holder.rSmaltimento.setText(model.getSmaltimento());
-                holder.rDescrizione.setText(model.getDescrizione()); //agiunta R
             }
         };
 
@@ -91,14 +92,13 @@ public class CardDetailActivity extends AppCompatActivity {
 
         private TextView rName;
         private TextView rSmaltimento;
-        private TextView rDescrizione; // R
+
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             rName = itemView.findViewById(R.id.nameSingleTextView);
             rSmaltimento = itemView.findViewById(R.id.smaltimentoSingleTextView);
-            rDescrizione = itemView.findViewById(R.id.descrizioneSingleTextView); // R
         }
     }
 
