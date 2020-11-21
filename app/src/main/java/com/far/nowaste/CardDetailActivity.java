@@ -30,9 +30,6 @@ public class CardDetailActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapter;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +56,7 @@ public class CardDetailActivity extends AppCompatActivity {
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti")
-                .whereEqualTo("materiale",stringCardType )
-                .orderBy("nome");
-
+        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("materiale", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
@@ -92,7 +86,6 @@ public class CardDetailActivity extends AppCompatActivity {
 
         private TextView rName;
         private TextView rSmaltimento;
-
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
