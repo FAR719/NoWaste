@@ -30,6 +30,7 @@ public class CardDetailActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private FirestoreRecyclerAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,7 @@ public class CardDetailActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull RifiutoViewHolder holder, int position, @NonNull Rifiuto model) {
                 holder.rName.setText(model.getNome());
                 holder.rSmaltimento.setText(model.getSmaltimento());
+                holder.rDescrizione.setText(model.getDescrizione()); //agiunta R
             }
         };
 
@@ -86,12 +88,14 @@ public class CardDetailActivity extends AppCompatActivity {
 
         private TextView rName;
         private TextView rSmaltimento;
+        private TextView rDescrizione; // R
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             rName = itemView.findViewById(R.id.nameSingleTextView);
             rSmaltimento = itemView.findViewById(R.id.smaltimentoSingleTextView);
+            rDescrizione = itemView.findViewById(R.id.descrizioneSingleTextView); // R
         }
     }
 
