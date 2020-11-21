@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         // definizione onClick cardView
-        clickCard(plasticaCardView, "PLASTICA");
-        clickCard(organicoCardView, "ORGANICO");
-        clickCard(seccoCardView,"SECCO");
-        clickCard(cartaCardView, "CARTA");
-        clickCard(vetroCardView, "VETRO");
-        clickCard(metalliCardView,"METALLI");
-        clickCard(elettriciCardView, "ELETTRICI");
-        clickCard(specialiCardView, "SPECIALI");
+        clickCard(plasticaCardView, "Plastica");
+        clickCard(organicoCardView, "Organico");
+        clickCard(seccoCardView,"Secco");
+        clickCard(cartaCardView, "Carta");
+        clickCard(vetroCardView, "Vetro");
+        clickCard(metalliCardView,"Metalli");
+        clickCard(elettriciCardView, "Elettrici");
+        clickCard(specialiCardView, "Speciali");
     }
 
     @Override
