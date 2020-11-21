@@ -57,7 +57,10 @@ public class CardDetailActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti");
+        Query query = firebaseFirestore.collection("rifiuti")
+               // .orderBy("nome", Query.Direction.DESCENDING )
+                //.limit(10);
+        //Query queryVetro = firebaseFirestore.collection("rifiuti").whereEqualTo("materiale","Vetro").orderBy("nome").limit(10);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
