@@ -104,6 +104,7 @@
             android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@drawable/ic_detail_btn_add"
+            android:backgroundTint="@color/teal_700"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
