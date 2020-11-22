@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), ListaMaterialeCardActivity.class);
+                Intent cardDetailActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
                 cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
                 startActivity(cardDetailActivity);
                 return false;
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent listaMaterialeCardActivity = new Intent(getApplicationContext(), ListaMaterialeCardActivity.class);
+                Intent listaMaterialeCardActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
                 listaMaterialeCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
                 startActivity(listaMaterialeCardActivity);
             }
