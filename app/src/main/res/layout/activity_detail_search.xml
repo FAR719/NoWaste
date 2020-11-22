@@ -8,13 +8,13 @@
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detail_appbarlayout"
+        android:id="@+id/detailSearch_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/detail_toolbar"
+            android:id="@+id/detailSearch_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ToolbarTheme"
@@ -22,17 +22,17 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/infoLayout"
+        android:id="@+id/detailSearch_infoLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/detail_appbarlayout"
+        android:layout_below="@+id/detailSearch_appBarLayout"
         android:layout_alignParentStart="true"
         android:layout_marginTop="-3dp"
         >
 
 
         <TextView
-            android:id="@+id/titoloTextView"
+            android:id="@+id/detailSearch_nomeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -42,27 +42,27 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/materialeTextView"
+            android:id="@+id/detailSearch_materialeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Materiale"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titoloTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_nomeTextView" />
 
         <TextView
-            android:id="@+id/smaltimentoTextView"
+            android:id="@+id/detailSearch_smaltimentoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="Metodo di smaltimento"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialeTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/detailSearch_rifiutoImageView"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/descrizioneTextView"
+            android:id="@+id/detailSearch_descrizioneTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -82,10 +82,10 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/smaltimentoTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_smaltimentoTextView" />
 
         <TextView
-            android:id="@+id/punteggioTextView"
+            android:id="@+id/detailSearch_punteggioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -96,7 +96,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/detailSearch_addFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

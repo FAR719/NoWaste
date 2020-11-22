@@ -24,7 +24,7 @@ public class DetailSearchActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
 
-    TextView titoloTextView;
+    TextView nomeTextView;
     TextView materialeTextView;
     TextView smaltimentoTextView;
     TextView descrizioneTextView;
@@ -38,7 +38,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_search);
 
         // toolbar
-        mToolbar = findViewById(R.id.detail_toolbar);
+        mToolbar = findViewById(R.id.detailSearch_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(DetailSearchActivity.this, R.attr.colorPrimary));
@@ -54,11 +54,11 @@ public class DetailSearchActivity extends AppCompatActivity {
         stringName = in.getStringExtra("com.far.nowaste.NAME");
 
         // associazione view
-        titoloTextView = findViewById(R.id.titoloTextView);
-        materialeTextView = findViewById(R.id.materialeTextView);
-        smaltimentoTextView = findViewById(R.id.smaltimentoTextView);
-        descrizioneTextView = findViewById(R.id.descrizioneTextView);
-        punteggioTextView = findViewById(R.id.punteggioTextView);
+        nomeTextView = findViewById(R.id.detailSearch_nomeTextView);
+        materialeTextView = findViewById(R.id.detailSearch_materialeTextView);
+        smaltimentoTextView = findViewById(R.id.detailSearch_smaltimentoTextView);
+        descrizioneTextView = findViewById(R.id.detailSearch_descrizioneTextView);
+        punteggioTextView = findViewById(R.id.detailSearch_punteggioTextView);
 
         // associazione firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -69,11 +69,20 @@ public class DetailSearchActivity extends AppCompatActivity {
         super.onStart();
 
         // query
-        firebaseFirestore.collection("rifiuti").document("Arancin").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        firebaseFirestore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                String name = value.getString("nome");
-                titoloTextView.setText(name);
+                String nome = value.getString("nome");
+                String materiale = value.getString("materiale");
+                String smaltimento = value.getString("smaltimento");
+                String descrizione = value.getString("descrizione");
+                String punteggio = value.get("punteggio") + "";
+
+                nomeTextView.setText(nome);
+                materialeTextView.setText(materiale);
+                smaltimentoTextView.setText(smaltimento);
+                descrizioneTextView.setText(descrizione);
+                punteggioTextView.setText(punteggio);
             }
         });
     }
