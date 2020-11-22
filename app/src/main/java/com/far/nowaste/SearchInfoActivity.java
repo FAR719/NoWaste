@@ -1,9 +1,9 @@
 package com.far.nowaste;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,20 +13,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
-import org.w3c.dom.Text;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class SearchInfoActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
 
-    private RecyclerView mFirestoreList;
     private FirebaseFirestore firebaseFirestore;
 
     TextView titoloTextView;
@@ -35,13 +30,15 @@ public class SearchInfoActivity extends AppCompatActivity {
     TextView descrizioneTextView;
     TextView punteggioTextView;
 
+    String stringName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_info);
 
         // toolbar
-        mToolbar = (Toolbar) findViewById(R.id.card_toolbar);
+        mToolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(SearchInfoActivity.this, R.attr.colorPrimary));
@@ -54,17 +51,29 @@ public class SearchInfoActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // variabile passata
-        String stringName = in.getStringExtra("com.far.nowaste.NAME");
+        stringName = in.getStringExtra("com.far.nowaste.NAME");
 
-        // firebase
+        // associazione view
+        titoloTextView = findViewById(R.id.titoloTextView);
+        materialeTextView = findViewById(R.id.materialeTextView);
+        smaltimentoTextView = findViewById(R.id.smaltimentoTextView);
+        descrizioneTextView = findViewById(R.id.descrizioneTextView);
+        punteggioTextView = findViewById(R.id.punteggioTextView);
+
+        // associazione firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
+    }
 
-        // query (usando il nome come id)
-        firebaseFirestore.collection("rifiuti").document(stringName).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // query
+        firebaseFirestore.collection("rifiuti").document("Arancin").addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot documentSnapshot = task.getResult();
-                String name = DocumentSnapshot.getString("nome");
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String name = value.getString("nome");
+                titoloTextView.setText(name);
             }
         });
     }

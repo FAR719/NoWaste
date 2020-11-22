@@ -36,7 +36,7 @@ public class ListaMaterialeCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_materiale_card);
 
         // toolbar
-        mToolbar = (Toolbar) findViewById(R.id.card_toolbar);
+        mToolbar = findViewById(R.id.card_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(ListaMaterialeCardActivity.this, R.attr.colorPrimary));
@@ -56,7 +56,7 @@ public class ListaMaterialeCardActivity extends AppCompatActivity {
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("materiale", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("smaltimento", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();

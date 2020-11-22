@@ -49,26 +49,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // toolbar
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // navigationView
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView)findViewById(R.id.nav_view);
-        // background daynight
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        // background dayNight
         navigationView.getHeaderView(0).setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // collega le view
-        seccoCardView = (MaterialCardView) findViewById(R.id.seccoCardView);
-        plasticaCardView = (MaterialCardView)findViewById(R.id.plasticaCardView);
-        cartaCardView = (MaterialCardView)findViewById(R.id.cartaCardView);
-        organicoCardView = (MaterialCardView)findViewById(R.id.organicoCardView);
-        vetroCardView = (MaterialCardView)findViewById(R.id.vetroCardView);
-        metalliCardView = (MaterialCardView)findViewById(R.id.metalliCardView);
-        elettriciCardView = (MaterialCardView)findViewById(R.id.elettriciCardView);
-        specialiCardView = (MaterialCardView)findViewById(R.id.specialiCardView);
+        seccoCardView = findViewById(R.id.indifferenziataCardView);
+        plasticaCardView = findViewById(R.id.plasticaCardView);
+        cartaCardView = findViewById(R.id.cartaCardView);
+        organicoCardView = findViewById(R.id.organicoCardView);
+        vetroCardView = findViewById(R.id.vetroCardView);
+        metalliCardView = findViewById(R.id.metalliCardView);
+        elettriciCardView = findViewById(R.id.elettriciCardView);
+        specialiCardView = findViewById(R.id.specialiCardView);
 
         // navigationView
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // definizione onClick cardView
         clickCard(plasticaCardView, "Plastica");
         clickCard(organicoCardView, "Organico");
-        clickCard(seccoCardView,"Secco");
+        clickCard(seccoCardView,"Indifferenziata");
         clickCard(cartaCardView, "Carta");
         clickCard(vetroCardView, "Vetro");
         clickCard(metalliCardView,"Metalli");
