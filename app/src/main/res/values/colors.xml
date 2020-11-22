@@ -17,6 +17,8 @@
     <color name="toolbar">#1F1F1F</color>
     <color name="background">#121212</color>
 
+    <color name="icon_gray">#848484</color>
+
     <color name="material_light_primary_text">#DE000000</color>
     <color name="material_light_hint_text">#61000000</color>
     <color name="material_light_active_icon">#8A000000</color>
