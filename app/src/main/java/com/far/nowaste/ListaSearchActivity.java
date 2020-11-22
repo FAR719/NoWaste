@@ -58,7 +58,7 @@ public class ListaSearchActivity extends AppCompatActivity {
         String stringName = in.getStringExtra("com.far.nowaste.SEARCH_QUERY");
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("nome", stringName).orderBy("nome", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
