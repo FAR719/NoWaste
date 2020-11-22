@@ -49,14 +49,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // toolbar
-        mToolbar = findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // navigationView
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.main_drawerlayout);
+        navigationView = findViewById(R.id.main_navView);
         // background dayNight
         navigationView.getHeaderView(0).setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
         MenuItem mSearchItem = menu.findItem(R.id.m_search);
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
@@ -117,9 +116,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
-                startActivity(cardDetailActivity);
+                Intent listaSearchActivity = new Intent(getApplicationContext(), ListaSearchActivity.class);
+                listaSearchActivity.putExtra("com.far.nowaste.NAME", query);
+                startActivity(listaSearchActivity);
                 return false;
             }
 
@@ -177,9 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent listaMaterialeCardActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
-                listaMaterialeCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
-                startActivity(listaMaterialeCardActivity);
+                Intent listaCardActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
+                listaCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
+                startActivity(listaCardActivity);
             }
         });
     }

@@ -18,7 +18,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class InfoSearchActivity extends AppCompatActivity {
+public class DetailSearchActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
 
@@ -35,13 +35,13 @@ public class InfoSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_search);
+        setContentView(R.layout.activity_detail_search);
 
         // toolbar
         mToolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
-        mToolbar.setBackgroundColor(getThemeColor(InfoSearchActivity.this, R.attr.colorPrimary));
+        mToolbar.setBackgroundColor(getThemeColor(DetailSearchActivity.this, R.attr.colorPrimary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -51,7 +51,7 @@ public class InfoSearchActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // variabile passata
-        stringName = in.getStringExtra("com.far.nowaste.NAME");
+        stringName = in.getStringExtra("com.far.nowaste.NAME1");
 
         // associazione view
         titoloTextView = findViewById(R.id.titoloTextView);

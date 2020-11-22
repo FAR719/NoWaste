@@ -8,13 +8,13 @@
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/card_appbarlayout"
+        android:id="@+id/listacard_appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/card_toolbar"
+            android:id="@+id/listacard_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ToolbarTheme"
@@ -24,11 +24,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/card_appbarlayout">
+        android:layout_below="@+id/listacard_appbarlayout">
 
         <!--RecyclerView-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/card_recyclerview"
+            android:id="@+id/listacard_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

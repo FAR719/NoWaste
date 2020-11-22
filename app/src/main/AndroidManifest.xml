@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
         <activity android:name=".ListaSearchActivity"></activity>
-        <activity android:name=".InfoSearchActivity" />
+        <activity android:name=".DetailSearchActivity" />
         <activity
             android:name=".ListaCardActivity"/>
         <activity android:name=".MainActivity">

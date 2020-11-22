@@ -36,7 +36,7 @@ public class ListaCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_card);
 
         // toolbar
-        mToolbar = findViewById(R.id.card_toolbar);
+        mToolbar = findViewById(R.id.listacard_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(ListaCardActivity.this, R.attr.colorPrimary));
@@ -49,7 +49,7 @@ public class ListaCardActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // recyclerView + FireBase
-        mFirestoreList = findViewById(R.id.card_recyclerview);
+        mFirestoreList = findViewById(R.id.listacard_recyclerview);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // variabile passata
@@ -65,7 +65,7 @@ public class ListaCardActivity extends AppCompatActivity {
             @NonNull
             @Override
             public RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_recview_item_single, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listacard_recview_item_single, parent, false);
                 return new RifiutoViewHolder(view);
             }
 
@@ -90,8 +90,8 @@ public class ListaCardActivity extends AppCompatActivity {
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            rName = itemView.findViewById(R.id.nameSingleTextView);
-            rSmaltimento = itemView.findViewById(R.id.smaltimentoSingleTextView);
+            rName = itemView.findViewById(R.id.listaCardItem_nameTextView);
+            rSmaltimento = itemView.findViewById(R.id.listaCardItem_smaltimentoSingleTextView);
         }
     }
 
