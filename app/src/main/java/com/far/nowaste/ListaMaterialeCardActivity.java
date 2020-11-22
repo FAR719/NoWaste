@@ -22,7 +22,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class CardDetailActivity extends AppCompatActivity {
+public class ListaMaterialeCardActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
@@ -33,13 +33,13 @@ public class CardDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_detail);
+        setContentView(R.layout.activity_lista_materiale_card);
 
         // toolbar
         mToolbar = (Toolbar) findViewById(R.id.card_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
-        mToolbar.setBackgroundColor(getThemeColor(CardDetailActivity.this, R.attr.colorPrimary));
+        mToolbar.setBackgroundColor(getThemeColor(ListaMaterialeCardActivity.this, R.attr.colorPrimary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -52,7 +52,7 @@ public class CardDetailActivity extends AppCompatActivity {
         mFirestoreList = findViewById(R.id.card_recyclerview);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        //variabile
+        // variabile passata
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 
         // query

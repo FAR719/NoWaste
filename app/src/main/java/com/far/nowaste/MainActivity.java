@@ -14,16 +14,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
@@ -122,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
+                Intent cardDetailActivity = new Intent(getApplicationContext(), ListaMaterialeCardActivity.class);
                 cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", query);
                 startActivity(cardDetailActivity);
                 return false;
@@ -182,9 +177,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cardDetailActivity = new Intent(getApplicationContext(), CardDetailActivity.class);
-                cardDetailActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
-                startActivity(cardDetailActivity);
+                Intent listaMaterialeCardActivity = new Intent(getApplicationContext(), ListaMaterialeCardActivity.class);
+                listaMaterialeCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
+                startActivity(listaMaterialeCardActivity);
             }
         });
     }
