@@ -3,6 +3,7 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,7 @@ public class ListaCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_card);
 
         // toolbar
-        mToolbar = findViewById(R.id.listacard_toolbar);
+        mToolbar = findViewById(R.id.listaCard_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(ListaCardActivity.this, R.attr.colorPrimary));
@@ -49,7 +50,7 @@ public class ListaCardActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // recyclerView + FireBase
-        mFirestoreList = findViewById(R.id.listacard_recyclerview);
+        mFirestoreList = findViewById(R.id.listaCard_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // variabile passata
@@ -80,6 +81,10 @@ public class ListaCardActivity extends AppCompatActivity {
         mFirestoreList.setHasFixedSize(true);
         mFirestoreList.setLayoutManager(new LinearLayoutManager(this));
         mFirestoreList.setAdapter(adapter);
+
+        // divider nella recyclerView (si vede solo in dayMode)
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mFirestoreList.addItemDecoration(dividerItemDecoration);
     }
 
     private class RifiutoViewHolder extends RecyclerView.ViewHolder{

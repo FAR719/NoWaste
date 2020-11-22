@@ -51,7 +51,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // variabile passata
-        stringName = in.getStringExtra("com.far.nowaste.NAME1");
+        stringName = in.getStringExtra("com.far.nowaste.NAME");
 
         // associazione view
         titoloTextView = findViewById(R.id.titoloTextView);

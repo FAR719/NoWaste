@@ -3,6 +3,8 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +38,7 @@ public class ListaSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_search);
 
         // toolbar
-        mToolbar = findViewById(R.id.listasearch_toolbar);
+        mToolbar = findViewById(R.id.listaSearch_toolbar);
         setSupportActionBar(mToolbar);
         // background DayNight
         mToolbar.setBackgroundColor(getThemeColor(ListaSearchActivity.this, R.attr.colorPrimary));
@@ -49,11 +51,11 @@ public class ListaSearchActivity extends AppCompatActivity {
         Intent in = getIntent();
 
         // recyclerView + FireBase
-        mFirestoreList = findViewById(R.id.listasearch_recyclerview);
+        mFirestoreList = findViewById(R.id.listaSearch_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // variabile passata
-        String stringName = in.getStringExtra("com.far.nowaste.NAME");
+        String stringName = in.getStringExtra("com.far.nowaste.SEARCH_QUERY");
 
         // query
         Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("nome", stringName).orderBy("nome", Query.Direction.ASCENDING);
@@ -73,6 +75,14 @@ public class ListaSearchActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull ListaSearchActivity.RifiutoViewHolder holder, int position, @NonNull Rifiuto model) {
                 holder.rName.setText(model.getNome());
                 holder.rSmaltimento.setText(model.getSmaltimento());
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent detailSearchActivity = new Intent(getApplicationContext(), DetailSearchActivity.class);
+                        detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
+                        startActivity(detailSearchActivity);
+                    }
+                });
             }
         };
 
@@ -81,18 +91,24 @@ public class ListaSearchActivity extends AppCompatActivity {
         mFirestoreList.setHasFixedSize(true);
         mFirestoreList.setLayoutManager(new LinearLayoutManager(this));
         mFirestoreList.setAdapter(adapter);
+
+        // divider nella recyclerView (si vede solo in dayMode)
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mFirestoreList.addItemDecoration(dividerItemDecoration);
     }
 
     private class RifiutoViewHolder extends RecyclerView.ViewHolder{
 
         private TextView rName;
         private TextView rSmaltimento;
+        ConstraintLayout itemLayout;
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             rName = itemView.findViewById(R.id.listaSearchItem_nameTextView);
             rSmaltimento = itemView.findViewById(R.id.listaSearchItem_smaltimentoSingleTextView);
+            itemLayout = itemView.findViewById(R.id.listaSearchItem_constraintLayout);
         }
     }
 

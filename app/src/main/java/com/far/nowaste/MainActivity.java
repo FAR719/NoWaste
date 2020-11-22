@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent listaSearchActivity = new Intent(getApplicationContext(), ListaSearchActivity.class);
-                listaSearchActivity.putExtra("com.far.nowaste.NAME", query);
+                listaSearchActivity.putExtra("com.far.nowaste.SEARCH_QUERY", query);
                 startActivity(listaSearchActivity);
                 return false;
             }
