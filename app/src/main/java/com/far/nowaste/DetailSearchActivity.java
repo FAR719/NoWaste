@@ -11,8 +11,10 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +30,7 @@ public class DetailSearchActivity extends AppCompatActivity {
     TextView materialeTextView;
     TextView descrizioneTextView;
     TextView punteggioTextView;
+    ImageView immagineImageView;
 
     String stringName;
 
@@ -55,6 +58,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         materialeTextView = findViewById(R.id.detailSearch_materialeTextView);
         descrizioneTextView = findViewById(R.id.detailSearch_descrizioneTextView);
         punteggioTextView = findViewById(R.id.detailSearch_punteggioTextView);
+        immagineImageView = findViewById(R.id.detailSearch_rifiutoImageView);
 
         // associazione firebase
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -73,11 +77,13 @@ public class DetailSearchActivity extends AppCompatActivity {
                 String smaltimento = value.getString("smaltimento");
                 String descrizione = value.getString("descrizione");
                 String punteggio = value.get("punteggio") + "";
+                String immagine = value.getString("immagine");
 
                 nomeTextView.setText(nome);
                 materialeTextView.setText(materiale);
                 descrizioneTextView.setText(descrizione);
                 punteggioTextView.setText(punteggio);
+                Glide.with(getApplicationContext()).load(immagine).into(immagineImageView);
             }
         });
     }

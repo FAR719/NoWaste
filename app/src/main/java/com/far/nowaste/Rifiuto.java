@@ -3,19 +3,17 @@ package com.far.nowaste;
 public class Rifiuto {
 
     // definizione campi
-    private String nome;
-    private String descrizione;
-    private String materiale;
-    private String smaltimento;
-    private int punteggio;
+    private String nome, descrizione, materiale, smaltimento, immagine;
+    private long punteggio;
 
     // costruttore
-    private Rifiuto(String nome, String descrizione, String materiale, String smaltimento, int punteggio){
+    private Rifiuto(String nome, String descrizione, String materiale, String smaltimento, long punteggio, String immagine){
         this.nome = nome;
         this.descrizione = descrizione;
         this.materiale = materiale;
         this.smaltimento = smaltimento;
         this.punteggio = punteggio;
+        this.immagine = immagine;
     }
 
     //costruttore vuoto utile per FireBase
@@ -54,11 +52,19 @@ public class Rifiuto {
         this.smaltimento = smaltimento;
     }
 
-    public int getPunteggio() {
+    public long getPunteggio() {
         return punteggio;
     }
 
     public void setPunteggio(int punteggio) {
         this.punteggio = punteggio;
+    }
+
+    public String getImmagine() {
+        return immagine;
+    }
+
+    public void setImmagine(String immagine) {
+        this.immagine = immagine;
     }
 }

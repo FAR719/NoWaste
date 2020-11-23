@@ -53,12 +53,13 @@
 
         <ImageView
             android:id="@+id/detailSearch_rifiutoImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -70,8 +71,9 @@
             android:text="Descrizione"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="204dp" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_rifiutoImageView" />
 
         <TextView
             android:id="@+id/detailSearch_punteggioTextView"
