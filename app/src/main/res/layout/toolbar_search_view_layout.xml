@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/SearchViewTheme"
         app:iconifiedByDefault="false"
-        app:queryHint="Search..."
-        />
+        app:queryHint="Search..."/>
 
 </LinearLayout>

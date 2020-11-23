@@ -71,8 +71,8 @@
                 android:inputType="text|textAutoComplete|textNoSuggestions"
                 android:maxLines="1"
                 android:paddingEnd="8dp"
-                android:textColor="?android:attr/textColorPrimaryNoDisable"
-                android:textColorHint="@color/icon_gray"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/material_light_hint_text"
                 android:textSize="20sp"/>
                 <!--android:layout_marginEnd="@dimen/item_list_horizontal_margin"
                 android:layout_marginStart="@dimen/item_list_horizontal_margin"-->
@@ -86,8 +86,7 @@
                 android:contentDescription="@string/abc_searchview_description_clear"
                 android:focusable="true"
                 android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                app:tint="@color/icon_gray"/>
+                android:paddingStart="8dp"/>
         </LinearLayout>
 
         <LinearLayout
