@@ -26,7 +26,6 @@ public class DetailSearchActivity extends AppCompatActivity {
 
     TextView nomeTextView;
     TextView materialeTextView;
-    TextView smaltimentoTextView;
     TextView descrizioneTextView;
     TextView punteggioTextView;
 
@@ -54,7 +53,6 @@ public class DetailSearchActivity extends AppCompatActivity {
         // associazione view
         nomeTextView = findViewById(R.id.detailSearch_nomeTextView);
         materialeTextView = findViewById(R.id.detailSearch_materialeTextView);
-        smaltimentoTextView = findViewById(R.id.detailSearch_smaltimentoTextView);
         descrizioneTextView = findViewById(R.id.detailSearch_descrizioneTextView);
         punteggioTextView = findViewById(R.id.detailSearch_punteggioTextView);
 
@@ -78,7 +76,6 @@ public class DetailSearchActivity extends AppCompatActivity {
 
                 nomeTextView.setText(nome);
                 materialeTextView.setText(materiale);
-                smaltimentoTextView.setText(smaltimento);
                 descrizioneTextView.setText(descrizione);
                 punteggioTextView.setText(punteggio);
             }

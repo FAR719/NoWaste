@@ -51,16 +51,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailSearch_nomeTextView" />
 
-        <TextView
-            android:id="@+id/detailSearch_smaltimentoTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Smaltimento"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView" />
-
         <ImageView
             android:id="@+id/detailSearch_rifiutoImageView"
             android:layout_width="150dp"
@@ -76,13 +66,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="50dp"
             android:layout_marginEnd="10dp"
             android:text="Descrizione"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_smaltimentoTextView" />
+            tools:layout_editor_absoluteY="204dp" />
 
         <TextView
             android:id="@+id/detailSearch_punteggioTextView"
