@@ -68,7 +68,7 @@
                 android:dropDownVerticalOffset="0dp"
                 android:ellipsize="end"
                 android:imeOptions="actionSearch"
-                android:inputType="text|textAutoComplete|textNoSuggestions"
+                android:inputType="text|textAutoComplete|textNoSuggestions|textCapSentences"
                 android:maxLines="1"
                 android:paddingEnd="8dp"
                 android:textColor="@color/search_primary_text"
