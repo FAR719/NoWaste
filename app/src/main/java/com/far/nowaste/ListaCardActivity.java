@@ -3,6 +3,7 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -72,6 +73,14 @@ public class ListaCardActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull RifiutoViewHolder holder, int position, @NonNull Rifiuto model) {
                 holder.rName.setText(model.getNome());
                 holder.rSmaltimento.setText(model.getSmaltimento());
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent detailSearchActivity = new Intent(getApplicationContext(), DetailSearchActivity.class);
+                        detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
+                        startActivity(detailSearchActivity);
+                    }
+                });
             }
         };
 
@@ -89,12 +98,14 @@ public class ListaCardActivity extends AppCompatActivity {
 
         private TextView rName;
         private TextView rSmaltimento;
+        ConstraintLayout itemLayout;
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
             rName = itemView.findViewById(R.id.listaCardItem_nameTextView);
             rSmaltimento = itemView.findViewById(R.id.listaCardItem_smaltimentoSingleTextView);
+            itemLayout = itemView.findViewById(R.id.listaCardItem_constraintLayout);
         }
     }
 
