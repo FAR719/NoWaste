@@ -40,8 +40,6 @@ public class DetailSearchActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.detailSearch_toolbar);
         setSupportActionBar(mToolbar);
-        // background DayNight
-        mToolbar.setBackgroundColor(getThemeColor(DetailSearchActivity.this, R.attr.colorPrimary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -96,13 +94,5 @@ public class DetailSearchActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private static int getThemeColor(Context context, int id) {
-        Resources.Theme theme = context.getTheme();
-        TypedArray a = theme.obtainStyledAttributes(new int[]{id});
-        int result = a.getColor(0, 0);
-        a.recycle();
-        return result;
     }
 }

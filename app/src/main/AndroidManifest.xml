@@ -11,8 +11,7 @@
         android:theme="@style/Theme.NoWaste">
         <activity android:name=".ListaSearchActivity"></activity>
         <activity android:name=".DetailSearchActivity" />
-        <activity
-            android:name=".ListaCardActivity"/>
+        <activity android:name=".ListaCardActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

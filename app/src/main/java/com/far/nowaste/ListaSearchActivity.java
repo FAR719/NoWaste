@@ -40,8 +40,6 @@ public class ListaSearchActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.listaSearch_toolbar);
         setSupportActionBar(mToolbar);
-        // background DayNight
-        mToolbar.setBackgroundColor(getThemeColor(ListaSearchActivity.this, R.attr.colorPrimary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -92,7 +90,7 @@ public class ListaSearchActivity extends AppCompatActivity {
         mFirestoreList.setLayoutManager(new LinearLayoutManager(this));
         mFirestoreList.setAdapter(adapter);
 
-        // divider nella recyclerView (si vede solo in dayMode)
+        // divider nella recyclerView
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mFirestoreList.addItemDecoration(dividerItemDecoration);
     }
@@ -134,13 +132,5 @@ public class ListaSearchActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private static int getThemeColor(Context context, int id) {
-        Resources.Theme theme = context.getTheme();
-        TypedArray a = theme.obtainStyledAttributes(new int[]{id});
-        int result = a.getColor(0, 0);
-        a.recycle();
-        return result;
     }
 }

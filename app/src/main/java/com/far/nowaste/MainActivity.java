@@ -26,7 +26,8 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
-    Toolbar mToolbar;
+    private MenuItem mSearchItem;
+    private Toolbar mToolbar;
 
     // navigationView
     DrawerLayout drawerLayout;
@@ -51,14 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // toolbar
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        // background DayNight
-        mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // navigationView
         drawerLayout = findViewById(R.id.main_drawerlayout);
         navigationView = findViewById(R.id.main_navView);
-        // background dayNight
-        navigationView.getHeaderView(0).setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
 
         // collega le view
         seccoCardView = findViewById(R.id.indifferenziataCardView);
@@ -90,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem mSearchItem = menu.findItem(R.id.m_search);
+        mSearchItem = menu.findItem(R.id.m_search);
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -133,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
-        mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorSecondary));
-        mToolbar.setSubtitleTextColor(getThemeColor(MainActivity.this, R.attr.colorOnSurface));
-
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.search_background));
         drawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
 
         if (show) {

@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Metodo di smaltimento"
+            android:text="Smaltimento"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView" />
@@ -78,7 +78,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="10dp"
-            android:text="Descrizione bahjbahbahbdaibajnjandkjanacakaenaejnaen aednaenaeaeidai aidaeieia  ieadieb eaideiaea iediuenie ehiuedie cheiuendies cisenciuncseh csieciunc jhs v sici s ccsecs."
+            android:text="Descrizione"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,9 +102,10 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:clickable="true"
+            android:src="@drawable/ic_detail_search_btn_add"
+            app:backgroundTint="@color/basil"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:srcCompat="@drawable/ic_detail_btn_add"
-            android:backgroundTint="@color/teal_700"/>
+            android:focusable="true" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
