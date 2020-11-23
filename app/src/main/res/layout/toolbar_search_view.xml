@@ -17,7 +17,7 @@
         android:gravity="center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/search_button"
@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/abc_searchview_description_search"
-        android:focusable="true" />
+        android:focusable="true"/>
 
     <LinearLayout
         android:id="@+id/search_edit_frame"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <!-- Inner layout contains the app icon, button(s) and EditText -->
         <LinearLayout
@@ -71,9 +71,9 @@
                 android:inputType="text|textAutoComplete|textNoSuggestions"
                 android:maxLines="1"
                 android:paddingEnd="8dp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@color/material_light_hint_text"
-                android:textSize="20sp" />
+                android:textColor="?android:attr/textColorPrimaryNoDisable"
+                android:textColorHint="@color/icon_gray"
+                android:textSize="20sp"/>
                 <!--android:layout_marginEnd="@dimen/item_list_horizontal_margin"
                 android:layout_marginStart="@dimen/item_list_horizontal_margin"-->
 
@@ -106,7 +106,7 @@
                 android:focusable="true"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/search_voice_btn"
@@ -118,7 +118,7 @@
                 android:focusable="true"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

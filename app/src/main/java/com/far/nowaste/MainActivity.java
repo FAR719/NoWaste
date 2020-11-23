@@ -133,7 +133,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
-        mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+        mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorSecondary));
+        mToolbar.setSubtitleTextColor(getThemeColor(MainActivity.this, R.attr.colorOnSurface));
+
         drawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
 
         if (show) {
