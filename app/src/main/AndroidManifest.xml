@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
-        <activity android:name=".ListaSearchActivity"></activity>
+        <activity android:name=".ActivityProva"></activity>
+        <activity android:name=".ListaSearchActivity" />
         <activity android:name=".DetailSearchActivity" />
-        <activity android:name=".ListaCardActivity"/>
+        <activity android:name=".ListaCardActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
