@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         specialiCardView = findViewById(R.id.specialiCardView);
 
         // navigationView
+        navigationView.bringToFront();
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -214,9 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_impostazioni:
                 break;
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 }

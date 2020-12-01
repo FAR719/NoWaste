@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,20 +35,23 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        Intent in = getIntent();
-
         // toolbar
         mToolbar = findViewById(R.id.register_toolbar);
         setSupportActionBar(mToolbar);
 
+        // back arrow
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // collegamento view
         mFullName = findViewById(R.id.fullNameEditText);
         mEmail = findViewById(R.id.emailEditText);
         mPassword = findViewById(R.id.passwordEditText);
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
+        progressBar = findViewById(R.id.registerProgressBar);
 
         fAuth = FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.registerProgressBar);
 
         if (fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), UserInfoActivity.class));
@@ -61,17 +65,17 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
+                    mEmail.setError("Inserisci la tua email.");
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
+                    mPassword.setError("Inserisci la password.");
                     return;
                 }
 
-                if (password.length() < 6){
-                    mPassword.setError("Password must be >= 6 characters");
+                if (password.length() < 8){
+                    mPassword.setError("La password deve essere lunga almeno 8 caratteri");
                     return;
                 }
 
@@ -82,14 +86,35 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "User Created.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
                         }else {
                             Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
             }
         });
+
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            }
+        });
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
