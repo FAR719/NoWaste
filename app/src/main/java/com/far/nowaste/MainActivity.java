@@ -5,11 +5,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -19,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         clickCard(metalliCardView,"Metalli");
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
+
     }
 
     @Override
@@ -180,8 +184,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    // chiude la navigation quando premi back
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else{
+            super.onBackPressed();
+        }
+    }
+
+    // onclick sulla navigation
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                break;
+            case R.id.nav_curiosita:
+                Toast.makeText(MainActivity.this,"Toast",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_calendario:
+                break;
+            case R.id.nav_luoghi:
+                break;
+            case R.id.nav_contattaci:
+                break;
+            case R.id.nav_impostazioni:
+                break;
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 }
