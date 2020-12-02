@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
                 break;
             case R.id.nav_curiosita:
-                Toast.makeText(MainActivity.this,"Toast",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
                 break;
             case R.id.nav_calendario:
                 break;
