@@ -71,14 +71,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
                         <ImageView
                             android:id="@+id/plasticaImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_plastica"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -115,13 +116,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/organicoImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_organico"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -157,13 +160,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/indifferenziataImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_indifferenziata"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -199,13 +204,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/cartaImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_carta"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -241,13 +248,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/vetroImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_vetro"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -283,13 +292,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/metalliImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_metalli"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -325,13 +336,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/elettriciImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_elettrici"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -367,13 +380,15 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:layout_gravity="center_vertical|center_horizontal">
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
                         <ImageView
                             android:id="@+id/specialiImageView"
                             android:layout_width="@dimen/card_icon_width_height"
                             android:layout_height="@dimen/card_icon_width_height"
                             android:src="@drawable/ic_card_ingombranti"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
