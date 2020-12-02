@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_curiosita:
                 startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
-                //finish();
                 break;
             case R.id.nav_calendario:
                 break;

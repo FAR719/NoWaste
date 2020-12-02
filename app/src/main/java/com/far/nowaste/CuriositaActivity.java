@@ -62,7 +62,6 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
                 break;
             case R.id.nav_curiosita:
