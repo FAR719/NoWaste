@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class CuriositaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ContattaciActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
     private MenuItem mSearchItem;
@@ -28,15 +28,15 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curiosita);
+        setContentView(R.layout.activity_contattaci);
 
         // toolbar
-        mToolbar = findViewById(R.id.curiosita_toolbar);
+        mToolbar = findViewById(R.id.contattaci_toolbar);
         setSupportActionBar(mToolbar);
 
         // navigationView
-        drawerLayout = findViewById(R.id.curiosita_drawerlayout);
-        navigationView = findViewById(R.id.curiosita_navView);
+        drawerLayout = findViewById(R.id.contattaci_drawerlayout);
+        navigationView = findViewById(R.id.contattaci_navView);
 
         // navigationView
         navigationView.bringToFront();
@@ -55,6 +55,8 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
                 finish();
                 break;
             case R.id.nav_curiosita:
+                startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
+                finish();
                 break;
             case R.id.nav_calendario:
                 startActivity(new Intent(getApplicationContext(), CalendarioActivity.class));
@@ -65,8 +67,6 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
                 finish();
                 break;
             case R.id.nav_contattaci:
-                startActivity(new Intent(getApplicationContext(), ContattaciActivity.class));
-                finish();
                 break;
             case R.id.nav_impostazioni:
                 startActivity(new Intent(getApplicationContext(), ImpostazioniActivity.class));

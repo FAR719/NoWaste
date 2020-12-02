@@ -207,12 +207,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
                 break;
             case R.id.nav_calendario:
+                startActivity(new Intent(getApplicationContext(), CalendarioActivity.class));
                 break;
             case R.id.nav_luoghi:
+                startActivity(new Intent(getApplicationContext(), LuoghiActivity.class));
                 break;
             case R.id.nav_contattaci:
+                startActivity(new Intent(getApplicationContext(), ContattaciActivity.class));
                 break;
             case R.id.nav_impostazioni:
+                startActivity(new Intent(getApplicationContext(), ImpostazioniActivity.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class CuriositaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CalendarioActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
     private MenuItem mSearchItem;
@@ -28,15 +28,15 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curiosita);
+        setContentView(R.layout.activity_calendario);
 
         // toolbar
-        mToolbar = findViewById(R.id.curiosita_toolbar);
+        mToolbar = findViewById(R.id.calendario_toolbar);
         setSupportActionBar(mToolbar);
 
         // navigationView
-        drawerLayout = findViewById(R.id.curiosita_drawerlayout);
-        navigationView = findViewById(R.id.curiosita_navView);
+        drawerLayout = findViewById(R.id.calendario_drawerlayout);
+        navigationView = findViewById(R.id.calendario_navView);
 
         // navigationView
         navigationView.bringToFront();
@@ -55,10 +55,10 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
                 finish();
                 break;
             case R.id.nav_curiosita:
+                startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
+                finish();
                 break;
             case R.id.nav_calendario:
-                startActivity(new Intent(getApplicationContext(), CalendarioActivity.class));
-                finish();
                 break;
             case R.id.nav_luoghi:
                 startActivity(new Intent(getApplicationContext(), LuoghiActivity.class));
