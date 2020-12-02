@@ -43,14 +43,15 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/main_appBarLayout" >
+            android:layout_below="@+id/main_appBarLayout">
             <!--nuovo gridlayout per le cardview-->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:rowCount="4"
                 android:columnCount="2"
-                android:layout_margin="15dp">
+                android:layout_margin="15dp"
+                android:paddingBottom="25dp">
 
                 <!--CardViewPlastica-->
                 <com.google.android.material.card.MaterialCardView
