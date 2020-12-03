@@ -103,9 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            FirebaseUser fUser = fAuth.getCurrentUser();
-
                             // verify the email
+                            FirebaseUser fUser = fAuth.getCurrentUser();
                             fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

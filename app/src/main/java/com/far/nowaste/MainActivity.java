@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
 
+
     }
 
     @Override

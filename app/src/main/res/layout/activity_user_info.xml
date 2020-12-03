@@ -74,13 +74,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="logout"
-            android:text="LogOut"
+            android:text="LOGOUT"
             android:backgroundTint="@color/basil"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userImageView"
             app:layout_constraintVertical_bias="0.75" />
+
+        <TextView
+            android:id="@+id/verifyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Email non verificata!"
+            android:textSize="20sp"
+            android:textColor="@color/error"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoutButton"
+            tools:visibility="gone" />
+
+        <Button
+            android:id="@+id/verifyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="INVIA DI NUOVO"
+            android:backgroundTint="@color/basil"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoutButton"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
