@@ -1,6 +1,7 @@
 package com.far.nowaste;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,10 +22,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MaterialCardView metalliCardView;
     MaterialCardView elettriciCardView;
     MaterialCardView specialiCardView;
+
+    View header;
+    TextView mFullName, mEmail;
+
+    // firebase
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +103,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
 
+        // associazione view dell'header
+        header = navigationView.getHeaderView(0);
 
+        mFullName = header.findViewById(R.id.navHeader_nameTextView);
+        mEmail = header.findViewById(R.id.navHeader_emailTextView);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        // header onclick
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
+    }
+
+    // onStart cambia i dati nell'header
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // modifica username
+        if (fAuth.getCurrentUser() != null){
+            // query
+            FirebaseUser user = fAuth.getCurrentUser();
+            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    String nome = value.getString("fullName");
+                    String email = value.getString("email");
+
+                    mFullName.setText(nome);
+                    mEmail.setText(email);
+                }
+            });
+        } else {
+            mFullName.setText("Username");
+            mEmail.setText("Accedi al tuo account");
+        }
     }
 
     @Override
@@ -202,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
                 break;
             case R.id.nav_curiosita:
                 startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
