@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,7 +102,7 @@ public class DetailSearchActivity extends AppCompatActivity {
                 nomeTextView.setText(rifiuto.getNome());
                 materialeTextView.setText(rifiuto.getMateriale());
                 descrizioneTextView.setText(rifiuto.getDescrizione());
-                punteggioTextView.setText(rifiuto.getPunteggio() + "");
+                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
             }
         });
