@@ -96,11 +96,12 @@ public class CuriositaActivity extends AppCompatActivity implements NavigationVi
 
                     mFullName.setText(nome);
                     mEmail.setText(email);
+                    mFullName.setVisibility(View.VISIBLE);
                 }
             });
         } else {
-            mFullName.setText("Username");
             mEmail.setText("Accedi al tuo account");
+            mFullName.setVisibility(View.GONE);
         }
     }
 

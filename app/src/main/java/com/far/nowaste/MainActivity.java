@@ -138,11 +138,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     mFullName.setText(nome);
                     mEmail.setText(email);
+                    mFullName.setVisibility(View.VISIBLE);
                 }
             });
         } else {
-            mFullName.setText("Username");
             mEmail.setText("Accedi al tuo account");
+            mFullName.setVisibility(View.GONE);
         }
     }
 

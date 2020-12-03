@@ -92,10 +92,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // reset password tramite email
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                String email = mEmail.getText().toString().trim();
+
+                if (TextUtils.isEmpty(email)){
+                    mEmail.setError("Inserisci la tua email.");
+                    return;
+                }
+
+                fAuth.sendPasswordResetEmail(email);
                 finish();
             }
         });
