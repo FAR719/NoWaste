@@ -4,19 +4,19 @@ public class Utente {
 
     // definizione campi
     public String nome, email;
-    public long nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
-    public long pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
+    public double nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
+    public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
 
     // costruttore
     public Utente(String nome, String email,
-                  long nPlastica, long pPlastica,
-                  long nOrganico, long pOrganico,
-                  long nIndifferenziata, long pIndifferenziata,
-                  long nCarta, long pCarta,
-                  long nVetro, long pVetro,
-                  long nMetalli, long pMetalli,
-                  long nElettrici, long pEettrici,
-                  long nSpeciali, long pSpeciali){
+                  double nPlastica, double pPlastica,
+                  double nOrganico, double pOrganico,
+                  double nIndifferenziata, double pIndifferenziata,
+                  double nCarta, double pCarta,
+                  double nVetro, double pVetro,
+                  double nMetalli, double pMetalli,
+                  double nElettrici, double pEettrici,
+                  double nSpeciali, double pSpeciali){
         this.nome = nome;
         this.email = email;
         this.nPlastica = nPlastica;
@@ -56,7 +56,7 @@ public class Utente {
         this.email = email;
     }
 
-    public long getnPlastica() {
+    public double getnPlastica() {
         return nPlastica;
     }
 
@@ -64,7 +64,7 @@ public class Utente {
         this.nPlastica = nPlastica;
     }
 
-    public long getnOrganico() {
+    public double getnOrganico() {
         return nOrganico;
     }
 
@@ -72,7 +72,7 @@ public class Utente {
         this.nOrganico = nOrganico;
     }
 
-    public long getnIndifferenziata() {
+    public double getnIndifferenziata() {
         return nIndifferenziata;
     }
 
@@ -80,7 +80,7 @@ public class Utente {
         this.nIndifferenziata = nIndifferenziata;
     }
 
-    public long getnCarta() {
+    public double getnCarta() {
         return nCarta;
     }
 
@@ -88,7 +88,7 @@ public class Utente {
         this.nCarta = nCarta;
     }
 
-    public long getnVetro() {
+    public double getnVetro() {
         return nVetro;
     }
 
@@ -96,7 +96,7 @@ public class Utente {
         this.nVetro = nVetro;
     }
 
-    public long getnMetalli() {
+    public double getnMetalli() {
         return nMetalli;
     }
 
@@ -104,7 +104,7 @@ public class Utente {
         this.nMetalli = nMetalli;
     }
 
-    public long getnElettrici() {
+    public double getnElettrici() {
         return nElettrici;
     }
 
@@ -112,7 +112,7 @@ public class Utente {
         this.nElettrici = nElettrici;
     }
 
-    public long getnSpeciali() {
+    public double getnSpeciali() {
         return nSpeciali;
     }
 
@@ -120,7 +120,7 @@ public class Utente {
         this.nSpeciali = nSpeciali;
     }
 
-    public long getpPlastica() {
+    public double getpPlastica() {
         return pPlastica;
     }
 
@@ -128,7 +128,7 @@ public class Utente {
         this.pPlastica = pPlastica;
     }
 
-    public long getpOrganico() {
+    public double getpOrganico() {
         return pOrganico;
     }
 
@@ -136,7 +136,7 @@ public class Utente {
         this.pOrganico = pOrganico;
     }
 
-    public long getpIndifferenziata() {
+    public double getpIndifferenziata() {
         return pIndifferenziata;
     }
 
@@ -144,7 +144,7 @@ public class Utente {
         this.pIndifferenziata = pIndifferenziata;
     }
 
-    public long getpCarta() {
+    public double getpCarta() {
         return pCarta;
     }
 
@@ -152,7 +152,7 @@ public class Utente {
         this.pCarta = pCarta;
     }
 
-    public long getpVetro() {
+    public double getpVetro() {
         return pVetro;
     }
 
@@ -160,7 +160,7 @@ public class Utente {
         this.pVetro = pVetro;
     }
 
-    public long getpMetalli() {
+    public double getpMetalli() {
         return pMetalli;
     }
 
@@ -168,7 +168,7 @@ public class Utente {
         this.pMetalli = pMetalli;
     }
 
-    public long getpElettrici() {
+    public double getpElettrici() {
         return pElettrici;
     }
 
@@ -176,7 +176,7 @@ public class Utente {
         this.pElettrici = pElettrici;
     }
 
-    public long getpSpeciali() {
+    public double getpSpeciali() {
         return pSpeciali;
     }
 

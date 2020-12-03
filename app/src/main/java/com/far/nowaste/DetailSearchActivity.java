@@ -95,7 +95,7 @@ public class DetailSearchActivity extends AppCompatActivity {
                         value.getString("descrizione"),
                         value.getString("materiale"),
                         value.getString("smaltimento"),
-                        value.getLong("punteggio"),
+                        value.getDouble("punteggio"),
                         value.getString("immagine"));
 
                 nomeTextView.setText(rifiuto.getNome());
@@ -112,14 +112,14 @@ public class DetailSearchActivity extends AppCompatActivity {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     utente = new Utente(value.getString("fullName"), value.getString("email"),
-                            value.getLong("nPlastica"), value.getLong("pPlastica"),
-                            value.getLong("nOrganico"), value.getLong("pOrganico"),
-                            value.getLong("nIndifferenziata"), value.getLong("pIndifferenziata"),
-                            value.getLong("nCarta"), value.getLong("pCarta"),
-                            value.getLong("nVetro"),value.getLong("pVetro"),
-                            value.getLong("nMetalli"),value.getLong("pMetalli"),
-                            value.getLong("nElettrici"), value.getLong("pElettrici"),
-                            value.getLong("nSpeciali"), value.getLong("pSpeciali"));
+                            value.getDouble("nPlastica"), value.getDouble("pPlastica"),
+                            value.getDouble("nOrganico"), value.getDouble("pOrganico"),
+                            value.getDouble("nIndifferenziata"), value.getDouble("pIndifferenziata"),
+                            value.getDouble("nCarta"), value.getDouble("pCarta"),
+                            value.getDouble("nVetro"),value.getDouble("pVetro"),
+                            value.getDouble("nMetalli"),value.getDouble("pMetalli"),
+                            value.getDouble("nElettrici"), value.getDouble("pElettrici"),
+                            value.getDouble("nSpeciali"), value.getDouble("pSpeciali"));
                 }
             });
         }
@@ -178,13 +178,13 @@ public class DetailSearchActivity extends AppCompatActivity {
             documentReference.update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(DetailSearchActivity.this, "onSuccess: user data is updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailSearchActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onSuccess: user data is updated");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(DetailSearchActivity.this, "onFailure: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailSearchActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onFailure: " + e.toString());
                 }
             });

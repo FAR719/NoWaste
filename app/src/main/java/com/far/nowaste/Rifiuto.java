@@ -4,10 +4,10 @@ public class Rifiuto {
 
     // definizione campi
     public String nome, descrizione, materiale, smaltimento, immagine;
-    public long punteggio;
+    public double punteggio;
 
     // costruttore
-    public Rifiuto(String nome, String descrizione, String materiale, String smaltimento, long punteggio, String immagine){
+    public Rifiuto(String nome, String descrizione, String materiale, String smaltimento, double punteggio, String immagine){
         this.nome = nome;
         this.descrizione = descrizione;
         this.materiale = materiale;
@@ -52,7 +52,7 @@ public class Rifiuto {
         this.smaltimento = smaltimento;
     }
 
-    public long getPunteggio() {
+    public double getPunteggio() {
         return punteggio;
     }
 
