@@ -3,12 +3,37 @@ package com.far.nowaste;
 public class Utente {
 
     // definizione campi
-    private String nome, email;
+    public String nome, email;
+    public long nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
+    public long pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
 
     // costruttore
-    private Utente(String nome, String email){
+    public Utente(String nome, String email,
+                  long nPlastica, long pPlastica,
+                  long nOrganico, long pOrganico,
+                  long nIndifferenziata, long pIndifferenziata,
+                  long nCarta, long pCarta,
+                  long nVetro, long pVetro,
+                  long nMetalli, long pMetalli,
+                  long nElettrici, long pEettrici,
+                  long nSpeciali, long pSpeciali){
         this.nome = nome;
         this.email = email;
+        this.nPlastica = nPlastica;
+        this.nOrganico = nOrganico;
+        this.nIndifferenziata = nIndifferenziata;
+        this.nCarta = nCarta;
+        this.nVetro = nVetro;
+        this.nMetalli = nMetalli;
+        this.nElettrici = nElettrici;
+        this.nSpeciali = nSpeciali;
+        this.pPlastica = pPlastica;
+        this.pOrganico = pOrganico;
+        this.pIndifferenziata = pIndifferenziata;
+        this.pCarta = pCarta;
+        this.pVetro = pVetro;
+        this.pElettrici = pEettrici;
+        this.pSpeciali = pSpeciali;
     }
 
     //costruttore vuoto utile per FireBase
@@ -29,5 +54,133 @@ public class Utente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public long getnPlastica() {
+        return nPlastica;
+    }
+
+    public void setnPlastica(int nPlastica) {
+        this.nPlastica = nPlastica;
+    }
+
+    public long getnOrganico() {
+        return nOrganico;
+    }
+
+    public void setnOrganico(int nOrganico) {
+        this.nOrganico = nOrganico;
+    }
+
+    public long getnIndifferenziata() {
+        return nIndifferenziata;
+    }
+
+    public void setnIndifferenziata(int nIndifferenziata) {
+        this.nIndifferenziata = nIndifferenziata;
+    }
+
+    public long getnCarta() {
+        return nCarta;
+    }
+
+    public void setnCarta(int nCarta) {
+        this.nCarta = nCarta;
+    }
+
+    public long getnVetro() {
+        return nVetro;
+    }
+
+    public void setnVetro(int nVetro) {
+        this.nVetro = nVetro;
+    }
+
+    public long getnMetalli() {
+        return nMetalli;
+    }
+
+    public void setnMetalli(int nMetalli) {
+        this.nMetalli = nMetalli;
+    }
+
+    public long getnElettrici() {
+        return nElettrici;
+    }
+
+    public void setnElettrici(int nElettrici) {
+        this.nElettrici = nElettrici;
+    }
+
+    public long getnSpeciali() {
+        return nSpeciali;
+    }
+
+    public void setnSpeciali(int nSpeciali) {
+        this.nSpeciali = nSpeciali;
+    }
+
+    public long getpPlastica() {
+        return pPlastica;
+    }
+
+    public void setpPlastica(long pPlastica) {
+        this.pPlastica = pPlastica;
+    }
+
+    public long getpOrganico() {
+        return pOrganico;
+    }
+
+    public void setpOrganico(long pOrganico) {
+        this.pOrganico = pOrganico;
+    }
+
+    public long getpIndifferenziata() {
+        return pIndifferenziata;
+    }
+
+    public void setpIndifferenziata(long pIndifferenziata) {
+        this.pIndifferenziata = pIndifferenziata;
+    }
+
+    public long getpCarta() {
+        return pCarta;
+    }
+
+    public void setpCarta(long pCarta) {
+        this.pCarta = pCarta;
+    }
+
+    public long getpVetro() {
+        return pVetro;
+    }
+
+    public void setpVetro(long pVetro) {
+        this.pVetro = pVetro;
+    }
+
+    public long getpMetalli() {
+        return pMetalli;
+    }
+
+    public void setpMetalli(long pMetalli) {
+        this.pMetalli = pMetalli;
+    }
+
+    public long getpElettrici() {
+        return pElettrici;
+    }
+
+    public void setpElettrici(long pElettrici) {
+        this.pElettrici = pElettrici;
+    }
+
+    public long getpSpeciali() {
+        return pSpeciali;
+    }
+
+    public void setpSpeciali(long pSpeciali) {
+        this.pSpeciali = pSpeciali;
     }
 }

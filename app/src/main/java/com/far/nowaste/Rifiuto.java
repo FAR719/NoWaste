@@ -3,11 +3,11 @@ package com.far.nowaste;
 public class Rifiuto {
 
     // definizione campi
-    private String nome, descrizione, materiale, smaltimento, immagine;
-    private long punteggio;
+    public String nome, descrizione, materiale, smaltimento, immagine;
+    public long punteggio;
 
     // costruttore
-    private Rifiuto(String nome, String descrizione, String materiale, String smaltimento, long punteggio, String immagine){
+    public Rifiuto(String nome, String descrizione, String materiale, String smaltimento, long punteggio, String immagine){
         this.nome = nome;
         this.descrizione = descrizione;
         this.materiale = materiale;

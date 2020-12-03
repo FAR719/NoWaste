@@ -125,6 +125,22 @@ public class RegisterActivity extends AppCompatActivity {
                             Map<String,Object> user = new HashMap<>();
                             user.put("fullName", fullName);
                             user.put("email", email);
+                            user.put("nPlastica", 0);
+                            user.put("nOrganico", 0);
+                            user.put("nIndifferenziata", 0);
+                            user.put("nCarta", 0);
+                            user.put("nVetro", 0);
+                            user.put("nMetalli", 0);
+                            user.put("nElettrici", 0);
+                            user.put("nSpeciali", 0);
+                            user.put("pPlastica", 0);
+                            user.put("pOrganico", 0);
+                            user.put("pIndifferenziata", 0);
+                            user.put("pCarta", 0);
+                            user.put("pVetro", 0);
+                            user.put("pMetalli", 0);
+                            user.put("pElettrici", 0);
+                            user.put("pSpeciali", 0);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
