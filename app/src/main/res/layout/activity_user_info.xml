@@ -30,7 +30,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:text="IL TUO PROFILO"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +44,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:srcCompat="@drawable/ic_nav_header_user" />
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:text="Full Name"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/userImageView"
@@ -117,7 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:text="Cambia la tua foto del profilo"
+            android:text="Cambia la foto del profilo."
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/userImageView"
             app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
