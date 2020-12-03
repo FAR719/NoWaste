@@ -58,7 +58,7 @@ public class UserInfoActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
 
-        // query
+        // imposta dati personali
         fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -69,8 +69,13 @@ public class UserInfoActivity extends AppCompatActivity {
                 mEmail.setText(email);
             }
         });
+    }
 
-        // verify
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // verifica email
         if (!user.isEmailVerified()){
             verifyMsg.setVisibility(View.VISIBLE);
             resendCode.setVisibility(View.VISIBLE);
@@ -86,6 +91,7 @@ public class UserInfoActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(UserInfoActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
                         }
                     });

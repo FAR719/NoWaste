@@ -31,7 +31,6 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    public static final String TAG = "TAG";
     // definizione variabili
     Toolbar mToolbar;
     EditText mFullName, mEmail, mPassword;
@@ -113,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: Email not sent " + e.getMessage());
+                                    Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
                                 }
                             });
 
@@ -144,12 +143,12 @@ public class RegisterActivity extends AppCompatActivity {
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "onSuccess: user Profile is created for " + userID);
+                                    Log.d("TAG", "onSuccess: user Profile is created for " + userID);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
+                                    Log.d("TAG", "onFailure: " + e.toString());
                                 }
                             });
                             finish();

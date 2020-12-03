@@ -170,9 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //set queryListener
+        //set queryListener searchView
         androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(mSearchItem);
-
         wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -181,16 +180,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(listaSearchActivity);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
         });
-
         return true;
     }
 
+    // animazioni searchView
     public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.search_background));
