@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     Toolbar mToolbar;
     EditText mEmail, mPassword;
     Button mLoginBtn;
-    TextView mCreateBtn;
+    TextView mResetBtn;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.emailEditText);
         mPassword = findViewById(R.id.passwordEditText);
         mLoginBtn = findViewById(R.id.loginButton);
-        mCreateBtn = findViewById(R.id.lRegistertextView);
+        mResetBtn = findViewById(R.id.resetPassTextView);
         progressBar = findViewById(R.id.progressBar);
 
         fAuth = FirebaseAuth.getInstance();
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // reset password tramite email
-        mCreateBtn.setOnClickListener(new View.OnClickListener() {
+        mResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = mEmail.getText().toString().trim();

@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
         <TextView
-            android:id="@+id/lRegistertextView"
+            android:id="@+id/resetPassTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hai dimenticato la password? Invia una mail."
@@ -101,7 +101,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lRegistertextView" />
+            app:layout_constraintTop_toBottomOf="@+id/resetPassTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

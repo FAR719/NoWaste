@@ -47,7 +47,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:srcCompat="@drawable/ic_nav_header_user" />
+            app:srcCompat="@drawable/ic_nav_header_user" />
 
         <TextView
             android:id="@+id/nameTextView"
@@ -56,6 +56,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="Full Name"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/userImageView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -66,6 +67,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="Email Address"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/userImageView"
             app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
@@ -108,6 +110,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logoutButton"
             tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/proPicTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Cambia la tua foto del profilo"
+            app:layout_constraintStart_toEndOf="@+id/userImageView"
+            app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
