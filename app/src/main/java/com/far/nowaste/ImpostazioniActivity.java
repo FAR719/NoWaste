@@ -1,6 +1,7 @@
 package com.far.nowaste;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,11 +11,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class ImpostazioniActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     // toolbar
     private MenuItem mSearchItem;
@@ -44,7 +49,12 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Load setting fragment
+        getFragmentManager().beginTransaction().replace(android.R.id.content,
+                new MainSettingsFragment()).commit();
     }
+
 
     // onclick sulla navigation
     @SuppressLint("NonConstantResourceId")
@@ -75,5 +85,16 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+
+
+    }
+
+    //xml settings
+    public static class MainSettingsFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }
