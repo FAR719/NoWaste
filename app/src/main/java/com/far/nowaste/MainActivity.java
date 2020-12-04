@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
-    // cardView
-    MaterialCardView seccoCardView;
-    MaterialCardView plasticaCardView;
-    MaterialCardView cartaCardView;
-    MaterialCardView organicoCardView;
-    MaterialCardView vetroCardView;
-    MaterialCardView metalliCardView;
-    MaterialCardView elettriciCardView;
-    MaterialCardView specialiCardView;
-
     View header;
     TextView mFullName, mEmail;
 
@@ -76,32 +66,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.main_drawerlayout);
         navigationView = findViewById(R.id.main_navView);
 
-        // collega le view
-        seccoCardView = findViewById(R.id.indifferenziataCardView);
-        plasticaCardView = findViewById(R.id.plasticaCardView);
-        cartaCardView = findViewById(R.id.cartaCardView);
-        organicoCardView = findViewById(R.id.organicoCardView);
-        vetroCardView = findViewById(R.id.vetroCardView);
-        metalliCardView = findViewById(R.id.metalliCardView);
-        elettriciCardView = findViewById(R.id.elettriciCardView);
-        specialiCardView = findViewById(R.id.specialiCardView);
-
         // navigationView
         navigationView.bringToFront();
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
-        // definizione onClick cardView
-        clickCard(plasticaCardView, "Plastica");
-        clickCard(organicoCardView, "Organico");
-        clickCard(seccoCardView,"Indifferenziata");
-        clickCard(cartaCardView, "Carta");
-        clickCard(vetroCardView, "Vetro");
-        clickCard(metalliCardView,"Metalli");
-        clickCard(elettriciCardView, "Elettrici");
-        clickCard(specialiCardView, "Speciali");
 
         // associazione view dell'header
         header = navigationView.getHeaderView(0);
@@ -119,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
     }
 
     // onStart cambia i dati nell'header
@@ -229,18 +204,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return result;
     }
 
-    // definizione metodo per onClickCardView (valido per ogni carta)
-    private void clickCard(View view, String string) {
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent listaCardActivity = new Intent(getApplicationContext(), ListaCardActivity.class);
-                listaCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
-                startActivity(listaCardActivity);
-            }
-        });
-    }
-
     // chiude la navigation quando premi back
     @Override
     public void onBackPressed() {
@@ -257,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
                 break;
             case R.id.nav_curiosita:
                 startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));

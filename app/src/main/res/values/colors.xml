@@ -14,6 +14,7 @@
     <color name="carmine">#B00020</color>
     <color name="cinnamon_satin">#cf6679</color>
     <color name="mine_shaft">#272727</color>
+    <color name="transparent">#00000000</color>
 
     <color name="primary">@color/basil</color>
     <color name="primary_variant">@color/pine</color>

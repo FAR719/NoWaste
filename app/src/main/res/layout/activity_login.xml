@@ -85,7 +85,7 @@
             android:id="@+id/resetPassTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hai dimenticato la password? Invia una mail."
+            android:text="Hai dimenticato la password?"
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

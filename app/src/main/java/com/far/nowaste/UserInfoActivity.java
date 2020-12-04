@@ -69,17 +69,11 @@ public class UserInfoActivity extends AppCompatActivity {
                 mEmail.setText(email);
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         // verifica email
         if (!user.isEmailVerified()){
             verifyMsg.setVisibility(View.VISIBLE);
             resendCode.setVisibility(View.VISIBLE);
-
             resendCode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
