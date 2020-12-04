@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+
+    // true se siamo su home, false altrimenti
+    boolean homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
+            homeFragment = true;
         }
     }
 
@@ -209,7 +214,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else{
+        } else if(!homeFragment){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
+            homeFragment = true;
+        } else {
             super.onBackPressed();
         }
     }
@@ -221,24 +230,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
+                homeFragment = true;
                 break;
             case R.id.nav_curiosita:
-                startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CuriositaFragment()).commit();
+                homeFragment = false;
                 break;
             case R.id.nav_calendario:
-                startActivity(new Intent(getApplicationContext(), CalendarioActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CalendarioFragment()).commit();
+                homeFragment = false;
                 break;
             case R.id.nav_luoghi:
-                startActivity(new Intent(getApplicationContext(), LuoghiActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new LuoghiFragment()).commit();
+                homeFragment = false;
                 break;
             case R.id.nav_contattaci:
-                startActivity(new Intent(getApplicationContext(), ContattaciActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ContattaciFragment()).commit();
+                homeFragment = false;
                 break;
             case R.id.nav_impostazioni:
-                startActivity(new Intent(getApplicationContext(), ImpostazioniActivity.class));
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ImpostazioniFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout, new MainSettingsFragment()).commit();
+                homeFragment = false;
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //xml settings
+    public static class MainSettingsFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+        }
     }
 }

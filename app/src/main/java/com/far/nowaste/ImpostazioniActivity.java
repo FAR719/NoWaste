@@ -1,4 +1,4 @@
-package com.far.nowaste;
+/*package com.far.nowaste;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.far.nowaste.R;
+import com.far.nowaste.RegisterActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -120,19 +122,15 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
                 finish();
                 break;
             case R.id.nav_curiosita:
-                startActivity(new Intent(getApplicationContext(), CuriositaActivity.class));
                 finish();
                 break;
             case R.id.nav_calendario:
-                startActivity(new Intent(getApplicationContext(), CalendarioActivity.class));
                 finish();
                 break;
             case R.id.nav_luoghi:
-                startActivity(new Intent(getApplicationContext(), LuoghiActivity.class));
                 finish();
                 break;
             case R.id.nav_contattaci:
-                startActivity(new Intent(getApplicationContext(), ContattaciActivity.class));
                 finish();
                 break;
             case R.id.nav_impostazioni:
@@ -152,4 +150,4 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
             addPreferencesFromResource(R.xml.preferences);
         }
     }
-}
+}*/
