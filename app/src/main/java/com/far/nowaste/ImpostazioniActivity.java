@@ -51,7 +51,7 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
         navigationView.setNavigationItemSelectedListener(this);
 
         //Load setting fragment
-        getFragmentManager().beginTransaction().replace(android.R.id.content,
+        getFragmentManager().beginTransaction().replace(R.id.settingsFrameLayout,
                 new MainSettingsFragment()).commit();
     }
 

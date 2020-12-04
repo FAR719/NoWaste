@@ -86,10 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         clickCard(metalliCardView,"Metalli");
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
-
-        //settings
-        startActivity(new Intent(MainActivity.this, ImpostazioniActivity.class));
-
     }
 
     @Override
