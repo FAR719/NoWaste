@@ -15,11 +15,18 @@ import android.os.PersistableBundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ImpostazioniActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     // toolbar
     private MenuItem mSearchItem;
@@ -29,6 +36,13 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    View header;
+    TextView mFullName, mEmail;
+
+    // firebase
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +64,52 @@ public class ImpostazioniActivity extends AppCompatActivity implements Navigatio
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        // associazione view dell'header
+        header = navigationView.getHeaderView(0);
+
+        mFullName = header.findViewById(R.id.navHeader_nameTextView);
+        mEmail = header.findViewById(R.id.navHeader_emailTextView);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        // header onclick
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
+
         //Load setting fragment
-        getFragmentManager().beginTransaction().replace(R.id.settingsFrameLayout,
-                new MainSettingsFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.settingsFrameLayout, new MainSettingsFragment()).commit();
     }
 
+    // onStart cambia i dati nell'header
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // modifica username
+        if (fAuth.getCurrentUser() != null){
+            // query
+            FirebaseUser user = fAuth.getCurrentUser();
+            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    String nome = value.getString("fullName");
+                    String email = value.getString("email");
+
+                    mFullName.setText(nome);
+                    mEmail.setText(email);
+                    mFullName.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            mEmail.setText("Accedi al tuo account");
+            mFullName.setVisibility(View.GONE);
+        }
+    }
 
     // onclick sulla navigation
     @SuppressLint("NonConstantResourceId")
