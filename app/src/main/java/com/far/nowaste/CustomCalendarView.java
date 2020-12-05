@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +24,10 @@ public class CustomCalendarView extends LinearLayout {
     Calendar calendar = Calendar.getInstance(Locale.ITALIAN);
     Context context;
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.ITALIAN);
+    SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",Locale.ITALIAN);
+    SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy",Locale.ITALIAN);
+
     // lista data e lista eventi
     List<Date> dates = new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
@@ -33,5 +38,6 @@ public class CustomCalendarView extends LinearLayout {
 
     public CustomCalendarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 }
