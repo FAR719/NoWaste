@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
-    // true se siamo su home, false altrimenti
-    boolean homeFragment;
+    // variabile che tiene traccia dei fragment, 0 se home, 1 se impostazioni, 2 altrimenti
+    int traceFragment;
+
+    // definizione settingsFragment (serve per rimuovere il fragment delle impostazioni nello switch di pagina)
+    MainSettingsFragment mainSettingsFragment = new MainSettingsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            homeFragment = true;
+            traceFragment = 0;
         }
     }
 
@@ -215,10 +218,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(!homeFragment){
+        } else if(traceFragment != 0){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            homeFragment = true;
+            traceFragment = 0;
         } else {
             super.onBackPressed();
         }
@@ -231,31 +234,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
-                homeFragment = true;
+                traceFragment = 0;
                 break;
             case R.id.nav_curiosita:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CuriositaFragment()).commit();
-                homeFragment = false;
+                traceFragment = 2;
                 break;
             case R.id.nav_calendario:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new CalendarioFragment()).commit();
-                homeFragment = false;
+                traceFragment = 2;
                 break;
             case R.id.nav_luoghi:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new LuoghiFragment()).commit();
-                homeFragment = false;
+                traceFragment = 2;
                 break;
             case R.id.nav_contattaci:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ContattaciFragment()).commit();
-                homeFragment = false;
+                traceFragment = 2;
                 break;
             case R.id.nav_impostazioni:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ImpostazioniFragment()).commit();
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout, new MainSettingsFragment()).commit();
-                homeFragment = false;
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout, mainSettingsFragment).commit();
+                traceFragment = 1;
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
+        if (traceFragment != 1){
+            getFragmentManager().beginTransaction().remove(mainSettingsFragment).commit();
+        }
         return true;
     }
 
