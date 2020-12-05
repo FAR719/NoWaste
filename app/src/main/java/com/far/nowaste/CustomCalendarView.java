@@ -2,6 +2,8 @@ package com.far.nowaste;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,5 +41,19 @@ public class CustomCalendarView extends LinearLayout {
     public CustomCalendarView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        InitializeLayout();
+    }
+
+    // costruttore
+    public CustomCalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    private void InitializeLayout(){
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.fragment_calendario, this);
+        currentDate = view.findViewById(R.id.current_Date);
+        gridView = view.findViewById(R.id.gridView);
+
     }
 }
