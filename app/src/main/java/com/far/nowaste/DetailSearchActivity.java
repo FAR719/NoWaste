@@ -88,24 +88,12 @@ public class DetailSearchActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // query per istanziare il rifiuto e impostare le view
-        firebaseFirestore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                rifiuto = new Rifiuto(value.getString("nome"),
-                        value.getString("descrizione"),
-                        value.getString("materiale"),
-                        value.getString("smaltimento"),
-                        value.getDouble("punteggio"),
-                        value.getString("immagine"));
-
-                nomeTextView.setText(rifiuto.getNome());
-                materialeTextView.setText(rifiuto.getMateriale());
-                descrizioneTextView.setText(rifiuto.getDescrizione());
-                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
-                Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
-            }
-        });
+        rifiuto = new FirebaseManager().getRifiuto(stringName);
+        nomeTextView.setText(rifiuto.getNome());
+        materialeTextView.setText(rifiuto.getMateriale());
+        descrizioneTextView.setText(rifiuto.getDescrizione());
+        punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
+        Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
 
         if (fUser != null) {
             // query per istanziare un Utente

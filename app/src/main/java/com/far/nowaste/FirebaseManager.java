@@ -1,7 +1,10 @@
 package com.far.nowaste;
 
+import android.text.Html;
+
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -15,9 +18,27 @@ public class FirebaseManager {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth;
     Utente utente;
+    Rifiuto rifiuto;
 
     // costruttore
     public FirebaseManager(){}
+
+    public Rifiuto getRifiuto(String string){
+        // query per istanziare il rifiuto e impostare le view
+        firebaseFirestore.collection("rifiuti").document(string).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                rifiuto = new Rifiuto(value.getString("nome"),
+                        value.getString("descrizione"),
+                        value.getString("materiale"),
+                        value.getString("smaltimento"),
+                        value.getDouble("punteggio"),
+                        value.getString("immagine"));
+            }
+        });
+        firebaseFirestore.terminate();
+        return rifiuto;
+    }
 
     public Utente getLoggedUser(){
         firebaseAuth = FirebaseAuth.getInstance();

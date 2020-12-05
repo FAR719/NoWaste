@@ -59,7 +59,6 @@ public class DetailUserFragment extends Fragment {
                 mEmail.setText(email);
             }
         });
-        fStore.terminate();
 
         return view;
     }
