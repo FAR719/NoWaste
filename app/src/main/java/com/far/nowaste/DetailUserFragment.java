@@ -1,20 +1,19 @@
 package com.far.nowaste;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,10 +23,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class DetailUserFragment extends Fragment {
 
     // definizione variabili
-    Toolbar mToolbar;
     TextView mFullName, mEmail, verifyMsg;
     Button resendCode;
 
@@ -35,30 +33,22 @@ public class UserInfoActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseUser user;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
-
-        // toolbar
-        mToolbar = findViewById(R.id.userInfo_toolbar);
-        setSupportActionBar(mToolbar);
-
-        // back arrow
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_detail_user, container, false);
 
         // collegamento view
-        mFullName = findViewById(R.id.nameTextView);
-        mEmail = findViewById(R.id.emailTextView);
-        verifyMsg = findViewById(R.id.verifyTextView);
-        resendCode = findViewById(R.id.verifyButton);
+        mFullName = view.findViewById(R.id.nameTextView);
+        mEmail = view.findViewById(R.id.emailTextView);
+        verifyMsg = view.findViewById(R.id.verifyTextView);
+        resendCode = view.findViewById(R.id.verifyButton);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
 
-        // imposta dati personali
+        /*// imposta dati personali
         fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -68,7 +58,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 mFullName.setText(nome);
                 mEmail.setText(email);
             }
-        });
+        });*/
 
         // verifica email
         if (!user.isEmailVerified()){
@@ -80,12 +70,12 @@ public class UserInfoActivity extends AppCompatActivity {
                     user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(UserInfoActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Email di verifica inviata", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(UserInfoActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
                         }
                     });
@@ -95,23 +85,13 @@ public class UserInfoActivity extends AppCompatActivity {
             verifyMsg.setVisibility(View.GONE);
             resendCode.setVisibility(View.GONE);
         }
+
+        return view;
     }
 
     // onclick logout button
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
-        Toast.makeText(UserInfoActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    // ends this activity (back arrow)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            this.finish();
-        }
-        return super.onOptionsItemSelected(item);
+        Toast.makeText(getContext(), "Logout effettuato.", Toast.LENGTH_SHORT).show();
     }
 }

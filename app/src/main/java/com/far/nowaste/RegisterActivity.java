@@ -69,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         if (fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), UserInfoActivity.class));
             finish();
         }
 

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,13 +86,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mEmail = header.findViewById(R.id.navHeader_emailTextView);
 
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
 
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                if (fAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                } else {
+                    currentFragment = new DetailUserFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    homeFragment = false;
+                    if (currentFragment != null && impostazioniFragment != null){
+                        getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
+                        impostazioniFragment = null;
+                    }
+                }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -112,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // modifica username
         if (fAuth.getCurrentUser() != null){
             // query
+            fStore = FirebaseFirestore.getInstance();
             FirebaseUser user = fAuth.getCurrentUser();
             fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -124,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mFullName.setVisibility(View.VISIBLE);
                 }
             });
+            fStore.terminate();
         } else {
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
@@ -258,6 +270,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             impostazioniFragment = null;
         }
         return true;
+    }
+
+    // onclick logout button
+    public void logout(View view) {
+        mEmail.setText("Accedi al tuo account");
+        mFullName.setVisibility(View.GONE);
+        currentFragment = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+        homeFragment = true;
+        fAuth.signOut();
+        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
     }
 
     // chiude la navigation quando premi back
