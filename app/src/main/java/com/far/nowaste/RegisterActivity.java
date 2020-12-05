@@ -79,6 +79,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String fullName = mFullName.getText().toString();
 
+                if (TextUtils.isEmpty(fullName)){
+                    mEmail.setError("Inserisci nome e cognome.");
+                    return;
+                }
+
                 if (TextUtils.isEmpty(email)){
                     mEmail.setError("Inserisci la tua email.");
                     return;
