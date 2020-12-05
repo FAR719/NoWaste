@@ -48,7 +48,7 @@ public class DetailUserFragment extends Fragment {
         fStore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
 
-        /*// imposta dati personali
+        // imposta dati personali
         fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -58,7 +58,15 @@ public class DetailUserFragment extends Fragment {
                 mFullName.setText(nome);
                 mEmail.setText(email);
             }
-        });*/
+        });
+        fStore.terminate();
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         // verifica email
         if (!user.isEmailVerified()){
@@ -85,13 +93,5 @@ public class DetailUserFragment extends Fragment {
             verifyMsg.setVisibility(View.GONE);
             resendCode.setVisibility(View.GONE);
         }
-
-        return view;
-    }
-
-    // onclick logout button
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Toast.makeText(getContext(), "Logout effettuato.", Toast.LENGTH_SHORT).show();
     }
 }
