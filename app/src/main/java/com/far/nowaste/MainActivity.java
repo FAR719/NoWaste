@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
 
     // true se home, false altrimenti
     boolean homeFragment;
@@ -118,24 +117,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
+        Utente utente = new FirebaseManager().getLoggedUser();
 
         // modifica username
-        if (fAuth.getCurrentUser() != null){
-            // query
-            fStore = FirebaseFirestore.getInstance();
-            FirebaseUser user = fAuth.getCurrentUser();
-            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    String nome = value.getString("fullName");
-                    String email = value.getString("email");
-
-                    mFullName.setText(nome);
-                    mEmail.setText(email);
-                    mFullName.setVisibility(View.VISIBLE);
-                }
-            });
-            fStore.terminate();
+        if (utente != null){
+            mFullName.setText(utente.getNome());
+            mEmail.setText(utente.getEmail());
+            mFullName.setVisibility(View.VISIBLE);
         } else {
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
