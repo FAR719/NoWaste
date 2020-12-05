@@ -1,8 +1,10 @@
 package com.far.nowaste;
 
 public class Events {
+    // dichiarazione variabili
     String EVENT,TIME,DATE,MONTH,YEAR;
 
+    // costruttore
     public Events(String EVENT, String TIME, String DATE, String MONTH, String YEAR) {
         this.EVENT = EVENT;
         this.TIME = TIME;
@@ -11,6 +13,7 @@ public class Events {
         this.YEAR = YEAR;
     }
 
+    // metodi get and set
     public String getEVENT() {
         return EVENT;
     }
