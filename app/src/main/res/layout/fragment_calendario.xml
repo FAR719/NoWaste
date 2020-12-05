@@ -13,6 +13,14 @@
         android:paddingBottom="8dp"
         android:background="@color/pine">
 
+        <ImageButton
+            android:id="@+id/previousBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/previous"
+            android:layout_margin="10dp">
+        </ImageButton>
+
         <TextView
             android:id="@+id/current_Date"
             android:layout_width="wrap_content"
@@ -25,6 +33,14 @@
             android:textSize="22sp"
             android:layout_weight="3">
         </TextView>
+
+        <ImageButton
+            android:id="@+id/nextBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/next"
+            android:layout_margin="10dp">
+        </ImageButton>
 
     </LinearLayout>
 
