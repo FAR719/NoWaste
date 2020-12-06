@@ -38,7 +38,7 @@ public class DetailSearchActivity extends AppCompatActivity {
 
     // firebase
     FirebaseAuth fAuth;
-    private FirebaseFirestore firebaseFirestore;
+    FirebaseFirestore fStore;
 
     Rifiuto rifiuto;
     Utente utente;
@@ -79,7 +79,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         immagineImageView = findViewById(R.id.detailSearch_rifiutoImageView);
 
         // associazione firebase
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
     }
@@ -88,47 +88,35 @@ public class DetailSearchActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        rifiuto = new FirebaseManager().getRifiuto(stringName);
-        nomeTextView.setText(rifiuto.getNome());
-        materialeTextView.setText(rifiuto.getMateriale());
-        descrizioneTextView.setText(rifiuto.getDescrizione());
-        punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
-        Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
+        // query per istanziare il rifiuto e impostare le view
+        fStore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                rifiuto = value.toObject(Rifiuto.class);
+
+                nomeTextView.setText(rifiuto.getNome());
+                materialeTextView.setText(rifiuto.getMateriale());
+                descrizioneTextView.setText(rifiuto.getDescrizione());
+                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
+                Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
+            }
+        });
 
         if (fUser != null) {
             // query per istanziare un Utente
-            firebaseFirestore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    utente = new Utente(value.getString("fullName"), value.getString("email"),
-                            value.getDouble("nPlastica"), value.getDouble("pPlastica"),
-                            value.getDouble("nOrganico"), value.getDouble("pOrganico"),
-                            value.getDouble("nIndifferenziata"), value.getDouble("pIndifferenziata"),
-                            value.getDouble("nCarta"), value.getDouble("pCarta"),
-                            value.getDouble("nVetro"),value.getDouble("pVetro"),
-                            value.getDouble("nMetalli"),value.getDouble("pMetalli"),
-                            value.getDouble("nElettrici"), value.getDouble("pElettrici"),
-                            value.getDouble("nSpeciali"), value.getDouble("pSpeciali"));
+                    utente = value.toObject(Utente.class);
                 }
             });
         }
     }
 
-    // ends this activity (back arrow)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            this.finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void loadPunteggio(View view) {
         if (fUser != null){
             // carica punteggio in firestore
-            DocumentReference documentReference = firebaseFirestore.collection("users").document(fUser.getUid());
+            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
             Map<String,Object> userMap = new HashMap<>();
             switch (rifiuto.getSmaltimento()){
                 case "Plastica":
@@ -180,5 +168,16 @@ public class DetailSearchActivity extends AppCompatActivity {
         } else {
             Toast.makeText(DetailSearchActivity.this, "Devi accedere per memorizzare i tuoi progressi!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

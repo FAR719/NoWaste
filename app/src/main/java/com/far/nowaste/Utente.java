@@ -3,12 +3,33 @@ package com.far.nowaste;
 public class Utente {
 
     // definizione campi
-    public String nome, email;
+    public String fullName, email;
     public double nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
     public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
 
-    // costruttore
-    public Utente(String nome, String email,
+    // costruttore nuovo utente
+    public Utente(String fullName, String email){
+        this.fullName = fullName;
+        this.email = email;
+        this.nPlastica = 0;
+        this.nOrganico = 0;
+        this.nIndifferenziata = 0;
+        this.nCarta = 0;
+        this.nVetro = 0;
+        this.nMetalli = 0;
+        this.nElettrici = 0;
+        this.nSpeciali = 0;
+        this.pPlastica = 0;
+        this.pOrganico = 0;
+        this.pIndifferenziata = 0;
+        this.pCarta = 0;
+        this.pVetro = 0;
+        this.pElettrici = 0;
+        this.pSpeciali = 0;
+    }
+
+    // costruttore utente già presente in Firebase
+    public Utente(String fullName, String email,
                   double nPlastica, double pPlastica,
                   double nOrganico, double pOrganico,
                   double nIndifferenziata, double pIndifferenziata,
@@ -17,7 +38,7 @@ public class Utente {
                   double nMetalli, double pMetalli,
                   double nElettrici, double pEettrici,
                   double nSpeciali, double pSpeciali){
-        this.nome = nome;
+        this.fullName = fullName;
         this.email = email;
         this.nPlastica = nPlastica;
         this.nOrganico = nOrganico;
@@ -40,12 +61,12 @@ public class Utente {
     private Utente(){}
 
     // getter e setter
-    public String getNome() {
-        return nome;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
