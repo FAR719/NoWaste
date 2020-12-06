@@ -274,13 +274,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // onclick logout button
     public void logout(View view) {
+        fAuth.signOut();
+        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
         mEmail.setText("Accedi al tuo account");
         mFullName.setVisibility(View.GONE);
         currentFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
         homeFragment = true;
-        fAuth.signOut();
-        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
     }
 
     // chiude la navigation quando premi back
