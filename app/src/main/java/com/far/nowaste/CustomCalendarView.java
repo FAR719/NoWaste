@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +21,8 @@ import java.util.Locale;
 public class CustomCalendarView extends LinearLayout {
 
     // dichiarazione variabili
-    TextView currentDate;
+    ImageButton nextButton, previousButton;
+    TextView CurrentDate;
     GridView gridView;
     private static final int Max_Calendar_Days = 42;
     Calendar calendar = Calendar.getInstance(Locale.ITALIAN);
@@ -42,6 +44,23 @@ public class CustomCalendarView extends LinearLayout {
         super(context, attrs);
         this.context = context;
         InitializeLayout();
+        SetUpCalendar();
+
+        previousButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar.add(Calendar.MONTH,-1);
+                SetUpCalendar();
+            }
+        });
+
+        nextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar.add(Calendar.MONTH,1);
+                SetUpCalendar();
+            }
+        });
     }
 
     // costruttore
@@ -52,8 +71,15 @@ public class CustomCalendarView extends LinearLayout {
     private void InitializeLayout(){
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.fragment_calendario, this);
-        currentDate = view.findViewById(R.id.current_Date);
+        nextButton = view.findViewById(R.id.nextBtn);
+        previousButton = view.findViewById(R.id.previousBtn);
+        CurrentDate = view.findViewById(R.id.current_Date);
         gridView = view.findViewById(R.id.gridView);
 
+    }
+
+    private  void SetUpCalendar(){
+        String currentDate = dateFormat.format(calendar.getTime());
+        CurrentDate.setText(currentDate);
     }
 }
