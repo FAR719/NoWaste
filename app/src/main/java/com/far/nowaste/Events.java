@@ -13,6 +13,11 @@ public class Events {
         this.YEAR = YEAR;
     }
 
+    // costruttore vuoto per Firebase
+    public Events(){
+
+    }
+
     // metodi get and set
     public String getEVENT() {
         return EVENT;

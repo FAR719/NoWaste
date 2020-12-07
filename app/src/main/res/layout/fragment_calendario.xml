@@ -17,7 +17,8 @@
             android:id="@+id/previousBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@mipmap/previous"
+            android:src="@drawable/ic_arrow_back_white"
+            android:backgroundTint="@color/transparent"
             android:layout_margin="10dp">
         </ImageButton>
 
@@ -38,7 +39,8 @@
             android:id="@+id/nextBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@mipmap/next"
+            android:src="@drawable/ic_arrow_forward"
+            android:backgroundTint="@color/transparent"
             android:layout_margin="10dp">
         </ImageButton>
 
