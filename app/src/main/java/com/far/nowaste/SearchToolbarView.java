@@ -5,29 +5,53 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.widget.Toolbar;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class SearchAnimationView {
+public class SearchToolbarView {
 
     Toolbar mToolbar;
+    MenuItem mSearchItem;
     DrawerLayout drawerLayout;
     Context context;
     Resources resources;
 
-    public SearchAnimationView(Toolbar mToolbar, DrawerLayout drawerLayout, Context context, Resources resources){
+    public SearchToolbarView(Toolbar mToolbar, MenuItem mSearchItem, DrawerLayout drawerLayout, Context context, Resources resources){
         this.mToolbar = mToolbar;
+        this.mSearchItem = mSearchItem;
         this.drawerLayout = drawerLayout;
         this.context = context;
         this.resources = resources;
     }
 
+    public void createItem(){
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Called when SearchView is collapsing
+                if (mSearchItem.isActionViewExpanded()) {
+                    animateSearchToolbar(1, false, false);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Called when SearchView is expanding
+                animateSearchToolbar(1, true, true);
+                return true;
+            }
+        });
+    }
+
     // animazioni searchView
-    public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
+    private void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.search_background));
         drawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(context, R.color.quantum_grey_600));

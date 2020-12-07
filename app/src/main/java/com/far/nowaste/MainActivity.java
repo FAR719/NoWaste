@@ -147,23 +147,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         mSearchItem = menu.findItem(R.id.m_search);
 
-        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Called when SearchView is collapsing
-                if (mSearchItem.isActionViewExpanded()) {
-                    animateSearchToolbar(1, false, false);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                // Called when SearchView is expanding
-                animateSearchToolbar(1, true, true);
-                return true;
-            }
-        });
+        // crea le animazioni
+        SearchToolbarView searchToolbarView = new  SearchToolbarView(mToolbar, mSearchItem, drawerLayout, this, getResources());
+        searchToolbarView.createItem();
 
         //set queryListener searchView
         androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(mSearchItem);
@@ -181,47 +167,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         return true;
-    }
-
-    // animazioni searchView
-    public void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
-
-        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.search_background));
-        drawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
-
-        if (show) {
-            int width = mToolbar.getWidth() - (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) - ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
-            Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(mToolbar, isRtl(getResources()) ? mToolbar.getWidth() - width : width, mToolbar.getHeight() / 2, 0.0f, (float) width);
-            createCircularReveal.setDuration(250);
-            createCircularReveal.start();
-        } else {
-            int width = mToolbar.getWidth() - (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) - ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
-            Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(mToolbar, isRtl(getResources()) ? mToolbar.getWidth() - width : width, mToolbar.getHeight() / 2, (float) width, 0.0f);
-            createCircularReveal.setDuration(250);
-            createCircularReveal.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mToolbar.setBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimary));
-                    drawerLayout.setStatusBarBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
-                }
-            });
-            createCircularReveal.start();
-            drawerLayout.setStatusBarBackgroundColor(getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
-        }
-    }
-
-    private boolean isRtl(Resources resources) {
-        return resources.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-    }
-
-    // metodo per restituire il colore selezionato del tema
-    private static int getThemeColor(Context context, int id) {
-        Resources.Theme theme = context.getTheme();
-        TypedArray a = theme.obtainStyledAttributes(new int[]{id});
-        int result = a.getColor(0, 0);
-        a.recycle();
-        return result;
     }
 
     // onclick sulla navigation
