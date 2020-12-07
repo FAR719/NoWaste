@@ -5,24 +5,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,12 +142,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchItem = menu.findItem(R.id.m_search);
 
         // crea le animazioni
-        SearchToolbarView searchToolbarView = new  SearchToolbarView(mToolbar, mSearchItem, drawerLayout, this, getResources());
-        searchToolbarView.createItem();
+        new SearchToolbarAnimation(mToolbar, mSearchItem, drawerLayout, this, getResources()).setAnimation();
 
         //set queryListener searchView
-        androidx.appcompat.widget.SearchView wasteSearchView = (androidx.appcompat.widget.SearchView) MenuItemCompat.getActionView(mSearchItem);
-        wasteSearchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+        SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        wasteSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent listaSearchActivity = new Intent(getApplicationContext(), ListaSearchActivity.class);

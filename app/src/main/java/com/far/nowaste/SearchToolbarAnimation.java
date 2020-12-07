@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class SearchToolbarView {
+public class SearchToolbarAnimation {
 
     Toolbar mToolbar;
     MenuItem mSearchItem;
@@ -22,7 +22,7 @@ public class SearchToolbarView {
     Context context;
     Resources resources;
 
-    public SearchToolbarView(Toolbar mToolbar, MenuItem mSearchItem, DrawerLayout drawerLayout, Context context, Resources resources){
+    public SearchToolbarAnimation(Toolbar mToolbar, MenuItem mSearchItem, DrawerLayout drawerLayout, Context context, Resources resources){
         this.mToolbar = mToolbar;
         this.mSearchItem = mSearchItem;
         this.drawerLayout = drawerLayout;
@@ -30,7 +30,7 @@ public class SearchToolbarView {
         this.resources = resources;
     }
 
-    public void createItem(){
+    public void setAnimation(){
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
