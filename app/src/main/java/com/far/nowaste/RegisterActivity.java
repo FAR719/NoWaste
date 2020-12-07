@@ -77,7 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
         mGoogleButton = findViewById(R.id.googleButton);
-        mGoogleButton.setSize(mGoogleButton.SIZE_STANDARD);
         progressBar = findViewById(R.id.registerProgressBar);
 
         fAuth = FirebaseAuth.getInstance();
@@ -172,6 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         // Configure Google Sign In
+        mGoogleButton.setSize(mGoogleButton.SIZE_STANDARD);
         createRequest();
         mGoogleButton.setOnClickListener(new View.OnClickListener() {
             @Override
