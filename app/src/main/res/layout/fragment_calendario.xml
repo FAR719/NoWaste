@@ -1,17 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/custom_calendar">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calendario"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/pine">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/previousBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back_white"
+            android:backgroundTint="@color/transparent"
+            android:layout_margin="10dp">
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/current_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="CurrentDate"
+            android:textColor="@android:color/white"
+            android:textStyle="italic"
+            android:textSize="22sp"
+            android:layout_weight="3">
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/nextBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:backgroundTint="@color/transparent"
+            android:layout_margin="10dp">
+        </ImageButton>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@android:color/white">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Lun"
+            android:background="@android:color/holo_green_dark"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Mar"
+            android:background="@android:color/holo_green_light"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Mer"
+            android:background="@android:color/holo_green_dark"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Gio"
+            android:background="@android:color/holo_green_light"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Ven"
+            android:background="@android:color/holo_green_dark"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Sab"
+            android:background="@android:color/holo_green_light"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Dom"
+            android:background="@android:color/holo_green_dark"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold">
+        </TextView>
+    </LinearLayout>
+
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gridView"
+        android:numColumns="7">
+    </GridView>
+
+</LinearLayout>

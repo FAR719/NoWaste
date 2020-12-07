@@ -1,17 +1,15 @@
 package com.far.nowaste;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class CalendarioFragment extends Fragment {
+public class CustomCalendarView extends LinearLayout {
 
     // dichiarazione variabili
     ImageButton nextButton, previousButton;
@@ -28,6 +26,7 @@ public class CalendarioFragment extends Fragment {
     GridView gridView;
     private static final int Max_Calendar_Days = 42;
     Calendar calendar = Calendar.getInstance(Locale.ITALIAN);
+    Context context;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.ITALIAN);
     SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",Locale.ITALIAN);
@@ -37,19 +36,17 @@ public class CalendarioFragment extends Fragment {
     List<Date> dates = new ArrayList<>();
     List<Events> eventsList = new ArrayList<>();
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendario, container, false);
+    public CustomCalendarView(Context context) {
+        super(context);
+    }
 
-        nextButton = view.findViewById(R.id.nextBtn);
-        previousButton = view.findViewById(R.id.previousBtn);
-        CurrentDate = view.findViewById(R.id.current_Date);
-        gridView = view.findViewById(R.id.gridView);
-
+    public CustomCalendarView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+        InitializeLayout();
         SetUpCalendar();
 
-        previousButton.setOnClickListener(new View.OnClickListener() {
+        previousButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 calendar.add(Calendar.MONTH,-1);
@@ -57,15 +54,28 @@ public class CalendarioFragment extends Fragment {
             }
         });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 calendar.add(Calendar.MONTH,1);
                 SetUpCalendar();
             }
         });
+    }
 
-        return view;
+    // costruttore
+    public CustomCalendarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    private void InitializeLayout(){
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.fragment_calendario, this);
+        nextButton = view.findViewById(R.id.nextBtn);
+        previousButton = view.findViewById(R.id.previousBtn);
+        CurrentDate = view.findViewById(R.id.current_Date);
+        gridView = view.findViewById(R.id.gridView);
+
     }
 
     private  void SetUpCalendar(){
