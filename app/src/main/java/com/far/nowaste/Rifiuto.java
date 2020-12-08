@@ -19,52 +19,28 @@ public class Rifiuto {
     //costruttore vuoto utile per FireBase
     private Rifiuto(){}
 
-    // getter e setter
+    // getter
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getDescrizione() {
         return descrizione;
     }
 
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
     public String getMateriale() {
         return materiale;
-    }
-
-    public void setMateriale(String materiale) {
-        this.materiale = materiale;
     }
 
     public String getSmaltimento() {
         return smaltimento;
     }
 
-    public void setSmaltimento(String smaltimento) {
-        this.smaltimento = smaltimento;
-    }
-
     public double getPunteggio() {
         return punteggio;
     }
 
-    public void setPunteggio(int punteggio) {
-        this.punteggio = punteggio;
-    }
-
     public String getImmagine() {
         return immagine;
-    }
-
-    public void setImmagine(String immagine) {
-        this.immagine = immagine;
     }
 }

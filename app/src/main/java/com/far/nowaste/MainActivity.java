@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
-    private MenuItem mSearchItem;
+    MenuItem mSearchItem;
     private Toolbar mToolbar;
 
     // navigationView

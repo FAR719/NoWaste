@@ -42,20 +42,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
-    EditText mFullName, mEmail, mPassword;
+    EditText mFullName, mEmail, mPassword, mPasswordAgain;
     Button mRegisterButton;
     TextView mLoginBtn;
-    SignInButton mGoogleButton;
     ProgressBar progressBar;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-
-    String userID;
-
-    // login Google
-    private GoogleSignInClient mGoogleSignInClient;
-    private final static int RC_SIGN_IN = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
         mFullName = findViewById(R.id.fullNameEditText);
         mEmail = findViewById(R.id.emailEditText);
         mPassword = findViewById(R.id.passwordEditText);
+        mPasswordAgain = findViewById(R.id.passwordAgainEditText);
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
-        mGoogleButton = findViewById(R.id.googleButton);
         progressBar = findViewById(R.id.registerProgressBar);
 
         fAuth = FirebaseAuth.getInstance();
@@ -90,9 +83,10 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fullName = mFullName.getText().toString();
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                String fullName = mFullName.getText().toString();
+                String passwordAgain = mPasswordAgain.getText().toString().trim();
 
                 if (TextUtils.isEmpty(fullName)){
                     mEmail.setError("Inserisci nome e cognome.");
@@ -114,51 +108,20 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (passwordAgain.length() == 0){
+                    mPasswordAgain.setError("Inserisci nuovamente la password");
+                    return;
+                }
+
+                if (!passwordAgain.equals(password)){
+                    mPasswordAgain.setError("Le password inserite non corrispondono");
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 // register the user in firebase
-                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            // verify the email
-                            FirebaseUser fUser = fAuth.getCurrentUser();
-                            fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RegisterActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
-                                }
-                            });
-
-                            Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
-
-                            // store data in firestore
-                            userID = fUser.getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
-                            Utente utente = new Utente(fullName, email);
-                            documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("TAG", "onSuccess: user Profile is created for " + userID);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "onFailure: " + e.toString());
-                                }
-                            });
-                            finish();
-                        }else {
-                            Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+                register(fullName, email, password);
             }
         });
 
@@ -167,16 +130,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
-            }
-        });
-
-        // Configure Google Sign In
-        mGoogleButton.setSize(mGoogleButton.SIZE_STANDARD);
-        createRequest();
-        mGoogleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
             }
         });
     }
@@ -192,46 +145,55 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Configure Google Sign In
-    private void createRequest() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+    // register method
+    private void register(String fullName, String email, String password) {
+        fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    // verify the email
+                    FirebaseUser fUser = fAuth.getCurrentUser();
+                    fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(RegisterActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
+                        }
+                    });
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+                    Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
+
+                    // store data in firestore
+                    createFirestoreUser(fullName, email);
+                    finish();
+                }else {
+                    Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            //updateUI(account);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
-            //updateUI(null);
-        }
+    // crea l'utente in firebase
+    private void createFirestoreUser(String fullName, String email){
+        // store data in firestore
+        String userID = fAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        Utente utente = new Utente(fullName, email);
+        documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("TAG", "onSuccess: user Profile is created for " + userID);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: " + e.toString());
+            }
+        });
     }
 }
