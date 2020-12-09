@@ -241,12 +241,9 @@ public class LoginActivity extends AppCompatActivity {
         fStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (QueryDocumentSnapshot document : value) {
-                    emails.add(document.getString("email"));
-                }
                 boolean esiste = false;
-                for (String item : emails) {
-                    if (item.equals(fUser.getEmail())) {
+                for (QueryDocumentSnapshot document : value) {
+                    if (document.getString("email").equals(fUser.getEmail())) {
                         esiste = true;
                     }
                 }
