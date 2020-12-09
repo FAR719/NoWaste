@@ -58,6 +58,5 @@ android {
         annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
         // Calendar library
-        implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
-        implementation 'com.google.android.material:material:1.1.0-alpha05'
+        implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 }

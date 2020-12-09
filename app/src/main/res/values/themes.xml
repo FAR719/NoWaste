@@ -24,4 +24,9 @@
         <item name="windowNoTitle">true</item>
         <item name="searchViewStyle">@style/SearchViewTheme</item>
     </style>
+
+    <!--CalendarView theme. -->
+    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+        <item name="android:textColor">@color/mcv_text_date_light</item>
+    </style>
 </resources>

@@ -1,75 +1,55 @@
 package com.far.nowaste;
 
-import android.content.Context;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 public class CalendarioFragment extends Fragment {
 
-    // dichiarazione variabili
-    ImageButton nextButton, previousButton;
-    TextView CurrentDate;
-    GridView gridView;
-    private static final int Max_Calendar_Days = 42;
-    Calendar calendar = Calendar.getInstance(Locale.ITALIAN);
-
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.ITALIAN);
-    SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM",Locale.ITALIAN);
-    SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy",Locale.ITALIAN);
-
-    // lista data e lista eventi
-    List<Date> dates = new ArrayList<>();
-    List<Events> eventsList = new ArrayList<>();
+    MaterialCalendarView mCalendarView;
+    CalendarDay currentDay;
+    CalendarDay calendarDay;
+    TextView mDateTextView;
+    List<CalendarDay> dates;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
+        mCalendarView = view.findViewById(R.id.calendarView);
+        mDateTextView = view.findViewById(R.id.dateTextView);
 
-        nextButton = view.findViewById(R.id.nextBtn);
-        previousButton = view.findViewById(R.id.previousBtn);
-        CurrentDate = view.findViewById(R.id.current_Date);
-        gridView = view.findViewById(R.id.gridView);
-
-        SetUpCalendar();
-
-        previousButton.setOnClickListener(new View.OnClickListener() {
+        mCalendarView.state().edit().commit();
+        currentDay = CalendarDay.today();
+        calendarDay = CalendarDay.from(2020, 12, 12);
+        dates = new LinkedList<>();
+        /*dates.add(currentDay);
+        dates.add(calendarDay);*/
+        mCalendarView.setDateSelected(CalendarDay.today(), true);
+        mDateTextView.setText(currentDay.getDay() + "/" + currentDay.getMonth() + "/" + currentDay.getYear());
+        mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
-            public void onClick(View v) {
-                calendar.add(Calendar.MONTH,-1);
-                SetUpCalendar();
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                mDateTextView.setText(date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
             }
         });
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendar.add(Calendar.MONTH,1);
-                SetUpCalendar();
-            }
-        });
-
+        mCalendarView.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.cinnamon_satin), dates));
         return view;
-    }
-
-    private  void SetUpCalendar(){
-        String currentDate = dateFormat.format(calendar.getTime());
-        CurrentDate.setText(currentDate);
     }
 }

@@ -42,6 +42,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class LoginActivity extends AppCompatActivity {
 
     // definizione variabili
@@ -49,19 +52,23 @@ public class LoginActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mResetBtn, mRegisterBtn;
-    SignInButton mGoogleButton;
+    SignInButton mGoogleBtn;
     ProgressBar progressBar;
+
+    FirebaseFirestore fStore;
     FirebaseAuth fAuth;
 
     // login Google
     GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 101;
-    boolean esiste;
+    List<String> emails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        emails = new LinkedList<>();
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -77,10 +84,11 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.passwordEditText);
         mLoginBtn = findViewById(R.id.loginButton);
         mResetBtn = findViewById(R.id.resetPassTextView);
-        mGoogleButton = findViewById(R.id.googleButton);
         progressBar = findViewById(R.id.progressBar);
+        mGoogleBtn = findViewById(R.id.googleButton);
         mRegisterBtn = findViewById(R.id.lRegisterTextView);
 
+        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
@@ -155,11 +163,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // Configure Google Sign In
         createRequest();
-        mGoogleButton.setOnClickListener(new View.OnClickListener() {
+        mGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                googleSignIn();
+                signIn();
             }
         });
 
@@ -172,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Configure Google Sign In
-    private void googleSignIn() {
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -227,37 +235,38 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // sovrascrive l'account già presente
     // se accedi con Google crea l'utente in firestore (se non è già presente)
-    public void createFirestoreUser(){
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+    private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
-        Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
-        esiste = false;
         fStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for (QueryDocumentSnapshot document : value) {
-                    if (document.getString("email").equals(fUser.getEmail())) {
+                    emails.add(document.getString("email"));
+                }
+                boolean esiste = false;
+                for (String item : emails) {
+                    if (item.equals(fUser.getEmail())) {
                         esiste = true;
                     }
                 }
+                if (!esiste){
+                    Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
+                    DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+                    documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("TAG", "onFailure: " + e.toString());
+                        }
+                    });
+                }
             }
         });
-        if (!esiste){
-            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-            documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("TAG", "onFailure: " + e.toString());
-                }
-            });
-        }
     }
 
     // ends this activity (back arrow)

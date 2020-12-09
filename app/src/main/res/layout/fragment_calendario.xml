@@ -1,162 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/custom_calendar">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/primary_variant">
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:mcv_dateTextAppearance="@style/CustomTextAppearance"
+        app:mcv_calendarMode="month"
+        app:mcv_firstDayOfWeek="monday"
+        app:mcv_leftArrow="@drawable/ic_arrow_left"
+        app:mcv_rightArrow="@drawable/ic_arrow_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/previousBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/current_Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="CurrentDate"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nextBtn"
-            app:layout_constraintStart_toEndOf="@+id/previousBtn"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/nextBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_forward_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <GridLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:rowCount="1"
-        android:columnCount="7">
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_dark"
-            android:gravity="center"
-            android:text="Lun"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center"
-            android:text="Mar"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_dark"
-            android:gravity="center"
-            android:text="Mer"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center"
-            android:text="Gio"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="4"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_dark"
-            android:gravity="center"
-            android:text="Ven"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="5"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_light"
-            android:gravity="center"
-            android:text="Sab"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="6"
-            android:layout_gravity="fill"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:background="@android:color/holo_green_dark"
-            android:gravity="center"
-            android:text="Dom"
-            android:textStyle="bold"/>
-    </GridLayout>
-
-
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gridView"
-        android:numColumns="7">
-    </GridView>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
