@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +29,9 @@ public class ListaSearchActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
-    private RecyclerView mFirestoreList;
-    private FirebaseFirestore firebaseFirestore;
-    private FirestoreRecyclerAdapter adapter;
+    RecyclerView mFirestoreList;
+    FirebaseFirestore firebaseFirestore;
+    FirestoreRecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ListaSearchActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.listaSearch_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

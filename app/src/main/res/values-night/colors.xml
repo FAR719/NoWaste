@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Theme colors-->
     <color name="primary">#1F1F1F</color>
     <color name="primary_variant">#000001</color>
     <color name="background">#121212</color>

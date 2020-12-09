@@ -94,7 +94,7 @@
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:onClick="loadPunteggio"
-            app:srcCompat="@drawable/ic_detail_search_btn_add"
+            app:srcCompat="@drawable/ic_add"
             app:backgroundTint="@color/basil"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

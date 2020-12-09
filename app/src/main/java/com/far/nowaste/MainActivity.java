@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // toolbar
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // navigationView
         drawerLayout = findViewById(R.id.main_drawerlayout);
@@ -142,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchItem = menu.findItem(R.id.m_search);
 
         // crea le animazioni
-        new SearchToolbarAnimation(mToolbar, mSearchItem, drawerLayout, this, getResources()).setAnimation();
+        new SearchToolbarAnimation(mToolbar, mSearchItem,this, getResources()).setAnimation();
 
         //set queryListener searchView
         SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);

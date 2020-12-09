@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -60,6 +61,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.detailSearch_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

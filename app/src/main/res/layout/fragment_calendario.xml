@@ -11,14 +11,14 @@
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/pine">
+        android:background="@color/primary_variant">
 
         <ImageButton
             android:id="@+id/previousBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_arrow_back_white"
-            android:backgroundTint="@color/transparent"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_margin="10dp">
         </ImageButton>
 
@@ -39,8 +39,8 @@
             android:id="@+id/nextBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_arrow_forward"
-            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_arrow_forward_white"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_margin="10dp">
         </ImageButton>
 
@@ -53,7 +53,7 @@
         android:orientation="horizontal"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@android:color/white">
+        android:background="@color/background">
         
         <TextView
             android:layout_width="wrap_content"

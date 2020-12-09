@@ -3,6 +3,7 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.register_toolbar);
         setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
