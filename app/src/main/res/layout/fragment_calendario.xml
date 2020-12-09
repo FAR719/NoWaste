@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
         android:background="@color/primary_variant">
 
         <ImageButton
@@ -29,11 +26,12 @@
 
         <TextView
             android:id="@+id/current_Date"
-            android:layout_width="119dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="center"
             android:text="CurrentDate"
+            android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="22sp"
             android:textStyle="italic"
@@ -57,91 +55,103 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <LinearLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/background">
-        
+        android:rowCount="1"
+        android:columnCount="7">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_dark"
             android:gravity="center"
             android:text="Lun"
-            android:background="@android:color/holo_green_dark"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_light"
             android:gravity="center"
             android:text="Mar"
-            android:background="@android:color/holo_green_light"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_dark"
             android:gravity="center"
             android:text="Mer"
-            android:background="@android:color/holo_green_dark"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_light"
             android:gravity="center"
             android:text="Gio"
-            android:background="@android:color/holo_green_light"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_dark"
             android:gravity="center"
             android:text="Ven"
-            android:background="@android:color/holo_green_dark"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="5"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_light"
             android:gravity="center"
             android:text="Sab"
-            android:background="@android:color/holo_green_light"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="6"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="@android:color/holo_green_dark"
             android:gravity="center"
             android:text="Dom"
-            android:background="@android:color/holo_green_dark"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:textStyle="bold">
-        </TextView>
-    </LinearLayout>
+            android:textStyle="bold"/>
+    </GridLayout>
 
 
     <GridView
