@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 if (fAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 } else {
                     currentFragment = new DetailUserFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();

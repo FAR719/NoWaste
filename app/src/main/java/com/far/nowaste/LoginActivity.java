@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     Toolbar mToolbar;
     EditText mEmail, mPassword;
     Button mLoginBtn;
-    TextView mResetBtn;
+    TextView mResetBtn, mRegisterBtn;
     SignInButton mGoogleButton;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     // login Google
     GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 101;
+    boolean esiste;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,13 @@ public class LoginActivity extends AppCompatActivity {
         mResetBtn = findViewById(R.id.resetPassTextView);
         mGoogleButton = findViewById(R.id.googleButton);
         progressBar = findViewById(R.id.progressBar);
+        mRegisterBtn = findViewById(R.id.lRegisterTextView);
 
         fAuth = FirebaseAuth.getInstance();
+
+        if (fAuth.getCurrentUser() != null) {
+            finish();
+        }
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +158,15 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 googleSignIn();
+            }
+        });
+
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
     }
@@ -219,18 +233,31 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
         Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
-        DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+        esiste = false;
+        fStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot document : value) {
+                    if (document.getString("email").equals(fUser.getEmail())) {
+                        esiste = true;
+                    }
+                }
             }
         });
+        if (!esiste){
+            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+            documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("TAG", "onFailure: " + e.toString());
+                }
+            });
+        }
     }
 
     // ends this activity (back arrow)
