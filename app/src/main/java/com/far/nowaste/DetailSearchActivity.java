@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,6 +51,7 @@ public class DetailSearchActivity extends AppCompatActivity {
     TextView descrizioneTextView;
     TextView punteggioTextView;
     ImageView immagineImageView;
+    FloatingActionButton floatingActionButton;
 
     String stringName;
 
@@ -79,11 +81,20 @@ public class DetailSearchActivity extends AppCompatActivity {
         descrizioneTextView = findViewById(R.id.detailSearch_descrizioneTextView);
         punteggioTextView = findViewById(R.id.detailSearch_punteggioTextView);
         immagineImageView = findViewById(R.id.detailSearch_rifiutoImageView);
+        floatingActionButton = findViewById(R.id.detailSearch_addFloatingActionButton);
+        floatingActionButton.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
         // associazione firebase
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPunteggio();
+            }
+        });
     }
 
     @Override
@@ -115,7 +126,7 @@ public class DetailSearchActivity extends AppCompatActivity {
         }
     }
 
-    public void loadPunteggio(View view) {
+    public void loadPunteggio() {
         if (fUser != null){
             // carica punteggio in firestore
             DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());

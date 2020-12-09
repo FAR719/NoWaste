@@ -35,6 +35,7 @@
             android:id="@+id/detailSearch_nomeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:padding="10dp"
             android:text="Nome Rifiuto"
             android:textSize="30sp"
@@ -48,7 +49,7 @@
             android:padding="10dp"
             android:text="Materiale"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/detailSearch_nomeTextView"
             app:layout_constraintTop_toBottomOf="@+id/detailSearch_nomeTextView" />
 
         <ImageView
@@ -79,12 +80,11 @@
             android:id="@+id/detailSearch_punteggioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginBottom="30dp"
             android:text="Punteggio"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/detailSearch_materialeTextView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/detailSearch_addFloatingActionButton"
@@ -92,12 +92,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:contentDescription="Aggiungi il rifiuto"
             android:clickable="true"
-            android:onClick="loadPunteggio"
-            app:srcCompat="@drawable/ic_add"
-            app:backgroundTint="@color/basil"
+            android:focusable="true"
+            android:backgroundTint="@color/basil"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:focusable="true" />
+            app:srcCompat="@drawable/ic_add" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>
