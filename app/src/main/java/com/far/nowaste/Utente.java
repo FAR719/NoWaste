@@ -3,14 +3,15 @@ package com.far.nowaste;
 public class Utente {
 
     // definizione campi
-    public String fullName, email;
+    public String fullName, email, image;
     public double nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
     public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
 
     // costruttore nuovo utente
-    public Utente(String fullName, String email){
+    public Utente(String fullName, String email, String image){
         this.fullName = fullName;
         this.email = email;
+        this.image = image;
         this.nPlastica = 0;
         this.nOrganico = 0;
         this.nIndifferenziata = 0;
@@ -39,6 +40,10 @@ public class Utente {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public double getnPlastica() {

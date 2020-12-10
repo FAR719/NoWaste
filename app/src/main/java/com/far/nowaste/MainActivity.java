@@ -18,9 +18,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     View header;
     TextView mFullName, mEmail;
+    ImageView mImage;
 
     // firebase
     FirebaseAuth fAuth;
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mFullName = header.findViewById(R.id.navHeader_nameTextView);
         mEmail = header.findViewById(R.id.navHeader_emailTextView);
+        mImage = header.findViewById(R.id.navHeader_userImageView);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -117,9 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
 
-        // modifica username
         if (fAuth.getCurrentUser() != null){
-            // query
             fStore = FirebaseFirestore.getInstance();
             FirebaseUser user = fAuth.getCurrentUser();
             fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -127,10 +130,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     String nome = value.getString("fullName");
                     String email = value.getString("email");
+                    String image = value.getString("image");
 
                     mFullName.setText(nome);
                     mEmail.setText(email);
                     mFullName.setVisibility(View.VISIBLE);
+                    if (image != null) {
+                        Glide.with(getApplicationContext()).load(image).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    }
+                    fAuth.getCurrentUser().getPhotoUrl();
                 }
             });
             fStore.terminate();
