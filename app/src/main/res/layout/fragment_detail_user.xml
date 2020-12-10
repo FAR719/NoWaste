@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/userImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_nav_header_user" />
@@ -18,73 +19,62 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:text="Full Name"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/userImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/search_primary_text"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userImageView" />
 
     <TextView
         android:id="@+id/emailTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:text="Email Address"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/userImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/basil"
         android:onClick="logout"
         android:text="LOGOUT"
-        android:backgroundTint="@color/basil"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userImageView"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/verifyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
         android:text="Email non verificata!"
-        android:textSize="20sp"
         android:textColor="@color/error"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/verifyButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoutButton"
-        tools:visibility="gone" />
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/verifyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/basil"
         android:text="INVIA DI NUOVO"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoutButton"
-        tools:visibility="gone" />
-
-    <TextView
-        android:id="@+id/proPicTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Cambia la foto del profilo."
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/userImageView"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

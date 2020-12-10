@@ -97,8 +97,8 @@ public class DetailUserFragment extends Fragment {
                 }
             });
         } else {
-            verifyMsg.setVisibility(View.GONE);
-            resendCode.setVisibility(View.GONE);
+            verifyMsg.setVisibility(View.INVISIBLE);
+            resendCode.setVisibility(View.INVISIBLE);
         }
     }
 }

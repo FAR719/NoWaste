@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -244,6 +245,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
         mEmail.setText("Accedi al tuo account");
         mFullName.setVisibility(View.GONE);
+        Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_nav_header_user);
+        mImage.setImageDrawable(defaultImage);
         mToolbar.setTitle("NoWaste");
         currentFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
