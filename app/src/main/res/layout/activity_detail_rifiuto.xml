@@ -31,7 +31,7 @@
         >
 
         <ImageView
-            android:id="@+id/detailSearch_rifiutoImageView"
+            android:id="@+id/detailRifiuto_rifiutoImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/detailSearch_nomeTextView"
+            android:id="@+id/detailRifiuto_nomeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -50,19 +50,19 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_rifiutoImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_rifiutoImageView" />
 
         <TextView
-            android:id="@+id/detailSearch_materialeTextView"
+            android:id="@+id/detailRifiuto_materialeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Materiale"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/detailSearch_nomeTextView"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_nomeTextView" />
+            app:layout_constraintStart_toStartOf="@+id/detailRifiuto_nomeTextView"
+            app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_nomeTextView" />
 
         <TextView
-            android:id="@+id/detailSearch_descrizioneTextView"
+            android:id="@+id/detailRifiuto_descrizioneTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -73,25 +73,36 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_materialeTextView" />
 
         <TextView
-            android:id="@+id/detailSearch_punteggioTextView"
+            android:id="@+id/detailRifiuto_punteggioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:text="Punteggio"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/detailSearch_materialeTextView" />
+            app:layout_constraintStart_toStartOf="@+id/detailRifiuto_materialeTextView" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/detailSearch_addFloatingActionButton"
+            android:id="@+id/detailRifiuto_checkFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/basil"
+            app:layout_constraintBottom_toTopOf="@+id/detailRifiuto_addFloatingActionButton"
+            app:layout_constraintEnd_toEndOf="@+id/detailRifiuto_addFloatingActionButton"
+            app:srcCompat="@drawable/ic_check" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/detailRifiuto_addFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:contentDescription="Aggiungi il rifiuto"
             android:clickable="true"
             android:focusable="true"
             android:backgroundTint="@color/basil"

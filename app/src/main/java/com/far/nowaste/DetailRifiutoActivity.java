@@ -73,12 +73,12 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         stringName = in.getStringExtra("com.far.nowaste.NAME");
 
         // associazione view
-        nomeTextView = findViewById(R.id.detailSearch_nomeTextView);
-        materialeTextView = findViewById(R.id.detailSearch_materialeTextView);
-        descrizioneTextView = findViewById(R.id.detailSearch_descrizioneTextView);
-        punteggioTextView = findViewById(R.id.detailSearch_punteggioTextView);
-        immagineImageView = findViewById(R.id.detailSearch_rifiutoImageView);
-        floatingActionButton = findViewById(R.id.detailSearch_addFloatingActionButton);
+        nomeTextView = findViewById(R.id.detailRifiuto_nomeTextView);
+        materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
+        descrizioneTextView = findViewById(R.id.detailRifiuto_descrizioneTextView);
+        punteggioTextView = findViewById(R.id.detailRifiuto_punteggioTextView);
+        immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
+        floatingActionButton = findViewById(R.id.detailRifiuto_addFloatingActionButton);
         floatingActionButton.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
         // associazione firebase
