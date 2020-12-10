@@ -101,17 +101,17 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Inserisci la tua email.");
                     return;
                 }
 
-                if (TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     mPassword.setError("Inserisci la password.");
                     return;
                 }
 
-                if (password.length() < 8){
+                if (password.length() < 8) {
                     mPassword.setError("La password deve essere lunga almeno 8 caratteri");
                     return;
                 }
@@ -119,10 +119,10 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // authenticate the user
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Login completato.", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = mEmail.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Inserisci la tua email.");
                     return;
                 }
@@ -241,13 +241,16 @@ public class LoginActivity extends AppCompatActivity {
         fStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                boolean esiste = false;
                 for (QueryDocumentSnapshot document : value) {
-                    if (document.getString("email").equals(fUser.getEmail())) {
+                    emails.add(document.getString("email"));
+                }
+                boolean esiste = false;
+                for (String item : emails) {
+                    if (item.equals(fUser.getEmail())) {
                         esiste = true;
                     }
                 }
-                if (!esiste){
+                if (!esiste) {
                     Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
                     DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
                     documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
