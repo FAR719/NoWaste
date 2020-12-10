@@ -2,19 +2,38 @@ package com.far.nowaste;
 
 
 // Import the required libraries
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+
 public class GraficoTorta extends AppCompatActivity {
 
+    //variabili
     // Create the object of TextView
     // and PieChart class
+
     TextView tvR, tvPython, tvCPP, tvJava, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    FirebaseUser user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +57,30 @@ public class GraficoTorta extends AppCompatActivity {
         // Creating a method setData()
         // to set the text in text view and pie chart
         setData();
+
+        //prendo i punteggi dell' utente
+        fStore.collection("utente").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>(){
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                double plastica = value.getDouble("tvR");
+                double indifferenziata = value.getDouble("tvPython");
+                double organico = value.getDouble("tvCPP");
+                double secco = value.getDouble("tvJava");
+                double vetro = value.getDouble("tvVetro");
+                double metalli = value.getDouble("tvMetalli");
+                double elettrici = value.getDouble("tvElettrici");
+                double speciali = value.getDouble("tvSpeciali");
+
+                tvR.setText((int) plastica);
+                tvPython.setText((int)indifferenziata);
+                tvCPP.setText((int)organico);
+                tvJava.setText((int)secco);
+                tvVetro.setText((int)vetro);
+                tvMetalli.setText((int)metalli);
+                tvElettrici.setText((int)elettrici);
+                tvSpeciali.setText((int)speciali);
+            }
+        });
     }
 
     private void setData()
