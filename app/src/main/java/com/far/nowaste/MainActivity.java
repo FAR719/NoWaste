@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
-    // true se home, false altrimenti
-    boolean homeFragment;
+    // home 0, curiosità 1, calendario 2, luoghi 3, contattaci 4, impostazioni 5, profilo 6
+    int fragment;
 
     // definizione Fragments
     Fragment currentFragment;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     mToolbar.setTitle("Profilo");
                     currentFragment = new DetailUserFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                    homeFragment = false;
+                    fragment = 6;
                     if (currentFragment != null && impostazioniFragment != null){
                         getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
                         impostazioniFragment = null;
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentFragment = new HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            homeFragment = true;
+            fragment = 0;
         }
     }
 
@@ -180,44 +180,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_home:
-                if (!homeFragment) {
+                if (fragment != 0) {
                     mToolbar.setTitle("NoWaste");
                     currentFragment = new HomeFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                    homeFragment = true;
+                    fragment = 0;
                 }
                 break;
             case R.id.nav_curiosita:
-                mToolbar.setTitle("Curiosità");
-                currentFragment = new CuriositaFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                if (fragment != 1) {
+                    mToolbar.setTitle("Curiosità");
+                    currentFragment = new CuriositaFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    fragment = 1;
+                }
                 break;
             case R.id.nav_calendario:
-                mToolbar.setTitle("Calendario");
-                currentFragment = new CalendarioFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                if (fragment != 2) {
+                    mToolbar.setTitle("Calendario");
+                    currentFragment = new CalendarioFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    fragment = 2;
+                }
                 break;
             case R.id.nav_luoghi:
-                mToolbar.setTitle("Luoghi");
-                currentFragment = new LuoghiFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                if (fragment != 3) {
+                    mToolbar.setTitle("Luoghi");
+                    currentFragment = new LuoghiFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    fragment = 3;
+                }
                 break;
             case R.id.nav_contattaci:
-                mToolbar.setTitle("Contattaci");
-                currentFragment = new ContattaciFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                if (fragment != 4) {
+                    mToolbar.setTitle("Contattaci");
+                    currentFragment = new ContattaciFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    fragment = 4;
+                }
                 break;
             case R.id.nav_impostazioni:
-                mToolbar.setTitle("Impostazioni");
-                impostazioniFragment = new ImpostazioniFragment();
-                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout, impostazioniFragment).commit();
-                currentFragment = null;
-                homeFragment = false;
+                if (fragment != 5) {
+                    mToolbar.setTitle("Impostazioni");
+                    impostazioniFragment = new ImpostazioniFragment();
+                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, impostazioniFragment).commit();
+                    currentFragment = null;
+                    fragment = 5;
+                }
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -237,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mToolbar.setTitle("NoWaste");
         currentFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-        homeFragment = true;
+        fragment = 0;
     }
 
     // chiude la navigation quando premi back
@@ -245,20 +255,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(!homeFragment && impostazioniFragment != null){
+        } else if(fragment != 0 && impostazioniFragment != null){
             mToolbar.setTitle("NoWaste");
             getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
             currentFragment = new HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             impostazioniFragment = null;
-            homeFragment = true;
-        } else if(!homeFragment && impostazioniFragment == null){
+            fragment = 0;
+        } else if(fragment != 0 && impostazioniFragment == null){
             mToolbar.setTitle("NoWaste");
             currentFragment = new HomeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            homeFragment = true;
+            fragment = 0;
         }else {
             super.onBackPressed();
         }
