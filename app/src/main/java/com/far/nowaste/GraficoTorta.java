@@ -13,7 +13,7 @@ public class GraficoTorta extends AppCompatActivity {
 
     // Create the object of TextView
     // and PieChart class
-    TextView tvR, tvPython, tvCPP, tvJava;
+    TextView tvR, tvPython, tvCPP, tvJava, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
 
     @Override
@@ -29,6 +29,10 @@ public class GraficoTorta extends AppCompatActivity {
         tvPython = findViewById(R.id.tvPython);
         tvCPP = findViewById(R.id.tvCPP);
         tvJava = findViewById(R.id.tvJava);
+        tvVetro = findViewById(R.id.tvVetro);
+        tvMetalli = findViewById(R.id.tvMetalli);
+        tvElettrici = findViewById(R.id.tvElettrici);
+        tvSpeciali = findViewById(R.id.tvSpeciali);
         pieChart = findViewById(R.id.piechart);
 
         // Creating a method setData()
@@ -44,6 +48,10 @@ public class GraficoTorta extends AppCompatActivity {
         tvPython.setText(Integer.toString(30));
         tvCPP.setText(Integer.toString(5));
         tvJava.setText(Integer.toString(25));
+        tvVetro.setText(Integer.toString(5));
+        tvMetalli.setText(Integer.toString(9));
+        tvElettrici.setText(Integer.toString(8));
+        tvSpeciali.setText(Integer.toString(17));
 
         // Set the data and color to the pie chart
         pieChart.addPieSlice(
@@ -53,7 +61,7 @@ public class GraficoTorta extends AppCompatActivity {
                         Color.parseColor("#FFA726")));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Indifferenziata",
+                        "Carta",
                         Integer.parseInt(tvPython.getText().toString()),
                         Color.parseColor("#66BB6A")));
         pieChart.addPieSlice(
@@ -66,6 +74,26 @@ public class GraficoTorta extends AppCompatActivity {
                         "Secco",
                         Integer.parseInt(tvJava.getText().toString()),
                         Color.parseColor("#29B6F6")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Vetro",
+                        Integer.parseInt(tvVetro.getText().toString()),
+                        Color.parseColor("#61000000")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Metallo",
+                        Integer.parseInt(tvMetalli.getText().toString()),
+                        Color.parseColor("#fb7268")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Elettrici",
+                        Integer.parseInt(tvElettrici.getText().toString()),
+                        Color.parseColor("#024265")));
+        pieChart.addPieSlice(
+                new PieModel(
+                        "Speciali",
+                        Integer.parseInt(tvSpeciali.getText().toString()),
+                        Color.parseColor("#FFBB86FC")));
 
         // To animate the pie chart
         pieChart.startAnimation();
