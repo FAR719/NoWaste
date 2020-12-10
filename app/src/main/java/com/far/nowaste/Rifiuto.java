@@ -16,7 +16,7 @@ public class Rifiuto {
         this.immagine = immagine;
     }
 
-    //costruttore vuoto utile per FireBase
+    // costruttore vuoto utile per FireBase
     private Rifiuto(){}
 
     // getter
