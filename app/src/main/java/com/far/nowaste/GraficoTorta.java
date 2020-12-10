@@ -9,8 +9,7 @@ import android.widget.TextView;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-public class GraficoTorta
-        extends AppCompatActivity {
+public class GraficoTorta extends AppCompatActivity {
 
     // Create the object of TextView
     // and PieChart class
@@ -49,22 +48,22 @@ public class GraficoTorta
         // Set the data and color to the pie chart
         pieChart.addPieSlice(
                 new PieModel(
-                        "R",
+                        "Plastica",
                         Integer.parseInt(tvR.getText().toString()),
                         Color.parseColor("#FFA726")));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Python",
+                        "Indifferenziata",
                         Integer.parseInt(tvPython.getText().toString()),
                         Color.parseColor("#66BB6A")));
         pieChart.addPieSlice(
                 new PieModel(
-                        "C++",
+                        "Organico",
                         Integer.parseInt(tvCPP.getText().toString()),
                         Color.parseColor("#EF5350")));
         pieChart.addPieSlice(
                 new PieModel(
-                        "Java",
+                        "Secco",
                         Integer.parseInt(tvJava.getText().toString()),
                         Color.parseColor("#29B6F6")));
 
