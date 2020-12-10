@@ -26,7 +26,7 @@
     </style>
 
     <!--CalendarView theme. -->
-    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+    <style name="CustomDateTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/my_date_text_color</item>
     </style>
 </resources>

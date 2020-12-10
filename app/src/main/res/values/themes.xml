@@ -26,7 +26,28 @@
     </style>
 
     <!--CalendarView theme. -->
-    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+    <style name="CustomHeaderTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="CustomWeekdayTextAppearance" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
+        <item name="fontFamily">@font/nunito_semibold</item>
+    </style>
+
+    <style name="CustomDateTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/mcv_text_date_light</item>
+        <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <!--Toolbar Title theme. -->
+    <style name="nunitoLargeTitle" parent="TextAppearance.AppCompat.Large">
+        <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <!--Navigation View items theme.-->
+    <style name="NunitoSemiboldTextViewStyle" parent="android:Widget.TextView">
+        <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 </resources>

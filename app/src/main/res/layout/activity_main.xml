@@ -15,7 +15,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu"
+        app:itemTextAppearance="@style/NunitoSemiboldTextViewStyle" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                 app:titleTextColor="@color/white"
                 app:collapseIcon="@drawable/ic_arrow_back_search_toolbar"
                 app:theme="@style/ToolbarTheme"
-                app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"/>
+                app:titleTextAppearance="@style/nunitoLargeTitle"/>
 
             <!--View per le suggestion-->
             <View

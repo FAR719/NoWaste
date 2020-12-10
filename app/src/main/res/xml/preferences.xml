@@ -8,6 +8,7 @@
         <EditTextPreference
             android:dialogTitle="Your name"
             android:dialogMessage="inserisci il tuo nome"
+            android:layout="@layout/nurito_preference_layout"
             android:inputType="textCapWords"
             android:key="key_full_name"
             android:title="Nome"
@@ -16,6 +17,7 @@
         <EditTextPreference
             android:dialogTitle="Your email"
             android:dialogMessage="inserisci la tua email"
+            android:layout="@layout/nurito_preference_layout"
             android:inputType="textEmailAddress"
             android:key="key_email"
             android:title="Email"
@@ -24,6 +26,7 @@
         <EditTextPreference
             android:dialogTitle="Your profile"
             android:dialogMessage="inserisci la nuova foto del profilo"
+            android:layout="@layout/nurito_preference_layout"
             android:inputType="textEmailAddress"
             android:key="key_email"
             android:title="Foto profilo"
@@ -38,21 +41,20 @@
         <SwitchPreference
             android:key="enable_notification"
             android:editable="true"
-            android:title="Push notification"
-            />
+            android:title="Push notification" />
 
         <RingtonePreference
             android:key="key_notification_ringtone"
             android:title="Notification ringtone"
             android:summary="Choose notification sound"
             android:ringtoneType="notification"
-            android:dependency="enable_notification"
-            />
+            android:dependency="enable_notification" />
     </PreferenceCategory>
 
     <EditTextPreference
         android:dialogTitle="Verify email"
         android:dialogMessage="verifica la tua email"
+        android:layout="@layout/nurito_preference_layout"
         android:inputType="textEmailAddress"
         android:key="key_email"
         android:title="Verifica email"
@@ -62,6 +64,7 @@
     <EditTextPreference
         android:dialogTitle="Change password"
         android:dialogMessage="inserisci la tua nuova password"
+        android:layout="@layout/nurito_preference_layout"
         android:inputType="textEmailAddress"
         android:key="key_email"
         android:title="Cambia password"
@@ -71,6 +74,7 @@
     <EditTextPreference
         android:dialogTitle="Logout"
         android:dialogMessage=""
+        android:layout="@layout/nurito_preference_layout"
         android:inputType="textEmailAddress"
         android:key="key_email"
         android:title="Logout"
@@ -80,6 +84,7 @@
     <EditTextPreference
         android:dialogTitle="Delete account"
         android:dialogMessage="elimina il tuo account"
+        android:layout="@layout/nurito_preference_layout"
         android:inputType="textEmailAddress"
         android:key="key_email"
         android:title="Elimina account"
@@ -89,6 +94,7 @@
     <EditTextPreference
         android:dialogTitle="Reset account"
         android:dialogMessage="resetta il tuo account"
+        android:layout="@layout/nurito_preference_layout"
         android:inputType="textEmailAddress"
         android:key="key_email"
         android:title="Reset account"

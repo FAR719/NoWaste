@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ToolbarTheme"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"/>
+            app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:fontFamily="@font/nunito_bold"
             android:text="Nome"
             android:textColor="@color/search_primary_text"
             android:textSize="20sp"
@@ -56,6 +57,7 @@
             android:id="@+id/detailRifiuto_materialeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Materiale"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/detailRifiuto_nomeTextView"
@@ -68,6 +70,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
+            android:fontFamily="@font/nunito"
             android:text="Descrizione"
             android:textColor="@color/search_primary_text"
             android:textSize="18sp"
@@ -80,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/nunito_semibold"
             android:text="Punteggio"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             app:title="NoWaste"
             app:theme="@style/ToolbarTheme"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"/>
+            app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -51,6 +51,7 @@ public class ListaCardActivity extends AppCompatActivity {
         mFirestoreList = findViewById(R.id.listaCard_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+
         // variabile passata
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 

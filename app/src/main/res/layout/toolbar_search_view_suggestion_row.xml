@@ -52,6 +52,7 @@
         android:paddingBottom="4dp"
         android:textColor="?android:textColorSecondary"
         android:textSize="12sp"
+        android:fontFamily="@font/nunito"
         android:visibility="gone" />
 
     <!-- The title is placed above the subtitle, if there is one. If there is no
@@ -67,7 +68,8 @@
         android:maxLines="1"
         android:scrollHorizontally="false"
         android:textColor="?android:textColorPrimary"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:fontFamily="@font/nunito" />
 
     <View
         android:id="@+id/suggestion_divider"

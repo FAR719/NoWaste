@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:text="Nome"
         android:textSize="16sp"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="@color/search_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
@@ -20,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smaltimento"
+        android:fontFamily="@font/nunito"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listaSearchItem_nameTextView" />
