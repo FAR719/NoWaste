@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailSearchActivity">
+    tools:context=".DetailRifiutoActivity">
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
@@ -30,51 +30,50 @@
         android:layout_marginTop="-3dp"
         >
 
+        <ImageView
+            android:id="@+id/detailSearch_rifiutoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/detailSearch_nomeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:padding="10dp"
-            android:text="Nome Rifiuto"
-            android:textSize="30sp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Nome"
+            android:textColor="@color/search_primary_text"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_rifiutoImageView" />
 
         <TextView
             android:id="@+id/detailSearch_materialeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:text="Materiale"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/detailSearch_nomeTextView"
             app:layout_constraintTop_toBottomOf="@+id/detailSearch_nomeTextView" />
-
-        <ImageView
-            android:id="@+id/detailSearch_rifiutoImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView"
-            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/detailSearch_descrizioneTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
             android:text="Descrizione"
-            android:textSize="20sp"
+            android:textColor="@color/search_primary_text"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailSearch_rifiutoImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/detailSearch_materialeTextView" />
 
         <TextView
             android:id="@+id/detailSearch_punteggioTextView"
@@ -82,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:text="Punteggio"
-            android:textSize="20sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/detailSearch_materialeTextView" />
 

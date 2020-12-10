@@ -14,7 +14,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ListaSearchActivity" />
-        <activity android:name=".DetailSearchActivity" />
+        <activity android:name=".DetailRifiutoActivity" />
         <activity android:name=".ListaCardActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

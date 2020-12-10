@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -81,7 +78,7 @@ public class ListaCardActivity extends AppCompatActivity {
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent detailSearchActivity = new Intent(getApplicationContext(), DetailSearchActivity.class);
+                        Intent detailSearchActivity = new Intent(getApplicationContext(), DetailRifiutoActivity.class);
                         detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
                         startActivity(detailSearchActivity);
                     }

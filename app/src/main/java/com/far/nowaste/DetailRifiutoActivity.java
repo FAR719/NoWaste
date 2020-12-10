@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -34,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailSearchActivity extends AppCompatActivity {
+public class DetailRifiutoActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
 
@@ -58,7 +55,7 @@ public class DetailSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_search);
+        setContentView(R.layout.activity_detail_rifiuto);
 
         // toolbar
         mToolbar = findViewById(R.id.detailSearch_toolbar);
@@ -168,18 +165,18 @@ public class DetailSearchActivity extends AppCompatActivity {
             documentReference.update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(DetailSearchActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailRifiutoActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onSuccess: user data is updated");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(DetailSearchActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailRifiutoActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("TAG", "onFailure: " + e.toString());
                 }
             });
         } else {
-            Toast.makeText(DetailSearchActivity.this, "Devi accedere per memorizzare i tuoi progressi!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailRifiutoActivity.this, "Devi accedere per memorizzare i tuoi progressi!", Toast.LENGTH_SHORT).show();
         }
     }
 
