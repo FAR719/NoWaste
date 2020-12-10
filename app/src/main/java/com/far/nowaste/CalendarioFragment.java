@@ -69,7 +69,7 @@ public class CalendarioFragment extends Fragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 mDateTextView.setText(date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
-                mEventTextView.setVisibility(View.GONE);
+                mEventTextView.setVisibility(View.INVISIBLE);
                 for (Evento evento : eventi) {
                     if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
                         mEventTextView.setText(evento.getTitle());
