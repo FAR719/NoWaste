@@ -62,14 +62,14 @@ public class GraficoTorta extends AppCompatActivity {
         fStore.collection("utente").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>(){
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                double plastica = value.getDouble("tvR");
-                double indifferenziata = value.getDouble("tvPython");
-                double organico = value.getDouble("tvCPP");
-                double secco = value.getDouble("tvJava");
-                double vetro = value.getDouble("tvVetro");
-                double metalli = value.getDouble("tvMetalli");
-                double elettrici = value.getDouble("tvElettrici");
-                double speciali = value.getDouble("tvSpeciali");
+                double plastica = value.getDouble("pPlastica");
+                double indifferenziata = value.getDouble("pIndifferenziata");
+                double organico = value.getDouble("pOrganico");
+                double secco = value.getDouble("pSecco");
+                double vetro = value.getDouble("pVetro");
+                double metalli = value.getDouble("pMetalli");
+                double elettrici = value.getDouble("pElettrici");
+                double speciali = value.getDouble("pSpeciali");
 
                 tvR.setText((int) plastica);
                 tvPython.setText((int)indifferenziata);
