@@ -57,6 +57,9 @@ public class ListaCardActivity extends AppCompatActivity {
         // variabile passata
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 
+        // cambia il titolo della toolbar
+        mToolbar.setTitle(stringCardType);
+
         // query
         Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("smaltimento", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
 

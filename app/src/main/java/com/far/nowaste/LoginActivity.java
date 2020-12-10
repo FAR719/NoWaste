@@ -91,10 +91,6 @@ public class LoginActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
-        if (fAuth.getCurrentUser() != null) {
-            finish();
-        }
-
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +175,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (fAuth.getCurrentUser() != null) {
+            finish();
+        }
+    }
+
     // Configure Google Sign In
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -238,33 +242,17 @@ public class LoginActivity extends AppCompatActivity {
     // se accedi con Google crea l'utente in firestore (se non è già presente)
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
-        fStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
+        DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+        documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (QueryDocumentSnapshot document : value) {
-                    emails.add(document.getString("email"));
-                }
-                boolean esiste = false;
-                for (String item : emails) {
-                    if (item.equals(fUser.getEmail())) {
-                        esiste = true;
-                    }
-                }
-                if (!esiste) {
-                    Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
-                    DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-                    documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("TAG", "onFailure: " + e.toString());
-                        }
-                    });
-                }
+            public void onSuccess(Void aVoid) {
+                Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: " + e.toString());
             }
         });
     }

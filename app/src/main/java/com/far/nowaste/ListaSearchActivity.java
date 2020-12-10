@@ -57,6 +57,9 @@ public class ListaSearchActivity extends AppCompatActivity {
         // variabile passata
         String stringName = in.getStringExtra("com.far.nowaste.SEARCH_QUERY");
 
+        // cambia il titolo della toolbar
+        mToolbar.setTitle(stringName);
+
         // query
         Query query = firebaseFirestore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
 

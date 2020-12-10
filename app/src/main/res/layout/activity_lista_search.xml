@@ -17,6 +17,7 @@
             android:id="@+id/listaSearch_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:title="NoWaste"
             app:theme="@style/ToolbarTheme"
             app:titleTextAppearance="@style/TextAppearance.AppCompat.Large"/>
     </com.google.android.material.appbar.AppBarLayout>
