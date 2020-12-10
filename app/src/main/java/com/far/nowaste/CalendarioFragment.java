@@ -32,7 +32,7 @@ public class CalendarioFragment extends Fragment {
 
     // definizione view
     MaterialCalendarView mCalendarView;
-    TextView mDateTextView;
+    TextView mDateTextView, mEventTextView;
 
     // definizione variabili
     List<Evento> eventi;
@@ -49,6 +49,7 @@ public class CalendarioFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         mCalendarView = view.findViewById(R.id.calendarView);
         mDateTextView = view.findViewById(R.id.dateTextView);
+        mEventTextView = view.findViewById(R.id.eventTextView);
 
         // inizializzazione liste
         eventi = new LinkedList<>();
@@ -68,6 +69,13 @@ public class CalendarioFragment extends Fragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 mDateTextView.setText(date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
+                mEventTextView.setVisibility(View.GONE);
+                for (Evento evento : eventi) {
+                    if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
+                        mEventTextView.setText(evento.getTitle());
+                        mEventTextView.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
 

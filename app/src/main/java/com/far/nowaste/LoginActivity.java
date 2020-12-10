@@ -68,8 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emails = new LinkedList<>();
-
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
         setSupportActionBar(mToolbar);
@@ -178,7 +176,25 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (fAuth.getCurrentUser() != null) {
+
+        // resetta emails
+        emails = null;
+        emails = new LinkedList<>();
+
+        // aggiorna emails
+        FirebaseUser fUser = fAuth.getCurrentUser();
+        if (fUser == null) {
+            fStore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            emails.add(document.getString("email"));
+                        }
+                    }
+                }
+            });
+        } else {
             finish();
         }
     }
@@ -242,19 +258,33 @@ public class LoginActivity extends AppCompatActivity {
     // se accedi con Google crea l'utente in firestore (se non è già presente)
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
-        Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
-        DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+        if (!exists(fUser)) {
+            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail());
+            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+            documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("TAG", "onFailure: " + e.toString());
+                }
+            });
+        }
+    }
+
+    // metodo che restituisce un boolean che indica se l'account è già presente in Firestore
+    private boolean exists(FirebaseUser fUser){
+        boolean esiste = false;
+        for (String email : emails) {
+            if (fUser.getEmail().equals(email)){
+                esiste = true;
+                break;
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
-            }
-        });
+        }
+        return esiste;
     }
 
     // ends this activity (back arrow)
