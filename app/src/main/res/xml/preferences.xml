@@ -7,56 +7,29 @@
 
         <EditTextPreference
             android:dialogTitle="Your name"
-            android:dialogMessage="enter your full name"
+            android:dialogMessage="inserisci il tuo nome"
             android:inputType="textCapWords"
             android:key="key_full_name"
-            android:title="Name"
-            android:summary="Alessandro Angiolillo">
+            android:title="Nome"
+            android:summary="modifica il tuo nome">
         </EditTextPreference>
         <EditTextPreference
             android:dialogTitle="Your email"
-            android:dialogMessage="enter your email"
+            android:dialogMessage="inserisci la tua email"
             android:inputType="textEmailAddress"
             android:key="key_email"
             android:title="Email"
-            android:summary="angiolillo452@gmail.com">
+            android:summary="modifica la tua email">
+        </EditTextPreference>
+        <EditTextPreference
+            android:dialogTitle="Your profile"
+            android:dialogMessage="inserisci la nuova foto del profilo"
+            android:inputType="textEmailAddress"
+            android:key="key_email"
+            android:title="Foto profilo"
+            android:summary="modifica la tua foto profilo">
         </EditTextPreference>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="PLAYER">
-
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_timer"
-            android:title="Enable sleep_timer"
-            android:summary="Enable or disable sleep timer"
-            />
-        <ListPreference
-            android:dependency="enable_timer"
-            android:key="key_sleep_timer"
-            android:title="Sleep timer"
-            android:summary="Stop playing music after some time"
-            android:entries="@array/timerList"
-            android:entryValues="@array/timerListValues"
-            />
-
-        <ListPreference
-            android:key="key_music_quality"
-            android:title="Music Quality"
-            android:entries="@array/timerListValues"
-            android:entryValues="@array/musicQualityValues"
-            />
-
-        <MultiSelectListPreference
-            android:dialogTitle="Select all your options"
-            android:key="music_type"
-            android:title="Types of music"
-            android:summary="Press to show list"
-            android:entries="@array/typeOfMusic"
-            android:entryValues="@array/typesOfMusicValues"
-            />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -76,5 +49,56 @@
             android:dependency="enable_notification"
             />
     </PreferenceCategory>
+
+    <EditTextPreference
+        android:dialogTitle="Verify email"
+        android:dialogMessage="verifica la tua email"
+        android:inputType="textEmailAddress"
+        android:key="key_email"
+        android:title="Verifica email"
+        android:summary="verifica la tua email">
+    </EditTextPreference>
+
+    <EditTextPreference
+        android:dialogTitle="Change password"
+        android:dialogMessage="inserisci la tua nuova password"
+        android:inputType="textEmailAddress"
+        android:key="key_email"
+        android:title="Cambia password"
+        android:summary="modifica la tua password">
+    </EditTextPreference>
+
+    <EditTextPreference
+        android:dialogTitle="Logout"
+        android:dialogMessage=""
+        android:inputType="textEmailAddress"
+        android:key="key_email"
+        android:title="Logout"
+        android:summary="esegui il logout">
+    </EditTextPreference>
+
+    <EditTextPreference
+        android:dialogTitle="Delete account"
+        android:dialogMessage="elimina il tuo account"
+        android:inputType="textEmailAddress"
+        android:key="key_email"
+        android:title="Elimina account"
+        android:summary="elimina il tuo account">
+    </EditTextPreference>
+
+    <EditTextPreference
+        android:dialogTitle="Reset account"
+        android:dialogMessage="resetta il tuo account"
+        android:inputType="textEmailAddress"
+        android:key="key_email"
+        android:title="Reset account"
+        android:summary="resetta il tuo account">
+    </EditTextPreference>
+
+    <SwitchPreference
+        android:key="enable_dark_theme"
+        android:editable="true"
+        android:title="Tema scuro"
+        />
 
 </PreferenceScreen>
