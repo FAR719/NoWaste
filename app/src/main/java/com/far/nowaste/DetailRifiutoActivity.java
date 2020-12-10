@@ -12,6 +12,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,19 +40,26 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     // firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    FirebaseUser fUser;
 
     Rifiuto rifiuto;
     Utente utente;
-    FirebaseUser fUser;
 
+    // view
     TextView nomeTextView;
     TextView materialeTextView;
     TextView descrizioneTextView;
     TextView punteggioTextView;
     ImageView immagineImageView;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton addBtn;
+    FloatingActionButton checkBtn;
 
+    // nome rifiuto
     String stringName;
+
+    // animazioni
+    boolean isMenuOpen;
+    OvershootInterpolator interpolator = new OvershootInterpolator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,20 +87,14 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         descrizioneTextView = findViewById(R.id.detailRifiuto_descrizioneTextView);
         punteggioTextView = findViewById(R.id.detailRifiuto_punteggioTextView);
         immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
-        floatingActionButton = findViewById(R.id.detailRifiuto_addFloatingActionButton);
-        floatingActionButton.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
+
+        // imposta l'animazione del floating button
+        initFloatingMenu();
 
         // associazione firebase
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadPunteggio();
-            }
-        });
     }
 
     @Override
@@ -177,6 +180,46 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             });
         } else {
             Toast.makeText(DetailRifiutoActivity.this, "Devi accedere per memorizzare i tuoi progressi!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initFloatingMenu() {
+        // associa le view e imposta le icone bianche
+        addBtn = findViewById(R.id.detailRifiuto_addFloatingActionButton);
+        checkBtn = findViewById(R.id.detailRifiuto_checkFloatingActionButton);
+        addBtn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        checkBtn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
+
+        checkBtn.setAlpha(0f);
+        checkBtn.setTranslationY(100f);
+        checkBtn.setScaleX(0.7f);
+        checkBtn.setScaleY(0.7f);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateFloatingMenu();
+            }
+        });
+
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPunteggio();
+                animateFloatingMenu();
+            }
+        });
+    }
+
+    private void animateFloatingMenu(){
+        if(isMenuOpen){
+            addBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+            checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+            isMenuOpen = false;
+        } else {
+            addBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+            checkBtn.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+            isMenuOpen = true;
         }
     }
 
