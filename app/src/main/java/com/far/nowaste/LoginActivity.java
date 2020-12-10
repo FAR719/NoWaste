@@ -50,8 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
     EditText mEmail, mPassword;
-    Button mLoginBtn;
-    TextView mResetBtn, mRegisterBtn;
+    Button mLoginBtn, mResendBtn;
+    TextView mResetBtn, mRegisterBtn, mWarning;
     SignInButton mGoogleBtn;
     ProgressBar progressBar;
 
@@ -85,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         mGoogleBtn = findViewById(R.id.googleButton);
         mRegisterBtn = findViewById(R.id.lRegisterTextView);
+        mWarning = findViewById(R.id.warningTextView);
+        mResendBtn = findViewById(R.id.sendEmailButton);
 
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -95,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
+                // controlla le info aggiunte
                 if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Inserisci la tua email.");
                     return;
@@ -118,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Login completato.", Toast.LENGTH_SHORT).show();
-                            finish();
+                            verificaEmail();
                         } else {
                             Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
@@ -171,6 +174,24 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
+
+        mResendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -195,8 +216,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         } else {
-            finish();
+            verificaEmail();
         }
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
+                fAuth.signOut();
+            }
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // Configure Google Sign In
@@ -287,14 +321,21 @@ public class LoginActivity extends AppCompatActivity {
         return esiste;
     }
 
-    // ends this activity (back arrow)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            this.finish();
+    // non accedere se la mail non è stata verificata
+    private void verificaEmail(){
+        FirebaseUser fUser = fAuth.getCurrentUser();
+        if (fUser.isEmailVerified()){
+            finish();
+        } else {
+            mEmail.setVisibility(View.GONE);
+            mPassword.setVisibility(View.GONE);
+            mLoginBtn.setVisibility(View.GONE);
+            mResetBtn.setVisibility(View.GONE);
+            mGoogleBtn.setVisibility(View.GONE);
+            mRegisterBtn.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            mWarning.setVisibility(View.VISIBLE);
+            mResendBtn.setVisibility(View.VISIBLE);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
