@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_drawerlayout"
-    tools:context=".MainActivity"
-    tools:openDrawer="start">
+    tools:context=".MainActivity">
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
@@ -47,18 +46,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/main_frame_layout"
-            android:layout_below="@+id/main_appBarLayout"/>
+            android:layout_below="@+id/main_appBarLayout">
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/map_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
-            <fragment
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/google_map"
-                android:name="com.google.android.gms.maps.SupportMapFragment" />
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/google_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/gpsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_gps_fixed" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </FrameLayout>
 
     </RelativeLayout>

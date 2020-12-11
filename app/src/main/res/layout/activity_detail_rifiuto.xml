@@ -85,6 +85,7 @@
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/nunito_semibold"
             android:text="Punteggio"
+            android:paddingBottom="2dp"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/detailRifiuto_materialeTextView" />
@@ -94,9 +95,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/basil"
             android:clickable="true"
             android:focusable="true"
+            app:backgroundTint="@color/basil"
             app:layout_constraintBottom_toTopOf="@+id/detailRifiuto_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/detailRifiuto_addFloatingActionButton"
             app:srcCompat="@drawable/ic_check" />
@@ -109,7 +110,7 @@
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:backgroundTint="@color/basil"
+            app:backgroundTint="@color/basil"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add" />

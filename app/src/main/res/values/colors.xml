@@ -27,18 +27,14 @@
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 
-    <color name="colorPrimary">#024265</color>
-    <color name="colorPrimaryDark">#024265</color>
-    <color name="colorAccent">#05af9b</color>
-
-    <color name="color_one">#fb7268</color>
-    <color name="color_white">#ededf2</color>
-    <color name="color_two">#E3E0E0</color>
-
-    <color name="Plastica">#FFA726</color>
-    <color name="Python">#66BB6A</color>
-    <color name="CPP">#EF5350</color>
-    <color name="Java">#29B6F6</color>
+    <color name="plastica">#FFA726</color>
+    <color name="organico">#66BB6A</color>
+    <color name="secco">#EF5350</color>
+    <color name="carta">#29B6F6</color>
+    <color name="vetro">@color/search_hint_text</color>
+    <color name="metalli">#05af9b</color>
+    <color name="elettrici">#024265</color>
+    <color name="speciali">@color/purple_200</color>
 
 
     <!--SearchView colors-->

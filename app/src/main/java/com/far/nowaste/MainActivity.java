@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FrameLayout mapFrameLayout;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    FloatingActionButton gpsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // frame
         mainFrameLayout = findViewById(R.id.main_frame_layout);
         mapFrameLayout = findViewById(R.id.map_frame_layout);
+
+        // gpsBtn
+        gpsBtn = findViewById(R.id.gpsButton);
+        gpsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCurrentLocation();
+            }
+        });
+
 
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +230,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_curiosita:
-                startActivity(new Intent(getApplicationContext(), GraficoTorta.class));
-                /*if (fragment != 3) {
+                if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
                     currentFragment = new CuriositaFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
@@ -230,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         client = null;
                     }
                     fragment = 3;
-                }*/
+                }
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {
@@ -313,6 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // onclick logout button
     public void logout(View view) {
+        fStore.terminate();
         fAuth.signOut();
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
         mEmail.setText("Accedi al tuo account");

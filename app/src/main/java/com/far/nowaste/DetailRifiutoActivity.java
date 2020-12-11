@@ -110,7 +110,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 nomeTextView.setText(rifiuto.getNome());
                 materialeTextView.setText(rifiuto.getMateriale());
                 descrizioneTextView.setText(rifiuto.getDescrizione());
-                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sup><small>2</small></sup>"));
+                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sub><small><small>2</small></small></sub>"));
                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
             }
         });
