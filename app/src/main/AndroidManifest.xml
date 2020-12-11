@@ -11,11 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
-        <activity android:name=".ImpostazioniActivity" />
-        <activity android:name=".ContattaciActivity" />
-        <activity android:name=".LuoghiActivity" />
-        <activity android:name=".CalendarioActivity" />
-        <activity android:name=".CuriositaActivity" />
+        <activity android:name=".GraficoTorta" />
         <activity android:name=".UserInfoActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

@@ -223,9 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 homeFragment = true;
                 break;
             case R.id.nav_curiosita:
-                currentFragment = new CuriositaFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                startActivity(new Intent(getApplicationContext(), GraficoTorta.class));
                 break;
             case R.id.nav_calendario:
                 currentFragment = new CalendarioFragment();

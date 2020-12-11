@@ -2,6 +2,7 @@ package com.far.nowaste;
 
 
 // Import the required libraries
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,14 +35,16 @@ public class GraficoTorta extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseUser user;
-
-
+    Utente utente;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.grafico_layout);
+
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        user = fAuth.getCurrentUser();
 
         // Link those objects with their
         // respective id's that
@@ -54,47 +59,43 @@ public class GraficoTorta extends AppCompatActivity {
         tvSpeciali = findViewById(R.id.tvSpeciali);
         pieChart = findViewById(R.id.piechart);
 
+        setData();
+    }
+
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+        //prendo i punteggi dell' utente
+        fStore.collection("utente").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                utente = value.toObject(Utente.class);
+            }
+        });
+
         // Creating a method setData()
         // to set the text in text view and pie chart
         setData();
+    }*/
 
-        //prendo i punteggi dell' utente
-        fStore.collection("utente").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>(){
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                double plastica = value.getDouble("pPlastica");
-                double indifferenziata = value.getDouble("pIndifferenziata");
-                double organico = value.getDouble("pOrganico");
-                double secco = value.getDouble("pSecco");
-                double vetro = value.getDouble("pVetro");
-                double metalli = value.getDouble("pMetalli");
-                double elettrici = value.getDouble("pElettrici");
-                double speciali = value.getDouble("pSpeciali");
+    private void setData() {
+        /*tvR.setText(((int) utente.getpPlastica()) + "");
+        tvPython.setText((int) utente.getpIndifferenziata());
+        tvCPP.setText((int) utente.getpOrganico());
+        tvJava.setText((int) utente.getpIndifferenziata());
+        tvVetro.setText((int) utente.getpVetro());
+        tvMetalli.setText((int) utente.getpMetalli());
+        tvElettrici.setText((int) utente.getpElettrici());
+        tvSpeciali.setText((int) utente.getpSpeciali());*/
 
-                tvR.setText((int) plastica);
-                tvPython.setText((int)indifferenziata);
-                tvCPP.setText((int)organico);
-                tvJava.setText((int)secco);
-                tvVetro.setText((int)vetro);
-                tvMetalli.setText((int)metalli);
-                tvElettrici.setText((int)elettrici);
-                tvSpeciali.setText((int)speciali);
-            }
-        });
-    }
-
-    private void setData()
-    {
-
-        // Set the percentage of language used
-        tvR.setText(Integer.toString(40));
-        tvPython.setText(Integer.toString(30));
-        tvCPP.setText(Integer.toString(5));
-        tvJava.setText(Integer.toString(25));
-        tvVetro.setText(Integer.toString(5));
-        tvMetalli.setText(Integer.toString(9));
-        tvElettrici.setText(Integer.toString(8));
-        tvSpeciali.setText(Integer.toString(17));
+        tvR.setText("10");
+        tvPython.setText("10");
+        tvCPP.setText("10");
+        tvJava.setText("10");
+        tvVetro.setText("10");
+        tvMetalli.setText("10");
+        tvElettrici.setText("10");
+        tvSpeciali.setText("10");
 
         // Set the data and color to the pie chart
         pieChart.addPieSlice(
