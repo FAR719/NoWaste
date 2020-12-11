@@ -1,17 +1,13 @@
 package com.far.nowaste;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -24,38 +20,36 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class LuoghiFragmentt extends Fragment {
+public class Mappa {
+
     // variabaili
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    Context context;
+    Activity activity;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_luoghi, container, false);
+    public Mappa(SupportMapFragment supportMapFragment, Context context, Activity activity){
+        this.supportMapFragment = supportMapFragment;
+        this.client = LocationServices.getFusedLocationProviderClient(context);
+        this.context = context;
+        this.activity = activity;
+    }
 
-        supportMapFragment = MainActivity.getSupportMapFragment();
-
-
-        // inizializzazione FusedLocation
-        client = LocationServices.getFusedLocationProviderClient(getContext());
-
+    public void createMap(){
         // Check permessi
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // permesso concesso
             getCurrentLocation();
         } else {
             // permesso negato
             // RICHIESTA PERMESSO
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
-
-        return view;
     }
 
-    public void getCurrentLocation() {
+    private void getCurrentLocation() {
         // permessi per usare getLastLocation
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
