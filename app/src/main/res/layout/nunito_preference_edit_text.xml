@@ -12,7 +12,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="17dp"
         android:fontFamily="@font/nunito_semibold"
-        android:textColor="@color/search_primary_text"
+        android:textColor="@color/preference_title_text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

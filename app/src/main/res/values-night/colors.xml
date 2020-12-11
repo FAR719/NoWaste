@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Theme colors-->
-    <color name="primary">#1F1F1F</color>
+    <color name="primary">#232D36</color>
     <color name="primary_variant">#000001</color>
-    <color name="background">#121212</color>
+    <color name="background">#101D25</color>
     <color name="error">@color/cinnamon_satin</color>
+
+    <!--Precedenti-->
+    <!--1F1F1F-->
+    <!--121212-->
+
+    <!--Google Play-->
+    <!--313537-->
+    <!--202125-->
+
+    <!--Whatsapp-->
+    <!--232D36-->
+    <!--101D25-->
+
+    <color name="disabled_gray">#3F4952</color>
 
     <!--SearchView colors-->
     <color name="search_background">#1B1B1B</color>

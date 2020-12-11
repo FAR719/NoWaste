@@ -16,7 +16,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        app:itemTextAppearance="@style/NunitoSemiboldTextViewStyle" />
+        android:theme="@style/NunitoNavigationView" />
 
     <RelativeLayout
         android:layout_width="match_parent"

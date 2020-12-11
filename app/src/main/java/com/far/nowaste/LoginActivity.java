@@ -1,7 +1,6 @@
 package com.far.nowaste;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button mLoginBtn, mResendBtn;
     TextView mResetBtn, mRegisterBtn, mWarning;
-    SignInButton mGoogleBtn;
+    Button mGoogleBtn;
     ProgressBar progressBar;
 
     FirebaseFirestore fStore;

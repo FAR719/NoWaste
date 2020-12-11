@@ -97,12 +97,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
-        <com.google.android.gms.common.SignInButton
+        <Button
             android:id="@+id/googleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Accedi con Google"
+            android:textAllCaps="false"
+            android:drawableLeft="@drawable/ic_google"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/quantum_grey_600"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/nunito"
+            android:elevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/resetPassTextView" />

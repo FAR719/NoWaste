@@ -17,10 +17,13 @@
     <color name="cinnamon_satin">#cf6679</color>
     <color name="mine_shaft">#272727</color>
     <color name="transparent">#00000000</color>
+    <color name="disabled_gray">#D4D4D4</color>
 
     <!--Theme colors-->
     <color name="primary">@color/basil</color>
     <color name="primary_variant">@color/pine</color>
+    <color name="secodary">@color/basil</color>
+    <color name="secondary_variant">@color/pine</color>
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 

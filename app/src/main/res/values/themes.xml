@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/primary_variant</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/basil</item>
-        <item name="colorSecondaryVariant">@color/pine</item>
+        <item name="colorSecondary">@color/secodary</item>
+        <item name="colorSecondaryVariant">@color/secondary_variant</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/primary</item>
@@ -29,16 +29,19 @@
     <style name="CustomHeaderTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
         <item name="fontFamily">@font/nunito_bold</item>
         <item name="textAllCaps">true</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="CustomWeekdayTextAppearance" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
-        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="fontFamily">@font/nunito</item>
+        <item name="android:textSize">10sp</item>
+        <item name="textAllCaps">true</item>
     </style>
 
     <style name="CustomDateTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/mcv_text_date_light</item>
         <item name="fontFamily">@font/nunito</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!--Toolbar Title theme. -->
@@ -46,8 +49,8 @@
         <item name="fontFamily">@font/nunito</item>
     </style>
 
-    <!--Navigation View items theme.-->
-    <style name="NunitoSemiboldTextViewStyle" parent="android:Widget.TextView">
-        <item name="fontFamily">@font/nunito_semibold</item>
+    <!--Navigation View theme.-->
+    <style name="NunitoNavigationView">
+        <item name="fontFamily">@font/nunito</item>
     </style>
 </resources>
