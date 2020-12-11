@@ -6,15 +6,19 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +30,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,8 +74,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Fragment currentFragment;
     ImpostazioniFragment impostazioniFragment;
 
-    FrameLayout mapFrame_layout;
+    FrameLayout mainFrameLayout;
+    FrameLayout mapFrameLayout;
     SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fAuth = FirebaseAuth.getInstance();
 
+        // frame
+        mainFrameLayout = findViewById(R.id.main_frame_layout);
+        mapFrameLayout = findViewById(R.id.map_frame_layout);
+
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     mToolbar.setTitle("Profilo");
                     currentFragment = new DetailUserFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 2;
                     if (currentFragment != null && impostazioniFragment != null){
                         getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
@@ -116,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }
@@ -186,53 +205,98 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_home:
                 if (fragment != 1) {
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        supportMapFragment = null;
+                        client = null;
+                    }
                     mToolbar.setTitle("NoWaste");
                     currentFragment = new HomeFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 1;
                 }
                 break;
             case R.id.nav_curiosita:
                 if (fragment != 3) {
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        supportMapFragment = null;
+                        client = null;
+                    }
                     mToolbar.setTitle("Curiosità");
                     currentFragment = new CuriositaFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 3;
                 }
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        supportMapFragment = null;
+                        client = null;
+                    }
                     mToolbar.setTitle("Calendario");
                     currentFragment = new CalendarioFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 4;
                 }
                 break;
             case R.id.nav_luoghi:
                 //
                 if (fragment != 5) {
-                    mToolbar.setTitle("Contattaci");
-                    mapFrame_layout.setVisibility(View.VISIBLE);
+                    mToolbar.setTitle("Luoghi");
+
+                    mainFrameLayout.setVisibility(View.GONE);
+                    mapFrameLayout.setVisibility(View.VISIBLE);
+
+                    // assegnazione variabile
                     supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-                    Mappa mappa = new Mappa(supportMapFragment, getApplicationContext(), MainActivity.this);
-                    mappa.createMap();
+
+                    // inizializzazione FusedLocation
+                    client = LocationServices.getFusedLocationProviderClient(this);
+
+                    // Check permessi
+                    if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        // permesso concesso
+                        getCurrentLocation();
+                    } else {
+                        // permesso negato
+                        // RICHIESTA PERMESSO
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+                    }
                     fragment = 5;
                 }
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        supportMapFragment = null;
+                        client = null;
+                    }
                     mToolbar.setTitle("Contattaci");
                     currentFragment = new ContattaciFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 6;
                 }
                 break;
             case R.id.nav_impostazioni:
                 if (fragment != 7) {
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        supportMapFragment = null;
+                        client = null;
+                    }
                     mToolbar.setTitle("Impostazioni");
                     impostazioniFragment = new ImpostazioniFragment();
                     getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, impostazioniFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.main_frame_layout, impostazioniFragment).commit();
                     currentFragment = null;
                     fragment = 7;
                 }
@@ -256,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mImage.setImageDrawable(defaultImage);
         mToolbar.setTitle("NoWaste");
         currentFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
         fragment = 1;
     }
 
@@ -269,18 +333,73 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mToolbar.setTitle("NoWaste");
             getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
             currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             impostazioniFragment = null;
             fragment = 1;
         } else if(fragment != 1){
+            if (fragment == 5) {
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mapFrameLayout.setVisibility(View.GONE);
+                supportMapFragment = null;
+                client = null;
+            }
             mToolbar.setTitle("NoWaste");
             currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }else {
             super.onBackPressed();
+        }
+    }
+
+    private void getCurrentLocation() {
+        // permessi per usare getLastLocation
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        // Inizializzazione task Location
+        Task<Location> task = client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Se ha successo
+
+                if(location != null){
+                    // Sincronizza Mappa
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            // inizializzazione Latitudine e Longitudine
+                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+
+                            // marker per segnalare la posizione attuale
+                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sono qui!");
+
+                            // Zoom Mappa
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+
+                            // aggiungere il marker sulla mappa
+                            googleMap.addMarker(markerOptions);
+                        }
+                    });
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 44){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //Quando Permesso concesso
+                getCurrentLocation();
+            }
         }
     }
 }

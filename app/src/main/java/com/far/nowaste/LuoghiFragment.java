@@ -34,7 +34,7 @@ public class LuoghiFragment extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_luoghi);
+        //setContentView(R.layout.fragment_luoghi);
 
         // assegnazione variabile
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
