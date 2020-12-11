@@ -21,6 +21,7 @@
 
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".LuoghiFragment" />
         <activity android:name=".ListaSearchActivity" />
         <activity android:name=".DetailRifiutoActivity" />
         <activity android:name=".ListaCardActivity" />

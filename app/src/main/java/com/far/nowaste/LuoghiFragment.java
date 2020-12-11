@@ -57,13 +57,6 @@ public class LuoghiFragment extends AppCompatActivity {
     private void getCurrentLocation() {
         // permessi per usare getLastLocation
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
 
@@ -86,7 +79,7 @@ public class LuoghiFragment extends AppCompatActivity {
                             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sono qui!");
 
                             // Zoom Mappa
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
 
                             // aggiungere il marker sulla mappa
                             googleMap.addMarker(markerOptions);
