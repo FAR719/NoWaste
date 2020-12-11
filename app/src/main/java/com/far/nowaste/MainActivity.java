@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Fragment currentFragment;
     ImpostazioniFragment impostazioniFragment;
 
+    // variabili mappa
     FrameLayout mainFrameLayout;
     FrameLayout mapFrameLayout;
     SupportMapFragment supportMapFragment;
@@ -205,43 +206,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_home:
                 if (fragment != 1) {
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        supportMapFragment = null;
-                        client = null;
-                    }
                     mToolbar.setTitle("NoWaste");
                     currentFragment = new HomeFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        client = null;
+                    }
                     fragment = 1;
                 }
                 break;
             case R.id.nav_curiosita:
                 if (fragment != 3) {
+                    mToolbar.setTitle("Curiosità");
+                    currentFragment = new CuriositaFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
                         supportMapFragment = null;
                         client = null;
                     }
-                    mToolbar.setTitle("Curiosità");
-                    currentFragment = new CuriositaFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 3;
                 }
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {
+                    mToolbar.setTitle("Calendario");
+                    currentFragment = new CalendarioFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
                         supportMapFragment = null;
                         client = null;
                     }
-                    mToolbar.setTitle("Calendario");
-                    currentFragment = new CalendarioFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 4;
                 }
                 break;
@@ -273,31 +273,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
+                    mToolbar.setTitle("Contattaci");
+                    currentFragment = new ContattaciFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
                         supportMapFragment = null;
                         client = null;
                     }
-                    mToolbar.setTitle("Contattaci");
-                    currentFragment = new ContattaciFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
                     fragment = 6;
                 }
                 break;
             case R.id.nav_impostazioni:
                 if (fragment != 7) {
+                    mToolbar.setTitle("Impostazioni");
+                    impostazioniFragment = new ImpostazioniFragment();
+                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.main_frame_layout, impostazioniFragment).commit();
+                    currentFragment = null;
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
                         supportMapFragment = null;
                         client = null;
                     }
-                    mToolbar.setTitle("Impostazioni");
-                    impostazioniFragment = new ImpostazioniFragment();
-                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-                    getFragmentManager().beginTransaction().replace(R.id.main_frame_layout, impostazioniFragment).commit();
-                    currentFragment = null;
                     fragment = 7;
                 }
                 break;
@@ -338,16 +338,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             impostazioniFragment = null;
             fragment = 1;
         } else if(fragment != 1){
+            mToolbar.setTitle("NoWaste");
+            currentFragment = new HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+            navigationView.setCheckedItem(R.id.nav_home);
             if (fragment == 5) {
                 mainFrameLayout.setVisibility(View.VISIBLE);
                 mapFrameLayout.setVisibility(View.GONE);
                 supportMapFragment = null;
                 client = null;
             }
-            mToolbar.setTitle("NoWaste");
-            currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }else {
             super.onBackPressed();
