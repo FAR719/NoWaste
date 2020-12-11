@@ -7,13 +7,30 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-public class LuoghiFragment extends Fragment {
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_luoghi, container, false);
-        return view;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.SupportMapFragment;
+
+public class LuoghiFragment extends AppCompatActivity {
+
+    // variabaili
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_luoghi);
+
+        // assegnazione variabile
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
+
+        // inizializzazione FusedLocation
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+
     }
+
 }
