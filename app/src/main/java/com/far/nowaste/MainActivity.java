@@ -218,7 +218,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_curiosita:
-                if (fragment != 3) {
+                startActivity(new Intent(getApplicationContext(), GraficoTorta.class));
+                /*if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
                     currentFragment = new CuriositaFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
@@ -229,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         client = null;
                     }
                     fragment = 3;
-                }
+                }*/
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {

@@ -20,6 +20,7 @@
             android:value="AIzaSyAEzpKkhJ9VfLZ2iG15iQeDPWAdzgNE5DA"/>
 
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".GraficoTorta" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".LuoghiFragment" />
         <activity android:name=".ListaSearchActivity" />
