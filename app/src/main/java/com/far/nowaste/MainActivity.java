@@ -192,10 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 homeFragment = false;
                 break;
             case R.id.nav_luoghi:
-                mToolbar.setTitle("Luoghi");
-                currentFragment = new LuoghiFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                homeFragment = false;
+                startActivity(new Intent(getApplicationContext(), LuoghiFragment.class));
                 break;
             case R.id.nav_contattaci:
                 mToolbar.setTitle("Contattaci");
