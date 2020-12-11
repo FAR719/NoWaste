@@ -205,12 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_luoghi:
-                if (fragment != 5) {
-                    mToolbar.setTitle("Luoghi");
-                    currentFragment = new LuoghiFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, currentFragment).commit();
-                    fragment = 5;
-                }
+                startActivity(new Intent(getApplicationContext(), LuoghiFragment.class));
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
