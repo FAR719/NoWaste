@@ -187,8 +187,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         // associa le view e imposta le icone bianche
         addBtn = findViewById(R.id.detailRifiuto_addFloatingActionButton);
         checkBtn = findViewById(R.id.detailRifiuto_checkFloatingActionButton);
-        addBtn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
-        checkBtn.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
 
         checkBtn.setAlpha(0f);
         checkBtn.setTranslationY(100f);
@@ -218,7 +216,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             isMenuOpen = false;
         } else {
             addBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
-            checkBtn.animate().translationY(0f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+            checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
             isMenuOpen = true;
         }
     }

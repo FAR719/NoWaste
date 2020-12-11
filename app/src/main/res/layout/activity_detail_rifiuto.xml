@@ -97,7 +97,9 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
+            app:tint="@color/white"
             app:backgroundTint="@color/basil"
+            app:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/detailRifiuto_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/detailRifiuto_addFloatingActionButton"
             app:srcCompat="@drawable/ic_check" />
@@ -110,7 +112,9 @@
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:focusable="true"
+            app:tint="@color/white"
             app:backgroundTint="@color/basil"
+            app:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add" />

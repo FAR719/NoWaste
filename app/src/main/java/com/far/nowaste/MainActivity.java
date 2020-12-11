@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
     FloatingActionButton gpsBtn;
+    OvershootInterpolator interpolator = new OvershootInterpolator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,13 +392,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
 
                             // marker per segnalare la posizione attuale
-                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sono qui!");
+                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sei qui!");
 
                             // Zoom Mappa
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
 
                             // aggiungere il marker sulla mappa
                             googleMap.addMarker(markerOptions);
+                            
+                            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
+                                    return false;
+                                }
+                            });
+
+                            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                                @Override
+                                public void onMapClick(LatLng latLng) {
+                                    gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
+                                }
+                            });
                         }
                     });
                 }
