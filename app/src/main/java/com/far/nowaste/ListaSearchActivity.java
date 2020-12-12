@@ -19,8 +19,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ListaSearchActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class ListaSearchActivity extends AppCompatActivity {
     RecyclerView mFirestoreList;
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
+    TextView noResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,10 @@ public class ListaSearchActivity extends AppCompatActivity {
         // to launch the activity
         Intent in = getIntent();
 
-        // recyclerView + FireBase
+        // recyclerView + FireBase + noResultTextView
         mFirestoreList = findViewById(R.id.listaSearch_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        noResult = findViewById(R.id.noResultTextView);
 
         // variabile passata
         String stringName = in.getStringExtra("com.far.nowaste.SEARCH_QUERY");
@@ -59,6 +65,23 @@ public class ListaSearchActivity extends AppCompatActivity {
 
         // query
         Query query = firebaseFirestore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                boolean ciSonoRisultati = false;
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ciSonoRisultati = true;
+                    }
+                }
+                if (!ciSonoRisultati) {
+                    mFirestoreList.setVisibility(View.GONE);
+                    noResult.setText("Nessun risultato relativo a " + stringName);
+                    noResult.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();

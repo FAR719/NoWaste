@@ -21,9 +21,10 @@
 
     <!--Theme colors-->
     <color name="primary">@color/basil</color>
-    <color name="primary_variant">@color/pine</color>
-    <color name="secodary">@color/basil</color>
-    <color name="secondary_variant">@color/pine</color>
+    <color name="primary_light">#3c7e47</color>
+    <color name="primary_dark">@color/pine</color>
+    <color name="secondary">#00CB3F</color>
+    <color name="secondary_variant">#009900</color>
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 

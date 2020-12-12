@@ -157,11 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // onStart cambia i dati nell'header
     @Override
     protected void onStart() {
         super.onStart();
-
+        // cambia i dati nell'header
         if (fAuth.getCurrentUser() != null){
             fStore = FirebaseFirestore.getInstance();
             FirebaseUser user = fAuth.getCurrentUser();
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchItem = menu.findItem(R.id.m_search);
 
         // crea le animazioni
-        new SearchToolbarAnimation(mToolbar, mSearchItem,this, getResources()).setAnimation();
+        new SearchToolbarAnimation(drawerLayout, mToolbar, mSearchItem, getApplicationContext(), getResources()).setAnimation();
 
         //set queryListener searchView
         SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
@@ -213,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         return true;
     }
+
 
     // onclick sulla navigation
     @SuppressLint("NonConstantResourceId")
@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     // onclick logout button
     public void logout(View view) {
         fStore.terminate();
@@ -339,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
         fragment = 1;
     }
+
 
     // chiude la navigation quando premi back
     @Override
@@ -370,6 +372,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+    // metodi Maps
     private void getCurrentLocation() {
         // permessi per usare getLastLocation
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
