@@ -9,6 +9,7 @@
 
         <Preference
             app:key="login_preference"
+            app:icon="@drawable/ic_login"
             app:title="Accedi al tuo account"
             app:layout="@layout/nunito_preference_title"
             app:isPreferenceVisible="false">
@@ -19,6 +20,7 @@
 
         <EditTextPreference
             app:key="full_name_preference"
+            app:icon="@drawable/ic_alternate_email"
             app:title="Nome"
             app:summary="Modifica il tuo nome"
             app:layout="@layout/nunito_preference_title_summary"
@@ -27,12 +29,14 @@
 
         <Preference
             app:key="picture_preference"
+            app:icon="@drawable/ic_account_circle"
             app:title="Foto profilo"
             app:summary="Cambia la foto del tuo profilo"
             app:layout="@layout/nunito_preference_title_summary" />
 
         <EditTextPreference
             app:key="email_preference"
+            app:icon="@drawable/ic_email"
             app:title="Email"
             app:summary="Modifica la tua email"
             app:layout="@layout/nunito_preference_title_summary"
@@ -41,6 +45,7 @@
 
         <EditTextPreference
             app:key="password_preference"
+            app:icon="@drawable/ic_lock"
             app:title="Password"
             app:summary="Modifica la tua password"
             app:layout="@layout/nunito_preference_title_summary"
@@ -49,12 +54,14 @@
 
         <Preference
             app:key="logout_preference"
+            app:icon="@drawable/ic_logout"
             app:title="Logout"
             app:summary="Esci dal tuo account"
             app:layout="@layout/nunito_preference_title_summary" />
 
         <EditTextPreference
             app:key="reset_preference"
+            app:icon="@drawable/ic_data_usage"
             app:title="Cancella i dati del tuo account"
             app:layout="@layout/nunito_preference_title"
             app:dialogTitle="Cancella i dati del tuo account"
@@ -62,6 +69,7 @@
 
         <EditTextPreference
             app:key="delete_preference"
+            app:icon="@drawable/ic_delete"
             app:title="Elimina il tuo account"
             app:layout="@layout/nunito_preference_title"
             app:dialogTitle="Elimina il tuo account"
@@ -76,11 +84,13 @@
 
         <SwitchPreferenceCompat
             app:key="notification_preference"
+            app:icon="@drawable/ic_notifications"
             app:title="Notifiche"
             app:layout="@layout/nunito_preference_title_switch" />
 
         <ListPreference
             app:key="theme_preference"
+            app:icon="@drawable/ic_palette"
             app:title="Tema"
             app:summary="Selezionato"
             app:layout="@layout/nunito_preference_title_summary"
@@ -91,6 +101,7 @@
 
         <Preference
             app:key="version_preference"
+            app:icon="@drawable/ic_android"
             app:title="Versione di NoWaste"
             app:summary="Versione"
             app:layout="@layout/nunito_preference_title_summary" />
