@@ -85,8 +85,9 @@
             app:summary="Selezionato"
             app:layout="@layout/nunito_preference_title_summary"
             app:useSimpleSummaryProvider="true"
-            android:entries="@array/themeListPreferenceEntries"
-            android:entryValues="@array/themeListPreferenceEntryValues" />
+            app:entries="@array/themeListPreferenceEntries"
+            app:entryValues="@array/themeListPreferenceEntryValues"
+            app:defaultValue="Default" />
 
         <Preference
             app:key="version_preference"

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="themeListPreferenceEntries">
-        <item>"Chiaro"</item>
-        <item>"Scuro"</item>
-        <item>"Predefiinito di sistema"</item>
+        <item name="1">Chiaro</item>
+        <item name="2">Scuro</item>
+        <item name="3">Predefinito di sistema</item>
     </string-array>
 
     <string-array name="themeListPreferenceEntryValues">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
+        <item name="1">Light</item>
+        <item name="2">Dark</item>
+        <item name="3">Default</item>
     </string-array>
 </resources>
