@@ -8,6 +8,7 @@ import android.content.res.TypedArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.Window;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -16,14 +17,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 public class SearchToolbarAnimation {
 
-    DrawerLayout mDrawerLayout;
+    Window window;
     Toolbar mToolbar;
     MenuItem mSearchItem;
     Context context;
     Resources resources;
 
-    public SearchToolbarAnimation(DrawerLayout mDrawerLayout, Toolbar mToolbar, MenuItem mSearchItem, Context context, Resources resources){
-        this.mDrawerLayout = mDrawerLayout;
+    public SearchToolbarAnimation(Window window, Toolbar mToolbar, MenuItem mSearchItem, Context context, Resources resources){
+        this.window = window;
         this.mToolbar = mToolbar;
         this.mSearchItem = mSearchItem;
         this.context = context;
@@ -55,7 +56,6 @@ public class SearchToolbarAnimation {
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.search_background));
         mToolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.search_background));
-        // mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(context, R.color.search_background));
         Animator createCircularReveal;
         int width = mToolbar.getWidth() - (containsOverflow ? resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) - ((resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
         if (show) {
@@ -70,7 +70,6 @@ public class SearchToolbarAnimation {
                     super.onAnimationEnd(animation);
                     mToolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.primary));
                     mToolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.white));
-                    // mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(context, R.color.primary));
                 }
             });
         }

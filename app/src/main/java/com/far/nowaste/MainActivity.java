@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchItem = menu.findItem(R.id.m_search);
 
         // crea le animazioni
-        new SearchToolbarAnimation(drawerLayout, mToolbar, mSearchItem, getApplicationContext(), getResources()).setAnimation();
+        new SearchToolbarAnimation(getWindow(), mToolbar, mSearchItem, getApplicationContext(), getResources()).setAnimation();
 
         //set queryListener searchView
         SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
