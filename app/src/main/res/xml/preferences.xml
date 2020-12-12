@@ -1,115 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:key="user_category"
-        android:title="USER"
-        android:layout="@layout/nunito_preference_category">
+        app:key="profile_category"
+        app:title="Profilo"
+        app:layout="@layout/nunito_preference_category">
+
+        <Preference
+            app:key="key_login"
+            app:title="Accedi al tuo account"
+            app:layout="@layout/nunito_preference_title"
+            app:isPreferenceVisible="false">
+            <intent
+                android:targetPackage="com.far.nowaste"
+                android:targetClass="com.far.nowaste.LoginActivity"/>
+        </Preference>
 
         <EditTextPreference
-            android:dialogTitle="Your name"
-            android:dialogMessage="inserisci il tuo nome"
-            android:layout="@layout/nunito_preference_edit_text"
-            android:inputType="textCapWords"
-            android:key="key_full_name"
-            android:title="Nome"
-            android:summary="modifica il tuo nome">
-        </EditTextPreference>
+            app:key="key_full_name"
+            app:title="Nome"
+            app:summary="Modifica il tuo nome"
+            app:layout="@layout/nunito_preference_title_summary"
+            app:dialogTitle="Nome"
+            app:dialogMessage="Inserisci il tuo nome" />
+
+        <Preference
+            app:key="key_picture"
+            app:title="Foto profilo"
+            app:summary="Cambia la foto del tuo profilo"
+            app:layout="@layout/nunito_preference_title_summary" />
+
         <EditTextPreference
-            android:dialogTitle="Your email"
-            android:dialogMessage="inserisci la tua email"
-            android:layout="@layout/nunito_preference_edit_text"
-            android:inputType="textEmailAddress"
-            android:key="key_email"
-            android:title="Email"
-            android:summary="modifica la tua email">
-        </EditTextPreference>
+            app:key="key_email"
+            app:title="Email"
+            app:summary="Modifica la tua email"
+            app:layout="@layout/nunito_preference_title_summary"
+            app:dialogTitle="Email"
+            app:dialogMessage="Inserisci la tua nuova email" />
+
         <EditTextPreference
-            android:dialogTitle="Your profile"
-            android:dialogMessage="inserisci la nuova foto del profilo"
-            android:layout="@layout/nunito_preference_edit_text"
-            android:inputType="textEmailAddress"
-            android:key="key_email"
-            android:title="Foto profilo"
-            android:summary="modifica la tua foto profilo">
-        </EditTextPreference>
+            app:key="key_password"
+            app:title="Password"
+            app:summary="Modifica la tua password"
+            app:layout="@layout/nunito_preference_title_summary"
+            app:dialogTitle="Password"
+            app:dialogMessage="Inserisci la tua nuova password" />
+
+        <Preference
+            app:key="key_logout"
+            app:title="Logout"
+            app:summary="Esci dal tuo account"
+            app:layout="@layout/nunito_preference_title_summary" />
+
+        <EditTextPreference
+            app:key="key_reset"
+            app:title="Cancella i dati del tuo account"
+            app:layout="@layout/nunito_preference_title"
+            app:dialogTitle="Cancella i dati del tuo account"
+            app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
+
+        <EditTextPreference
+            app:key="key_delete"
+            app:title="Elimina il tuo account"
+            app:layout="@layout/nunito_preference_title"
+            app:dialogTitle="Elimina il tuo account"
+            app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="OTHER"
-        android:layout="@layout/nunito_preference_category">
+        app:key="other_category"
+        app:title="Altro"
+        app:layout="@layout/nunito_preference_category">
 
-        <SwitchPreference
-            android:key="enable_notification"
-            android:layout="@layout/nunito_preference_switch"
-            android:editable="true"
-            android:title="Push notification" />
+        <SwitchPreferenceCompat
+            app:key="enable_notification"
+            app:title="Notifiche"
+            app:layout="@layout/nunito_preference_title_switch" />
 
-        <RingtonePreference
-            android:key="key_notification_ringtone"
-            android:title="Notification ringtone"
-            android:summary="Choose notification sound"
-            android:layout="@layout/nunito_preference_edit_text"
-            android:ringtoneType="notification"
-            android:dependency="enable_notification" />
+        <SwitchPreferenceCompat
+            app:key="enable_dark_theme"
+            app:layout="@layout/nunito_preference_title_switch"
+            app:title="Tema scuro" />
+
     </PreferenceCategory>
-
-    <EditTextPreference
-        android:dialogTitle="Verify email"
-        android:dialogMessage="verifica la tua email"
-        android:layout="@layout/nunito_preference_edit_text"
-        android:inputType="textEmailAddress"
-        android:key="key_email"
-        android:title="Verifica email"
-        android:summary="verifica la tua email">
-    </EditTextPreference>
-
-    <EditTextPreference
-        android:dialogTitle="Change password"
-        android:dialogMessage="inserisci la tua nuova password"
-        android:layout="@layout/nunito_preference_edit_text"
-        android:inputType="textEmailAddress"
-        android:key="key_email"
-        android:title="Cambia password"
-        android:summary="modifica la tua password">
-    </EditTextPreference>
-
-    <EditTextPreference
-        android:dialogTitle="Logout"
-        android:dialogMessage=""
-        android:layout="@layout/nunito_preference_edit_text"
-        android:inputType="textEmailAddress"
-        android:key="key_email"
-        android:title="Logout"
-        android:summary="esegui il logout">
-    </EditTextPreference>
-
-    <EditTextPreference
-        android:dialogTitle="Delete account"
-        android:dialogMessage="elimina il tuo account"
-        android:layout="@layout/nunito_preference_edit_text"
-        android:inputType="textEmailAddress"
-        android:key="key_email"
-        android:title="Elimina account"
-        android:summary="elimina il tuo account">
-    </EditTextPreference>
-
-    <EditTextPreference
-        android:dialogTitle="Reset account"
-        android:dialogMessage="resetta il tuo account"
-        android:layout="@layout/nunito_preference_edit_text"
-        android:inputType="textEmailAddress"
-        android:key="key_email"
-        android:title="Reset account"
-        android:summary="resetta il tuo account">
-    </EditTextPreference>
-
-    <SwitchPreference
-        android:key="enable_dark_theme"
-        android:layout="@layout/nunito_preference_switch"
-        android:editable="true"
-        android:title="Tema scuro"
-        />
-
 </PreferenceScreen>

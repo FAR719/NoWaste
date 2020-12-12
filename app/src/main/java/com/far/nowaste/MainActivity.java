@@ -73,10 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
     int fragment;
 
-    // definizione Fragments
-    Fragment currentFragment;
-    ImpostazioniFragment impostazioniFragment;
-
     // variabili mappa
     FrameLayout mainFrameLayout;
     FrameLayout mapFrameLayout;
@@ -137,21 +133,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 } else {
                     mToolbar.setTitle("Profilo");
-                    currentFragment = new DetailUserFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
                     fragment = 2;
-                    if (currentFragment != null && impostazioniFragment != null){
-                        getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
-                        impostazioniFragment = null;
-                    }
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
 
         if (savedInstanceState == null) {
-            currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }
@@ -222,8 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 if (fragment != 1) {
                     mToolbar.setTitle("NoWaste");
-                    currentFragment = new HomeFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
@@ -235,8 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_curiosita:
                 if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
-                    currentFragment = new CuriositaFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new CuriositaFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
@@ -249,8 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_calendario:
                 if (fragment != 4) {
                     mToolbar.setTitle("Calendario");
-                    currentFragment = new CalendarioFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new CalendarioFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
@@ -261,10 +248,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_luoghi:
-                //
                 if (fragment != 5) {
                     mToolbar.setTitle("Luoghi");
-
                     mainFrameLayout.setVisibility(View.GONE);
                     mapFrameLayout.setVisibility(View.VISIBLE);
 
@@ -289,8 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_contattaci:
                 if (fragment != 6) {
                     mToolbar.setTitle("Contattaci");
-                    currentFragment = new ContattaciFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new ContattaciFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
@@ -303,10 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_impostazioni:
                 if (fragment != 7) {
                     mToolbar.setTitle("Impostazioni");
-                    impostazioniFragment = new ImpostazioniFragment();
-                    getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
-                    getFragmentManager().beginTransaction().replace(R.id.main_frame_layout, impostazioniFragment).commit();
-                    currentFragment = null;
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new ImpostazioniFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
                         mapFrameLayout.setVisibility(View.GONE);
@@ -318,10 +299,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
-        if (currentFragment != null && impostazioniFragment != null){
-            getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
-            impostazioniFragment = null;
-        }
         return true;
     }
 
@@ -336,8 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_nav_header_user);
         mImage.setImageDrawable(defaultImage);
         mToolbar.setTitle("NoWaste");
-        currentFragment = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
         fragment = 1;
     }
 
@@ -347,18 +323,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(fragment != 1 && impostazioniFragment != null){
-            mToolbar.setTitle("NoWaste");
-            getFragmentManager().beginTransaction().remove(impostazioniFragment).commit();
-            currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
-            impostazioniFragment = null;
-            fragment = 1;
         } else if(fragment != 1){
             mToolbar.setTitle("NoWaste");
-            currentFragment = new HomeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, currentFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             if (fragment == 5) {
                 mainFrameLayout.setVisibility(View.VISIBLE);
@@ -367,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 client = null;
             }
             fragment = 1;
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
