@@ -68,7 +68,7 @@ public class ListaCardActivity extends AppCompatActivity {
             @NonNull
             @Override
             public RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_recview_item_single, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_recycler_view_item_layout, parent, false);
                 return new RifiutoViewHolder(view);
             }
 

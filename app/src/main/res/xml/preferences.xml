@@ -5,13 +5,14 @@
     <PreferenceCategory
         app:key="profile_category"
         app:title="Profilo"
-        app:layout="@layout/nunito_preference_category">
+        app:layout="@layout/preference_category_item_layout">
 
         <Preference
             app:key="login_preference"
             app:icon="@drawable/ic_login"
-            app:title="Accedi al tuo account"
-            app:layout="@layout/nunito_preference_title"
+            app:title="Account"
+            app:summary="Accedi al tuo account"
+            app:layout="@layout/preference_item_layout"
             app:isPreferenceVisible="false">
             <intent
                 android:targetPackage="com.far.nowaste"
@@ -23,7 +24,7 @@
             app:icon="@drawable/ic_alternate_email"
             app:title="Nome"
             app:summary="Modifica il tuo nome"
-            app:layout="@layout/nunito_preference_title_summary"
+            app:layout="@layout/preference_item_layout"
             app:dialogTitle="Nome"
             app:dialogMessage="Inserisci il tuo nome" />
 
@@ -32,14 +33,14 @@
             app:icon="@drawable/ic_account_circle"
             app:title="Foto profilo"
             app:summary="Cambia la foto del tuo profilo"
-            app:layout="@layout/nunito_preference_title_summary" />
+            app:layout="@layout/preference_item_layout" />
 
         <EditTextPreference
             app:key="email_preference"
             app:icon="@drawable/ic_email"
             app:title="Email"
             app:summary="Modifica la tua email"
-            app:layout="@layout/nunito_preference_title_summary"
+            app:layout="@layout/preference_item_layout"
             app:dialogTitle="Email"
             app:dialogMessage="Inserisci la tua nuova email" />
 
@@ -48,7 +49,7 @@
             app:icon="@drawable/ic_lock"
             app:title="Password"
             app:summary="Modifica la tua password"
-            app:layout="@layout/nunito_preference_title_summary"
+            app:layout="@layout/preference_item_layout"
             app:dialogTitle="Password"
             app:dialogMessage="Inserisci la tua nuova password" />
 
@@ -57,21 +58,23 @@
             app:icon="@drawable/ic_logout"
             app:title="Logout"
             app:summary="Esci dal tuo account"
-            app:layout="@layout/nunito_preference_title_summary" />
+            app:layout="@layout/preference_item_layout" />
 
         <EditTextPreference
             app:key="reset_preference"
             app:icon="@drawable/ic_data_usage"
-            app:title="Cancella i dati del tuo account"
-            app:layout="@layout/nunito_preference_title"
+            app:title="Dati"
+            app:summary="Cancella i dati del tuo account"
+            app:layout="@layout/preference_item_layout"
             app:dialogTitle="Cancella i dati del tuo account"
             app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
 
         <EditTextPreference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
-            app:title="Elimina il tuo account"
-            app:layout="@layout/nunito_preference_title"
+            app:title="Account"
+            app:summary="Elimina il tuo account"
+            app:layout="@layout/preference_item_layout"
             app:dialogTitle="Elimina il tuo account"
             app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
 
@@ -80,20 +83,21 @@
     <PreferenceCategory
         app:key="other_category"
         app:title="Altro"
-        app:layout="@layout/nunito_preference_category">
+        app:layout="@layout/preference_category_item_layout">
 
         <SwitchPreferenceCompat
             app:key="notification_preference"
             app:icon="@drawable/ic_notifications"
+            app:summary="Ricevi le notifiche"
             app:title="Notifiche"
-            app:layout="@layout/nunito_preference_title_switch" />
+            app:layout="@layout/preference_switch_item_layout" />
 
         <ListPreference
             app:key="theme_preference"
             app:icon="@drawable/ic_palette"
             app:title="Tema"
             app:summary="Selezionato"
-            app:layout="@layout/nunito_preference_title_summary"
+            app:layout="@layout/preference_item_layout"
             app:useSimpleSummaryProvider="true"
             app:entries="@array/themeListPreferenceEntries"
             app:entryValues="@array/themeListPreferenceEntryValues"
@@ -104,7 +108,7 @@
             app:icon="@drawable/ic_android"
             app:title="Versione di NoWaste"
             app:summary="Versione"
-            app:layout="@layout/nunito_preference_title_summary" />
+            app:layout="@layout/preference_item_layout" />
 
     </PreferenceCategory>
 </PreferenceScreen>
