@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_nav_header_user" />
+        app:srcCompat="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/nameTextView"

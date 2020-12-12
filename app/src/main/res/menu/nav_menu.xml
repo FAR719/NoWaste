@@ -8,19 +8,19 @@
             <menu>
                 <item
                     android:id="@+id/nav_home"
-                    android:icon="@drawable/ic_nav_menu_home"
+                    android:icon="@drawable/ic_home"
                     android:title="@string/nav_menu_home" />
                 <item
                     android:id="@+id/nav_curiosita"
-                    android:icon="@drawable/ic_nav_menu_curiosita"
+                    android:icon="@drawable/ic_emoji_objects"
                     android:title="@string/nav_menu_curiosita"/>
                 <item
                     android:id="@+id/nav_calendario"
-                    android:icon="@drawable/ic_nav_menu_calendar"
+                    android:icon="@drawable/ic_date_range"
                     android:title="@string/nav_menu_calendario" />
                 <item
                     android:id="@+id/nav_luoghi"
-                    android:icon="@drawable/ic_nav_menu_place"
+                    android:icon="@drawable/ic_place"
                     android:title="@string/nav_menu_luoghi"/>
             </menu>
         </item>
@@ -29,11 +29,11 @@
             <menu>
                 <item
                     android:id="@+id/nav_contattaci"
-                    android:icon="@drawable/ic_nav_menu_contattaci"
+                    android:icon="@drawable/ic_forum"
                     android:title="@string/nav_menu_contattaci" />
                 <item
                     android:id="@+id/nav_impostazioni"
-                    android:icon="@drawable/ic_nav_menu_settings"
+                    android:icon="@drawable/ic_miscellaneous"
                     android:title="@string/nav_menu_impostazioni"/>
             </menu>
         </item>

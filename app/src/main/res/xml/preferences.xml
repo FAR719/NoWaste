@@ -63,7 +63,7 @@
         <EditTextPreference
             app:key="reset_preference"
             app:icon="@drawable/ic_data_usage"
-            app:title="Dati"
+            app:title="Reset dati"
             app:summary="Cancella i dati del tuo account"
             app:layout="@layout/preference_item_layout"
             app:dialogTitle="Cancella i dati del tuo account"
