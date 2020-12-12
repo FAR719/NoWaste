@@ -57,11 +57,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/basil"
+        android:backgroundTint="@color/secondary"
+        android:fontFamily="@font/nunito_semibold"
         android:onClick="logout"
         android:text="LOGOUT"
         android:textColor="@color/white"
-        android:fontFamily="@font/nunito_semibold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

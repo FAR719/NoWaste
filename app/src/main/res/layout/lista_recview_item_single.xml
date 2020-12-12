@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="18dp"
-    android:id="@+id/listaCardItem_constraintLayout">
+    android:id="@+id/listaRecViewItem_constraintLayout">
 
     <TextView
-        android:id="@+id/listaCardItem_nameTextView"
+        android:id="@+id/listaRecViewItem_nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome"
@@ -18,12 +18,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/listaCardItem_smaltimentoSingleTextView"
+        android:id="@+id/listaRecViewItem_smaltimentoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smaltimento"
         android:fontFamily="@font/nunito"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listaCardItem_nameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/listaRecViewItem_nameTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

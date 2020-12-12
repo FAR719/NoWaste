@@ -68,7 +68,7 @@ public class ListaCardActivity extends AppCompatActivity {
             @NonNull
             @Override
             public RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listacard_recview_item_single, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_recview_item_single, parent, false);
                 return new RifiutoViewHolder(view);
             }
 
@@ -106,9 +106,9 @@ public class ListaCardActivity extends AppCompatActivity {
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            rName = itemView.findViewById(R.id.listaCardItem_nameTextView);
-            rSmaltimento = itemView.findViewById(R.id.listaCardItem_smaltimentoSingleTextView);
-            itemLayout = itemView.findViewById(R.id.listaCardItem_constraintLayout);
+            rName = itemView.findViewById(R.id.listaRecViewItem_nameTextView);
+            rSmaltimento = itemView.findViewById(R.id.listaRecViewItem_smaltimentoTextView);
+            itemLayout = itemView.findViewById(R.id.listaRecViewItem_constraintLayout);
         }
     }
 

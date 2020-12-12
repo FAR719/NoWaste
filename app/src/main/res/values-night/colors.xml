@@ -4,14 +4,8 @@
     <color name="primary">#232D36</color>
     <color name="primary_light">#4b5660</color>
     <color name="primary_dark">#000210</color>
-    <color name="secondary">#007e6c</color>
-    <color name="secondary_variant">#02AE9A</color>
     <color name="background">#101D25</color>
     <color name="error">@color/cinnamon_satin</color>
-
-    <!--Precedenti-->
-    <!--1F1F1F-->
-    <!--121212-->
 
     <!--Google Play-->
     <!--313537-->

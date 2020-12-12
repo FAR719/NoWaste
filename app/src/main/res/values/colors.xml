@@ -23,8 +23,8 @@
     <color name="primary">@color/basil</color>
     <color name="primary_light">#4a9155</color>
     <color name="primary_dark">@color/pine</color>
-    <color name="secondary">@color/primary_light</color>
-    <color name="secondary_variant">#009900</color>
+    <color name="secondary">@color/basil</color>
+    <color name="secondary_variant">@color/primary_light</color>
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 
