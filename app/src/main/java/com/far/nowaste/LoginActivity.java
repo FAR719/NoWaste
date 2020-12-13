@@ -62,10 +62,15 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 101;
     List<String> emails;
 
+    // passaggio a fragment home
+    static boolean goHome = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        goHome = false;
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -324,6 +329,7 @@ public class LoginActivity extends AppCompatActivity {
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser.isEmailVerified()){
+            goHome = true;
             finish();
         } else {
             mEmail.setVisibility(View.GONE);

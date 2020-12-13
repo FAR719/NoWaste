@@ -133,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
+                    if (fragment == 5) {
+                        mainFrameLayout.setVisibility(View.VISIBLE);
+                        mapFrameLayout.setVisibility(View.GONE);
+                        client = null;
+                    }
                     fragment = 2;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -174,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
         }
+
+        checkFragmentRequest();
     }
 
     @Override
@@ -401,6 +408,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Quando Permesso concesso
                 getCurrentLocation();
             }
+        }
+    }
+
+    private void checkFragmentRequest(){
+        if(LoginActivity.goHome) {
+            mToolbar.setTitle("Profilo");
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
+            if (fragment == 5) {
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mapFrameLayout.setVisibility(View.GONE);
+                client = null;
+            }
+            fragment = 2;
         }
     }
 }

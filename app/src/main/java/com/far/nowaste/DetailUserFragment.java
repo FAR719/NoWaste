@@ -56,10 +56,6 @@ public class DetailUserFragment extends Fragment {
         mFullName = view.findViewById(R.id.nameTextView);
         mEmail = view.findViewById(R.id.emailTextView);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        user = fAuth.getCurrentUser();
-
         // view grafico a torta
         pieChart = view.findViewById(R.id.piechart);
         tvPlastica = view.findViewById(R.id.tvPlastica);
@@ -73,6 +69,15 @@ public class DetailUserFragment extends Fragment {
         tvCO = view.findViewById(R.id.c_o_tv);
 
         tvCO.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        user = fAuth.getCurrentUser();
 
         // imposta dati personali
         fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -99,7 +104,7 @@ public class DetailUserFragment extends Fragment {
                 setPieChartData(utente);
             }
         });
-        return view;
+        fStore.terminate();
     }
 
     private void setPieChartData(Utente utente) {

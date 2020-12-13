@@ -12,11 +12,7 @@
             app:icon="@drawable/ic_login"
             app:title="Account"
             app:summary="Accedi al tuo account"
-            app:layout="@layout/preference_item_layout"
-            app:isPreferenceVisible="false">
-            <intent
-                android:targetPackage="com.far.nowaste"
-                android:targetClass="com.far.nowaste.LoginActivity"/>
+            app:layout="@layout/preference_item_layout">
         </Preference>
 
         <EditTextPreference
