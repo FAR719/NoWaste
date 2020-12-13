@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Custom colors-->
+    <color name="disabled_gray">#3F4952</color>
+
     <!--Theme colors-->
     <color name="primary">#232D36</color>
     <color name="primary_light">#4b5660</color>
@@ -15,7 +18,7 @@
     <!--232D36-->
     <!--101D25-->
 
-    <color name="disabled_gray">#3F4952</color>
+    <color name="card_back_background">@color/primary</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>

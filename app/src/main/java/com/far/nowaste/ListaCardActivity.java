@@ -104,10 +104,9 @@ public class ListaCardActivity extends AppCompatActivity {
 
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
             rName = itemView.findViewById(R.id.recView_listaItem_nameTextView);
             rSmaltimento = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
-            itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,14 +50,15 @@ public class CuriositaFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull CuriositaFragment.CuriosityViewHolder holder, int position, @NonNull Curiosity model) {
-                // holder.rName.setText(model.getNome());
-                // holder.rSmaltimento.setText(model.getSmaltimento());
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                holder.titolo.setText(model.getTitolo());
+                holder.descrizione.setText(model.getDescrizione());
+                holder.etichetta.setText(model.getEtichetta());
+                /*holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                     }
-                });
+                });*/
             }
         };
 
@@ -65,22 +67,33 @@ public class CuriositaFragment extends Fragment {
         mFirestoreList.setLayoutManager(new LinearLayoutManager(getContext()));
         mFirestoreList.setAdapter(adapter);
 
-        // divider nella recyclerView
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        mFirestoreList.addItemDecoration(dividerItemDecoration);
-
         return view;
     }
 
     private class CuriosityViewHolder extends RecyclerView.ViewHolder{
 
         ConstraintLayout itemLayout;
+        TextView titolo, descrizione, etichetta;
 
         public CuriosityViewHolder(@NonNull View itemView) {
             super(itemView);
-
             itemLayout = itemView.findViewById(R.id.recView_curiosityItem_constraintLayout);
+            titolo = itemView.findViewById(R.id.recView_curiosityItem_titoloTextView);
+            descrizione = itemView.findViewById(R.id.recView_curiosityItem_descTextView);
+            etichetta = itemView.findViewById(R.id.recView_curiosityItem_etichettaTextView);
         }
     }
 
+    //start&stop listening
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }
