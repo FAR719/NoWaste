@@ -108,11 +108,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mEmail = header.findViewById(R.id.navHeader_emailTextView);
         mImage = header.findViewById(R.id.navHeader_userImageView);
 
-        fAuth = FirebaseAuth.getInstance();
-
         // frame
         mainFrameLayout = findViewById(R.id.main_frame_layout);
         mapFrameLayout = findViewById(R.id.map_frame_layout);
+
+        // firebase auth
+        fAuth = FirebaseAuth.getInstance();
 
         // gpsBtn
         gpsBtn = findViewById(R.id.gpsButton);
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // cambia i dati nell'header
         if (fAuth.getCurrentUser() != null){
             fStore = FirebaseFirestore.getInstance();
+            fAuth = FirebaseAuth.getInstance();
             FirebaseUser user = fAuth.getCurrentUser();
             fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -179,7 +181,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         checkFragmentRequest();
     }
 
@@ -310,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     // onclick logout button
-    public void logout(View view) {
+    public void logout() {
         fStore.terminate();
         fAuth.signOut();
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
@@ -412,7 +418,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkFragmentRequest(){
-        if(LoginActivity.goHome) {
+        if (LoginActivity.numFrag == 1) {
+            mToolbar.setTitle("NoWaste");
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+            if (fragment == 5) {
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mapFrameLayout.setVisibility(View.GONE);
+                client = null;
+            }
+            navigationView.setCheckedItem(R.id.nav_home);
+            fragment = 1;
+            logout();
+        } else if(LoginActivity.numFrag == 2) {
             mToolbar.setTitle("Profilo");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
             if (fragment == 5) {

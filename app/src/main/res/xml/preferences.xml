@@ -13,6 +13,9 @@
             app:title="Account"
             app:summary="Accedi al tuo account"
             app:layout="@layout/preference_item_layout">
+            <intent
+                android:targetPackage="com.far.nowaste"
+                android:targetClass="com.far.nowaste.LoginActivity"/>
         </Preference>
 
         <EditTextPreference

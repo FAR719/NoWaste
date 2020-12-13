@@ -63,14 +63,14 @@ public class LoginActivity extends AppCompatActivity {
     List<String> emails;
 
     // passaggio a fragment home
-    static boolean goHome = false;
+    static int numFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        goHome = false;
+        numFrag = 0;
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -284,7 +284,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Hai effettuato l'accesso come " + fUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             // crea utente in Firestore se non esiste
                             createFirestoreUser();
-                            goHome = false;
+                            numFrag = 2;
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -329,8 +329,11 @@ public class LoginActivity extends AppCompatActivity {
     // non accedere se la mail non è stata verificata
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
-        if (fUser.isEmailVerified()){
-            goHome = true;
+        if (ImpostazioniFragment.goHome) {
+            numFrag = 1;
+            finish();
+        } else if (fUser.isEmailVerified()){
+            numFrag = 2;
             finish();
         } else {
             mEmail.setVisibility(View.GONE);

@@ -1,7 +1,10 @@
 package com.far.nowaste;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -9,6 +12,11 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
@@ -27,6 +35,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     // firebase
     FirebaseAuth fAuth;
+
+    static boolean goHome;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -47,40 +57,21 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
         fAuth = FirebaseAuth.getInstance();
 
-        if (fAuth.getCurrentUser() == null) {
-            mLoginPreference.setVisible(true);
-            mFullNamePreference.setVisible(false);
-            mPicturePreference.setVisible(false);
-            mEmailPreference.setVisible(false);
-            mPasswordPreference.setVisible(false);
-            mLogOutPreference.setVisible(false);
-            mResetPreference.setVisible(false);
-            mDeletePreference.setVisible(false);
-        } else {
-            mLoginPreference.setVisible(false);
-            mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(true);
-            mEmailPreference.setVisible(true);
-            mPasswordPreference.setVisible(true);
-            mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
-            mDeletePreference.setVisible(true);
-        }
+        boolean isUserLogged = setVisiblePreferences();
+
+        mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                goHome = true;
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return true;
+            }
+        });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (fAuth.getCurrentUser() == null) {
-            mLoginPreference.setVisible(true);
-            mFullNamePreference.setVisible(false);
-            mPicturePreference.setVisible(false);
-            mEmailPreference.setVisible(false);
-            mPasswordPreference.setVisible(false);
-            mLogOutPreference.setVisible(false);
-            mResetPreference.setVisible(false);
-            mDeletePreference.setVisible(false);
-        } else {
+    private boolean setVisiblePreferences(){
+        boolean isUserLogged = (fAuth.getCurrentUser() != null);
+        if (isUserLogged) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mPicturePreference.setVisible(true);
@@ -89,6 +80,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
+        } else {
+            mLoginPreference.setVisible(true);
+            mFullNamePreference.setVisible(false);
+            mPicturePreference.setVisible(false);
+            mEmailPreference.setVisible(false);
+            mPasswordPreference.setVisible(false);
+            mLogOutPreference.setVisible(false);
+            mResetPreference.setVisible(false);
+            mDeletePreference.setVisible(false);
         }
+        return (isUserLogged);
     }
 }
