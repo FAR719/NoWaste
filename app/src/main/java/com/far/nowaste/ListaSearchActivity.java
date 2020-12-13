@@ -90,7 +90,7 @@ public class ListaSearchActivity extends AppCompatActivity {
             @NonNull
             @Override
             public ListaSearchActivity.RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_recycler_view_item_layout, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_lista_item_layout, parent, false);
                 return new ListaSearchActivity.RifiutoViewHolder(view);
             }
 
@@ -129,9 +129,9 @@ public class ListaSearchActivity extends AppCompatActivity {
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            rName = itemView.findViewById(R.id.listaRecViewItem_nameTextView);
-            rSmaltimento = itemView.findViewById(R.id.listaRecViewItem_smaltimentoTextView);
-            itemLayout = itemView.findViewById(R.id.listaRecViewItem_constraintLayout);
+            rName = itemView.findViewById(R.id.recView_listaItem_nameTextView);
+            rSmaltimento = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
+            itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
         }
     }
 

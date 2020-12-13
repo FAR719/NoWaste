@@ -44,13 +44,12 @@ public class ListaCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // to launch the activity
-        Intent in = getIntent();
-
         // recyclerView + FireBase
         mFirestoreList = findViewById(R.id.listaCard_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        // to launch the activity
+        Intent in = getIntent();
 
         // variabile passata
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
@@ -68,7 +67,7 @@ public class ListaCardActivity extends AppCompatActivity {
             @NonNull
             @Override
             public RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_recycler_view_item_layout, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_lista_item_layout, parent, false);
                 return new RifiutoViewHolder(view);
             }
 
@@ -106,9 +105,9 @@ public class ListaCardActivity extends AppCompatActivity {
         public RifiutoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            rName = itemView.findViewById(R.id.listaRecViewItem_nameTextView);
-            rSmaltimento = itemView.findViewById(R.id.listaRecViewItem_smaltimentoTextView);
-            itemLayout = itemView.findViewById(R.id.listaRecViewItem_constraintLayout);
+            rName = itemView.findViewById(R.id.recView_listaItem_nameTextView);
+            rSmaltimento = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
+            itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
         }
     }
 

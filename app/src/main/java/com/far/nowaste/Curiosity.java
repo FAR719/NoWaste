@@ -1,0 +1,32 @@
+package com.far.nowaste;
+
+public class Curiosity {
+
+    String titolo;
+    String descrizione;
+    String etichetta;
+
+    // costruttore
+    public Curiosity(String titolo, String descrizione, String etichetta){
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.etichetta = etichetta;
+    }
+
+    // costruttore vuoto utile per FireBase
+    private Curiosity(){}
+
+    // getter
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public String getEtichetta() {
+        return etichetta;
+    }
+}
