@@ -72,7 +72,7 @@
         <EditTextPreference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
-            app:title="Account"
+            app:title="Elimina account"
             app:summary="Elimina il tuo account"
             app:layout="@layout/preference_item_layout"
             app:dialogTitle="Elimina il tuo account"
