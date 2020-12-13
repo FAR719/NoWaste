@@ -284,6 +284,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Hai effettuato l'accesso come " + fUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             // crea utente in Firestore se non esiste
                             createFirestoreUser();
+                            goHome = false;
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
