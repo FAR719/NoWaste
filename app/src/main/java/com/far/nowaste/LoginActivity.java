@@ -335,6 +335,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         } else if (fUser.isEmailVerified()){
             num = 2;
+            // num = 0; non va sul profilo ma il logout funziona
             finish();
         } else {
             mEmail.setVisibility(View.GONE);
