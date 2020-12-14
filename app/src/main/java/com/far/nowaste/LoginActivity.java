@@ -284,7 +284,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Hai effettuato l'accesso come " + fUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             // crea utente in Firestore se non esiste
                             createFirestoreUser();
-                            num = 2;
+                            verificaEmail();
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -331,11 +331,11 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser fUser = fAuth.getCurrentUser();
         // impNum: se 1 logout
         if (ImpostazioniFragment.impNum == 1) {
+            ImpostazioniFragment.impNum = 0;
             num = 1;
             finish();
         } else if (fUser.isEmailVerified()){
             num = 2;
-            // num = 0; non va sul profilo ma il logout funziona
             finish();
         } else {
             mEmail.setVisibility(View.GONE);
