@@ -27,8 +27,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     EditTextPreference mEmailPreference;
     EditTextPreference mPasswordPreference;
     Preference mLogOutPreference;
-    EditTextPreference mResetPreference;
-    EditTextPreference mDeletePreference;
+    Preference mResetPreference;
+    Preference mDeletePreference;
     SwitchPreferenceCompat mNotificationPreference;
     ListPreference mThemePreference;
     Preference mVersionePreference;
@@ -65,6 +65,14 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 impNum = 1;
                 startActivity(new Intent(getContext(), LoginActivity.class));
+                return true;
+            }
+        });
+
+        mResetPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //Utente utente = new Utente()
                 return true;
             }
         });

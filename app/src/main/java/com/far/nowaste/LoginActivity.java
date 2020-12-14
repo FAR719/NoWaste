@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 101;
     List<String> emails;
 
-    // // num: se 1 home e logout, se 2 profilo
+    // // num: se 1 home e logout, se 2 profilo, se 3 home e delete
     static int num;
 
     @Override
@@ -327,12 +327,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // non accedere se la mail non è stata verificata
+    // metodo utilizzato anche per il passaggio da un fragment all'altro
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
-        // impNum: se 1 logout
+        // impNum: se 1 logout, se 2 delete account
         if (ImpostazioniFragment.impNum == 1) {
             ImpostazioniFragment.impNum = 0;
             num = 1;
+            finish();
+        } else if (ImpostazioniFragment.impNum == 2) {
+            ImpostazioniFragment.impNum = 0;
+            num = 3;
             finish();
         } else if (fUser.isEmailVerified()){
             num = 2;

@@ -18,7 +18,9 @@
     <!--232D36-->
     <!--101D25-->
 
-    <color name="card_back_background">@color/primary</color>
+    <!--Curiosity card colors-->
+    <color name="card_back_background">@color/background</color>
+    <color name="card_background">@color/primary</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>

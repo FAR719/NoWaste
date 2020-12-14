@@ -314,22 +314,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
-    // onclick logout button
-    public void logout() {
-        fStore.terminate();
-        fAuth.signOut();
-        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
-        mEmail.setText("Accedi al tuo account");
-        mFullName.setVisibility(View.GONE);
-        Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
-        mImage.setImageDrawable(defaultImage);
-        mToolbar.setTitle("NoWaste");
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
-        fragment = 1;
-    }
-
-
     // chiude la navigation quando premi back
     @Override
     public void onBackPressed() {
@@ -418,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkFragmentRequest(){
-        // num: se 1 home e logout, se 2 profilo
+        // num: se 1 home e logout, se 2 profilo, se 3 home e deleteAccount
         if (LoginActivity.num == 1) {
             LoginActivity.num = 0;
             mToolbar.setTitle("NoWaste");
@@ -441,6 +425,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 client = null;
             }
             fragment = 2;
+        } else if (LoginActivity.num == 3) {
+            LoginActivity.num = 0;
+            mToolbar.setTitle("NoWaste");
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+            if (fragment == 5) {
+                mainFrameLayout.setVisibility(View.VISIBLE);
+                mapFrameLayout.setVisibility(View.GONE);
+                client = null;
+            }
+            navigationView.setCheckedItem(R.id.nav_home);
+            deleteAccount();
         }
+    }
+
+    // logout from settings
+    public void logout() {
+        fStore.terminate();
+        fAuth.signOut();
+        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
+        mEmail.setText("Accedi al tuo account");
+        mFullName.setVisibility(View.GONE);
+        Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
+        mImage.setImageDrawable(defaultImage);
+        mToolbar.setTitle("NoWaste");
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+        fragment = 1;
+    }
+
+    // delete account from settings
+    public void deleteAccount() {
+
     }
 }

@@ -59,23 +59,19 @@
             app:summary="Esci dal tuo account"
             app:layout="@layout/preference_item_layout" />
 
-        <EditTextPreference
+        <Preference
             app:key="reset_preference"
             app:icon="@drawable/ic_data_usage"
             app:title="Reset dati"
             app:summary="Cancella i dati del tuo account"
-            app:layout="@layout/preference_item_layout"
-            app:dialogTitle="Cancella i dati del tuo account"
-            app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
+            app:layout="@layout/preference_item_layout" />
 
-        <EditTextPreference
+        <Preference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
             app:title="Elimina account"
             app:summary="Elimina il tuo account"
-            app:layout="@layout/preference_item_layout"
-            app:dialogTitle="Elimina il tuo account"
-            app:dialogMessage="Questa operazione non è reversibile. Digita ''Acconsento'' per confermare." />
+            app:layout="@layout/preference_item_layout" />
 
     </PreferenceCategory>
 
