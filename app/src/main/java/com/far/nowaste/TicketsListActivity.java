@@ -64,18 +64,18 @@ public class TicketsListActivity extends AppCompatActivity {
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
 
-        adapter = new FirestoreRecyclerAdapter<Rifiuto, ListaCardActivity.TicketsViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<Tickets, TicketsListActivity.TicketsViewHolder>(options) {
             @NonNull
             @Override
-            public ListaCardActivity.RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_lista_item_layout, parent, false);
-                return new ListaCardActivity.RifiutoViewHolder(view);
+            public TicketsListActivity.TicketsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_tickets_item_layout, parent, false);
+                return new TicketsListActivity.TicketsViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull ListaCardActivity.RifiutoViewHolder holder, int position, @NonNull Rifiuto model) {
-                holder.rName.setText(model.getNome());
-                holder.rSmaltimento.setText(model.getSmaltimento());
+            protected void onBindViewHolder(@NonNull TicketsListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
+                holder.rOggetto.setText(model.getOggetto());
+                holder.rData.setText(model.getData());
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
