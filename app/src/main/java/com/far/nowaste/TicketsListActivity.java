@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -28,14 +29,15 @@ public class TicketsListActivity extends AppCompatActivity {
     RecyclerView mFirestoreList;
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
+    FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_card);
+        setContentView(R.layout.activity_lista_tickets);
 
         // toolbar
-        mToolbar = findViewById(R.id.listaCard_toolbar);
+        mToolbar = findViewById(R.id.ticketsList_toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
@@ -57,12 +59,12 @@ public class TicketsListActivity extends AppCompatActivity {
         mToolbar.setTitle(stringCardType);
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("smaltimento", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail() );
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
 
-        adapter = new FirestoreRecyclerAdapter<Rifiuto, ListaCardActivity.RifiutoViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<Rifiuto, ListaCardActivity.TicketsViewHolder>(options) {
             @NonNull
             @Override
             public ListaCardActivity.RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -95,17 +97,18 @@ public class TicketsListActivity extends AppCompatActivity {
         mFirestoreList.addItemDecoration(dividerItemDecoration);
     }
 
-    private class RifiutoViewHolder extends RecyclerView.ViewHolder{
+    private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rName;
-        private TextView rSmaltimento;
+        private TextView rOggetto;
+        private TextView rData;
         ConstraintLayout itemLayout;
 
-        public RifiutoViewHolder(@NonNull View itemView) {
+
+        public TicketsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
-            rName = itemView.findViewById(R.id.recView_listaItem_nameTextView);
-            rSmaltimento = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
+            rOggetto = itemView.findViewById(R.id.recView_listaItem_nameTextView);
+            rData = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
         }
     }
 
