@@ -44,7 +44,7 @@ public class TicketsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // recyclerView + FireBase
-        mFirestoreList = findViewById(R.id.listaCard_recyclerView);
+        mFirestoreList = findViewById(R.id.tickets_listaCard_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // to launch the activity

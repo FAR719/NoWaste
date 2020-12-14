@@ -29,7 +29,7 @@
 
         <!--RecyclerView-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listaCard_recyclerView"
+            android:id="@+id/tickets_listaCard_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
