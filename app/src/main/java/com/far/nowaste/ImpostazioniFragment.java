@@ -36,11 +36,14 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     // firebase
     FirebaseAuth fAuth;
 
-    static boolean goHome;
+    // se 1 esegui il logout
+    static int impNum;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+
+        impNum = 0;
 
         // assegna le view
         mLoginPreference = findPreference("login_preference");
@@ -55,23 +58,21 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
-        fAuth = FirebaseAuth.getInstance();
-
-        boolean isUserLogged = setVisiblePreferences();
+        setVisiblePreferences();
 
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                goHome = true;
+                impNum = 1;
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return true;
             }
         });
     }
 
-    private boolean setVisiblePreferences(){
-        boolean isUserLogged = (fAuth.getCurrentUser() != null);
-        if (isUserLogged) {
+    private void setVisiblePreferences(){
+        fAuth = FirebaseAuth.getInstance();
+        if (fAuth.getCurrentUser() != null) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mPicturePreference.setVisible(true);
@@ -90,6 +91,5 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
         }
-        return (isUserLogged);
     }
 }

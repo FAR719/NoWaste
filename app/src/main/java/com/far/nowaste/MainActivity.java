@@ -418,7 +418,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkFragmentRequest(){
-        if (LoginActivity.numFrag == 1) {
+        // num: se 1 home e logout, se 2 profilo
+        if (fAuth.getCurrentUser() != null && LoginActivity.num == 1) {
             mToolbar.setTitle("NoWaste");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
             if (fragment == 5) {
@@ -429,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
             logout();
-        } else if(LoginActivity.numFrag == 2) {
+        } else if(fAuth.getCurrentUser() != null && LoginActivity.num == 2) {
             mToolbar.setTitle("Profilo");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
             if (fragment == 5) {
