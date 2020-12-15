@@ -22,6 +22,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class TicketListActivity extends AppCompatActivity {
 
@@ -69,7 +70,7 @@ public class TicketListActivity extends AppCompatActivity {
                 @Override
                 protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                     holder.rOggetto.setText(model.getOggetto());
-                    holder.rData.setText(model.getData());
+                    holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -82,7 +83,6 @@ public class TicketListActivity extends AppCompatActivity {
                 }
             };
         }
-
 
         // View Holder
         mFirestoreList.setHasFixedSize(true);
