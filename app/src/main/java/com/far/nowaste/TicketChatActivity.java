@@ -75,15 +75,6 @@ public class TicketChatActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull TicketChatActivity.ChatViewHolder holder, int position, @NonNull Message model) {
                 holder.rMessaggio.setText(model.getDescrizione());
                 //holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // apro la chat
-                        Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
-                        // detailSearchActivity.putExtra("com.far.nowaste.qualcosa", model.get);
-                        startActivity(detailSearchActivity);
-                    }
-                });
             }
         };
 
@@ -109,6 +100,19 @@ public class TicketChatActivity extends AppCompatActivity {
             rMessaggio = itemView.findViewById(R.id.recView_chatMessItem_oggettoTextView);
             itemLayout = itemView.findViewById(R.id.recView_chatMessItem_constrainLayout);
         }
+    }
+
+    //start&stop listening
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     // ends this activity (back arrow)
