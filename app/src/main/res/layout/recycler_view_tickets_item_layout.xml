@@ -7,6 +7,7 @@
     android:padding="18dp"
     android:id="@+id/recView_ticketsItem_constraintLayout">
 
+    <!-- Oggetto -->
     <TextView
         android:id="@+id/recView_ticketsItem_oggettoTextView"
         android:layout_width="wrap_content"
@@ -17,6 +18,8 @@
         android:textColor="@color/search_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Data -->
     <TextView
         android:id="@+id/recView_ticketsItem_dataTextView"
         android:layout_width="wrap_content"
