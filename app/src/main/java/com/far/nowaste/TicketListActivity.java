@@ -1,13 +1,5 @@
 package com.far.nowaste;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,13 +9,22 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class TicketsListActivity extends AppCompatActivity {
+public class TicketListActivity extends AppCompatActivity {
+
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
@@ -34,7 +35,7 @@ public class TicketsListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_tickets);
+        setContentView(R.layout.activity_ticket_list);
 
         // toolbar
         mToolbar = findViewById(R.id.ticketsList_toolbar);
@@ -46,47 +47,42 @@ public class TicketsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // recyclerView + FireBase
+        fAuth = FirebaseAuth.getInstance();
         mFirestoreList = findViewById(R.id.tickets_listaCard_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        // to launch the activity
-        Intent in = getIntent();
+        if (fAuth.getCurrentUser() != null) {
+            // query
+            Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail());
 
-        // variabile passata
-        String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
+            // recyclerOptions
+            FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
 
-        // cambia il titolo della toolbar
-        mToolbar.setTitle(stringCardType);
+            adapter = new FirestoreRecyclerAdapter<Tickets, TicketListActivity.TicketsViewHolder>(options) {
+                @NonNull
+                @Override
+                public TicketListActivity.TicketsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_tickets_item_layout, parent, false);
+                    return new TicketListActivity.TicketsViewHolder(view);
+                }
 
-        // query
-        Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail() );
-
-        // recyclerOptions
-        FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
-
-        adapter = new FirestoreRecyclerAdapter<Tickets, TicketsListActivity.TicketsViewHolder>(options) {
-            @NonNull
-            @Override
-            public TicketsListActivity.TicketsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_tickets_item_layout, parent, false);
-                return new TicketsListActivity.TicketsViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull TicketsListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
-                holder.rOggetto.setText(model.getOggetto());
-                holder.rData.setText(model.getData());
-                /*holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
+                    holder.rOggetto.setText(model.getOggetto());
+                    holder.rData.setText(model.getData());
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // apro la chat
-                        Intent detailSearchActivity = new Intent(getApplicationContext(), DetailRifiutoActivity.class);
-                        detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
+                        Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
+                        // detailSearchActivity.putExtra("com.far.nowaste.qualcosa", model.get);
                         startActivity(detailSearchActivity);
                     }
-                });*/
-            }
-        };
+                });
+                }
+            };
+        }
+
 
         // View Holder
         mFirestoreList.setHasFixedSize(true);
@@ -107,9 +103,9 @@ public class TicketsListActivity extends AppCompatActivity {
 
         public TicketsViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemLayout = itemView.findViewById(R.id.recView_listaItem_constraintLayout);
-            rOggetto = itemView.findViewById(R.id.recView_listaItem_nameTextView);
-            rData = itemView.findViewById(R.id.recView_listaItem_smaltimentoTextView);
+            itemLayout = itemView.findViewById(R.id.recView_ticketsItem_constraintLayout);
+            rOggetto = itemView.findViewById(R.id.recView_ticketsItem_oggettoTextView);
+            rData = itemView.findViewById(R.id.recView_ticketsItem_dataTextView);
         }
     }
 
@@ -136,5 +132,4 @@ public class TicketsListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

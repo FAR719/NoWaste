@@ -294,7 +294,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         client = null;
                     }
                     fragment = 6;*/
-                    startActivity(new Intent(getApplicationContext(),TicketsListActivity.class));
+                    Intent intent = new Intent(getApplicationContext(), TicketListActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.nav_impostazioni:

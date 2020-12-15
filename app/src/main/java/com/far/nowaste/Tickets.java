@@ -2,13 +2,13 @@ package com.far.nowaste;
 
 public class Tickets {
     // variabili
-    public String oggetto, emailT, data;
+    public String oggetto, email, data;
     public boolean stato;
 
     // costruttore
-    public Tickets(String oggetto, String emailT, String data, boolean stato) {
+    public Tickets(String oggetto, String email, String data, boolean stato) {
         this.oggetto = oggetto;
-        this.emailT = emailT;
+        this.email = email;
         this.data = data;
         this.stato = stato;
     }
@@ -20,15 +20,15 @@ public class Tickets {
         return oggetto;
     }
 
-    public String getEmailT() {
-        return emailT;
+    public String getEmail() {
+        return email;
     }
 
     public String getData() {
         return data;
     }
 
-    public boolean isStato() {
+    public boolean getStato() {
         return stato;
     }
 }
