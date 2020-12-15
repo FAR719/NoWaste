@@ -62,7 +62,7 @@ public class TicketsListActivity extends AppCompatActivity {
         Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail() );
 
         // recyclerOptions
-        FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();
+        FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
 
         adapter = new FirestoreRecyclerAdapter<Tickets, TicketsListActivity.TicketsViewHolder>(options) {
             @NonNull
@@ -76,14 +76,15 @@ public class TicketsListActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull TicketsListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                 holder.rOggetto.setText(model.getOggetto());
                 holder.rData.setText(model.getData());
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                /*holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // apro la chat
                         Intent detailSearchActivity = new Intent(getApplicationContext(), DetailRifiutoActivity.class);
                         detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
                         startActivity(detailSearchActivity);
                     }
-                });
+                });*/
             }
         };
 

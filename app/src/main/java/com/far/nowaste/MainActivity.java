@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
-                    mToolbar.setTitle("Contattaci");
+                    /*mToolbar.setTitle("Contattaci");
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new ContattaciFragment()).commit();
                     if (fragment == 5) {
                         mainFrameLayout.setVisibility(View.VISIBLE);
@@ -293,7 +293,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         supportMapFragment = null;
                         client = null;
                     }
-                    fragment = 6;
+                    fragment = 6;*/
+                    startActivity(new Intent(getApplicationContext(),TicketsListActivity.class));
                 }
                 break;
             case R.id.nav_impostazioni:
