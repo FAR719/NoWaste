@@ -6,7 +6,7 @@ public class Tickets {
     public boolean stato;
 
     // costruttore
-    public Tickets(String oggetto, String email, String data, boolean stato) {
+    public Tickets(String oggetto, String email, String day, String month, String year, boolean stato) {
         this.oggetto = oggetto;
         this.email = email;
         this.day = day;
