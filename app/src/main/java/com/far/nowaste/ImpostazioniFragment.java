@@ -1,22 +1,29 @@
 package com.far.nowaste;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +34,11 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     Preference mLoginPreference;
     EditTextPreference mFullNamePreference;
     Preference mPicturePreference;
+    EditTextPreference mEmailPreference;
     EditTextPreference mPasswordPreference;
     Preference mLogOutPreference;
     Preference mResetPreference;
-    Preference mDeletePreference;
+    EditTextPreference mDeletePreference;
     SwitchPreferenceCompat mNotificationPreference;
     ListPreference mThemePreference;
     Preference mVersionePreference;
@@ -38,24 +46,31 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     // firebase
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
+    FirebaseUser fUser;
 
     Dialog dialog;
 
-    // se 1 esegui il logout
-    static int impNum;
+    // se 1 logout, se 2 elimina account
+    static int IMPNUM;
+
+    // password inserita per la ri-autenticazione
+    static String PASSWORD;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        impNum = 0;
+        IMPNUM = 0;
 
         fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        fUser = fAuth.getCurrentUser();
 
         // assegna le view
         mLoginPreference = findPreference("login_preference");
         mFullNamePreference = findPreference("full_name_preference");
         mPicturePreference = findPreference("picture_preference");
+        mEmailPreference = findPreference("email_preference");
         mPasswordPreference = findPreference("password_preference");
         mLogOutPreference = findPreference("logout_preference");
         mResetPreference = findPreference("reset_preference");
@@ -64,37 +79,128 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
-        setVisiblePreferences();
-
         dialog = new Dialog(getContext());
 
+        // logout
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                logoutDialog();
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Logout");
+                builder.setMessage("Vuoi uscire dal tuo account?");
+                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IMPNUM = 1;
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                    }
+                });
+                builder.show();
                 return true;
             }
         });
 
+        // reset data
         mResetPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                resetDialog();
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Reset dati");
+                builder.setMessage("Vuoi cancellare i dati del tuo account? Tale operazione è irreversibile!");
+                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Map<String, Object> mappa = new HashMap<>();
+                        mappa.put("nPlastica", 0);
+                        mappa.put("pPlastica", 0);
+                        mappa.put("nOrganico", 0);
+                        mappa.put("pOrganico", 0);
+                        mappa.put("nIndifferenziata", 0);
+                        mappa.put("pIndifferenziata", 0);
+                        mappa.put("nCarta", 0);
+                        mappa.put("pCarta", 0);
+                        mappa.put("nVetro", 0);
+                        mappa.put("pVetro", 0);
+                        mappa.put("nMetalli", 0);
+                        mappa.put("pMetalli", 0);
+                        mappa.put("nElettrici", 0);
+                        mappa.put("pElettrici", 0);
+                        mappa.put("nSpeciali", 0);
+                        mappa.put("pSpeciali", 0);
+                        fStore.collection("users").document(fUser.getUid()).update(mappa);
+                        dialog.dismiss();
+                        Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
                 return true;
             }
         });
+
+        // delete account
+        mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                /*MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Elimina account");
+                builder.setMessage("Vuoi cancellare il tuo account? Tale operazione è irreversibile!");
+                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IMPNUM = 2;
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                    }
+                });
+                builder.show();*/
+                return true;
+            }
+        });
+
+        mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setVisiblePreferences();
     }
 
     private void setVisiblePreferences(){
-        fAuth = FirebaseAuth.getInstance();
         if (fAuth.getCurrentUser() != null) {
-            mLoginPreference.setVisible(false);
-            mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(true);
-            mPasswordPreference.setVisible(true);
-            mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
-            mDeletePreference.setVisible(true);
+            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (value.getBoolean("isGoogle")) {
+                        mLoginPreference.setVisible(false);
+                        mFullNamePreference.setVisible(true);
+                        mPicturePreference.setVisible(false);
+                        mPasswordPreference.setVisible(false);
+                        mLogOutPreference.setVisible(true);
+                        mResetPreference.setVisible(true);
+                        mDeletePreference.setVisible(false);
+                    } else {
+                        mLoginPreference.setVisible(false);
+                        mFullNamePreference.setVisible(true);
+                        mPicturePreference.setVisible(true);
+                        mPasswordPreference.setVisible(true);
+                        mLogOutPreference.setVisible(true);
+                        mResetPreference.setVisible(true);
+                        mDeletePreference.setVisible(true);
+                    }
+                }
+            });
         } else {
             mLoginPreference.setVisible(true);
             mFullNamePreference.setVisible(false);
@@ -104,77 +210,5 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
         }
-    }
-
-    // Reset Dialog
-    private void resetDialog(){
-        dialog.setContentView(R.layout.dialog_layout);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        TextView mTitle = dialog.findViewById(R.id.dialog_title);
-        TextView mMessage = dialog.findViewById(R.id.dialog_message);
-        TextView mNeutral = dialog.findViewById(R.id.dialog_neutral_button);
-        TextView mPositive = dialog.findViewById(R.id.dialog_positive_button);
-        dialog.show();
-        mTitle.setText("Reset dati");
-        mMessage.setText("Vuoi cancellare i dati del tuo account? Tale operazione è irreversibile!");
-        mNeutral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            dialog.dismiss();
-            }
-        });
-        mPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, Object> mappa = new HashMap<>();
-                mappa.put("nPlastica", 0);
-                mappa.put("pPlastica", 0);
-                mappa.put("nOrganico", 0);
-                mappa.put("pOrganico", 0);
-                mappa.put("nIndifferenziata", 0);
-                mappa.put("pIndifferenziata", 0);
-                mappa.put("nCarta", 0);
-                mappa.put("pCarta", 0);
-                mappa.put("nVetro", 0);
-                mappa.put("pVetro", 0);
-                mappa.put("nMetalli", 0);
-                mappa.put("pMetalli", 0);
-                mappa.put("nElettrici", 0);
-                mappa.put("pElettrici", 0);
-                mappa.put("nSpeciali", 0);
-                mappa.put("pSpeciali", 0);
-                fStore.collection("users").document(fAuth.getCurrentUser().getUid()).update(mappa);
-                dialog.dismiss();
-                Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    // Logout Dialog
-    private void logoutDialog(){
-        dialog.setContentView(R.layout.dialog_layout);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        TextView mTitle = dialog.findViewById(R.id.dialog_title);
-        TextView mMessage = dialog.findViewById(R.id.dialog_message);
-        TextView mNeutral = dialog.findViewById(R.id.dialog_neutral_button);
-        TextView mPositive = dialog.findViewById(R.id.dialog_positive_button);
-        dialog.show();
-        mTitle.setText("Logout");
-        mMessage.setText("Vuoi uscire dal tuo account?");
-        mNeutral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        mPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                impNum = 1;
-                startActivity(new Intent(getContext(), LoginActivity.class));
-            }
-        });
     }
 }

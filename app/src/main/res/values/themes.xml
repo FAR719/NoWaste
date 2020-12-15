@@ -49,8 +49,39 @@
         <item name="fontFamily">@font/nunito</item>
     </style>
 
-    <!--Navigation View theme.-->
+    <!--Navigation View theme. -->
     <style name="NunitoNavigationView">
         <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <!--Dialog Theme. -->
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:backgroundTint">@color/card_background</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/NeutralButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/search_primary_text</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <style name="NeutralButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/secondary</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/secondary</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="textAllCaps">true</item>
     </style>
 </resources>

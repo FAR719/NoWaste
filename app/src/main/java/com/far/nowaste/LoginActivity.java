@@ -63,14 +63,14 @@ public class LoginActivity extends AppCompatActivity {
     List<String> emails;
 
     // // num: se 1 home e logout, se 2 profilo, se 3 home e delete
-    static int num;
+    static int NUM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        num = 0;
+        NUM = 0;
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -298,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (!exists(fUser)) {
-            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString());
+            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(), true);
             DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
             documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -331,16 +331,16 @@ public class LoginActivity extends AppCompatActivity {
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
         // impNum: se 1 logout, se 2 delete account
-        if (ImpostazioniFragment.impNum == 1) {
-            ImpostazioniFragment.impNum = 0;
-            num = 1;
+        if (ImpostazioniFragment.IMPNUM == 1) {
+            ImpostazioniFragment.IMPNUM = 0;
+            NUM = 1;
             finish();
-        } else if (ImpostazioniFragment.impNum == 2) {
-            ImpostazioniFragment.impNum = 0;
-            num = 3;
+        } else if (ImpostazioniFragment.IMPNUM == 2) {
+            ImpostazioniFragment.IMPNUM = 0;
+            NUM = 3;
             finish();
         } else if (fUser.isEmailVerified()){
-            num = 2;
+            NUM = 2;
             finish();
         } else {
             mEmail.setVisibility(View.GONE);

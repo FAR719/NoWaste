@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,12 +40,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -403,8 +409,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void checkFragmentRequest(){
         // num: se 1 home e logout, se 2 profilo, se 3 home e deleteAccount
-        if (LoginActivity.num == 1) {
-            LoginActivity.num = 0;
+        if (LoginActivity.NUM == 1) {
+            LoginActivity.NUM = 0;
             mToolbar.setTitle("NoWaste");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
             if (fragment == 5) {
@@ -415,8 +421,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
             logout();
-        } else if(LoginActivity.num == 2) {
-            LoginActivity.num = 0;
+        } else if(LoginActivity.NUM == 2) {
+            LoginActivity.NUM = 0;
             mToolbar.setTitle("Profilo");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
             if (fragment == 5) {
@@ -425,16 +431,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 client = null;
             }
             fragment = 2;
-        } else if (LoginActivity.num == 3) {
-            LoginActivity.num = 0;
-            mToolbar.setTitle("NoWaste");
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+        } else if (LoginActivity.NUM == 3) {
+            LoginActivity.NUM = 0;
+            mToolbar.setTitle("NoWaste");getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
             if (fragment == 5) {
                 mainFrameLayout.setVisibility(View.VISIBLE);
                 mapFrameLayout.setVisibility(View.GONE);
                 client = null;
             }
             navigationView.setCheckedItem(R.id.nav_home);
+            fragment = 1;
             deleteAccount();
         }
     }
@@ -455,6 +461,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // delete account from settings
     public void deleteAccount() {
+        FirebaseUser user = fAuth.getCurrentUser();
 
+        // re-authenticate the user
+        AuthCredential credential;
+        credential = EmailAuthProvider.getCredential(user.getEmail(), ImpostazioniFragment.PASSWORD);
+        ImpostazioniFragment.PASSWORD = null;
+
+        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d("TAG", "User re-authenticated.");
+            }
+        });
+
+        // cancella l'utente da firestore
+        fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("TAG", "DocumentSnapshot successfully deleted!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("TAG", "Error deleting document", e);
+            }
+        });
+        fStore.terminate();
+
+        // cancella l'utente da fireauth
+        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Account eliminato", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

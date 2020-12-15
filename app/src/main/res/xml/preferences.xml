@@ -35,6 +35,15 @@
             app:layout="@layout/preference_item_layout" />
 
         <EditTextPreference
+            app:key="email_preference"
+            app:icon="@drawable/ic_email"
+            app:title="Email"
+            app:summary="Modifica la tua email"
+            app:layout="@layout/preference_item_layout"
+            app:dialogTitle="Email"
+            app:dialogMessage="Inserisci la tua nuova email" />
+
+        <EditTextPreference
             app:key="password_preference"
             app:icon="@drawable/ic_lock"
             app:title="Password"
@@ -57,7 +66,7 @@
             app:summary="Cancella i dati del tuo account"
             app:layout="@layout/preference_item_layout" />
 
-        <Preference
+        <EditTextPreference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
             app:title="Elimina account"

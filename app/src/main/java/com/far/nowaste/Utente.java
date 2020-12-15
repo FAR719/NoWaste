@@ -6,9 +6,10 @@ public class Utente {
     public String fullName, email, image;
     public double nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
     public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
+    public boolean isGoogle;
 
     // costruttore nuovo utente
-    public Utente(String fullName, String email, String image){
+    public Utente(String fullName, String email, String image, boolean isGoogle){
         this.fullName = fullName;
         this.email = email;
         this.image = image;
@@ -28,6 +29,7 @@ public class Utente {
         this.pMetalli = 0;
         this.pElettrici = 0;
         this.pSpeciali = 0;
+        this.isGoogle = isGoogle;
     }
 
     //costruttore vuoto utile per FireBase
@@ -108,5 +110,9 @@ public class Utente {
 
     public double getpSpeciali() {
         return pSpeciali;
+    }
+
+    public boolean isGoogle() {
+        return isGoogle;
     }
 }

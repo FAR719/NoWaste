@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    FirebaseUser fUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     // verify the email
-                    FirebaseUser fUser = fAuth.getCurrentUser();
+                    fUser = fAuth.getCurrentUser();
                     fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -167,10 +170,14 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
 
+                    // insert name into fUser
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
+                    fUser.updateProfile(profileUpdates);
+
                     Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
 
                     // store data in firestore
-                    createFirestoreUser(fullName, email);
+                    createFirestoreUser();
                     finish();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -181,15 +188,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // crea l'utente in firebase
-    private void createFirestoreUser(String fullName, String email){
+    private void createFirestoreUser(){
         // store data in firestore
-        String userID = fAuth.getCurrentUser().getUid();
-        DocumentReference documentReference = fStore.collection("users").document(userID);
-        Utente utente = new Utente(fullName, email, null);
+        DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+        Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), null, false);
         documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: user Profile is created for " + userID);
+                Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
