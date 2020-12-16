@@ -41,10 +41,10 @@ public class DetailUserFragment extends Fragment {
     TextView tvCO, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
 
-    /*// firebase
+    // firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    FirebaseUser user;*/
+    FirebaseUser user;
 
     Utente currentUser;
 
@@ -93,45 +93,45 @@ public class DetailUserFragment extends Fragment {
             tvSpeciali.setText(currentUser.getpSpeciali() + "g");
             setPieChartData(currentUser);
         }
-        //
-
         return view;
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        user = fAuth.getCurrentUser();
+        if (currentUser == null) {
+            fAuth = FirebaseAuth.getInstance();
+            fStore = FirebaseFirestore.getInstance();
+            user = fAuth.getCurrentUser();
 
-        // imposta dati personali
-        fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Utente utente = value.toObject(Utente.class);
+            // imposta dati personali
+            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                    Utente utente = value.toObject(Utente.class);
 
-                // imposta nome, cognome e immagine
-                mFullName.setText(utente.getFullName());
-                mEmail.setText(utente.getEmail());
-                if (utente.getImage() != null) {
-                    Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    // imposta nome, cognome e immagine
+                    mFullName.setText(utente.getFullName());
+                    mEmail.setText(utente.getEmail());
+                    if (utente.getImage() != null) {
+                        Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    }
+
+                    // imposta il grafico a torta
+                    tvPlastica.setText((utente.getpPlastica()) + "g");
+                    tvOrganico.setText(utente.getpOrganico() + "g");
+                    tvSecco.setText(utente.getpIndifferenziata() + "g");
+                    tvCarta.setText(utente.getpCarta() + "g");
+                    tvVetro.setText(utente.getpVetro() + "g");
+                    tvMetalli.setText(utente.getpMetalli() + "g");
+                    tvElettrici.setText(utente.getpElettrici() + "g");
+                    tvSpeciali.setText(utente.getpSpeciali() + "g");
+                    setPieChartData(utente);
                 }
-
-                // imposta il grafico a torta
-                tvPlastica.setText((utente.getpPlastica()) + "g");
-                tvOrganico.setText(utente.getpOrganico() + "g");
-                tvSecco.setText(utente.getpIndifferenziata() + "g");
-                tvCarta.setText(utente.getpCarta() + "g");
-                tvVetro.setText(utente.getpVetro() + "g");
-                tvMetalli.setText(utente.getpMetalli() + "g");
-                tvElettrici.setText(utente.getpElettrici() + "g");
-                tvSpeciali.setText(utente.getpSpeciali() + "g");
-                setPieChartData(utente);
-            }
-        });
-        fStore.terminate();
-    }*/
+            });
+            fStore.terminate();
+        }
+    }
 
     private void setPieChartData(Utente utente) {
         // Set the data and color to the pie chart

@@ -130,7 +130,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     }
 
     public void loadPunteggio() {
-        if (fUser != null){
+        if (currentUser != null){
             // carica punteggio in firestore
             DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
             Map<String,Object> userMap = new HashMap<>();

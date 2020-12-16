@@ -119,7 +119,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Map<String, Object> mappa = new HashMap<>();
+                        /*Map<String, Object> mappa = new HashMap<>();
                         mappa.put("nPlastica", 0);
                         mappa.put("pPlastica", 0);
                         mappa.put("nOrganico", 0);
@@ -136,7 +136,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         mappa.put("pElettrici", 0);
                         mappa.put("nSpeciali", 0);
                         mappa.put("pSpeciali", 0);
-                        fStore.collection("users").document(fUser.getUid()).update(mappa);
+                        fStore.collection("users").document(fUser.getUid()).update(mappa);*/
+                        Utente utente = new Utente(currentUser.getFullName(), currentUser.getEmail(), currentUser.getImage(), currentUser.isGoogle());
+                        fStore.collection("users").document(fUser.getUid()).set(utente);
                         dialog.dismiss();
                         Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
                     }

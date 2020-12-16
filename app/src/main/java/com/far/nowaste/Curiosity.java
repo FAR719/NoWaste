@@ -2,9 +2,9 @@ package com.far.nowaste;
 
 public class Curiosity {
 
-    String titolo;
-    String descrizione;
-    String etichetta;
+    public String titolo;
+    public String descrizione;
+    public String etichetta;
 
     // costruttore
     public Curiosity(String titolo, String descrizione, String etichetta){
