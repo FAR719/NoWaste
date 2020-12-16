@@ -41,10 +41,12 @@ public class DetailUserFragment extends Fragment {
     TextView tvCO, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
 
-    // firebase
+    /*// firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    FirebaseUser user;
+    FirebaseUser user;*/
+
+    Utente currentUser;
 
     @Nullable
     @Override
@@ -69,10 +71,34 @@ public class DetailUserFragment extends Fragment {
         tvCO = view.findViewById(R.id.c_o_tv);
 
         tvCO.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+
+        // utente implementato con variabile static in MainActivity
+        currentUser = MainActivity.CURRENTUSER;
+        if (currentUser != null) {
+            // imposta nome, cognome e immagine
+            mFullName.setText(currentUser.getFullName());
+            mEmail.setText(currentUser.getEmail());
+            if (currentUser.getImage() != null) {
+                Glide.with(getContext()).load(currentUser.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+            }
+
+            // imposta il grafico a torta
+            tvPlastica.setText((currentUser.getpPlastica()) + "g");
+            tvOrganico.setText(currentUser.getpOrganico() + "g");
+            tvSecco.setText(currentUser.getpIndifferenziata() + "g");
+            tvCarta.setText(currentUser.getpCarta() + "g");
+            tvVetro.setText(currentUser.getpVetro() + "g");
+            tvMetalli.setText(currentUser.getpMetalli() + "g");
+            tvElettrici.setText(currentUser.getpElettrici() + "g");
+            tvSpeciali.setText(currentUser.getpSpeciali() + "g");
+            setPieChartData(currentUser);
+        }
+        //
+
         return view;
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
         fAuth = FirebaseAuth.getInstance();
@@ -105,7 +131,7 @@ public class DetailUserFragment extends Fragment {
             }
         });
         fStore.terminate();
-    }
+    }*/
 
     private void setPieChartData(Utente utente) {
         // Set the data and color to the pie chart

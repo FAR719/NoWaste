@@ -48,7 +48,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     FirebaseAuth fAuth;
     FirebaseUser fUser;
 
-    Dialog dialog;
+    Utente currentUser;
 
     // se 1 logout, se 2 elimina account
     static int IMPNUM;
@@ -61,6 +61,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
         IMPNUM = 0;
+        currentUser = MainActivity.CURRENTUSER;
 
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -79,7 +80,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
-        dialog = new Dialog(getContext());
+        setVisiblePreferences();
 
         // logout
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -171,7 +172,38 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
     }
 
-    @Override
+    private void setVisiblePreferences(){
+        if (currentUser == null) {
+            mLoginPreference.setVisible(true);
+            mFullNamePreference.setVisible(false);
+            mPicturePreference.setVisible(false);
+            mEmailPreference.setVisible(false);
+            mPasswordPreference.setVisible(false);
+            mLogOutPreference.setVisible(false);
+            mResetPreference.setVisible(false);
+            mDeletePreference.setVisible(false);
+        } else if (currentUser.isGoogle()) {
+            mLoginPreference.setVisible(false);
+            mFullNamePreference.setVisible(true);
+            mPicturePreference.setVisible(false);
+            mEmailPreference.setVisible(false);
+            mPasswordPreference.setVisible(false);
+            mLogOutPreference.setVisible(true);
+            mResetPreference.setVisible(true);
+            mDeletePreference.setVisible(false);
+        } else {
+            mLoginPreference.setVisible(false);
+            mFullNamePreference.setVisible(true);
+            mPicturePreference.setVisible(true);
+            mEmailPreference.setVisible(true);
+            mPasswordPreference.setVisible(true);
+            mLogOutPreference.setVisible(true);
+            mResetPreference.setVisible(true);
+            mDeletePreference.setVisible(true);
+        }
+    }
+
+    /*@Override
     public void onStart() {
         super.onStart();
         setVisiblePreferences();
@@ -210,5 +242,5 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
         }
-    }
+    }*/
 }

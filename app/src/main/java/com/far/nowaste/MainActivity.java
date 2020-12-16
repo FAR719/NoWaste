@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
+    static Utente CURRENTUSER;
+
     View header;
     TextView mFullName, mEmail;
     ImageView mImage;
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CURRENTUSER = null;
 
         // toolbar
         mToolbar = findViewById(R.id.main_toolbar);
@@ -118,9 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainFrameLayout = findViewById(R.id.main_frame_layout);
         mapFrameLayout = findViewById(R.id.map_frame_layout);
 
-        // firebase auth
-        fAuth = FirebaseAuth.getInstance();
-
         // gpsBtn
         gpsBtn = findViewById(R.id.gpsButton);
         gpsBtn.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fAuth = FirebaseAuth.getInstance();
                 if (fAuth.getCurrentUser() == null) {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 } else {
@@ -161,23 +163,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        // cambia i dati nell'header
-        if (fAuth.getCurrentUser() != null){
+        // imposta CURRENTUSER e i dati nell'header
+        fAuth = FirebaseAuth.getInstance();
+        if (fAuth.getCurrentUser() != null) {
             fStore = FirebaseFirestore.getInstance();
-            fAuth = FirebaseAuth.getInstance();
             FirebaseUser user = fAuth.getCurrentUser();
             fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    String nome = value.getString("fullName");
-                    String email = value.getString("email");
-                    String image = value.getString("image");
+                    CURRENTUSER = value.toObject(Utente.class);
 
-                    mFullName.setText(nome);
-                    mEmail.setText(email);
+                    mFullName.setText(CURRENTUSER.getFullName());
+                    mEmail.setText(CURRENTUSER.getEmail());
                     mFullName.setVisibility(View.VISIBLE);
-                    if (image != null) {
-                        Glide.with(getApplicationContext()).load(image).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    if (CURRENTUSER.getImage() != null) {
+                        Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
                     }
                     fAuth.getCurrentUser().getPhotoUrl();
                 }
@@ -354,8 +354,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                // Se ha successo
-
                 if(location != null){
                     // Sincronizza Mappa
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -390,10 +388,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     });
                 }
-
             }
         });
-
     }
 
     @Override
@@ -447,8 +443,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // logout from settings
     public void logout() {
-        fStore.terminate();
-        fAuth.signOut();
+        FirebaseAuth.getInstance().signOut();
+        CURRENTUSER = null;
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
         mEmail.setText("Accedi al tuo account");
         mFullName.setVisibility(View.GONE);
@@ -461,6 +457,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // delete account from settings
     public void deleteAccount() {
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
         // re-authenticate the user
@@ -498,5 +496,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        CURRENTUSER = null;
     }
 }

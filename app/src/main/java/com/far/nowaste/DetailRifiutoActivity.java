@@ -43,7 +43,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     FirebaseUser fUser;
 
     Rifiuto rifiuto;
-    Utente utente;
+    //Utente utente;
+    Utente currentUser;
 
     // view
     TextView nomeTextView;
@@ -81,6 +82,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         // variabile passata
         stringName = in.getStringExtra("com.far.nowaste.NAME");
 
+        currentUser = MainActivity.CURRENTUSER;
+
         // associazione view
         nomeTextView = findViewById(R.id.detailRifiuto_nomeTextView);
         materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
@@ -115,7 +118,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             }
         });
 
-        if (fUser != null) {
+        /*if (fUser != null) {
             // query per istanziare un Utente
             fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -123,7 +126,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     utente = value.toObject(Utente.class);
                 }
             });
-        }
+        }*/
     }
 
     public void loadPunteggio() {
@@ -133,36 +136,36 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             Map<String,Object> userMap = new HashMap<>();
             switch (rifiuto.getSmaltimento()){
                 case "Plastica":
-                    userMap.put("nPlastica", utente.getnPlastica() + 1);
-                    userMap.put("pPlastica", utente.getpPlastica() + rifiuto.getPunteggio());
+                    userMap.put("nPlastica", currentUser.getnPlastica() + 1);
+                    userMap.put("pPlastica", currentUser.getpPlastica() + rifiuto.getPunteggio());
                     break;
                 case "Organico":
-                    userMap.put("nOrganico", utente.getnOrganico() + 1);
-                    userMap.put("pOrganico", utente.getpOrganico() + rifiuto.getPunteggio());
+                    userMap.put("nOrganico", currentUser.getnOrganico() + 1);
+                    userMap.put("pOrganico", currentUser.getpOrganico() + rifiuto.getPunteggio());
                     break;
                 case "Indifferenziata":
-                    userMap.put("nIndifferenziata", utente.getnIndifferenziata() + 1);
-                    userMap.put("pIndifferenziata", utente.getpIndifferenziata() + rifiuto.getPunteggio());
+                    userMap.put("nIndifferenziata", currentUser.getnIndifferenziata() + 1);
+                    userMap.put("pIndifferenziata", currentUser.getpIndifferenziata() + rifiuto.getPunteggio());
                     break;
                 case "Carta":
-                    userMap.put("nCarta", utente.getnCarta() + 1);
-                    userMap.put("pCarta", utente.getpCarta() + rifiuto.getPunteggio());
+                    userMap.put("nCarta", currentUser.getnCarta() + 1);
+                    userMap.put("pCarta", currentUser.getpCarta() + rifiuto.getPunteggio());
                     break;
                 case "Vetro":
-                    userMap.put("nVetro", utente.getnVetro() + 1);
-                    userMap.put("pVetro", utente.getpVetro() + rifiuto.getPunteggio());
+                    userMap.put("nVetro", currentUser.getnVetro() + 1);
+                    userMap.put("pVetro", currentUser.getpVetro() + rifiuto.getPunteggio());
                     break;
                 case "Metalli":
-                    userMap.put("nMetalli", utente.getnMetalli() + 1);
-                    userMap.put("pMetalli", utente.getpMetalli() + rifiuto.getPunteggio());
+                    userMap.put("nMetalli", currentUser.getnMetalli() + 1);
+                    userMap.put("pMetalli", currentUser.getpMetalli() + rifiuto.getPunteggio());
                     break;
                 case "Elettrici":
-                    userMap.put("nElettrici", utente.getnElettrici() + 1);
-                    userMap.put("pElettrici", utente.getpElettrici() + rifiuto.getPunteggio());
+                    userMap.put("nElettrici", currentUser.getnElettrici() + 1);
+                    userMap.put("pElettrici", currentUser.getpElettrici() + rifiuto.getPunteggio());
                     break;
                 case "Speciali":
-                    userMap.put("nSpeciali", utente.getnSpeciali() + 1);
-                    userMap.put("pSpeciali", utente.getpSpeciali() + rifiuto.getPunteggio());
+                    userMap.put("nSpeciali", currentUser.getnSpeciali() + 1);
+                    userMap.put("pSpeciali", currentUser.getpSpeciali() + rifiuto.getPunteggio());
                     break;
             }
             documentReference.update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
