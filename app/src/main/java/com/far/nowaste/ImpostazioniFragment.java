@@ -3,6 +3,7 @@ package com.far.nowaste;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,6 +83,51 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mVersionePreference = findPreference("version_preference");
 
         setVisiblePreferences();
+        setupPreferences();
+    }
+
+    private void setVisiblePreferences(){
+        if (currentUser == null) {
+            mLoginPreference.setVisible(true);
+            mFullNamePreference.setVisible(false);
+            mPicturePreference.setVisible(false);
+            mEmailPreference.setVisible(false);
+            mPasswordPreference.setVisible(false);
+            mLogOutPreference.setVisible(false);
+            mResetPreference.setVisible(false);
+            mDeletePreference.setVisible(false);
+        } else if (currentUser.isGoogle()) {
+            mLoginPreference.setVisible(false);
+            mFullNamePreference.setVisible(true);
+            mPicturePreference.setVisible(false);
+            mEmailPreference.setVisible(false);
+            mPasswordPreference.setVisible(false);
+            mLogOutPreference.setVisible(true);
+            mResetPreference.setVisible(true);
+            mDeletePreference.setVisible(false);
+        } else {
+            mLoginPreference.setVisible(false);
+            mFullNamePreference.setVisible(true);
+            mPicturePreference.setVisible(true);
+            mEmailPreference.setVisible(true);
+            mPasswordPreference.setVisible(true);
+            mLogOutPreference.setVisible(true);
+            mResetPreference.setVisible(true);
+            mDeletePreference.setVisible(true);
+        }
+    }
+
+    private void loadSetting(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+
+        String newName = sharedPreferences.getString("full_name_preference", currentUser.getFullName());
+        String theme = sharedPreferences.getString("theme_preference", "0");
+    }
+
+    private void setupPreferences(){
+        // set new name
+
 
         // logout
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -119,7 +166,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        /*Map<String, Object> mappa = new HashMap<>();
+                        Map<String, Object> mappa = new HashMap<>();
                         mappa.put("nPlastica", 0);
                         mappa.put("pPlastica", 0);
                         mappa.put("nOrganico", 0);
@@ -136,9 +183,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         mappa.put("pElettrici", 0);
                         mappa.put("nSpeciali", 0);
                         mappa.put("pSpeciali", 0);
-                        fStore.collection("users").document(fUser.getUid()).update(mappa);*/
-                        Utente utente = new Utente(currentUser.getFullName(), currentUser.getEmail(), currentUser.getImage(), currentUser.isGoogle());
-                        fStore.collection("users").document(fUser.getUid()).set(utente);
+                        fStore.collection("users").document(fUser.getUid()).update(mappa);
+                        fStore.collection("users").document(fUser.getUid()).update(mappa);
                         dialog.dismiss();
                         Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
                     }
@@ -149,10 +195,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
 
         // delete account
-        mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        /*mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                /*MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Elimina account");
                 builder.setMessage("Vuoi cancellare il tuo account? Tale operazione è irreversibile!");
                 builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
@@ -166,46 +212,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         startActivity(new Intent(getContext(), LoginActivity.class));
                     }
                 });
-                builder.show();*/
+                builder.show();
                 return true;
             }
-        });
+        });*/
 
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
     }
+}
 
-    private void setVisiblePreferences(){
-        if (currentUser == null) {
-            mLoginPreference.setVisible(true);
-            mFullNamePreference.setVisible(false);
-            mPicturePreference.setVisible(false);
-            mEmailPreference.setVisible(false);
-            mPasswordPreference.setVisible(false);
-            mLogOutPreference.setVisible(false);
-            mResetPreference.setVisible(false);
-            mDeletePreference.setVisible(false);
-        } else if (currentUser.isGoogle()) {
-            mLoginPreference.setVisible(false);
-            mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(false);
-            mEmailPreference.setVisible(false);
-            mPasswordPreference.setVisible(false);
-            mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
-            mDeletePreference.setVisible(false);
-        } else {
-            mLoginPreference.setVisible(false);
-            mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(true);
-            mEmailPreference.setVisible(true);
-            mPasswordPreference.setVisible(true);
-            mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
-            mDeletePreference.setVisible(true);
-        }
-    }
-
-    /*@Override
+/*@Override
     public void onStart() {
         super.onStart();
         setVisiblePreferences();
@@ -245,4 +261,3 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mDeletePreference.setVisible(false);
         }
     }*/
-}

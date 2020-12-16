@@ -44,7 +44,7 @@ public class DetailUserFragment extends Fragment {
     // firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    FirebaseUser user;
+    FirebaseUser fUser;
 
     Utente currentUser;
 
@@ -100,12 +100,12 @@ public class DetailUserFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (currentUser == null) {
-            fAuth = FirebaseAuth.getInstance();
             fStore = FirebaseFirestore.getInstance();
-            user = fAuth.getCurrentUser();
+            fAuth = FirebaseAuth.getInstance();
+            fUser = fAuth.getCurrentUser();
 
             // imposta dati personali
-            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     Utente utente = value.toObject(Utente.class);
