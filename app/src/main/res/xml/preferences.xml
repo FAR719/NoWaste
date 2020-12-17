@@ -18,15 +18,12 @@
                 android:targetClass="com.far.nowaste.LoginActivity"/>
         </Preference>
 
-        <EditTextPreference
+        <Preference
             app:key="full_name_preference"
             app:icon="@drawable/ic_alternate_email"
             app:title="Nome"
             app:summary="Modifica il tuo nome"
-            app:layout="@layout/preference_item_layout"
-            app:dialogTitle="Nome"
-            app:dialogMessage="Inserisci il tuo nome"
-            android:dialogLayout="@layout/edit_text_dialog_layout"/>
+            app:layout="@layout/preference_item_layout"/>
 
         <Preference
             app:key="picture_preference"
@@ -67,7 +64,7 @@
             app:summary="Cancella i dati del tuo account"
             app:layout="@layout/preference_item_layout" />
 
-        <EditTextPreference
+        <Preference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
             app:title="Elimina account"

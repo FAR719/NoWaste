@@ -4,7 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,13 +41,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     // dichiarazione view
     Preference mLoginPreference;
-    EditTextPreference mFullNamePreference;
+    Preference mFullNamePreference;
     Preference mPicturePreference;
     EditTextPreference mEmailPreference;
     EditTextPreference mPasswordPreference;
     Preference mLogOutPreference;
     Preference mResetPreference;
-    EditTextPreference mDeletePreference;
+    Preference mDeletePreference;
     SwitchPreferenceCompat mNotificationPreference;
     ListPreference mThemePreference;
     Preference mVersionePreference;
@@ -53,9 +58,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     FirebaseUser fUser;
 
     Utente currentUser;
-
-    // password inserita per la ri-autenticazione
-    static public String PASSWORD;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -80,7 +82,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
-        loadSetting();
         setVisiblePreferences();
         setupPreferences();
     }
@@ -116,43 +117,57 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void loadSetting(){
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        //String theme = sharedPreferences.getString("theme_preference", "3");
-
-        mFullNamePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+    private void setupPreferences(){
+        // set new name
+        mFullNamePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                String newFullName = (String)newValue;
-                if (!newFullName.equals(fUser.getDisplayName())){
-                    // update main and firestore
-                    MainActivity.CURRENTUSER.setFullName(newFullName);
-                    fStore.collection("users").document(fUser.getUid()).set(MainActivity.CURRENTUSER);
+            public boolean onPreferenceClick(Preference preference) {
+                // set editTextName
+                EditText editText = new EditText(getContext());
+                editText.setHint("Nome e cognome");
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
-                    // update fAuth
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
-                    fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("TAG", "User profile updated.");
-                            }
+                // set dialog
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Nome");
+                builder.setMessage("Inserisci il tuo nome:");
+                builder.setView(editText);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newFullName = editText.getText().toString().trim();
+                        if (!newFullName.equals(fUser.getDisplayName())){
+                            // update main and firestore
+                            MainActivity.CURRENTUSER.setFullName(newFullName);
+                            fStore.collection("users").document(fUser.getUid()).set(MainActivity.CURRENTUSER);
+
+                            // update fAuth
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
+                            fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("TAG", "User profile updated.");
+                                    }
+                                }
+                            });
+
+                            // update the nav_header
+                            ((MainActivity)getActivity()).updateHeader();
+
+                            Toast.makeText(getContext(), "Il tuo nome è stato aggiornato!", Toast.LENGTH_SHORT).show();
                         }
-                    });
-
-                    // update the nav_header
-                    ((MainActivity)getActivity()).updateHeader();
-
-                    Toast.makeText(getContext(), "Il tuo nome è stato aggiornato!", Toast.LENGTH_SHORT).show();
-                }
+                    }
+                });
+                builder.show();
                 return true;
             }
         });
-    }
-
-    private void setupPreferences(){
-        // set new name
-
 
         // logout
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -161,7 +176,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Logout");
                 builder.setMessage("Vuoi uscire dal tuo account?");
-                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
@@ -183,7 +198,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Reset dati");
                 builder.setMessage("Vuoi cancellare i dati del tuo account? Tale operazione è irreversibile!");
-                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
@@ -222,26 +237,37 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
 
         // delete account
-        /*mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                // set editTextName
+                EditText editText = new EditText(getContext());
+                editText.setHint("Password");
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                // set view email
+                TextView emailView = new TextView(getContext());
+                emailView.setText("La tua email: " + MainActivity.CURRENTUSER.getEmail());
+
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Elimina account");
                 builder.setMessage("Vuoi cancellare il tuo account? Tale operazione è irreversibile!");
-                builder.setNeutralButton("Indietro", new DialogInterface.OnClickListener() {
+                builder.setView(emailView);
+                builder.setView(editText);
+                builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).deleteAccount();
+                        ((MainActivity)getActivity()).deleteAccount(editText.getText().toString().trim());
                     }
                 });
                 builder.show();
                 return true;
             }
-        });*/
+        });
 
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
     }

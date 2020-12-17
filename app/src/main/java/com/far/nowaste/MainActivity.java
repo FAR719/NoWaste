@@ -288,46 +288,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseAuth.getInstance().signOut();
         CURRENTUSER = null;
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
-        mEmail.setText("Accedi al tuo account");
-        mFullName.setVisibility(View.GONE);
-        Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
-        mImage.setImageDrawable(defaultImage);
+        updateHeader();
         mToolbar.setTitle("NoWaste");
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
         fragment = 1;
     }
 
     // delete account from settings
-    public void deleteAccount() {
+    public void deleteAccount(String password) {
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
         // re-authenticate the user
         AuthCredential credential;
-        credential = EmailAuthProvider.getCredential(user.getEmail(), ImpostazioniFragment.PASSWORD);
-        ImpostazioniFragment.PASSWORD = null;
+        credential = EmailAuthProvider.getCredential(user.getEmail(), password);
 
         user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Log.d("TAG", "User re-authenticated.");
+                // cancella l'utente da firestore
+                fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error deleting document", e);
+                    }
+                });
+                fStore.terminate();
             }
         });
-
-        // cancella l'utente da firestore
-        fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("TAG", "DocumentSnapshot successfully deleted!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("TAG", "Error deleting document", e);
-            }
-        });
-        fStore.terminate();
 
         // cancella l'utente da fireauth
         user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -340,6 +334,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         CURRENTUSER = null;
+
+        updateHeader();
+        mToolbar.setTitle("NoWaste");
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+        fragment = 1;
     }
 
     public void updateHeader(){
@@ -353,6 +352,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
+            Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
+            mImage.setImageDrawable(defaultImage);
         }
     }
 }
