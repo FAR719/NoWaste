@@ -2,16 +2,22 @@ package com.far.nowaste;
 
 public class Tickets {
     // variabili
-    public String oggetto, email, day, month, year;
+    public String oggetto, email;
+    public int day, month, year, hour, minute, second;
     public boolean stato;
 
     // costruttore
-    public Tickets(String oggetto, String email, String day, String month, String year, boolean stato) {
+
+
+    public Tickets(String oggetto, String email, int day, int month, int year, int hour, int minute, int second, boolean stato) {
         this.oggetto = oggetto;
         this.email = email;
         this.day = day;
         this.month = month;
         this.year = year;
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
         this.stato = stato;
     }
 
@@ -26,11 +32,29 @@ public class Tickets {
         return email;
     }
 
-    public String getDay() { return day; }
+    public int getDay() {
+        return day;
+    }
 
-    public String getMonth() { return month; }
+    public int getMonth() {
+        return month;
+    }
 
-    public String getYear() { return year; }
+    public int getYear() {
+        return year;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public int getSecond() {
+        return second;
+    }
 
     public boolean getStato() {
         return stato;

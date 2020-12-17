@@ -80,7 +80,8 @@ public class TicketListActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // apro la chat
                         Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
-                        detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + model.getYear()); //da implementare con getHour()
+                        String ora_corr= model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                        detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
                         startActivity(detailSearchActivity);
                     }
                 });

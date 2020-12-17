@@ -28,6 +28,8 @@ public class TicketChatActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
     FirebaseFirestore firebaseFirestore;
+    TextView mRispostaBtn; // cambiare con una edit text
+
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
 
@@ -52,6 +54,7 @@ public class TicketChatActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = findViewById(R.id.ticketChat_recyclerView);
+        mRispostaBtn = findViewById(R.id.rRispostatextView);
 
         if(fAuth.getCurrentUser() == null){
             finish();
@@ -73,7 +76,7 @@ public class TicketChatActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull TicketChatActivity.ChatViewHolder holder, int position, @NonNull Message model) {
-                holder.rMessaggio.setText(model.getDescrizione());
+                holder.rMessaggio.setText(model.getTesto());
                 //holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
             }
         };
@@ -87,6 +90,14 @@ public class TicketChatActivity extends AppCompatActivity {
         // divider nella recyclerView
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mFirestoreList.addItemDecoration(dividerItemDecoration);
+
+        //  risposta
+        mRispostaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
