@@ -103,7 +103,6 @@ public class TicketListActivity extends AppCompatActivity {
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
