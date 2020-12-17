@@ -23,8 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,14 +35,12 @@ import com.far.nowaste.Fragments.CuriositaFragment;
 import com.far.nowaste.Fragments.DetailUserFragment;
 import com.far.nowaste.Fragments.HomeFragment;
 import com.far.nowaste.Fragments.ImpostazioniFragment;
+import com.far.nowaste.Fragments.LuoghiFragment;
 import com.far.nowaste.Objects.Utente;
 import com.far.nowaste.Other.SearchToolbarAnimation;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,7 +48,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -87,14 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
     int fragment;
 
-    // variabili mappa
-    FrameLayout mainFrameLayout;
-    FrameLayout mapFrameLayout;
-    SupportMapFragment supportMapFragment;
-    FusedLocationProviderClient client;
-    FloatingActionButton gpsBtn;
-    OvershootInterpolator interpolator = new OvershootInterpolator();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,20 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mEmail = header.findViewById(R.id.navHeader_emailTextView);
         mImage = header.findViewById(R.id.navHeader_userImageView);
 
-        // frame
-        mainFrameLayout = findViewById(R.id.main_frame_layout);
-        mapFrameLayout = findViewById(R.id.map_frame_layout);
-
-        // gpsBtn
-        gpsBtn = findViewById(R.id.gpsButton);
-        gpsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCurrentLocation();
-            }
-        });
-
-
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,12 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 } else {
                     mToolbar.setTitle("Profilo");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
                     fragment = 2;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -161,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }
@@ -237,88 +205,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 if (fragment != 1) {
                     mToolbar.setTitle("NoWaste");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
                     fragment = 1;
                 }
                 break;
             case R.id.nav_curiosita:
                 if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new CuriositaFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        supportMapFragment = null;
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new CuriositaFragment()).commit();
                     fragment = 3;
                 }
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {
                     mToolbar.setTitle("Calendario");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new CalendarioFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        supportMapFragment = null;
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new CalendarioFragment()).commit();
                     fragment = 4;
                 }
                 break;
             case R.id.nav_luoghi:
                 if (fragment != 5) {
                     mToolbar.setTitle("Luoghi");
-                    mainFrameLayout.setVisibility(View.GONE);
-                    mapFrameLayout.setVisibility(View.VISIBLE);
-
-                    // assegnazione variabile
-                    supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-
-                    // inizializzazione FusedLocation
-                    client = LocationServices.getFusedLocationProviderClient(this);
-
-                    // Check permessi
-                    if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        // permesso concesso
-                        getCurrentLocation();
-                    } else {
-                        // permesso negato
-                        // RICHIESTA PERMESSO
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new LuoghiFragment()).commit();
                     fragment = 5;
                 }
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
                     mToolbar.setTitle("Contattaci");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new ContattaciFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        supportMapFragment = null;
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new ContattaciFragment()).commit();
                     fragment = 6;
                 }
                 break;
             case R.id.nav_impostazioni:
                 if (fragment != 7) {
                     mToolbar.setTitle("Impostazioni");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new ImpostazioniFragment()).commit();
-                    if (fragment == 5) {
-                        mainFrameLayout.setVisibility(View.VISIBLE);
-                        mapFrameLayout.setVisibility(View.GONE);
-                        supportMapFragment = null;
-                        client = null;
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
                     fragment = 7;
                 }
                 break;
@@ -334,79 +256,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawer(GravityCompat.START);
         } else if(fragment != 1){
             mToolbar.setTitle("NoWaste");
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            if (fragment == 5) {
-                mainFrameLayout.setVisibility(View.VISIBLE);
-                mapFrameLayout.setVisibility(View.GONE);
-                supportMapFragment = null;
-                client = null;
-            }
             fragment = 1;
         } else {
             super.onBackPressed();
-        }
-    }
-
-
-    // metodi Maps
-    private void getCurrentLocation() {
-        // permessi per usare getLastLocation
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        // Inizializzazione task Location
-        Task<Location> task = client.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if(location != null){
-                    // Sincronizza Mappa
-                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-                            // inizializzazione Latitudine e Longitudine
-                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-
-                            // marker per segnalare la posizione attuale
-                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sei qui!");
-
-                            // Zoom Mappa
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-
-                            // aggiungere il marker sulla mappa
-                            googleMap.addMarker(markerOptions);
-                            
-                            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                @Override
-                                public boolean onMarkerClick(Marker marker) {
-                                    gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
-                                    return false;
-                                }
-                            });
-
-                            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                                @Override
-                                public void onMapClick(LatLng latLng) {
-                                    gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 44){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                //Quando Permesso concesso
-                getCurrentLocation();
-            }
         }
     }
 
@@ -415,33 +269,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (LoginActivity.NUM == 1) {
             LoginActivity.NUM = 0;
             mToolbar.setTitle("NoWaste");
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
-            if (fragment == 5) {
-                mainFrameLayout.setVisibility(View.VISIBLE);
-                mapFrameLayout.setVisibility(View.GONE);
-                client = null;
-            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
             logout();
         } else if(LoginActivity.NUM == 2) {
             LoginActivity.NUM = 0;
             mToolbar.setTitle("Profilo");
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new DetailUserFragment()).commit();
-            if (fragment == 5) {
-                mainFrameLayout.setVisibility(View.VISIBLE);
-                mapFrameLayout.setVisibility(View.GONE);
-                client = null;
-            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
             fragment = 2;
         } else if (LoginActivity.NUM == 3) {
             LoginActivity.NUM = 0;
-            mToolbar.setTitle("NoWaste");getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
-            if (fragment == 5) {
-                mainFrameLayout.setVisibility(View.VISIBLE);
-                mapFrameLayout.setVisibility(View.GONE);
-                client = null;
-            }
+            mToolbar.setTitle("NoWaste");getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
             deleteAccount();
@@ -458,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
         mImage.setImageDrawable(defaultImage);
         mToolbar.setTitle("NoWaste");
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
         fragment = 1;
     }
 
