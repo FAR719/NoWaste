@@ -31,6 +31,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.far.nowaste.Fragments.CalendarioFragment;
+import com.far.nowaste.Fragments.ContattaciFragment;
+import com.far.nowaste.Fragments.CuriositaFragment;
+import com.far.nowaste.Fragments.DetailUserFragment;
+import com.far.nowaste.Fragments.HomeFragment;
+import com.far.nowaste.Fragments.ImpostazioniFragment;
+import com.far.nowaste.Objects.Utente;
+import com.far.nowaste.Other.SearchToolbarAnimation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -50,7 +58,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
-    static Utente CURRENTUSER;
+    static public Utente CURRENTUSER;
 
     View header;
     TextView mFullName, mEmail;

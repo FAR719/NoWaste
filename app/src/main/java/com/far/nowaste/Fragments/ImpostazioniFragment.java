@@ -1,15 +1,11 @@
-package com.far.nowaste;
+package com.far.nowaste.Fragments;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -17,15 +13,15 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.far.nowaste.BuildConfig;
+import com.far.nowaste.LoginActivity;
+import com.far.nowaste.MainActivity;
+import com.far.nowaste.R;
+import com.far.nowaste.Objects.Utente;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,10 +49,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     Utente currentUser;
 
     // se 1 logout, se 2 elimina account
-    static int IMPNUM;
+    static public int IMPNUM;
 
     // password inserita per la ri-autenticazione
-    static String PASSWORD;
+    static public String PASSWORD;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

@@ -1,4 +1,4 @@
-package com.far.nowaste;
+package com.far.nowaste.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.far.nowaste.Objects.Curiosity;
+import com.far.nowaste.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;

@@ -1,10 +1,9 @@
-package com.far.nowaste;
+package com.far.nowaste.Other;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -13,7 +12,8 @@ import android.view.Window;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.far.nowaste.R;
 
 public class SearchToolbarAnimation {
 

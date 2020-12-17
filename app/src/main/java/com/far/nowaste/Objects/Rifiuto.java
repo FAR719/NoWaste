@@ -1,4 +1,4 @@
-package com.far.nowaste;
+package com.far.nowaste.Objects;
 
 public class Rifiuto {
 
