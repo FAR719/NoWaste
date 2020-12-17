@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -32,6 +33,9 @@ public class TicketListActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
+
+    // view
+    FloatingActionButton newTicketBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,16 @@ public class TicketListActivity extends AppCompatActivity {
         // divider nella recyclerView
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mFirestoreList.addItemDecoration(dividerItemDecoration);
+
+        // ClickListner del bottone
+        newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
+
+        newTicketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
