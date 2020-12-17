@@ -155,6 +155,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginTextView" />
 
         <View
+            android:id="@+id/login_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="10dp"

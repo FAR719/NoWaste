@@ -113,9 +113,19 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     private void loadSetting(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-
         String newName = sharedPreferences.getString("full_name_preference", currentUser.getFullName());
-        String theme = sharedPreferences.getString("theme_preference", "0");
+        String theme = sharedPreferences.getString("theme_preference", "3");
+
+        mFullNamePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String newFullName = (String)newValue;
+                if (!newFullName.equals(fUser.getDisplayName())){
+
+                }
+                return true;
+            }
+        });
     }
 
     private void setupPreferences(){
@@ -176,7 +186,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         mappa.put("nSpeciali", 0);
                         mappa.put("pSpeciali", 0);
                         fStore.collection("users").document(fUser.getUid()).update(mappa);
-                        fStore.collection("users").document(fUser.getUid()).update(mappa);
+                        if (MainActivity.CURRENTUSER != null) {
+                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(), MainActivity.CURRENTUSER.email, MainActivity.CURRENTUSER.getImage(), MainActivity.CURRENTUSER.isGoogle());
+                            MainActivity.CURRENTUSER = utente;
+                        }
                         dialog.dismiss();
                         Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
                     }

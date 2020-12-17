@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView mResetBtn, mRegisterBtn, mWarning;
     Button mGoogleBtn;
     ProgressBar progressBar;
+    View mDivider;
 
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
@@ -80,8 +81,9 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.passwordEditText);
         mLoginBtn = findViewById(R.id.loginButton);
         mResetBtn = findViewById(R.id.resetPassTextView);
-        progressBar = findViewById(R.id.progressBar);
         mGoogleBtn = findViewById(R.id.googleButton);
+        progressBar = findViewById(R.id.progressBar);
+        mDivider = findViewById(R.id.login_divider);
         mRegisterBtn = findViewById(R.id.lRegisterTextView);
         mWarning = findViewById(R.id.warningTextView);
         mResendBtn = findViewById(R.id.sendEmailButton);
@@ -335,8 +337,9 @@ public class LoginActivity extends AppCompatActivity {
             mLoginBtn.setVisibility(View.GONE);
             mResetBtn.setVisibility(View.GONE);
             mGoogleBtn.setVisibility(View.GONE);
-            mRegisterBtn.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
+            mDivider.setVisibility(View.GONE);
+            mRegisterBtn.setVisibility(View.GONE);
             mWarning.setVisibility(View.VISIBLE);
             mResendBtn.setVisibility(View.VISIBLE);
         }

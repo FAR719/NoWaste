@@ -123,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
                 } else {
                     mToolbar.setTitle("Profilo");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
                     fragment = 2;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);

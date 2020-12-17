@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseUser fUser;
+    FirebaseAuth.AuthStateListener fAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,14 +160,10 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
 
-                    // insert name into fUser
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
-                    fUser.updateProfile(profileUpdates);
-
                     Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
 
                     // store data in firestore
-                    createFirestoreUser();
+                    createFirestoreUser(fullName);
                     finish();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -175,10 +174,21 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // crea l'utente in firebase
-    private void createFirestoreUser(){
+    private void createFirestoreUser(String fullName){
+        // insert name into fUser
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
+        fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d("TAG", "User profile updated.");
+                }
+            }
+        });
+
         // store data in firestore
         DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), null, false);
+        Utente utente = new Utente(fullName, fUser.getEmail(), null, false);
         documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
