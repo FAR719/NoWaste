@@ -99,10 +99,12 @@ public class TicketListActivity extends AppCompatActivity {
 
         // ClickListner del bottone
         newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
+        Intent intent = new Intent(this,WriteNewTicketActivity.class);
 
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(intent);
             }
         });
     }
