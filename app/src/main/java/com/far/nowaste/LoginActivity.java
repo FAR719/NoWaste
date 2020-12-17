@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.far.nowaste.Fragments.ImpostazioniFragment;
+import com.far.nowaste.Fragments.LuoghiFragment;
 import com.far.nowaste.Objects.Utente;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -337,6 +338,8 @@ public class LoginActivity extends AppCompatActivity {
             NUM = 3;
             finish();
         } else if (fUser.isEmailVerified()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new LuoghiFragment()).commit();
+
             NUM = 2;
             finish();
         } else {

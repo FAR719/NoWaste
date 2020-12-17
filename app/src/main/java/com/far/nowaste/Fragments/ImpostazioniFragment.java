@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -214,6 +215,15 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });*/
 
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
+        mVersionePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                getActivity().getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                        .replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                MainActivity.FRAGMENT = 1;
+                return true;
+            }
+        });
     }
 }
 
