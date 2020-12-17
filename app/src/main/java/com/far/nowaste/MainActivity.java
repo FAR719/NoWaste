@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseFirestore fStore;
 
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
-    static public int FRAGMENT;
+    int fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +120,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 fAuth = FirebaseAuth.getInstance();
                 if (fAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
-                    FRAGMENT = 2;
+                    fragment = 2;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            FRAGMENT = 1;
+            fragment = 1;
         }
     }
 
@@ -163,12 +164,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkFragmentRequest();
     }
 
     @Override
@@ -205,51 +200,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()){
             case R.id.nav_home:
-                if (FRAGMENT != 1) {
+                if (fragment != 1) {
                     mToolbar.setTitle("NoWaste");
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                             .replace(R.id.main_frameLayout, new HomeFragment()).commit();
-                    FRAGMENT = 1;
+                    fragment = 1;
                 }
                 break;
             case R.id.nav_curiosita:
-                if (FRAGMENT != 3) {
+                if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new CuriositaFragment()).commit();
-                    FRAGMENT = 3;
+                    fragment = 3;
                 }
                 break;
             case R.id.nav_calendario:
-                if (FRAGMENT != 4) {
+                if (fragment != 4) {
                     mToolbar.setTitle("Calendario");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new CalendarioFragment()).commit();
-                    FRAGMENT = 4;
+                    fragment = 4;
                 }
                 break;
             case R.id.nav_luoghi:
-                if (FRAGMENT != 5) {
+                if (fragment != 5) {
                     mToolbar.setTitle("Luoghi");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new LuoghiFragment()).commit();
-                    FRAGMENT = 5;
+                    fragment = 5;
                 }
                 break;
             case R.id.nav_contattaci:
-                if (FRAGMENT != 6) {
+                if (fragment != 6) {
                     mToolbar.setTitle("Contattaci");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new ContattaciFragment()).commit();
-                    FRAGMENT = 6;
+                    fragment = 6;
                 }
                 break;
             case R.id.nav_impostazioni:
-                if (FRAGMENT != 7) {
+                if (fragment != 7) {
                     mToolbar.setTitle("Impostazioni");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
-                    FRAGMENT = 7;
+                    fragment = 7;
                 }
                 break;
         }
@@ -257,46 +252,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean detailUserRequest = false;
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            detailUserRequest = data.getBooleanExtra("com.far.nowaste.detailUserRequest", false);
+        }
+        if (detailUserRequest) {
+            mToolbar.setTitle("Profilo");
+            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
+            fragment = 2;
+        }
+    }
+
     // chiude la navigation quando premi back
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if(FRAGMENT != 1){
+        } else if(fragment != 1){
             mToolbar.setTitle("NoWaste");
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                     .replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
-            FRAGMENT = 1;
+            fragment = 1;
         } else {
             super.onBackPressed();
-        }
-    }
-
-    private void checkFragmentRequest(){
-        // num: se 1 home e logout, se 2 profilo, se 3 home e deleteAccount
-        if (LoginActivity.NUM == 1) {
-            LoginActivity.NUM = 0;
-            mToolbar.setTitle("NoWaste");
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                    .replace(R.id.main_frameLayout, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
-            FRAGMENT = 1;
-            logout();
-        } else if(LoginActivity.NUM == 2) {
-            LoginActivity.NUM = 0;
-            mToolbar.setTitle("Profilo");
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
-            FRAGMENT = 2;
-        } else if (LoginActivity.NUM == 3) {
-            LoginActivity.NUM = 0;
-            mToolbar.setTitle("NoWaste");
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                    .replace(R.id.main_frameLayout, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
-            FRAGMENT = 1;
-            deleteAccount();
         }
     }
 
@@ -311,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mImage.setImageDrawable(defaultImage);
         mToolbar.setTitle("NoWaste");
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
-        FRAGMENT = 1;
+        fragment = 1;
     }
 
     // delete account from settings

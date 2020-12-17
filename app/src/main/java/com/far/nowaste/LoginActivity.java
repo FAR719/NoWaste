@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -60,15 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 101;
     List<String> emails;
 
-    // // num: se 1 home e logout, se 2 profilo, se 3 home e delete
-    static public int NUM;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        NUM = 0;
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -328,19 +324,10 @@ public class LoginActivity extends AppCompatActivity {
     // metodo utilizzato anche per il passaggio da un fragment all'altro
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
-        // impNum: se 1 logout, se 2 delete account
-        if (ImpostazioniFragment.IMPNUM == 1) {
-            ImpostazioniFragment.IMPNUM = 0;
-            NUM = 1;
-            finish();
-        } else if (ImpostazioniFragment.IMPNUM == 2) {
-            ImpostazioniFragment.IMPNUM = 0;
-            NUM = 3;
-            finish();
-        } else if (fUser.isEmailVerified()){
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new LuoghiFragment()).commit();
-
-            NUM = 2;
+        if (fUser.isEmailVerified()){
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("com.far.nowaste.detailUserRequest", true);
+            setResult(Activity.RESULT_OK, returnIntent);
             finish();
         } else {
             mEmail.setVisibility(View.GONE);

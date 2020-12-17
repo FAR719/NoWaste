@@ -49,9 +49,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     Utente currentUser;
 
-    // se 1 logout, se 2 elimina account
-    static public int IMPNUM;
-
     // password inserita per la ri-autenticazione
     static public String PASSWORD;
 
@@ -59,7 +56,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        IMPNUM = 0;
         currentUser = MainActivity.CURRENTUSER;
 
         fStore = FirebaseFirestore.getInstance();
@@ -140,8 +136,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        IMPNUM = 1;
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        ((MainActivity)getActivity()).logout();
                     }
                 });
                 builder.show();
@@ -205,8 +200,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        IMPNUM = 2;
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        ((MainActivity)getActivity()).deleteAccount();
                     }
                 });
                 builder.show();
@@ -215,15 +209,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });*/
 
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
-        mVersionePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                getActivity().getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                        .replace(R.id.main_frameLayout, new HomeFragment()).commit();
-                MainActivity.FRAGMENT = 1;
-                return true;
-            }
-        });
     }
 }
 
