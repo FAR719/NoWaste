@@ -25,7 +25,8 @@
             app:summary="Modifica il tuo nome"
             app:layout="@layout/preference_item_layout"
             app:dialogTitle="Nome"
-            app:dialogMessage="Inserisci il tuo nome" />
+            app:dialogMessage="Inserisci il tuo nome"
+            android:dialogLayout="@layout/edit_text_dialog_layout"/>
 
         <Preference
             app:key="picture_preference"

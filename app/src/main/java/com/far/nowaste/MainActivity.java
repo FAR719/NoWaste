@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        // imposta CURRENTUSER e i dati nell'header
+        // imposta CURRENTUSER
         fAuth = FirebaseAuth.getInstance();
         if (fAuth.getCurrentUser() != null) {
             fStore = FirebaseFirestore.getInstance();
@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (CURRENTUSER.getImage() != null) {
                         Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
                     }
-                    fAuth.getCurrentUser().getPhotoUrl();
                 }
             });
             fStore.terminate();
@@ -344,6 +343,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void updateHeader(){
-
+        if (CURRENTUSER != null) {
+            mFullName.setText(CURRENTUSER.getFullName());
+            mEmail.setText(CURRENTUSER.getEmail());
+            mFullName.setVisibility(View.VISIBLE);
+            if (CURRENTUSER.getImage() != null) {
+                Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+            }
+        } else {
+            mEmail.setText("Accedi al tuo account");
+            mFullName.setVisibility(View.GONE);
+        }
     }
 }

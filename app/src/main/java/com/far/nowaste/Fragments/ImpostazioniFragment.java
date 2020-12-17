@@ -117,8 +117,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     }
 
     private void loadSetting(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         //String theme = sharedPreferences.getString("theme_preference", "3");
 
         mFullNamePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -140,6 +139,11 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }
                         }
                     });
+
+                    // update the nav_header
+                    ((MainActivity)getActivity()).updateHeader();
+
+                    Toast.makeText(getContext(), "Il tuo nome è stato aggiornato!", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
