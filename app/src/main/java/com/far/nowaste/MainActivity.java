@@ -342,4 +342,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         CURRENTUSER = null;
     }
+
+    public void updateHeader(){
+
+    }
 }

@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -19,9 +21,12 @@ import com.far.nowaste.LoginActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -75,6 +80,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
+        loadSetting();
         setVisiblePreferences();
         setupPreferences();
     }
@@ -113,15 +119,27 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     private void loadSetting(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        String newName = sharedPreferences.getString("full_name_preference", currentUser.getFullName());
-        String theme = sharedPreferences.getString("theme_preference", "3");
+        //String theme = sharedPreferences.getString("theme_preference", "3");
 
         mFullNamePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String newFullName = (String)newValue;
                 if (!newFullName.equals(fUser.getDisplayName())){
+                    // update main and firestore
+                    MainActivity.CURRENTUSER.setFullName(newFullName);
+                    fStore.collection("users").document(fUser.getUid()).set(MainActivity.CURRENTUSER);
 
+                    // update fAuth
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
+                    fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("TAG", "User profile updated.");
+                            }
+                        }
+                    });
                 }
                 return true;
             }
