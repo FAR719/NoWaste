@@ -1,28 +1,22 @@
 package com.far.nowaste.Fragments;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.far.nowaste.BuildConfig;
-import com.far.nowaste.LoginActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
@@ -43,8 +37,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     Preference mLoginPreference;
     Preference mFullNamePreference;
     Preference mPicturePreference;
-    EditTextPreference mEmailPreference;
-    EditTextPreference mPasswordPreference;
+    Preference mEmailPreference;
+    Preference mPasswordPreference;
     Preference mLogOutPreference;
     Preference mResetPreference;
     Preference mDeletePreference;
@@ -58,6 +52,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     FirebaseUser fUser;
 
     Utente currentUser;
+
+    // custom dialog layout
+    LinearLayout.LayoutParams mainParams;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -81,6 +78,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mNotificationPreference = findPreference("notification_preference");
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
+
+        // set custom dialogs layout params
+        mainParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
         setVisiblePreferences();
         setupPreferences();
@@ -122,17 +122,23 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mFullNamePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                // set editTextName
-                EditText editText = new EditText(getContext());
-                editText.setHint("Nome e cognome");
-                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-                editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_full_name, mainLayout, false);
+
+                // declare fullNameEditText
+                EditText fullNameEditText = layout2.findViewById(R.id.fullNameDialog_editTextFullName);
+
+                mainLayout.addView(layout2);
 
                 // set dialog
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Nome");
                 builder.setMessage("Inserisci il tuo nome:");
-                builder.setView(editText);
+                builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
@@ -140,7 +146,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String newFullName = editText.getText().toString().trim();
+                        String newFullName = fullNameEditText.getText().toString().trim();
                         if (!newFullName.equals(fUser.getDisplayName())){
                             // update main and firestore
                             MainActivity.CURRENTUSER.setFullName(newFullName);
@@ -162,6 +168,80 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                             Toast.makeText(getContext(), "Il tuo nome è stato aggiornato!", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        // set new email
+        mEmailPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_email, mainLayout, false);
+
+                // declare and set emailText, passEditText and emailEditText
+                EditText passEditText = layout2.findViewById(R.id.emailDialog_editTextPassword);
+                EditText emailEditText = layout2.findViewById(R.id.emailDialog_editTextEmail);
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Email");
+                builder.setMessage("Inserisci la tua nuova email e la password corrente:");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        // set new password
+        mPasswordPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_password, mainLayout, false);
+
+                // declare and set emailText, oldPassEditText and newPassEditText
+                TextView emailView = layout2.findViewById(R.id.passwordDialog_emailTextView);
+                emailView.setText(MainActivity.CURRENTUSER.getEmail());
+                EditText oldPassEditText = layout2.findViewById(R.id.passwordDialog_editTextOldPassword);
+                EditText newPassEditText = layout2.findViewById(R.id.passwordDialog_editTextNewPassword);
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Password");
+                builder.setMessage("Inserisci la tua nuova password:");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
                 });
                 builder.show();
@@ -240,28 +320,32 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mDeletePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                // set editTextName
-                EditText editText = new EditText(getContext());
-                editText.setHint("Password");
-                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
 
-                // set view email
-                TextView emailView = new TextView(getContext());
-                emailView.setText("La tua email: " + MainActivity.CURRENTUSER.getEmail());
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_delete, mainLayout, false);
+
+                // declare and set emailText and passEditText
+                TextView emailView = layout2.findViewById(R.id.deleteDialog_emailTextView);
+                emailView.setText(MainActivity.CURRENTUSER.getEmail());
+                EditText passEditText = layout2.findViewById(R.id.deleteDialog_editTextPassword);
+
+                mainLayout.addView(layout2);
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Elimina account");
-                builder.setMessage("Vuoi cancellare il tuo account? Tale operazione è irreversibile!");
-                builder.setView(emailView);
-                builder.setView(editText);
-                builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener() {
+                builder.setMessage("Per cancellare il tuo account inserisci nuovamente la password:");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 });
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).deleteAccount(editText.getText().toString().trim());
+                        ((MainActivity)getActivity()).deleteAccount(passEditText.getText().toString().trim());
                     }
                 });
                 builder.show();

@@ -5,14 +5,14 @@
     <PreferenceCategory
         app:key="profile_category"
         app:title="Profilo"
-        app:layout="@layout/preference_category_item_layout">
+        app:layout="@layout/layout_preference_category_item">
 
         <Preference
             app:key="login_preference"
             app:icon="@drawable/ic_login"
             app:title="Account"
             app:summary="Accedi al tuo account"
-            app:layout="@layout/preference_item_layout">
+            app:layout="@layout/layout_preference_item">
             <intent
                 android:targetPackage="com.far.nowaste"
                 android:targetClass="com.far.nowaste.LoginActivity"/>
@@ -23,74 +23,72 @@
             app:icon="@drawable/ic_alternate_email"
             app:title="Nome"
             app:summary="Modifica il tuo nome"
-            app:layout="@layout/preference_item_layout"/>
+            app:layout="@layout/layout_preference_item"/>
 
         <Preference
             app:key="picture_preference"
             app:icon="@drawable/ic_account_circle"
             app:title="Foto profilo"
             app:summary="Cambia la foto del tuo profilo"
-            app:layout="@layout/preference_item_layout" />
+            app:layout="@layout/layout_preference_item" />
 
-        <EditTextPreference
+        <Preference
             app:key="email_preference"
             app:icon="@drawable/ic_email"
             app:title="Email"
             app:summary="Modifica la tua email"
-            app:layout="@layout/preference_item_layout"
+            app:layout="@layout/layout_preference_item"
             app:dialogTitle="Email"
             app:dialogMessage="Inserisci la tua nuova email" />
 
-        <EditTextPreference
+        <Preference
             app:key="password_preference"
             app:icon="@drawable/ic_lock"
             app:title="Password"
             app:summary="Modifica la tua password"
-            app:layout="@layout/preference_item_layout"
-            app:dialogTitle="Password"
-            app:dialogMessage="Inserisci la tua nuova password" />
+            app:layout="@layout/layout_preference_item" />
 
         <Preference
             app:key="logout_preference"
             app:icon="@drawable/ic_logout"
             app:title="Logout"
             app:summary="Esci dal tuo account"
-            app:layout="@layout/preference_item_layout" />
+            app:layout="@layout/layout_preference_item" />
 
         <Preference
             app:key="reset_preference"
             app:icon="@drawable/ic_data_usage"
             app:title="Reset dati"
             app:summary="Cancella i dati del tuo account"
-            app:layout="@layout/preference_item_layout" />
+            app:layout="@layout/layout_preference_item" />
 
         <Preference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
             app:title="Elimina account"
             app:summary="Elimina il tuo account"
-            app:layout="@layout/preference_item_layout" />
+            app:layout="@layout/layout_preference_item" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:key="other_category"
         app:title="Altro"
-        app:layout="@layout/preference_category_item_layout">
+        app:layout="@layout/layout_preference_category_item">
 
         <SwitchPreferenceCompat
             app:key="notification_preference"
             app:icon="@drawable/ic_notifications"
             app:summary="Ricevi le notifiche"
             app:title="Notifiche"
-            app:layout="@layout/preference_switch_item_layout" />
+            app:layout="@layout/layout_preference_switch_item" />
 
         <ListPreference
             app:key="theme_preference"
             app:icon="@drawable/ic_palette"
             app:title="Tema"
             app:summary="Selezionato"
-            app:layout="@layout/preference_item_layout"
+            app:layout="@layout/layout_preference_item"
             app:useSimpleSummaryProvider="true"
             app:entries="@array/themeListPreferenceEntries"
             app:entryValues="@array/themeListPreferenceEntryValues"
@@ -101,7 +99,7 @@
             app:icon="@drawable/ic_android"
             app:title="Versione di NoWaste"
             app:summary="Versione"
-            app:layout="@layout/preference_item_layout" />
+            app:layout="@layout/layout_preference_item" />
 
     </PreferenceCategory>
 </PreferenceScreen>

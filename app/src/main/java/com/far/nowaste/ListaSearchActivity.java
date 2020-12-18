@@ -91,7 +91,7 @@ public class ListaSearchActivity extends AppCompatActivity {
             @NonNull
             @Override
             public ListaSearchActivity.RifiutoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_lista_item_layout, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_lista_item, parent, false);
                 return new ListaSearchActivity.RifiutoViewHolder(view);
             }
 

@@ -45,7 +45,7 @@ public class CuriositaFragment extends Fragment {
             @NonNull
             @Override
             public CuriositaFragment.CuriosityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_curiosity_item_layout, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_curiosity_item, parent, false);
                 return new CuriositaFragment.CuriosityViewHolder(view);
             }
 
