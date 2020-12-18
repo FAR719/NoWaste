@@ -17,13 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.far.nowaste.Objects.Tickets;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class TicketListActivity extends AppCompatActivity {
 
@@ -68,7 +68,7 @@ public class TicketListActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public TicketListActivity.TicketsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_tickets_item_layout, parent, false);
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_tickets_item, parent, false);
                     return new TicketListActivity.TicketsViewHolder(view);
                 }
 

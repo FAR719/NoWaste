@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.far.nowaste.Objects.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -86,7 +87,7 @@ public class TicketChatActivity extends AppCompatActivity {
             @NonNull
             @Override
             public TicketChatActivity.ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_chat_message_item_layout, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_chat_message_item, parent, false);
                 return new TicketChatActivity.ChatViewHolder(view);
             }
 
