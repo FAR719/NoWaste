@@ -93,9 +93,19 @@ public class TicketChatActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull TicketChatActivity.ChatViewHolder holder, int position, @NonNull Message model) {
-                holder.rMessaggio.setText(model.getTesto());
-                holder.rDataOra.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
-                        "  -  " + model.getHour() + ":" + model.getMinute());
+                if (model.isOperatore()){
+                    holder.operatoreLayout.setVisibility(View.VISIBLE);
+                    holder.userLayout.setVisibility(View.GONE);
+                    holder.operatoreMessage.setText(model.getTesto());
+                    holder.operatoreDate.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
+                            "  -  " + model.getHour() + ":" + model.getMinute());
+                } else {
+                    holder.userLayout.setVisibility(View.VISIBLE);
+                    holder.operatoreLayout.setVisibility(View.GONE);
+                    holder.userMessage.setText(model.getTesto());
+                    holder.userDate.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
+                            "  -  " + model.getHour() + ":" + model.getMinute());
+                }
             }
         };
 
@@ -132,15 +142,21 @@ public class TicketChatActivity extends AppCompatActivity {
 
     private class ChatViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rMessaggio;
-        private TextView rDataOra;
-        ConstraintLayout itemLayout;
+        ConstraintLayout userLayout;
+        ConstraintLayout operatoreLayout;
+        TextView userMessage;
+        TextView userDate;
+        TextView operatoreMessage;
+        TextView operatoreDate;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            rMessaggio = itemView.findViewById(R.id.recView_chatMessItem_oggettoTextView);
-            rDataOra = itemView.findViewById(R.id.recView_dataOraItem_dataTextView);
-            itemLayout = itemView.findViewById(R.id.recView_chatMessItem_constrainLayout);
+            userLayout = itemView.findViewById(R.id.userMessageLayout);
+            operatoreLayout = itemView.findViewById(R.id.operatoreMessageLayout);
+            userMessage = itemView.findViewById(R.id.userMessageTextView);
+            userDate = itemView.findViewById(R.id.userDataTextView);
+            operatoreMessage = itemView.findViewById(R.id.operatoreMessageTextView);
+            operatoreDate = itemView.findViewById(R.id.operatoreDataTextView);
         }
     }
 

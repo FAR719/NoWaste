@@ -4,36 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="30dp"
     android:id="@+id/recView_chatMessItem_constrainLayout">
 
-    <!-- Messaggio -->
-    <TextView
-        android:id="@+id/recView_chatMessItem_oggettoTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userMessageLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Messaggio"
-        android:textSize="16sp"
-        android:fontFamily="@font/nunito_semibold"
-        android:textColor="@color/search_primary_text"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- Data e ora -->
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/recView_dataOraItem_dataTextView"
-        android:layout_width="wrap_content"
+        <!-- Messaggio -->
+        <TextView
+            android:id="@+id/userMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Messaggio"
+            android:textColor="@color/search_primary_text"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Data e ora -->
+        <TextView
+            android:id="@+id/userDataTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Data e ora"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userMessageTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/operatoreMessageLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="190dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/nunito"
-        android:gravity="center"
-        android:text="Data e ora"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recView_chatMessItem_oggettoTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/userMessageLayout">
 
+        <!-- Messaggio -->
+        <TextView
+            android:id="@+id/operatoreMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Messaggio"
+            android:textColor="@color/search_primary_text"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Data e ora -->
+        <TextView
+            android:id="@+id/operatoreDataTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Data e ora"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/operatoreMessageTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
