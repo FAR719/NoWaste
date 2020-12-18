@@ -203,7 +203,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        ((MainActivity)getActivity()).changeEmail(passEditText.getText().toString().trim(), emailEditText.getText().toString().trim());
                     }
                 });
                 builder.show();

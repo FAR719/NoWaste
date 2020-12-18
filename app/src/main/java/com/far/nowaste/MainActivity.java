@@ -60,6 +60,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
@@ -283,8 +286,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // metodi impostazioni
+    public void changeEmail(String password, String email){
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = fAuth.getCurrentUser();
+
+        // re-authenticate the user
+        AuthCredential credential;
+        credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+
+        user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // cambia la mail in Auth
+                user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Email aggiornata!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                // cambia la mail in firestore
+                Map<String,Object> emailMap = new HashMap<>();
+                emailMap.put("email", email);
+                fStore.collection("users").document(user.getUid()).update(emailMap);
+
+                CURRENTUSER = new Utente(CURRENTUSER.getFullName(), email, CURRENTUSER.getImage(), CURRENTUSER.isGoogle());
+
+                updateHeader();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     // logout from settings
     public void logout() {
+        fStore.terminate();
         FirebaseAuth.getInstance().signOut();
         CURRENTUSER = null;
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
@@ -304,41 +348,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AuthCredential credential;
         credential = EmailAuthProvider.getCredential(user.getEmail(), password);
 
-        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+        user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onSuccess(Void aVoid) {
                 // cancella l'utente da firestore
                 fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                        Log.d("TAG", "Account eliminato da FireStore.");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error deleting document", e);
+                        Log.d("TAG", "Error! " + e.toString());
                     }
                 });
-                fStore.terminate();
-            }
-        });
 
-        // cancella l'utente da fireauth
-        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                // cancella l'utente da fireauth
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Account eliminato", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                CURRENTUSER = null;
+
+                updateHeader();
+                mToolbar.setTitle("NoWaste");
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                fragment = 1;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Account eliminato", Toast.LENGTH_SHORT).show();
-                }
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        CURRENTUSER = null;
-
-        updateHeader();
-        mToolbar.setTitle("NoWaste");
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
-        fragment = 1;
     }
 
     public void updateHeader(){
