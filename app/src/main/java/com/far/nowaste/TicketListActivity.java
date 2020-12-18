@@ -76,15 +76,15 @@ public class TicketListActivity extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                     holder.rOggetto.setText(model.getOggetto());
                     holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // apro la chat
-                        Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
-                        String ora_corr= model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
-                        detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
-                        startActivity(detailSearchActivity);
-                    }
+                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // apro la chat
+                            Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
+                            String ora_corr= model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                            detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
+                            startActivity(detailSearchActivity);
+                        }
                 });
                 }
             };

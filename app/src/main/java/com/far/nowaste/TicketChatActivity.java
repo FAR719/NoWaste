@@ -11,28 +11,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.util.Date;
 
 public class TicketChatActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
     FirebaseFirestore firebaseFirestore;
+
     EditText mRisposta;
+    ImageButton mRispBtn;
 
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +66,7 @@ public class TicketChatActivity extends AppCompatActivity {
         // recyclerView + FireBase
         firebaseFirestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         mFirestoreList = findViewById(R.id.ticketChat_recyclerView);
 
         mRisposta = findViewById(R.id.rRispostaEditText);
@@ -95,13 +108,22 @@ public class TicketChatActivity extends AppCompatActivity {
         mFirestoreList.addItemDecoration(dividerItemDecoration);
 
         //  risposta
-        mRispostaBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+       mRispBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String risposta = mRisposta.getText().toString();
+               // controlla la info aggiunte
+               if (TextUtils.isEmpty(risposta)){
+                   mRisposta.setError("Inserisci risposta.");
+                   return;
+               }
+
+               saveAnswer(risposta,identificativo);
+
+           }
+       });
     }
+
 
 
     private class ChatViewHolder extends RecyclerView.ViewHolder{
@@ -117,6 +139,39 @@ public class TicketChatActivity extends AppCompatActivity {
             itemLayout = itemView.findViewById(R.id.recView_chatMessItem_constrainLayout);
         }
     }
+
+
+    private void saveAnswer(String risposta, String identificativo) {
+        // variabili
+        boolean operatore = false;
+
+        Date date = new Date();
+        int hour = date.getHours();
+        int minute= date.getMinutes();
+        int second = date.getSeconds();
+
+        CalendarDay currentDate = CalendarDay.today();
+        int day = currentDate.getDay();
+        int month = currentDate.getMonth();
+        int year = currentDate.getYear();
+
+        DocumentReference documentReference = fStore.collection("tickets").document(identificativo).
+                collection("messages").document();
+
+        Message message = new Message(risposta,day,month,year,hour,minute,second,operatore);
+
+        documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: " + e.toString());
+            }
+        });
+    }
+
 
     //start&stop listening
     @Override

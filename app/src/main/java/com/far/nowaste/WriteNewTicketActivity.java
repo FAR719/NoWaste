@@ -43,7 +43,6 @@ public class WriteNewTicketActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-
         // toolbar
         mToolbar = findViewById(R.id.nuovoTicket_toolbar);
         setSupportActionBar(mToolbar);
