@@ -18,5 +18,16 @@
         android:textColor="@color/search_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <!-- Data e ora -->
+
+    <TextView
+        android:id="@+id/recView_dataOraItem_dataTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data e ora"
+        android:fontFamily="@font/nunito"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recView_chatMessItem_oggettoTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
