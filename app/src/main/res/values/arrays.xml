@@ -11,4 +11,10 @@
         <item name="2">Dark</item>
         <item name="3">Default</item>
     </string-array>
+
+    <string-array name="themeListReportProblems">
+        <item name = "Cassonetto mancante" ></item>
+        <item name = "Cassonetto pieno" ></item>
+        <item name = "Cassonetto rotto" ></item>
+    </string-array>
 </resources>
