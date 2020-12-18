@@ -58,6 +58,7 @@ public class TicketListActivity extends AppCompatActivity {
 
         if (fAuth.getCurrentUser() != null) {
             // query
+            String currentEmail = fAuth.getCurrentUser().getEmail();
             Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
                     .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");
 

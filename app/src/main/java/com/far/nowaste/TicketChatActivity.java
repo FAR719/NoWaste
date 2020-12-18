@@ -76,7 +76,8 @@ public class TicketChatActivity extends AppCompatActivity {
         }
 
         // query
-        Query query = firebaseFirestore.collection("tickets").document(identificativo).collection("messages");
+        Query query = firebaseFirestore.collection("tickets").document(identificativo).collection("messages")
+                .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");
 
         // recyclerOptions
         FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>().setQuery(query, Message.class).build();
