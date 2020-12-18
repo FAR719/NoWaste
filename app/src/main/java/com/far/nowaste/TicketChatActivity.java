@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -28,7 +29,7 @@ public class TicketChatActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
     FirebaseFirestore firebaseFirestore;
-    TextView mRispostaBtn; // cambiare con una edit text
+    EditText mRisposta;
 
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
@@ -54,7 +55,8 @@ public class TicketChatActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = findViewById(R.id.ticketChat_recyclerView);
-        mRispostaBtn = findViewById(R.id.rRispostatextView);
+
+        mRisposta = findViewById(R.id.rRispostaEditText);
 
         if(fAuth.getCurrentUser() == null){
             finish();
