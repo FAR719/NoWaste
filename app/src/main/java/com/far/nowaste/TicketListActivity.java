@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.far.nowaste.Objects.Tickets;
@@ -36,6 +38,13 @@ public class TicketListActivity extends AppCompatActivity {
 
     // view
     FloatingActionButton newTicketBtn;
+    FloatingActionButton checkBtn;
+    FloatingActionButton errorBtn;
+
+    // animazioni
+    boolean isMenuOpen;
+    OvershootInterpolator interpolator = new OvershootInterpolator();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,17 +108,11 @@ public class TicketListActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mFirestoreList.addItemDecoration(dividerItemDecoration);
 
-        // ClickListner del bottone
-        newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
-        Intent intent = new Intent(this, NewTicketActivity.class);
+        // imposta l'animazione del floating button
+        initFloatingMenu();
 
-        newTicketBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent);
-            }
-        });
     }
+
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
@@ -148,6 +151,59 @@ public class TicketListActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initFloatingMenu() {
+        // ClickListner del bottone
+        newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
+        checkBtn = findViewById(R.id.newTicket_checkFloatingActionButton);
+        errorBtn = findViewById(R.id.newTicket_errorFloatingActionButton);
+
+        Intent intent = new Intent(this, NewTicketActivity.class);
+
+        newTicketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animeteFloatingMenu();
+            }
+        });
+
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+                animeteFloatingMenu();
+            }
+        });
+
+        errorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animeteFloatingMenu();
+            }
+        });
+    }
+
+    private void animeteFloatingMenu() {
+        if(isMenuOpen){
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+            checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+            errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+
+            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_user);
+            newTicketBtn.setImageDrawable(defaulImage);
+
+            isMenuOpen = false;
+        }else {
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+            checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+            errorBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
+            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_create);
+            newTicketBtn.setImageDrawable(defaulImage);
+
+            isMenuOpen = true;
+        }
     }
 }
 
