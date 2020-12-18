@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 fAuth = FirebaseAuth.getInstance();
                 if (fAuth.getCurrentUser() == null) {
-                    startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
+                    launchProfile();
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -287,6 +287,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // metodi impostazioni
+    public void launchProfile(){
+        startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
+    }
+
     public void changeEmail(String password, String email){
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();

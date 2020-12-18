@@ -1,6 +1,7 @@
 package com.far.nowaste.Fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.far.nowaste.BuildConfig;
+import com.far.nowaste.LoginActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
@@ -118,6 +120,15 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     }
 
     private void setupPreferences(){
+        // set login
+        mLoginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ((MainActivity)getActivity()).launchProfile();
+                return true;
+            }
+        });
+
         // set new name
         mFullNamePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
