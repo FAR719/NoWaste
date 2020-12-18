@@ -25,7 +25,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Date;
 
-public class WriteNewTicketActivity extends AppCompatActivity {
+public class NewTicketActivity extends AppCompatActivity {
 
     // variabili
     Toolbar mToolbar;
@@ -41,7 +41,7 @@ public class WriteNewTicketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_new_ticket);
+        setContentView(R.layout.activity_new_ticket);
 
         Intent intent = getIntent();
 
