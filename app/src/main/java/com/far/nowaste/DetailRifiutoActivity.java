@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -51,7 +52,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     TextView nomeTextView;
     TextView materialeTextView;
     TextView descrizioneTextView;
-    TextView punteggioTextView;
     ImageView immagineImageView;
     FloatingActionButton addBtn;
     FloatingActionButton checkBtn;
@@ -89,7 +89,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         nomeTextView = findViewById(R.id.detailRifiuto_nomeTextView);
         materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
         descrizioneTextView = findViewById(R.id.detailRifiuto_descrizioneTextView);
-        punteggioTextView = findViewById(R.id.detailRifiuto_punteggioTextView);
         immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
 
         // imposta l'animazione del floating button
@@ -114,8 +113,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 nomeTextView.setText(rifiuto.getNome());
                 materialeTextView.setText(rifiuto.getMateriale());
                 descrizioneTextView.setText(rifiuto.getDescrizione());
-                punteggioTextView.setText(Html.fromHtml(rifiuto.getPunteggio() + "g di CO<sub><small><small>2</small></small></sub>"));
-                Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
+                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
             }
         });
 

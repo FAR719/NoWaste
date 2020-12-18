@@ -78,18 +78,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_materialeTextView" />
 
-        <TextView
-            android:id="@+id/detailRifiuto_punteggioTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="Punteggio"
-            android:paddingBottom="2dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/detailRifiuto_materialeTextView" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/detailRifiuto_checkFloatingActionButton"
             android:layout_width="wrap_content"

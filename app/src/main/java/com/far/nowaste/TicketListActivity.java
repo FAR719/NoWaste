@@ -150,3 +150,7 @@ public class TicketListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+        // in open menu (e in close il contrario)
+            /*Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
+            addBtn.setImageDrawable(defaultImage);*/
