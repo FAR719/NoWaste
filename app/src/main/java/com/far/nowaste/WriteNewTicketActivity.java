@@ -80,7 +80,7 @@ public class WriteNewTicketActivity extends AppCompatActivity {
 
                 // inserisce il ticket in firebase
                 insertNewTicket(oggetto, testo);
-
+                finish();
 
             }
         });
