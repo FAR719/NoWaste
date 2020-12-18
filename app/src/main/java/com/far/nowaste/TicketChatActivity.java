@@ -77,7 +77,8 @@ public class TicketChatActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull TicketChatActivity.ChatViewHolder holder, int position, @NonNull Message model) {
                 holder.rMessaggio.setText(model.getTesto());
-                //holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
+                holder.rDataOra.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
+                        "  -  " + model.getHour() + ":" + model.getMinute());
             }
         };
 
@@ -104,11 +105,13 @@ public class TicketChatActivity extends AppCompatActivity {
     private class ChatViewHolder extends RecyclerView.ViewHolder{
 
         private TextView rMessaggio;
+        private TextView rDataOra;
         ConstraintLayout itemLayout;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             rMessaggio = itemView.findViewById(R.id.recView_chatMessItem_oggettoTextView);
+            rDataOra = itemView.findViewById(R.id.recView_dataOraItem_dataTextView);
             itemLayout = itemView.findViewById(R.id.recView_chatMessItem_constrainLayout);
         }
     }
