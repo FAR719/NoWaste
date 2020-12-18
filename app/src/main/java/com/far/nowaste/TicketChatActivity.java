@@ -108,6 +108,7 @@ public class TicketChatActivity extends AppCompatActivity {
         mFirestoreList.addItemDecoration(dividerItemDecoration);
 
         //  risposta
+        mRispBtn = findViewById(R.id.rSentimageButton);
        mRispBtn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
