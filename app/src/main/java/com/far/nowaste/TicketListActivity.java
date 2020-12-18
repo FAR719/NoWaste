@@ -58,7 +58,6 @@ public class TicketListActivity extends AppCompatActivity {
 
         if (fAuth.getCurrentUser() != null) {
             // query
-            String currentEmail = fAuth.getCurrentUser().getEmail();
             Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
                     .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");
 
@@ -77,7 +76,7 @@ public class TicketListActivity extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                     holder.rOggetto.setText(model.getOggetto());
                     holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
-                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // apro la chat
@@ -86,7 +85,7 @@ public class TicketListActivity extends AppCompatActivity {
                             detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
                             startActivity(detailSearchActivity);
                         }
-                });
+                    });
                 }
             };
         }

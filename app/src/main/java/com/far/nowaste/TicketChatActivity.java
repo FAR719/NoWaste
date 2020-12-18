@@ -110,20 +110,21 @@ public class TicketChatActivity extends AppCompatActivity {
 
         //  risposta
         mRispBtn = findViewById(R.id.rSentimageButton);
-       mRispBtn.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               String risposta = mRisposta.getText().toString();
-               // controlla la info aggiunte
-               if (TextUtils.isEmpty(risposta)){
-                   mRisposta.setError("Inserisci risposta.");
-                   return;
-               }
+        mRispBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String risposta = mRisposta.getText().toString();
+                // controlla la info aggiunte
+                if (TextUtils.isEmpty(risposta)){
+                    mRisposta.setError("Inserisci risposta.");
+                    return;
+                }
 
-               saveAnswer(risposta,identificativo);
+                saveAnswer(risposta,identificativo);
+                mRisposta.setText("");
 
-           }
-       });
+            }
+        });
     }
 
 
