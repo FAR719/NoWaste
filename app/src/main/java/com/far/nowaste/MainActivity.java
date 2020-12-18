@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 fAuth = FirebaseAuth.getInstance();
                 if (fAuth.getCurrentUser() == null) {
-                    launchProfile();
+                    launchLogin();
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // metodi impostazioni
-    public void launchProfile(){
+    public void launchLogin(){
         startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
     }
 

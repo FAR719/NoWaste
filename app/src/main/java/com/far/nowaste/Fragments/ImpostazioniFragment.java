@@ -124,7 +124,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mLoginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                ((MainActivity)getActivity()).launchProfile();
+                ((MainActivity)getActivity()).launchLogin();
                 return true;
             }
         });
