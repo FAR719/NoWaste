@@ -38,7 +38,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/detailRifiuto_checkFloatingActionButton"
+            android:id="@+id/newTicket_errorFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/secondary"
+            app:elevation="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
+            app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
+            app:srcCompat="@drawable/ic_error"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/newTicket_checkFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
