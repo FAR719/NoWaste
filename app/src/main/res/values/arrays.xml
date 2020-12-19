@@ -13,8 +13,8 @@
     </string-array>
 
     <string-array name="themeListReportProblems">
-        <item name = "Cassonetto mancante" ></item>
-        <item name = "Cassonetto pieno" ></item>
-        <item name = "Cassonetto rotto" ></item>
+        <item>Cassonetto mancante</item>
+        <item>Cassonetto pieno</item>
+        <item>Cassonetto rotto</item>
     </string-array>
 </resources>
