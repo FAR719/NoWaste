@@ -113,7 +113,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 nomeTextView.setText(rifiuto.getNome());
                 materialeTextView.setText(rifiuto.getMateriale());
                 descrizioneTextView.setText(rifiuto.getDescrizione());
-                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
+                Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
             }
         });
 

@@ -93,18 +93,38 @@ public class TicketChatActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull TicketChatActivity.ChatViewHolder holder, int position, @NonNull Message model) {
+                String day, month, hour, minute;
+                if (model.getDay() < 10) {
+                    day = "0" + model.getDay();
+                } else {
+                    day = model.getDay() + "";
+                }
+                if (model.getMonth() < 10) {
+                    month = "0" + model.getMonth();
+                } else  {
+                    month = model.getMonth() + "";
+                }
+                if (model.getHour() < 10) {
+                    hour = "0" + model.getHour();
+                } else {
+                    hour = model.getHour() + "";
+                }
+                if (model.getMinute() < 10) {
+                    minute = "0" + model.getMinute();
+                } else  {
+                    minute = model.getMinute() + "";
+                }
+
                 if (model.isOperatore()){
                     holder.operatoreLayout.setVisibility(View.VISIBLE);
                     holder.userLayout.setVisibility(View.GONE);
                     holder.operatoreMessage.setText(model.getTesto());
-                    holder.operatoreDate.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
-                            "  -  " + model.getHour() + ":" + model.getMinute());
+                    holder.operatoreDate.setText(day + "/" + month + "/" + model.getYear() + "  -  " + hour + ":" + minute);
                 } else {
                     holder.userLayout.setVisibility(View.VISIBLE);
                     holder.operatoreLayout.setVisibility(View.GONE);
                     holder.userMessage.setText(model.getTesto());
-                    holder.userDate.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear() +
-                            "  -  " + model.getHour() + ":" + model.getMinute());
+                    holder.userDate.setText(day + "/" + month + "/" + model.getYear() + "  -  " + hour + ":" + minute);
                 }
             }
         };

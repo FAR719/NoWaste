@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.far.nowaste.Objects.Tickets;
@@ -36,6 +38,13 @@ public class TicketListActivity extends AppCompatActivity {
 
     // view
     FloatingActionButton newTicketBtn;
+    FloatingActionButton checkBtn;
+    FloatingActionButton errorBtn;
+
+    // animazioni
+    boolean isMenuOpen;
+    OvershootInterpolator interpolator = new OvershootInterpolator();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +84,18 @@ public class TicketListActivity extends AppCompatActivity {
                 @Override
                 protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                     holder.rOggetto.setText(model.getOggetto());
-                    holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
+                    String day, month;
+                    if (model.getDay() < 10) {
+                        day = "0" + model.getDay();
+                    } else {
+                        day = model.getDay() + "";
+                    }
+                    if (model.getMonth() < 10) {
+                        month = "0" + model.getMonth();
+                    } else  {
+                        month = model.getMonth() + "";
+                    }
+                    holder.rData.setText(day + "/" + month + "/" + model.getYear());
                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -99,17 +119,11 @@ public class TicketListActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         mFirestoreList.addItemDecoration(dividerItemDecoration);
 
-        // ClickListner del bottone
-        newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
-        Intent intent = new Intent(this, NewTicketActivity.class);
+        // imposta l'animazione del floating button
+        initFloatingMenu();
 
-        newTicketBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent);
-            }
-        });
     }
+
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
@@ -149,8 +163,69 @@ public class TicketListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-}
 
-        // in open menu (e in close il contrario)
-            /*Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
-            addBtn.setImageDrawable(defaultImage);*/
+    private void initFloatingMenu() {
+        // ClickListner del bottone
+        newTicketBtn = findViewById(R.id.newTicket_addFloatingActionButton);
+        checkBtn = findViewById(R.id.newTicket_checkFloatingActionButton);
+        errorBtn = findViewById(R.id.newTicket_errorFloatingActionButton);
+
+        checkBtn.setAlpha(0f);
+        checkBtn.setTranslationY(100f);
+        checkBtn.setScaleX(0.7f);
+        checkBtn.setScaleY(0.7f);
+
+        errorBtn.setAlpha(0f);
+        errorBtn.setTranslationY(100f);
+        errorBtn.setScaleX(0.7f);
+        errorBtn.setScaleY(0.7f);
+
+        Intent intentnewTick = new Intent(this, NewTicketActivity.class);
+        Intent intentError = new Intent(this, ReportProblemActivity.class);
+
+        newTicketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animeteFloatingMenu();
+            }
+        });
+
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentnewTick);
+                animeteFloatingMenu();
+            }
+        });
+
+        errorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentError);
+                animeteFloatingMenu();
+            }
+        });
+    }
+
+    private void animeteFloatingMenu() {
+        if(isMenuOpen){
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+            checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+            errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
+
+            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_create);
+            newTicketBtn.setImageDrawable(defaulImage);
+
+            isMenuOpen = false;
+        }else {
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(90f).setDuration(300).start();
+            checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+            errorBtn.animate().translationY(55f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
+            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_clear);
+            newTicketBtn.setImageDrawable(defaulImage);
+
+            isMenuOpen = true;
+        }
+    }
+}
