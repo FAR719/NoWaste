@@ -110,8 +110,6 @@ public class NewTicketActivity extends AppCompatActivity {
 
         // ID DOCUMENTO
         String ticketID = email + ora_corr;
-        /*fStore.collection("tickets").document(ticketId).collection("messages")
-                .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");*/
 
         // caricamneto su firebase
         DocumentReference documentReference = fStore.collection("tickets").document(ticketID);

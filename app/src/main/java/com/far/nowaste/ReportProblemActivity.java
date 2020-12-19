@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,13 +17,24 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.util.Date;
+
 public class ReportProblemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // variabili
     Toolbar mToolbar;
     Spinner mSpinnerProb;
     RadioButton mVetroRdb, mCartaRdb, mIndifferenziataRdb, mPlasticaRdb, mIndumentiRdb, mAltroRdb;
     EditText mIndirizzo, mCommento;
     Button mProbBtn;
+
+    // firebase
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
 
     @Override
@@ -53,6 +65,9 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         mCommento = findViewById(R.id.commentoEditText);
         mProbBtn = findViewById(R.id.sendProblemButton);
 
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
         // spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.themeListReportProblems, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -62,15 +77,45 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         mProbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String problemaScelto = mSpinnerProb.getSelectedItem().toString();
+                String rdbResult = (mVetroRdb.isChecked())?"Vetro":(mCartaRdb.isChecked())?"Carta":(mIndifferenziataRdb.isChecked())?"Indifferenziata":
+                        (mPlasticaRdb.isChecked())?"Plastica":(mIndumentiRdb.isChecked())?"Indumenti":(mAltroRdb.isChecked())?"Altro":"";
+                String indirizzo = mIndirizzo.getText().toString();
+                String commento = mCommento.getText().toString();
+                // controlla la info aggiunte
+                if(rdbResult == ""){
+                    mIndirizzo.setError("Selezionare un cassonetto");
+                    return;
+                } else if(TextUtils.isEmpty(indirizzo)){
+                    mIndirizzo.setError("Inserisci indirizzo");
+                    return;
+                }
+
+                // inserisce il ticket in firebase
+                insertReportProblem(problemaScelto,rdbResult,indirizzo,commento);
+                finish();
 
             }
         });
 
 
+    }
+
+    private void insertReportProblem(String problemaScelto, String rdbResult, String indirizzo, String commento) {
+        // variabili
+        Date date = new Date();
+        int hour = date.getHours();
+        int minute= date.getMinutes();
+        int second = date.getSeconds();
+
+        CalendarDay currentDate = CalendarDay.today();
+        int day = currentDate.getDay();
+        int month = currentDate.getMonth();
+        int year = currentDate.getYear();
+
 
 
     }
-
 
 
     // ends this activity (back arrow)
