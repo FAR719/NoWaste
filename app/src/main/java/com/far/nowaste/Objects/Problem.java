@@ -2,15 +2,16 @@ package com.far.nowaste.Objects;
 
 public class Problem {
     // variabili
-    public String tipologia, cassonetto, indirizzo, commento;
+    public String tipologia, cassonetto, indirizzo, commento, email;
     public int day, month, year, hour, minute, second;
 
     // costruttore
-    public Problem(String tipologia, String cassonetto, String indirizzo, String commento, int day, int month, int year, int hour, int minute, int second) {
+    public Problem(String tipologia, String cassonetto, String indirizzo, String commento, String email, int day, int month, int year, int hour, int minute, int second) {
         this.tipologia = tipologia;
         this.cassonetto = cassonetto;
         this.indirizzo = indirizzo;
         this.commento = commento;
+        this.email = email;
         this.day = day;
         this.month = month;
         this.year = year;
@@ -38,6 +39,10 @@ public class Problem {
 
     public String getCommento() {
         return commento;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public int getDay() {
