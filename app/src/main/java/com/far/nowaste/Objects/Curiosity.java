@@ -2,13 +2,11 @@ package com.far.nowaste.Objects;
 
 public class Curiosity {
 
-    public String titolo;
     public String descrizione;
     public String etichetta;
 
     // costruttore
-    public Curiosity(String titolo, String descrizione, String etichetta){
-        this.titolo = titolo;
+    public Curiosity(String descrizione, String etichetta){
         this.descrizione = descrizione;
         this.etichetta = etichetta;
     }
@@ -17,11 +15,6 @@ public class Curiosity {
     private Curiosity(){}
 
     // getter
-
-    public String getTitolo() {
-        return titolo;
-    }
-
     public String getDescrizione() {
         return descrizione;
     }

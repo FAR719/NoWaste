@@ -36,7 +36,7 @@ public class CuriositaFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         // query
-        Query query = firebaseFirestore.collection("curiosity").orderBy("titolo", Query.Direction.ASCENDING);
+        Query query = firebaseFirestore.collection("curiosity");
 
         // recyclerOptions
         FirestoreRecyclerOptions<Curiosity> options = new FirestoreRecyclerOptions.Builder<Curiosity>().setQuery(query, Curiosity.class).build();
@@ -51,15 +51,8 @@ public class CuriositaFragment extends Fragment {
 
             @Override
             protected void onBindViewHolder(@NonNull CuriositaFragment.CuriosityViewHolder holder, int position, @NonNull Curiosity model) {
-                holder.titolo.setText(model.getTitolo());
                 holder.descrizione.setText(model.getDescrizione());
                 holder.etichetta.setText(model.getEtichetta());
-                /*holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });*/
             }
         };
 
@@ -73,13 +66,10 @@ public class CuriositaFragment extends Fragment {
 
     private class CuriosityViewHolder extends RecyclerView.ViewHolder{
 
-        ConstraintLayout itemLayout;
-        TextView titolo, descrizione, etichetta;
+        TextView descrizione, etichetta;
 
         public CuriosityViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemLayout = itemView.findViewById(R.id.recView_curiosityItem_constraintLayout);
-            titolo = itemView.findViewById(R.id.recView_curiosityItem_titoloTextView);
             descrizione = itemView.findViewById(R.id.recView_curiosityItem_descTextView);
             etichetta = itemView.findViewById(R.id.recView_curiosityItem_etichettaTextView);
         }
