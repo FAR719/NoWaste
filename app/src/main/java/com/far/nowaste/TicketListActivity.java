@@ -84,7 +84,18 @@ public class TicketListActivity extends AppCompatActivity {
                 @Override
                 protected void onBindViewHolder(@NonNull TicketListActivity.TicketsViewHolder holder, int position, @NonNull Tickets model) {
                     holder.rOggetto.setText(model.getOggetto());
-                    holder.rData.setText(model.getDay() + "/" + model.getMonth() + "/" + model.getYear());
+                    String day, month;
+                    if (model.getDay() < 10) {
+                        day = "0" + model.getDay();
+                    } else {
+                        day = model.getDay() + "";
+                    }
+                    if (model.getMonth() < 10) {
+                        month = "0" + model.getMonth();
+                    } else  {
+                        month = model.getMonth() + "";
+                    }
+                    holder.rData.setText(day + "/" + month + "/" + model.getYear());
                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -198,7 +209,7 @@ public class TicketListActivity extends AppCompatActivity {
 
     private void animeteFloatingMenu() {
         if(isMenuOpen){
-            newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
             checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
             errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
 
@@ -207,9 +218,9 @@ public class TicketListActivity extends AppCompatActivity {
 
             isMenuOpen = false;
         }else {
-            newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(90f).setDuration(300).start();
             checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-            errorBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+            errorBtn.animate().translationY(55f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
 
             Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_clear);
             newTicketBtn.setImageDrawable(defaulImage);

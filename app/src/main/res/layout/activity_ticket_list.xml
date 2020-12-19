@@ -62,7 +62,7 @@
             app:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_addFloatingActionButton"
-            app:srcCompat="@drawable/ic_check"
+            app:srcCompat="@drawable/ic_create"
             app:tint="@color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
