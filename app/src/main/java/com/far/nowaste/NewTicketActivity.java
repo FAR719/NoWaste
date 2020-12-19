@@ -36,8 +36,6 @@ public class NewTicketActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +67,17 @@ public class NewTicketActivity extends AppCompatActivity {
                 String testo = mTesto.getText().toString();
 
                 // controlla la info aggiunte
-                if (TextUtils.isEmpty(oggetto)){
+                if (TextUtils.isEmpty(oggetto)) {
                     mOggetto.setError("Inserisci oggetto.");
                     return;
                 }
 
-                if (TextUtils.isEmpty(testo)){
+                if (oggetto.length() >= 20) {
+                    mOggetto.setError("L'oggetto non può superare 20 caratteri!");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(testo)) {
                     mTesto.setError("Inserisci testo.");
                     return;
                 }

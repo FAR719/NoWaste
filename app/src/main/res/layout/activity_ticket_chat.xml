@@ -18,7 +18,8 @@
             android:id="@+id/ticketChat_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="NoWaste"
+            app:title="Chat"
+            app:titleTextColor="@color/white"
             app:theme="@style/ToolbarTheme"
             app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>

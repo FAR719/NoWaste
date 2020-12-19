@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if (password.length() < 8) {
-                    mPassword.setError("La password deve essere lunga almeno 8 caratteri");
+                    mPassword.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
                 }
 

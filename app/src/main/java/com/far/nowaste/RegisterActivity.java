@@ -100,17 +100,17 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
                 if (password.length() < 8){
-                    mPassword.setError("La password deve essere lunga almeno 8 caratteri");
+                    mPassword.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
                 }
 
                 if (passwordAgain.length() == 0){
-                    mPasswordAgain.setError("Inserisci nuovamente la password");
+                    mPasswordAgain.setError("Inserisci nuovamente la password.");
                     return;
                 }
 
                 if (!passwordAgain.equals(password)){
-                    mPasswordAgain.setError("Le password inserite non corrispondono");
+                    mPasswordAgain.setError("Le password inserite non corrispondono!");
                     return;
                 }
 

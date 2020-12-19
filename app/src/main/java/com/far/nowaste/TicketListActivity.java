@@ -68,7 +68,9 @@ public class TicketListActivity extends AppCompatActivity {
         if (fAuth.getCurrentUser() != null) {
             // query
             Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-                    .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");
+                    .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
+                    .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
+                    .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
 
             // recyclerOptions
             FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
@@ -103,6 +105,7 @@ public class TicketListActivity extends AppCompatActivity {
                             Intent detailSearchActivity = new Intent(getApplicationContext(), TicketChatActivity.class);
                             String ora_corr= model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
                             detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
+                            detailSearchActivity.putExtra("com.far.nowaste.oggetto", model.getOggetto());
                             startActivity(detailSearchActivity);
                         }
                     });

@@ -63,6 +63,9 @@ public class TicketChatActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String identificativo = intent.getStringExtra("com.far.nowaste.identificativo");
+        String oggetto = intent.getStringExtra("com.far.nowaste.oggetto");
+
+        mToolbar.setTitle(oggetto);
 
         // recyclerView + FireBase
         firebaseFirestore = FirebaseFirestore.getInstance();

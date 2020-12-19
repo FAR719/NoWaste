@@ -17,7 +17,8 @@
             android:id="@+id/ticketsList_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="NoWaste"
+            app:title="Tickets"
+            app:titleTextColor="@color/white"
             app:theme="@style/ToolbarTheme"
             app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +49,7 @@
             app:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
-            app:srcCompat="@drawable/ic_error"
+            app:srcCompat="@drawable/ic_campaign"
             app:tint="@color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
