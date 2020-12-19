@@ -202,11 +202,7 @@ public class TicketListActivity extends AppCompatActivity {
             newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
             checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
             errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
-            try {
-                wait(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_create);
             newTicketBtn.setImageDrawable(defaulImage);
 
@@ -214,11 +210,8 @@ public class TicketListActivity extends AppCompatActivity {
         }else {
             newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
             checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
-            errorBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();try {
-                wait(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            errorBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
+
             Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_clear);
             newTicketBtn.setImageDrawable(defaulImage);
 

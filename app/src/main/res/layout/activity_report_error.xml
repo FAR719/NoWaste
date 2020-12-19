@@ -47,9 +47,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            app:layout_constraintTop_toBottomOf="@+id/spinner"
-            tools:layout_editor_absoluteX="21dp" />
+            android:layout_marginStart="20dp"
+            android:text="Scegli un cassonetto:"
+            android:padding="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
