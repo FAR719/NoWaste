@@ -43,6 +43,13 @@
             android:spinnerMode="dropdown"
             android:entries="@array/themeListReportProblems"/>
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@+id/spinner"
+            tools:layout_editor_absoluteX="21dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
