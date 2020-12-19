@@ -78,12 +78,12 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
                 String problemaScelto = mSpinnerProb.getSelectedItem().toString();
-                String rdbResult = (mVetroRdb.isChecked())?"Vetro":(mCartaRdb.isChecked())?"Carta":(mIndifferenziataRdb.isChecked())?"Indifferenziata":
+                String cassonetto = (mVetroRdb.isChecked())?"Vetro":(mCartaRdb.isChecked())?"Carta":(mIndifferenziataRdb.isChecked())?"Indifferenziata":
                         (mPlasticaRdb.isChecked())?"Plastica":(mIndumentiRdb.isChecked())?"Indumenti":(mAltroRdb.isChecked())?"Altro":"";
                 String indirizzo = mIndirizzo.getText().toString();
                 String commento = mCommento.getText().toString();
                 // controlla la info aggiunte
-                if(rdbResult == ""){
+                if(cassonetto == ""){
                     mIndirizzo.setError("Selezionare un cassonetto");
                     return;
                 } else if(TextUtils.isEmpty(indirizzo)){
@@ -92,7 +92,7 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
                 }
 
                 // inserisce il ticket in firebase
-                insertReportProblem(problemaScelto,rdbResult,indirizzo,commento);
+                insertReportProblem(problemaScelto,cassonetto,indirizzo,commento);
                 finish();
 
             }
@@ -101,7 +101,7 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    private void insertReportProblem(String problemaScelto, String rdbResult, String indirizzo, String commento) {
+    private void insertReportProblem(String problemaScelto, String cassonetto, String indirizzo, String commento) {
         // variabili
         Date date = new Date();
         int hour = date.getHours();
