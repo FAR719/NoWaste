@@ -20,6 +20,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.far.nowaste.Objects.Tickets;
+import com.far.nowaste.Other.ReportErrorActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -159,7 +160,8 @@ public class TicketListActivity extends AppCompatActivity {
         checkBtn = findViewById(R.id.newTicket_checkFloatingActionButton);
         errorBtn = findViewById(R.id.newTicket_errorFloatingActionButton);
 
-        Intent intent = new Intent(this, NewTicketActivity.class);
+        Intent intentnewTick = new Intent(this, NewTicketActivity.class);
+        Intent intentError = new Intent(this, ReportErrorActivity.class);
 
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +173,7 @@ public class TicketListActivity extends AppCompatActivity {
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intent);
+                startActivity(intentnewTick);
                 animeteFloatingMenu();
             }
         });
@@ -179,6 +181,7 @@ public class TicketListActivity extends AppCompatActivity {
         errorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(intentError);
                 animeteFloatingMenu();
             }
         });
@@ -206,7 +209,3 @@ public class TicketListActivity extends AppCompatActivity {
         }
     }
 }
-
-        // in open menu (e in close il contrario)
-            /*Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
-            addBtn.setImageDrawable(defaultImage);*/
