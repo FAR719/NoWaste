@@ -1,4 +1,4 @@
-package com.far.nowaste.Other;
+package com.far.nowaste;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

@@ -20,7 +20,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.far.nowaste.Objects.Tickets;
-import com.far.nowaste.Other.ReportErrorActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
