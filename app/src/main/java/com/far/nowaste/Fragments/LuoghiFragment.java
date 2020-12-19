@@ -162,6 +162,20 @@ public class LuoghiFragment extends Fragment {
                 for(MarkerOptions item : listMO){
                     googleMap.addMarker(item);
                 }
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
+                        return false;
+                    }
+                });
+
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
+                    }
+                });
             }
         });
     }
