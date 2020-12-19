@@ -1,12 +1,12 @@
 package com.far.nowaste.Objects;
 
-public class Problem {
+public class Report {
     // variabili
     public String tipologia, cassonetto, indirizzo, commento, email;
     public int day, month, year, hour, minute, second;
 
     // costruttore
-    public Problem(String tipologia, String cassonetto, String indirizzo, String commento, String email, int day, int month, int year, int hour, int minute, int second) {
+    public Report(String tipologia, String cassonetto, String indirizzo, String commento, String email, int day, int month, int year, int hour, int minute, int second) {
         this.tipologia = tipologia;
         this.cassonetto = cassonetto;
         this.indirizzo = indirizzo;
@@ -21,7 +21,7 @@ public class Problem {
     }
 
     // costruttore vuoto per fb
-    private Problem(){};
+    private Report(){};
 
     // getter
 

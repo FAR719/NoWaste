@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import com.far.nowaste.Objects.Problem;
+import com.far.nowaste.Objects.Report;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -125,10 +125,10 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         String email = fAuth.getCurrentUser().getEmail();
 
         // caricamneto su firebase
-        DocumentReference documentReference = fStore.collection("problems").document();
-        Problem problem = new Problem(problemaScelto,cassonetto,indirizzo,commento,email,day,month,year,hour,minute,second);
+        DocumentReference documentReference = fStore.collection("reports").document();
+        Report report= new Report(problemaScelto,cassonetto,indirizzo,commento,email,day,month,year,hour,minute,second);
 
-        documentReference.set(problem).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.set(report).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("TAG", "onSuccess: ticket sent");
