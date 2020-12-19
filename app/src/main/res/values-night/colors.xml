@@ -18,6 +18,8 @@
     <!--232D36-->
     <!--101D25-->
 
+    <color name="chart_background">@color/primary</color>
+
     <!--Curiosity card colors-->
     <color name="card_back_background">@color/background</color>
     <color name="card_background">@color/primary</color>

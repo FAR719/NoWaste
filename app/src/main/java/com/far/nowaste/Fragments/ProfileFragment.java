@@ -1,6 +1,5 @@
 package com.far.nowaste.Fragments;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,8 +21,6 @@ import com.far.nowaste.MainActivity;
 import com.far.nowaste.Objects.Utente;
 import com.far.nowaste.R;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -71,8 +68,9 @@ public class ProfileFragment extends Fragment {
         mFullName = view.findViewById(R.id.nameTextView);
         mEmail = view.findViewById(R.id.emailTextView);
 
-        // view grafico a torta
+        // dassegnazione views
         pieChart = view.findViewById(R.id.piechart);
+        istograph = view.findViewById(R.id.istograph);
         tvPlastica = view.findViewById(R.id.tvPlastica);
         tvOrganico = view.findViewById(R.id.tvOrganico);
         tvSecco = view.findViewById(R.id.tvSecco);
@@ -107,7 +105,7 @@ public class ProfileFragment extends Fragment {
                 Glide.with(getContext()).load(currentUser.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
             }
 
-            // imposta il grafico a torta e la leggenda
+            // imposta grafici e textView
             tvPlastica.setText((currentUser.getpPlastica()) + "g");
             tvOrganico.setText(currentUser.getpOrganico() + "g");
             tvSecco.setText(currentUser.getpIndifferenziata() + "g");
@@ -117,43 +115,7 @@ public class ProfileFragment extends Fragment {
             tvElettrici.setText(currentUser.getpElettrici() + "g");
             tvSpeciali.setText(currentUser.getpSpeciali() + "g");
             setPieChartData(currentUser);
-
-            // imposta l'istogramma
-            istograph = view.findViewById(R.id.istograph);
-
-            List<BarEntry> entries = new ArrayList<>();
-            entries.add(new BarEntry(1f, currentUser.getnPlastica()));
-            entries.add(new BarEntry(2f, currentUser.getnOrganico()));
-            entries.add(new BarEntry(3f, currentUser.getnIndifferenziata()));
-            entries.add(new BarEntry(4f, currentUser.getnCarta()));
-            entries.add(new BarEntry(5f, currentUser.getnVetro()));
-            entries.add(new BarEntry(6f, currentUser.getnMetalli()));
-            entries.add(new BarEntry(7f, currentUser.getnElettrici()));
-            entries.add(new BarEntry(8f, currentUser.getnSpeciali()));
-
-            BarDataSet barDataSet = new BarDataSet(entries, "");
-            barDataSet.setColors(colors);
-            barDataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.search_primary_text));
-            barDataSet.setValueTypeface(nunito);
-
-            BarData data = new BarData(barDataSet);
-            data.setBarWidth(0.9f);
-            istograph.setData(data);
-            istograph.setFitBars(true);
-            istograph.setPinchZoom(false);
-            istograph.setDoubleTapToZoomEnabled(false);
-            istograph.invalidate();
-            istograph.getXAxis().setDrawGridLines(false);
-            istograph.getDescription().setText("");
-            istograph.getLegend().setEnabled(false);
-
-            YAxis leftAxis = istograph.getAxisLeft();
-            leftAxis.setTypeface(nunito);
-            leftAxis.setTextColor(ContextCompat.getColor(getContext(), R.color.search_primary_text));
-            YAxis rightAxis = istograph.getAxisRight();
-            rightAxis.setDrawLabels(false);
-            XAxis xAxis = istograph.getXAxis();
-            xAxis.setDrawLabels(false);
+            setIstographData(currentUser);
         }
         return view;
     }
@@ -189,6 +151,7 @@ public class ProfileFragment extends Fragment {
                     tvElettrici.setText(utente.getpElettrici() + "g");
                     tvSpeciali.setText(utente.getpSpeciali() + "g");
                     setPieChartData(utente);
+                    setIstographData(utente);
                 }
             });
             fStore.terminate();
@@ -206,7 +169,41 @@ public class ProfileFragment extends Fragment {
         pieChart.addPieSlice(new PieModel("Elettrici", Integer.parseInt(((int) utente.getpElettrici()) + ""), colors.get(6)));
         pieChart.addPieSlice(new PieModel("Speciali", Integer.parseInt(((int) utente.getpSpeciali()) + ""), colors.get(7)));
 
+        pieChart.setInnerPaddingColor(ContextCompat.getColor(getContext(), R.color.chart_background));
+
         // To animate the pie chart
         pieChart.startAnimation();
+    }
+
+    private void setIstographData(Utente utente) {
+        List<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(1f, utente.getnPlastica()));
+        entries.add(new BarEntry(2f, utente.getnOrganico()));
+        entries.add(new BarEntry(3f, utente.getnIndifferenziata()));
+        entries.add(new BarEntry(4f, utente.getnCarta()));
+        entries.add(new BarEntry(5f, utente.getnVetro()));
+        entries.add(new BarEntry(6f, utente.getnMetalli()));
+        entries.add(new BarEntry(7f, utente.getnElettrici()));
+        entries.add(new BarEntry(8f, utente.getnSpeciali()));
+
+        BarDataSet barDataSet = new BarDataSet(entries, "");
+        barDataSet.setColors(colors);
+        barDataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.search_primary_text));
+        barDataSet.setValueTypeface(nunito);
+
+        BarData data = new BarData(barDataSet);
+        data.setBarWidth(0.9f);
+        istograph.setData(data);
+        istograph.setFitBars(true);
+        istograph.setPinchZoom(false);
+        istograph.setDoubleTapToZoomEnabled(false);
+        istograph.getXAxis().setDrawGridLines(false);
+        istograph.getAxisLeft().setTypeface(nunito);
+        istograph.getAxisLeft().setTextColor(ContextCompat.getColor(getContext(), R.color.search_primary_text));
+        istograph.getAxisRight().setDrawLabels(false);
+        istograph.getXAxis().setDrawLabels(false);
+        istograph.getDescription().setText("");
+        istograph.getLegend().setEnabled(false);
+        istograph.invalidate();
     }
 }
