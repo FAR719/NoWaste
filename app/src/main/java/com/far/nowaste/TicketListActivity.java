@@ -199,7 +199,7 @@ public class TicketListActivity extends AppCompatActivity {
 
     private void animeteFloatingMenu() {
         if(isMenuOpen){
-            newTicketBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
+            newTicketBtn.animate().setInterpolator(interpolator).rotation(45f).setDuration(300).start();
             checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
             errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
 
