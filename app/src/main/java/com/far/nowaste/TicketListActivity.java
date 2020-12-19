@@ -181,7 +181,7 @@ public class TicketListActivity extends AppCompatActivity {
         errorBtn.setScaleY(0.7f);
 
         Intent intentnewTick = new Intent(this, NewTicketActivity.class);
-        Intent intentError = new Intent(this, ReportErrorActivity.class);
+        Intent intentError = new Intent(this, ReportProblemActivity.class);
 
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
