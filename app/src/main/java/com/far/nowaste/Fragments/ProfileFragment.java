@@ -131,12 +131,10 @@ public class ProfileFragment extends Fragment {
             entries.add(new BarEntry(7f, currentUser.getnElettrici()));
             entries.add(new BarEntry(8f, currentUser.getnSpeciali()));
 
-            String[] labels = {"Plastica", "Organico", "Secco", "Carta", "Vetro", "Metalli", "Elettrici", "Speciali"};
-
             BarDataSet barDataSet = new BarDataSet(entries, "");
             barDataSet.setColors(colors);
             barDataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.search_primary_text));
-            barDataSet.setStackLabels(labels);
+            barDataSet.setValueTypeface(nunito);
 
             BarData data = new BarData(barDataSet);
             data.setBarWidth(0.9f);

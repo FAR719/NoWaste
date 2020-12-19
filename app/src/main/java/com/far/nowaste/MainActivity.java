@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 emailMap.put("email", email);
                 fStore.collection("users").document(user.getUid()).update(emailMap);
 
-                CURRENTUSER = new Utente(CURRENTUSER.getFullName(), email, CURRENTUSER.getImage(), CURRENTUSER.isGoogle());
+                CURRENTUSER.setEmail(email);
 
                 updateHeader();
             }

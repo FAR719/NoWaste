@@ -132,46 +132,79 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         if (currentUser != null){
             // carica punteggio in firestore
             DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+            int numero;
+            double punteggio;
             Map<String,Object> userMap = new HashMap<>();
             switch (rifiuto.getSmaltimento()){
                 case "Plastica":
-                    userMap.put("nPlastica", currentUser.getnPlastica() + 1);
-                    userMap.put("pPlastica", currentUser.getpPlastica() + rifiuto.getPunteggio());
+                    numero = currentUser.getnPlastica() + 1;
+                    punteggio = currentUser.getpPlastica() + rifiuto.getPunteggio();
+                    userMap.put("nPlastica", numero);
+                    userMap.put("pPlastica", punteggio);
+                    MainActivity.CURRENTUSER.setnPlastica(numero);
+                    MainActivity.CURRENTUSER.setpPlastica(punteggio);
                     break;
                 case "Organico":
-                    userMap.put("nOrganico", currentUser.getnOrganico() + 1);
-                    userMap.put("pOrganico", currentUser.getpOrganico() + rifiuto.getPunteggio());
+                    numero = currentUser.getnOrganico() + 1;
+                    punteggio = currentUser.getpOrganico() + rifiuto.getPunteggio();
+                    userMap.put("nOrganico", numero);
+                    userMap.put("pOrganico", punteggio);
+                    MainActivity.CURRENTUSER.setnOrganico(numero);
+                    MainActivity.CURRENTUSER.setpOrganico(punteggio);
                     break;
                 case "Indifferenziata":
-                    userMap.put("nIndifferenziata", currentUser.getnIndifferenziata() + 1);
-                    userMap.put("pIndifferenziata", currentUser.getpIndifferenziata() + rifiuto.getPunteggio());
+                    numero = currentUser.getnIndifferenziata() + 1;
+                    punteggio = currentUser.getpIndifferenziata() + rifiuto.getPunteggio();
+                    userMap.put("nIndifferenziata", numero);
+                    userMap.put("pIndifferenziata", punteggio);
+                    MainActivity.CURRENTUSER.setnIndifferenziata(numero);
+                    MainActivity.CURRENTUSER.setpIndifferenziata(punteggio);
                     break;
                 case "Carta":
-                    userMap.put("nCarta", currentUser.getnCarta() + 1);
-                    userMap.put("pCarta", currentUser.getpCarta() + rifiuto.getPunteggio());
+                    numero = currentUser.getnCarta() + 1;
+                    punteggio = currentUser.getpCarta() + rifiuto.getPunteggio();
+                    userMap.put("nCarta", numero);
+                    userMap.put("pCarta", punteggio);
+                    MainActivity.CURRENTUSER.setnCarta(numero);
+                    MainActivity.CURRENTUSER.setpCarta(punteggio);
                     break;
                 case "Vetro":
-                    userMap.put("nVetro", currentUser.getnVetro() + 1);
-                    userMap.put("pVetro", currentUser.getpVetro() + rifiuto.getPunteggio());
+                    numero = currentUser.getnVetro() + 1;
+                    punteggio = currentUser.getpVetro() + rifiuto.getPunteggio();
+                    userMap.put("nVetro", numero);
+                    userMap.put("pVetro", punteggio);
+                    MainActivity.CURRENTUSER.setnVetro(numero);
+                    MainActivity.CURRENTUSER.setpVetro(punteggio);
                     break;
                 case "Metalli":
-                    userMap.put("nMetalli", currentUser.getnMetalli() + 1);
-                    userMap.put("pMetalli", currentUser.getpMetalli() + rifiuto.getPunteggio());
+                    numero = currentUser.getnMetalli() + 1;
+                    punteggio = currentUser.getpMetalli() + rifiuto.getPunteggio();
+                    userMap.put("nMetalli", numero);
+                    userMap.put("pMetalli", punteggio);
+                    MainActivity.CURRENTUSER.setnMetalli(numero);
+                    MainActivity.CURRENTUSER.setpMetalli(punteggio);
                     break;
                 case "Elettrici":
-                    userMap.put("nElettrici", currentUser.getnElettrici() + 1);
-                    userMap.put("pElettrici", currentUser.getpElettrici() + rifiuto.getPunteggio());
+                    numero = currentUser.getnElettrici() + 1;
+                    punteggio = currentUser.getpElettrici() + rifiuto.getPunteggio();
+                    userMap.put("nElettrici", numero);
+                    userMap.put("pElettrici", punteggio);
+                    MainActivity.CURRENTUSER.setnElettrici(numero);
+                    MainActivity.CURRENTUSER.setpElettrici(punteggio);
                     break;
                 case "Speciali":
-                    userMap.put("nSpeciali", currentUser.getnSpeciali() + 1);
-                    userMap.put("pSpeciali", currentUser.getpSpeciali() + rifiuto.getPunteggio());
+                    numero = currentUser.getnSpeciali() + 1;
+                    punteggio = currentUser.getpSpeciali() + rifiuto.getPunteggio();
+                    userMap.put("nSpeciali", numero);
+                    userMap.put("pSpeciali", punteggio);
+                    MainActivity.CURRENTUSER.setnSpeciali(numero);
+                    MainActivity.CURRENTUSER.setpSpeciali(punteggio);
                     break;
             }
             documentReference.update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(DetailRifiutoActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "onSuccess: user data is updated");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
