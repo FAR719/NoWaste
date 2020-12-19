@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +18,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.far.nowaste.Objects.Problem;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
@@ -113,7 +118,21 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         int month = currentDate.getMonth();
         int year = currentDate.getYear();
 
+        // caricamneto su firebase
+        DocumentReference documentReference = fStore.collection("problems").document();
+        Problem problem = new Problem(problemaScelto,cassonetto,indirizzo,commento,day,month,year,hour,minute,second);
 
+        documentReference.set(problem).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("TAG", "onSuccess: ticket sent");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("TAG", "onFailure: " + e.toString());
+            }
+        });
 
     }
 
