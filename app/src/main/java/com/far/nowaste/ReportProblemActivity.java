@@ -118,9 +118,11 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         int month = currentDate.getMonth();
         int year = currentDate.getYear();
 
+        String email = fAuth.getCurrentUser().getEmail();
+
         // caricamneto su firebase
         DocumentReference documentReference = fStore.collection("problems").document();
-        Problem problem = new Problem(problemaScelto,cassonetto,indirizzo,commento,day,month,year,hour,minute,second);
+        Problem problem = new Problem(problemaScelto,cassonetto,indirizzo,commento,email,day,month,year,hour,minute,second);
 
         documentReference.set(problem).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
