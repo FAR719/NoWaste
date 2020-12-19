@@ -44,7 +44,7 @@
             android:entries="@array/themeListReportProblems"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/choosetextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -52,6 +52,59 @@
             android:padding="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+        <RadioGroup
+            android:id="@+id/radioGrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choosetextView" >
+
+            <RadioButton
+                android:id="@+id/rdbVetro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Vetro"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/rdbCarta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Carta"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/rdbIndifferenziata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Indifferenziata"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/rdbPlastica"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Plastica"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/rdbIndumenti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Indumenti"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/rdbAltro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Altro"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
