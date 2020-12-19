@@ -95,6 +95,10 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
                     mIndirizzo.setError("Inserisci indirizzo");
                     return;
                 }
+                if(cassonetto == "Altro" && TextUtils.isEmpty(commento)){
+                    mCommento.setError("Specificare la tipologia del cassonetto");
+                    return;
+                }
 
                 // inserisce il ticket in firebase
                 insertReportProblem(problemaScelto,cassonetto,indirizzo,commento);
