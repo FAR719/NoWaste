@@ -4,7 +4,7 @@ public class Utente {
 
     // definizione campi
     public String fullName, email, image;
-    public double nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
+    public int nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
     public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
     public boolean isGoogle;
 
@@ -52,35 +52,35 @@ public class Utente {
         return image;
     }
 
-    public double getnPlastica() {
+    public int getnPlastica() {
         return nPlastica;
     }
 
-    public double getnOrganico() {
+    public int getnOrganico() {
         return nOrganico;
     }
 
-    public double getnIndifferenziata() {
+    public int getnIndifferenziata() {
         return nIndifferenziata;
     }
 
-    public double getnCarta() {
+    public int getnCarta() {
         return nCarta;
     }
 
-    public double getnVetro() {
+    public int getnVetro() {
         return nVetro;
     }
 
-    public double getnMetalli() {
+    public int getnMetalli() {
         return nMetalli;
     }
 
-    public double getnElettrici() {
+    public int getnElettrici() {
         return nElettrici;
     }
 
-    public double getnSpeciali() {
+    public int getnSpeciali() {
         return nSpeciali;
     }
 
