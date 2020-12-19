@@ -1,17 +1,22 @@
 package com.far.nowaste.Fragments;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -23,13 +28,20 @@ import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,11 +64,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     FirebaseUser fUser;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     Utente currentUser;
 
     // custom dialog layout
     LinearLayout.LayoutParams mainParams;
+
+    // imageUri
+    Uri imageUri;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -67,6 +84,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         // assegna le view
         mLoginPreference = findPreference("login_preference");
@@ -101,7 +120,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         } else if (currentUser.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(false);
+            mPicturePreference.setVisible(true);
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(true);
@@ -182,6 +201,18 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     }
                 });
                 builder.show();
+                return true;
+            }
+        });
+
+        // upload the proPic
+        mPicturePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
                 return true;
             }
         });
@@ -365,6 +396,75 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
 
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            uploadPicture();
+        }
+    }
+
+    private void uploadPicture() {
+        final ProgressDialog pd = new ProgressDialog(getContext(), R.style.AlertDialogTheme);
+        pd.setTitle("Caricamento dell'immagine...");
+        pd.show();
+
+        final String key = currentUser.getEmail();
+        StorageReference riversRef = storageReference.child("images/" + key);
+
+        riversRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        pd.dismiss();
+                        updateFireStoreAuth();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        pd.dismiss();
+                        Toast.makeText(getContext(), "Errore di caricamento." + exception.toString().trim(), Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                pd.setMessage("Progressi: " + (int)progressPercent + "%");
+            }
+        });
+    }
+
+    private void updateFireStoreAuth() {
+        Map<String, Object> imageMap = new HashMap<>();
+        imageMap.put("image", imageUri.toString().trim());
+        // upload inFireAuth and FireStore
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(imageUri.toString().trim())).build();
+
+        fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    // upload in FireStore
+                    fStore = FirebaseFirestore.getInstance();
+                    fStore.collection("users").document(fUser.getUid()).update(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getContext(), "Immagine cambiata.", Toast.LENGTH_SHORT).show();
+                            MainActivity.CURRENTUSER.setImage(imageUri.toString().trim());
+                            ((MainActivity)getActivity()).updateHeader();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 }
 
