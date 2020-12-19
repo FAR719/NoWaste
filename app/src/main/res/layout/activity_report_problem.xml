@@ -70,7 +70,6 @@
                     android:id="@+id/rdbVetro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Vetro" />
 
@@ -78,7 +77,6 @@
                     android:id="@+id/rdbCarta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Carta" />
 
@@ -86,7 +84,6 @@
                     android:id="@+id/rdbIndifferenziata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Indifferenziata" />
 
@@ -94,7 +91,6 @@
                     android:id="@+id/rdbPlastica"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Plastica" />
 
@@ -102,7 +98,6 @@
                     android:id="@+id/rdbIndumenti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Indumenti" />
 
@@ -110,7 +105,6 @@
                     android:id="@+id/rdbAltro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
                     android:padding="14dp"
                     android:text="Altro" />
             </RadioGroup>

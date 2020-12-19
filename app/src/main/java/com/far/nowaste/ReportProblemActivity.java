@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class ReportProblemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -60,6 +59,15 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         mSpinnerProb.setAdapter(adapter);
         mSpinnerProb.setOnItemSelectedListener(this);
 
+        mProbBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+
 
     }
 
@@ -81,11 +89,11 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String probChoose = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),probChoose,Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 }
