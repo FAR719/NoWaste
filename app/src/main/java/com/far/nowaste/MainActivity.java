@@ -6,20 +6,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,18 +30,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.far.nowaste.Fragments.CalendarioFragment;
 import com.far.nowaste.Fragments.ContattaciFragment;
 import com.far.nowaste.Fragments.CuriositaFragment;
-import com.far.nowaste.Fragments.DetailUserFragment;
+import com.far.nowaste.Fragments.ProfileFragment;
 import com.far.nowaste.Fragments.HomeFragment;
 import com.far.nowaste.Fragments.ImpostazioniFragment;
 import com.far.nowaste.Fragments.LuoghiFragment;
 import com.far.nowaste.Objects.Utente;
 import com.far.nowaste.Other.SearchToolbarAnimation;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -127,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
+                            .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
                     fragment = 2;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -265,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (detailUserRequest) {
             mToolbar.setTitle("Profilo");
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.main_frameLayout, new DetailUserFragment()).commit();
+                    .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
             fragment = 2;
         }
     }
@@ -318,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 emailMap.put("email", email);
                 fStore.collection("users").document(user.getUid()).update(emailMap);
 
-                CURRENTUSER = new Utente(CURRENTUSER.getFullName(), email, CURRENTUSER.getImage(), CURRENTUSER.isGoogle());
+                CURRENTUSER.setEmail(email);
 
                 updateHeader();
             }
