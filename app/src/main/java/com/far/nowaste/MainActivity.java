@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Email aggiornata!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Email aggiornata.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -311,6 +311,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 CURRENTUSER.setEmail(email);
 
                 updateHeader();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // password from settings
+    public void changePassword(String oldPass, String newPass){
+        fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = fAuth.getCurrentUser();
+
+        // re-authenticate the user
+        AuthCredential credential;
+        credential = EmailAuthProvider.getCredential(user.getEmail(), oldPass);
+
+        user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // cambia la mail in Auth
+                user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Password aggiornata.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -363,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Account eliminato", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Account eliminato.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

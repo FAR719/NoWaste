@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Login completato.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Accesso effettuato", Toast.LENGTH_SHORT).show();
                             verificaEmail();
                         } else {
                             Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

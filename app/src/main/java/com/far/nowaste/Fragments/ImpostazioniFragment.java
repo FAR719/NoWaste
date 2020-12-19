@@ -177,7 +177,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             // update the nav_header
                             ((MainActivity)getActivity()).updateHeader();
 
-                            Toast.makeText(getContext(), "Il tuo nome è stato aggiornato!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Nome aggiornato.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -252,7 +252,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        ((MainActivity)getActivity()).changePassword(oldPassEditText.getText().toString().trim(), newPassEditText.getText().toString().trim());
                     }
                 });
                 builder.show();
