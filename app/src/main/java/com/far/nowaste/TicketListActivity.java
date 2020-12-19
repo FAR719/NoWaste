@@ -160,6 +160,16 @@ public class TicketListActivity extends AppCompatActivity {
         checkBtn = findViewById(R.id.newTicket_checkFloatingActionButton);
         errorBtn = findViewById(R.id.newTicket_errorFloatingActionButton);
 
+        checkBtn.setAlpha(0f);
+        checkBtn.setTranslationY(100f);
+        checkBtn.setScaleX(0.7f);
+        checkBtn.setScaleY(0.7f);
+
+        errorBtn.setAlpha(0f);
+        errorBtn.setTranslationY(100f);
+        errorBtn.setScaleX(0.7f);
+        errorBtn.setScaleY(0.7f);
+
         Intent intentnewTick = new Intent(this, NewTicketActivity.class);
         Intent intentError = new Intent(this, ReportErrorActivity.class);
 
