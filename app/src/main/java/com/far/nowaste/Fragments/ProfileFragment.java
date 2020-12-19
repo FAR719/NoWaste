@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
+import com.far.nowaste.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,7 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-public class DetailUserFragment extends Fragment {
+public class ProfileFragment extends Fragment {
 
     // definizione variabili
     ImageView mImage;
@@ -48,7 +49,7 @@ public class DetailUserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // collegamento view
         mImage = view.findViewById(R.id.userImageView);
@@ -136,42 +137,42 @@ public class DetailUserFragment extends Fragment {
                 new PieModel(
                         "Plastica",
                         Integer.parseInt(((int) utente.getpPlastica()) + ""),
-                        Color.parseColor("#FFA726")));
+                        ContextCompat.getColor(getContext(), R.color.plastica)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Organico",
                         Integer.parseInt(((int) utente.getpOrganico()) + ""),
-                        Color.parseColor("#66BB6A")));
+                        ContextCompat.getColor(getContext(), R.color.organico)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Secco",
                         Integer.parseInt(((int) utente.getpIndifferenziata()) + ""),
-                        Color.parseColor("#EF5350")));
+                        ContextCompat.getColor(getContext(), R.color.secco)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Carta",
                         Integer.parseInt(((int) utente.getpCarta()) + ""),
-                        Color.parseColor("#29B6F6")));
+                        ContextCompat.getColor(getContext(), R.color.carta)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Vetro",
                         Integer.parseInt(((int) utente.getpVetro()) + ""),
-                        Color.parseColor("#61000000")));
+                        ContextCompat.getColor(getContext(), R.color.vetro)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Metalli",
                         Integer.parseInt(((int) utente.getpMetalli()) + ""),
-                        Color.parseColor("#05af9b")));
+                        ContextCompat.getColor(getContext(), R.color.metalli)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Elettrici",
                         Integer.parseInt(((int) utente.getpElettrici()) + ""),
-                        Color.parseColor("#024265")));
+                        ContextCompat.getColor(getContext(), R.color.elettrici)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Speciali",
                         Integer.parseInt(((int) utente.getpSpeciali()) + ""),
-                        Color.parseColor("#FFBB86FC")));
+                        ContextCompat.getColor(getContext(), R.color.speciali)));
 
         // To animate the pie chart
         pieChart.startAnimation();
