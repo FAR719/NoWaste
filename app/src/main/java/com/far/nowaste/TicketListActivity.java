@@ -203,7 +203,7 @@ public class TicketListActivity extends AppCompatActivity {
             checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
             errorBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();
 
-            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_user);
+            Drawable defaulImage = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_clear);
             newTicketBtn.setImageDrawable(defaulImage);
 
             isMenuOpen = false;
