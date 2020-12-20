@@ -131,7 +131,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
-            mOperatorePreference.setVisible(true);
+            mOperatorePreference.setVisible(!currentUser.isOperatore());
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -141,10 +141,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
-            mOperatorePreference.setVisible(true);
-        }
-        if (currentUser.isOperatore()) {
-            mOperatorePreference.setVisible(false);
+            mOperatorePreference.setVisible(!currentUser.isOperatore());
         }
     }
 
@@ -483,14 +480,17 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         pd.show();
 
         final String key = currentUser.getEmail();
-        StorageReference riversRef = storageReference.child("images/" + key);
+        StorageReference pictureRef = storageReference.child("images/" + key);
 
-        riversRef.putFile(imageUri)
+        pictureRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         pd.dismiss();
-                        updateFireStoreAuth();
+                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                        if (downloadUri.isSuccessful()) {
+                            updateFireStoreAuth(downloadUri.getResult().toString());
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -507,11 +507,11 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
     }
 
-    private void updateFireStoreAuth() {
+    private void updateFireStoreAuth(String picUrl) {
         Map<String, Object> imageMap = new HashMap<>();
-        imageMap.put("image", imageUri.toString().trim());
+        imageMap.put("image", picUrl);
         // upload inFireAuth and FireStore
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(imageUri.toString().trim())).build();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(picUrl)).build();
 
         fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -523,7 +523,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getContext(), "Immagine cambiata.", Toast.LENGTH_SHORT).show();
-                            MainActivity.CURRENTUSER.setImage(imageUri.toString().trim());
+                            MainActivity.CURRENTUSER.setImage(picUrl);
                             ((MainActivity)getActivity()).updateHeader();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
