@@ -188,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // store data in firestore
         DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        Utente utente = new Utente(fullName, fUser.getEmail(), null, false);
+        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false);
         documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

@@ -56,6 +56,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     Preference mLogOutPreference;
     Preference mResetPreference;
     Preference mDeletePreference;
+    Preference mOperatorePreference;
     SwitchPreferenceCompat mNotificationPreference;
     ListPreference mThemePreference;
     Preference mVersionePreference;
@@ -68,6 +69,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     StorageReference storageReference;
 
     Utente currentUser;
+
+    final String operatoreKey = "a1b2c3d4e5";
 
     // custom dialog layout
     LinearLayout.LayoutParams mainParams;
@@ -96,6 +99,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mLogOutPreference = findPreference("logout_preference");
         mResetPreference = findPreference("reset_preference");
         mDeletePreference = findPreference("delete_preference");
+        mOperatorePreference = findPreference("operatore_preference");
         mNotificationPreference = findPreference("notification_preference");
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
@@ -117,6 +121,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(false);
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
+            mOperatorePreference.setVisible(false);
         } else if (currentUser.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -126,6 +131,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
+            mOperatorePreference.setVisible(true);
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -135,6 +141,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
+            mOperatorePreference.setVisible(true);
+        }
+        if (currentUser.isOperatore()) {
+            mOperatorePreference.setVisible(false);
         }
     }
 
@@ -346,7 +356,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         mappa.put("pSpeciali", 0);
                         fStore.collection("users").document(fUser.getUid()).update(mappa);
                         if (MainActivity.CURRENTUSER != null) {
-                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(), MainActivity.CURRENTUSER.email, MainActivity.CURRENTUSER.getImage(), MainActivity.CURRENTUSER.isGoogle());
+                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(), MainActivity.CURRENTUSER.email, MainActivity.CURRENTUSER.getImage(), MainActivity.CURRENTUSER.isGoogle(), MainActivity.CURRENTUSER.isOperatore());
                             MainActivity.CURRENTUSER = utente;
                         }
                         dialog.dismiss();
@@ -388,6 +398,66 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ((MainActivity)getActivity()).deleteAccount(passEditText.getText().toString().trim());
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        mOperatorePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_key_operatore, mainLayout, false);
+
+                // declare and set emailText and passEditText
+                EditText keyEditText = layout2.findViewById(R.id.keyOperatoreDialog_editTextKey);
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Operatore ecologico");
+                builder.setMessage("Inserisci la chiave di attivazione fornita dalla tua azienda.");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fStore = FirebaseFirestore.getInstance();
+                        String writtenKey = keyEditText.getText().toString().trim();
+                        if (writtenKey.length() != 10) {
+                            Toast.makeText(getContext(), "La chiave deve essere lunga 10 caratteri.", Toast.LENGTH_SHORT).show();
+                        } else if (!writtenKey.equals(operatoreKey)) {
+                            Toast.makeText(getContext(), "La chiave inserita non è valida.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // aggiorna profilo Firestore
+                            Map<String, Object> operatoreMappa = new HashMap<>();
+                            operatoreMappa.put("isOperatore", true);
+                            fStore.collection("users").document(fUser.getUid()).update(operatoreMappa)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // aggiorna variabile in main
+                                            MainActivity.CURRENTUSER.setOperatore(true);
+                                            currentUser = MainActivity.CURRENTUSER;
+                                            mOperatorePreference.setVisible(false);
+                                            Toast.makeText(getContext(), "Il tuo account operatore è stato attivato!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("TAG", "Error! " + e.toString());
+                                }
+                            });
+                        }
                     }
                 });
                 builder.show();
@@ -467,44 +537,3 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
     }
 }
-
-/*@Override
-    public void onStart() {
-        super.onStart();
-        setVisiblePreferences();
-    }
-
-    private void setVisiblePreferences(){
-        if (fAuth.getCurrentUser() != null) {
-            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (value.getBoolean("isGoogle")) {
-                        mLoginPreference.setVisible(false);
-                        mFullNamePreference.setVisible(true);
-                        mPicturePreference.setVisible(false);
-                        mPasswordPreference.setVisible(false);
-                        mLogOutPreference.setVisible(true);
-                        mResetPreference.setVisible(true);
-                        mDeletePreference.setVisible(false);
-                    } else {
-                        mLoginPreference.setVisible(false);
-                        mFullNamePreference.setVisible(true);
-                        mPicturePreference.setVisible(true);
-                        mPasswordPreference.setVisible(true);
-                        mLogOutPreference.setVisible(true);
-                        mResetPreference.setVisible(true);
-                        mDeletePreference.setVisible(true);
-                    }
-                }
-            });
-        } else {
-            mLoginPreference.setVisible(true);
-            mFullNamePreference.setVisible(false);
-            mPicturePreference.setVisible(false);
-            mPasswordPreference.setVisible(false);
-            mLogOutPreference.setVisible(false);
-            mResetPreference.setVisible(false);
-            mDeletePreference.setVisible(false);
-        }
-    }*/

@@ -294,7 +294,7 @@ public class LoginActivity extends AppCompatActivity {
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (!exists(fUser)) {
-            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(), true);
+            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(), true, false);
             DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
             documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

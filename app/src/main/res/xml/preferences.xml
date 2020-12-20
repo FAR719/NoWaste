@@ -66,6 +66,13 @@
             app:summary="Elimina il tuo account"
             app:layout="@layout/layout_preference_item" />
 
+        <Preference
+            app:key="operatore_preference"
+            app:icon="@drawable/ic_vpn_key"
+            app:title="Operatore ecologico"
+            app:summary="Attiva il tuo account aziendale"
+            app:layout="@layout/layout_preference_item"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
