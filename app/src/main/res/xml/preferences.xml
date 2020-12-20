@@ -94,16 +94,12 @@
             app:title="Notifiche"
             app:layout="@layout/layout_preference_switch_item" />
 
-        <ListPreference
+        <Preference
             app:key="theme_preference"
             app:icon="@drawable/ic_palette"
             app:title="Tema"
-            app:summary="Selezionato"
-            app:layout="@layout/layout_preference_item"
-            app:useSimpleSummaryProvider="true"
-            app:entries="@array/themeListPreferenceEntries"
-            app:entryValues="@array/themeListPreferenceEntryValues"
-            app:defaultValue="Default" />
+            app:summary="Non selezionato"
+            app:layout="@layout/layout_preference_item" />
 
         <Preference
             app:key="version_preference"

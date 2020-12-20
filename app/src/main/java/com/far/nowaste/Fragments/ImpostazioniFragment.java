@@ -12,11 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -59,7 +62,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     Preference mDeletePreference;
     Preference mOperatorePreference;
     SwitchPreferenceCompat mNotificationPreference;
-    ListPreference mThemePreference;
+    Preference mThemePreference;
     Preference mVersionePreference;
 
     // firebase
@@ -292,7 +295,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 // inflate the layout
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_email, mainLayout, false);
 
-                // declare and set emailText, passEditText and emailEditText
+                // declare and set passEditText and emailEditText
                 EditText passEditText = layout2.findViewById(R.id.emailDialog_editTextPassword);
                 EditText emailEditText = layout2.findViewById(R.id.emailDialog_editTextEmail);
 
@@ -469,7 +472,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 // inflate the layout
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_key_operatore, mainLayout, false);
 
-                // declare and set emailText and passEditText
+                // declare keyEditText
                 EditText keyEditText = layout2.findViewById(R.id.keyOperatoreDialog_editTextKey);
 
                 mainLayout.addView(layout2);
@@ -519,6 +522,70 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             }
         });
 
+        // set themePreference summary
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            mThemePreference.setSummary("Chiaro");
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            mThemePreference.setSummary("Scuro");
+        } else {
+            mThemePreference.setSummary("Predefinito di sistema");
+        }
+
+        // change theme
+        mThemePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_theme, mainLayout, false);
+
+                // declare radioButtons
+                RadioGroup mRadioGroup = layout2.findViewById(R.id.themeRadioGroup);
+                RadioButton mChiaroRadioBtn = layout2.findViewById(R.id.chiaroRadioButton);
+                RadioButton mScuroRadioBtn = layout2.findViewById(R.id.scuroRadioButton);
+                RadioButton mDefaultRadioBtn = layout2.findViewById(R.id.defaultRadioButton);
+
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                    mRadioGroup.check(R.id.chiaroRadioButton);
+                } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                    mRadioGroup.check(R.id.scuroRadioButton);
+                } else {
+                    mRadioGroup.check(R.id.defaultRadioButton);
+                }
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Tema");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mChiaroRadioBtn.isChecked()) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            mThemePreference.setSummary("Chiaro");
+                        } else if (mScuroRadioBtn.isChecked()) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            mThemePreference.setSummary("Scuro");
+                        } else if (mDefaultRadioBtn.isChecked()) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                            mThemePreference.setSummary("Predefinito di sistema");
+                        }
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        // show version number
         mVersionePreference.setSummary(BuildConfig.VERSION_NAME);
     }
 

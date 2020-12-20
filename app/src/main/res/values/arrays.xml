@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="themeListPreferenceEntries">
-        <item name="1">Chiaro</item>
-        <item name="2">Scuro</item>
-        <item name="3">Predefinito di sistema</item>
-    </string-array>
-
-    <string-array name="themeListPreferenceEntryValues">
-        <item name="1">Light</item>
-        <item name="2">Dark</item>
-        <item name="3">Default</item>
-    </string-array>
-
     <string-array name="themeListReportProblems">
         <item>Cassonetto mancante</item>
         <item>Cassonetto pieno</item>
