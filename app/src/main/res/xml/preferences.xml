@@ -23,10 +23,17 @@
             app:layout="@layout/layout_preference_item"/>
 
         <Preference
-            app:key="picture_preference"
+            app:key="newpicture_preference"
             app:icon="@drawable/ic_account_circle"
-            app:title="Foto profilo"
+            app:title="Cambia foto"
             app:summary="Cambia la foto del tuo profilo"
+            app:layout="@layout/layout_preference_item" />
+
+        <Preference
+            app:key="deletepicture_preference"
+            app:icon="@drawable/ic_image_not_supported"
+            app:title="Elimina foto"
+            app:summary="Elimina la foto del tuo profilo"
             app:layout="@layout/layout_preference_item" />
 
         <Preference

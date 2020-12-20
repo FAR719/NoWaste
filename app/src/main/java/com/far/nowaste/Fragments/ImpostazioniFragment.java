@@ -50,7 +50,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     // dichiarazione view
     Preference mLoginPreference;
     Preference mFullNamePreference;
-    Preference mPicturePreference;
+    Preference mNewPicturePreference;
+    Preference mDeletePicturePreference;
     Preference mEmailPreference;
     Preference mPasswordPreference;
     Preference mLogOutPreference;
@@ -93,7 +94,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         // assegna le view
         mLoginPreference = findPreference("login_preference");
         mFullNamePreference = findPreference("full_name_preference");
-        mPicturePreference = findPreference("picture_preference");
+        mNewPicturePreference = findPreference("newpicture_preference");
+        mDeletePicturePreference = findPreference("deletepicture_preference");
         mEmailPreference = findPreference("email_preference");
         mPasswordPreference = findPreference("password_preference");
         mLogOutPreference = findPreference("logout_preference");
@@ -115,7 +117,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         if (currentUser == null) {
             mLoginPreference.setVisible(true);
             mFullNamePreference.setVisible(false);
-            mPicturePreference.setVisible(false);
+            mNewPicturePreference.setVisible(false);
+            mDeletePicturePreference.setVisible(false);
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(false);
@@ -125,7 +128,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         } else if (currentUser.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(true);
+            mNewPicturePreference.setVisible(true);
+            mDeletePicturePreference.setVisible(true);
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(true);
@@ -135,7 +139,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
-            mPicturePreference.setVisible(true);
+            mNewPicturePreference.setVisible(true);
+            mDeletePicturePreference.setVisible(true);
             mEmailPreference.setVisible(true);
             mPasswordPreference.setVisible(true);
             mLogOutPreference.setVisible(true);
@@ -213,13 +218,65 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
 
         // upload the proPic
-        mPicturePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        mNewPicturePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, 1);
+                return true;
+            }
+        });
+
+        // delete the proPic
+        mDeletePicturePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Elimina profilo");
+                builder.setMessage("Vuoi eliminare le foto del tuo profilo?");
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        storageReference = storage.getReference();
+                        final String key = currentUser.getEmail();
+                        StorageReference picRef = storageReference.child("proPics/" + key);
+                        picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                fStore = FirebaseFirestore.getInstance();
+                                Map<String, Object> imageMap = new HashMap<>();
+                                imageMap.put("image", null);
+                                fStore.collection("users").document(fUser.getUid()).update(imageMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                MainActivity.CURRENTUSER.setImage(null);
+                                                currentUser = MainActivity.CURRENTUSER;
+                                                ((MainActivity)getActivity()).updateHeader();
+                                                Toast.makeText(getContext(), "Immagine eliminata!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                Toast.makeText(getContext(), "Error! " + exception.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.show();
                 return true;
             }
         });
@@ -480,17 +537,19 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         pd.show();
 
         final String key = currentUser.getEmail();
-        StorageReference pictureRef = storageReference.child("images/" + key);
+        StorageReference pictureRef = storageReference.child("proPics/" + key);
 
         pictureRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        pd.dismiss();
                         Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-                        if (downloadUri.isSuccessful()) {
-                            updateFireStoreAuth(downloadUri.getResult().toString());
-                        }
+                        downloadUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                updateFireStoreAuth(uri.toString(), pd);
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -507,32 +566,36 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         });
     }
 
-    private void updateFireStoreAuth(String picUrl) {
+    private void updateFireStoreAuth(String picUrl, ProgressDialog pd) {
         Map<String, Object> imageMap = new HashMap<>();
         imageMap.put("image", picUrl);
         // upload inFireAuth and FireStore
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(picUrl)).build();
 
-        fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // upload in FireStore
-                    fStore = FirebaseFirestore.getInstance();
-                    fStore.collection("users").document(fUser.getUid()).update(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getContext(), "Immagine cambiata.", Toast.LENGTH_SHORT).show();
-                            MainActivity.CURRENTUSER.setImage(picUrl);
-                            ((MainActivity)getActivity()).updateHeader();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+            public void onSuccess(Void aVoid) {
+                fStore = FirebaseFirestore.getInstance();
+                fStore.collection("users").document(fUser.getUid()).update(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        MainActivity.CURRENTUSER.setImage(picUrl);
+                        ((MainActivity)getActivity()).updateHeader();
+                        pd.dismiss();
+                        Toast.makeText(getContext(), "Immagine cambiata.", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

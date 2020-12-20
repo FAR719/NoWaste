@@ -49,6 +49,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // firebase
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
     int fragment;
@@ -298,19 +302,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Email aggiornata.", Toast.LENGTH_SHORT).show();
+                            // cambia la mail in firestore
+                            Map<String,Object> emailMap = new HashMap<>();
+                            emailMap.put("email", email);
+                            fStore.collection("users").document(user.getUid()).update(emailMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(MainActivity.this, "Email aggiornata.", Toast.LENGTH_SHORT).show();
+                                    CURRENTUSER.setEmail(email);
+                                    updateHeader();
+                                }
+                            });
                         }
                     }
                 });
-
-                // cambia la mail in firestore
-                Map<String,Object> emailMap = new HashMap<>();
-                emailMap.put("email", email);
-                fStore.collection("users").document(user.getUid()).update(emailMap);
-
-                CURRENTUSER.setEmail(email);
-
-                updateHeader();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -380,31 +385,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        // elimina la proPic da storage
                         Log.d("TAG", "Account eliminato da FireStore.");
+                        storage = FirebaseStorage.getInstance();
+                        storageReference = storage.getReference();
+                        final String key = CURRENTUSER.getEmail();
+                        StorageReference picRef = storageReference.child("proPics/" + key);
+                        picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("TAG", "Foto eliminata da storage.");
+                                // cancella l'utente da fireauth
+                                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Account eliminato.", Toast.LENGTH_SHORT).show();
+                                            CURRENTUSER = null;
+
+                                            updateHeader();
+                                            mToolbar.setTitle("NoWaste");
+                                            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                                            fragment = 1;
+                                        }
+                                    }
+                                });
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("TAG", "Error! " + e.toString());
+                        Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                // cancella l'utente da fireauth
-                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Account eliminato.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                CURRENTUSER = null;
-
-                updateHeader();
-                mToolbar.setTitle("NoWaste");
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
-                fragment = 1;
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -421,6 +440,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mFullName.setVisibility(View.VISIBLE);
             if (CURRENTUSER.getImage() != null) {
                 Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+            } else {
+                Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
+                mImage.setImageDrawable(defaultImage);
             }
         } else {
             mEmail.setText("Accedi al tuo account");
