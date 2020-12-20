@@ -1,4 +1,4 @@
-package com.far.nowaste;
+package com.far.nowaste.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class TicketOpenFragment extends Fragment {
+import com.far.nowaste.R;
+
+public class TicketOpenedFragment extends Fragment {
 
     @Nullable
     @Override

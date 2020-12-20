@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.far.nowaste.R;
-import com.far.nowaste.ReportFragment;
-import com.far.nowaste.TicketCloseFragment;
-import com.far.nowaste.TicketOpenFragment;
+import com.far.nowaste.Fragments.ReportFragment;
+import com.far.nowaste.Fragments.TicketClosedFragment;
+import com.far.nowaste.Fragments.TicketOpenedFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -33,10 +33,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position){
             case 0:
-                fragment = new TicketOpenFragment();
+                fragment = new TicketOpenedFragment();
                 break;
             case 1:
-                fragment = new TicketCloseFragment();
+                fragment = new TicketClosedFragment();
                 break;
             case 2:
                 fragment = new ReportFragment();
