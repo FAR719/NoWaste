@@ -84,4 +84,13 @@
         <item name="fontFamily">@font/nunito_semibold</item>
         <item name="textAllCaps">true</item>
     </style>
+
+    <style name="Theme.NoWaste.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.NoWaste.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.NoWaste.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

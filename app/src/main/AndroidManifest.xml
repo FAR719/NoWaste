@@ -14,7 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
-        <activity android:name=".ReportProblemActivity"></activity>
+        <activity
+            android:name=".TabTicketActivity"
+            android:label="@string/title_activity_tab_ticket"
+            android:theme="@style/Theme.NoWaste.NoActionBar"></activity>
+        <activity android:name=".ReportProblemActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
