@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recView_ticketsItem_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="18dp"
-    android:id="@+id/recView_ticketsItem_constraintLayout">
+    android:padding="20sp">
 
     <!-- Oggetto -->
     <TextView
         android:id="@+id/recView_ticketsItem_oggettoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oggetto"
-        android:textSize="16sp"
         android:fontFamily="@font/nunito_semibold"
+        android:text="Oggetto"
         android:textColor="@color/search_primary_text"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Email -->
+    <TextView
+        android:id="@+id/recView_ticketsItem_emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:text="mittente@email.com"
+        app:layout_constraintStart_toStartOf="@+id/recView_ticketsItem_oggettoTextView"
+        app:layout_constraintTop_toTopOf="@+id/recView_ticketsItem_dataTextView" />
 
     <!-- Data -->
     <TextView
         android:id="@+id/recView_ticketsItem_dataTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Data"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/nunito"
+        android:text="Data"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recView_ticketsItem_oggettoTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

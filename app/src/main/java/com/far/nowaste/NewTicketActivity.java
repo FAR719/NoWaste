@@ -72,7 +72,7 @@ public class NewTicketActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (oggetto.length() >= 20) {
+                if (oggetto.length() > 20) {
                     mOggetto.setError("L'oggetto non può superare 20 caratteri!");
                     return;
                 }

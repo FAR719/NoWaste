@@ -98,6 +98,12 @@ public class TicketListActivity extends AppCompatActivity {
                         month = model.getMonth() + "";
                     }
                     holder.rData.setText(day + "/" + month + "/" + model.getYear());
+                    if (MainActivity.CURRENTUSER.isOperatore()) {
+                        holder.rEmail.setVisibility(View.VISIBLE);
+                        holder.rEmail.setText(model.getEmail());
+                    } else {
+                        holder.rEmail.setVisibility(View.GONE);
+                    }
                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -132,6 +138,7 @@ public class TicketListActivity extends AppCompatActivity {
 
         private TextView rOggetto;
         private TextView rData;
+        private TextView rEmail;
         ConstraintLayout itemLayout;
 
 
@@ -140,6 +147,7 @@ public class TicketListActivity extends AppCompatActivity {
             itemLayout = itemView.findViewById(R.id.recView_ticketsItem_constraintLayout);
             rOggetto = itemView.findViewById(R.id.recView_ticketsItem_oggettoTextView);
             rData = itemView.findViewById(R.id.recView_ticketsItem_dataTextView);
+            rEmail = itemView.findViewById(R.id.recView_ticketsItem_emailTextView);
         }
     }
 
