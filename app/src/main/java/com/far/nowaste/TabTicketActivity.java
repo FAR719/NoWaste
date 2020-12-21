@@ -6,6 +6,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +19,9 @@ import com.far.nowaste.ui.main.SectionsPagerAdapter;
 
 public class TabTicketActivity extends AppCompatActivity {
 
+    // definizione variabili
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,15 @@ public class TabTicketActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
+
+        // toolbar
+        mToolbar = findViewById(R.id.ticketsList_toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
+
+        // back arrow
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 }
