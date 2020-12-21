@@ -36,7 +36,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_bold"
-                        android:text="Conferimento settimanale"
+                        android:text='Raccolta "porta a porta"'
                         android:textAllCaps="true"
                         android:textColor="@color/search_primary_text"
                         android:textSize="20sp"
@@ -140,59 +140,200 @@
                         app:layout_constraintStart_toStartOf="@+id/textView44"
                         app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
-                    <TextView
-                        android:id="@+id/lun_conferimento"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.75"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView41"
-                        app:layout_constraintTop_toTopOf="@+id/textView39" />
+                        app:layout_constraintTop_toTopOf="@+id/textView39">
 
-                    <TextView
-                        android:id="@+id/mar_conferimento"
+                        <TextView
+                            android:id="@+id/lun_1conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lun_e"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lun_1conferimento"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lun_2conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lun_e"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="@+id/lun_conferimento"
-                        app:layout_constraintStart_toStartOf="@+id/lun_conferimento"
-                        app:layout_constraintTop_toTopOf="@+id/textView40" />
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout8"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout8"
+                        app:layout_constraintTop_toTopOf="@+id/textView40">
 
-                    <TextView
-                        android:id="@+id/mer_conferimento"
+                        <TextView
+                            android:id="@+id/mar_1conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mar_e"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/mar_1conferimento"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mar_2conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/mar_e"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="@+id/mar_conferimento"
-                        app:layout_constraintStart_toStartOf="@+id/mar_conferimento"
-                        app:layout_constraintTop_toTopOf="@+id/textView41" />
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
+                        app:layout_constraintTop_toTopOf="@+id/textView41">
 
-                    <TextView
-                        android:id="@+id/gio_conferimento"
+                        <TextView
+                            android:id="@+id/mer_1conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mer_e"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/mer_1conferimento"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mer_2conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/mer_e"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="@+id/mer_conferimento"
-                        app:layout_constraintStart_toStartOf="@+id/mer_conferimento"
-                        app:layout_constraintTop_toTopOf="@+id/textView42" />
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout6"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout6"
+                        app:layout_constraintTop_toTopOf="@+id/textView42">
 
-                    <TextView
-                        android:id="@+id/ven_conferimento"
+                        <TextView
+                            android:id="@+id/gio_1conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/gio_e"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/gio_1conferimento"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/gio_2conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/gio_e"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="@+id/gio_conferimento"
-                        app:layout_constraintStart_toStartOf="@+id/gio_conferimento"
-                        app:layout_constraintTop_toTopOf="@+id/textView43" />
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout5"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout5"
+                        app:layout_constraintTop_toTopOf="@+id/textView43">
+
+                        <TextView
+                            android:id="@+id/ven_1conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/ven_e"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/ven_1conferimento"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/ven_2conferimento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="1dp"
+                            android:fontFamily="@font/nunito_semibold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/ven_e"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/sab_conferimento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_semibold"
-                        app:layout_constraintEnd_toEndOf="@+id/ven_conferimento"
-                        app:layout_constraintStart_toStartOf="@+id/ven_conferimento"
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
                         app:layout_constraintTop_toTopOf="@+id/textView44" />
 
                     <TextView

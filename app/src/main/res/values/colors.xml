@@ -28,6 +28,7 @@
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 
+    <!--Colori grafici-->
     <color name="plastica">#FFA726</color>
     <color name="organico">#66BB6A</color>
     <color name="secco">#EF5350</color>
@@ -36,6 +37,12 @@
     <color name="metalli">#05af9b</color>
     <color name="elettrici">#BA2D39</color>
     <color name="speciali">@color/purple_200</color>
+
+    <!--Colori home-->
+    <color name="plastica_home">#F9CF30</color>
+    <color name="organico_home">#6C121B</color>
+    <color name="secco_home">#1B8C52</color>
+    <color name="carta_home">#DBDDDC</color>
 
     <color name="chart_background">#EDEDF2</color>
 

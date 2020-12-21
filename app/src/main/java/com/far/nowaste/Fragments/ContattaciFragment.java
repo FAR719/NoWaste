@@ -15,8 +15,7 @@ import com.far.nowaste.TicketListActivity;
 import com.google.android.material.card.MaterialCardView;
 
 public class ContattaciFragment extends Fragment {
-    MaterialCardView ticketCard;
-    MaterialCardView contattaciCard;
+    MaterialCardView ticketCard, contattaciCard;
 
     @Nullable
     @Override

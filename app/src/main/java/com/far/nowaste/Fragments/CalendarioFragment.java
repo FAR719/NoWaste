@@ -33,9 +33,8 @@ import java.util.List;
 public class CalendarioFragment extends Fragment {
 
     // definizione view
-    MaterialCalendarView mCalendarView;
+    MaterialCalendarView mCalendarView, materialCardView;
     TextView mDateTextView, mTitleTextView, mDescTextView;
-    MaterialCardView materialCardView;
 
     // definizione variabili
     List<Evento> eventi;
