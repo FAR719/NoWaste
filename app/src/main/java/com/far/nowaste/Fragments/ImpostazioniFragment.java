@@ -51,19 +51,10 @@ import java.util.Map;
 public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     // dichiarazione view
-    Preference mLoginPreference;
-    Preference mFullNamePreference;
-    Preference mNewPicturePreference;
-    Preference mDeletePicturePreference;
-    Preference mEmailPreference;
-    Preference mPasswordPreference;
-    Preference mLogOutPreference;
-    Preference mResetPreference;
-    Preference mDeletePreference;
-    Preference mOperatorePreference;
+    Preference mLoginPreference, mFullNamePreference, mNewPicturePreference, mDeletePicturePreference;
+    Preference mEmailPreference, mPasswordPreference, mLogOutPreference, mResetPreference;
+    Preference mDeletePreference, mOperatorePreference, mThemePreference, mVersionePreference;
     SwitchPreferenceCompat mNotificationPreference;
-    Preference mThemePreference;
-    Preference mVersionePreference;
 
     // firebase
     FirebaseFirestore fStore;

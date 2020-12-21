@@ -1,5 +1,6 @@
 package com.far.nowaste.Fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.Other.EventDecorator;
@@ -44,6 +46,8 @@ public class CalendarioFragment extends Fragment {
     FirebaseFirestore fStore;
     FirebaseAuth fAuth;
 
+    Typeface nunito, nunito_bold;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,32 +59,67 @@ public class CalendarioFragment extends Fragment {
         mDescTextView = view.findViewById(R.id.calendar_event_desc);
         materialCardView = view.findViewById(R.id.cardViewEvent);
 
+        // typefaces
+        nunito = ResourcesCompat.getFont(getContext(), R.font.nunito);
+        nunito_bold = ResourcesCompat.getFont(getContext(), R.font.nunito_bold);
+
         // inizializzazione liste
         eventi = new LinkedList<>();
         dates = new LinkedList<>();
 
         // inizializzazione firestore
-        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
         // imposta la data odierna
         currentDay = CalendarDay.today();
         mCalendarView.setDateSelected(CalendarDay.today(), true);
-        materialCardView.setVisibility(View.GONE);
-        mDateTextView.setText(currentDay.getDay() + "/" + currentDay.getMonth() + "/" + currentDay.getYear());
+        String month;
+        String day;
+        if (currentDay.getMonth() < 10) {
+            month = "0" + currentDay.getMonth();
+        } else {
+            month = currentDay.getMonth() + "";
+        }
+        if (currentDay.getDay() < 10) {
+            day = "0" + currentDay.getDay();
+        } else {
+            day = currentDay.getDay() + "";
+        }
+        mDateTextView.setText(day + "/" + month + "/" + currentDay.getYear());
+
+        // imposta il default "Nessun evento"
+        mDescTextView.setVisibility(View.GONE);
+        mDateTextView.setVisibility(View.GONE);
+        mTitleTextView.setTypeface(nunito);
 
         // onClick day
         mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                mDateTextView.setText(date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
+                String month, day;
+                if (date.getMonth() < 10) {
+                    month = "0" + date.getMonth();
+                } else {
+                    month = date.getMonth() + "";
+                }
+                if (date.getDay() < 10) {
+                    day = "0" + date.getDay();
+                } else {
+                    day = date.getDay() + "";
+                }
+                mDateTextView.setText(day + "/" + month + "/" + date.getYear());
                 if (fAuth.getCurrentUser() != null) {
-                    materialCardView.setVisibility(View.GONE);
+                    mTitleTextView.setText("Nessun evento");
+                    mDescTextView.setVisibility(View.GONE);
+                    mDateTextView.setVisibility(View.GONE);
+                    mTitleTextView.setTypeface(nunito);
                     for (Evento evento : eventi) {
                         if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
                             mTitleTextView.setText(evento.getTitle());
                             mDescTextView.setText(evento.getDescription());
-                            materialCardView.setVisibility(View.VISIBLE);
+                            mDescTextView.setVisibility(View.VISIBLE);
+                            mDateTextView.setVisibility(View.VISIBLE);
+                            mTitleTextView.setTypeface(nunito_bold);
                         }
                     }
                 }
@@ -96,6 +135,7 @@ public class CalendarioFragment extends Fragment {
         super.onStart();
         // prendo gli eventi dal database
         if (fAuth.getCurrentUser() != null) {
+            fStore = FirebaseFirestore.getInstance();
             fStore.collection("events").whereEqualTo("email", fAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -110,7 +150,9 @@ public class CalendarioFragment extends Fragment {
                             if (currentDay.getYear() == evento.getYear() && currentDay.getMonth() == evento.getMonth() && currentDay.getDay() == evento.getDay()) {
                                 mTitleTextView.setText(evento.getTitle());
                                 mDescTextView.setText(evento.getDescription());
-                                materialCardView.setVisibility(View.VISIBLE);
+                                mDescTextView.setVisibility(View.VISIBLE);
+                                mDateTextView.setVisibility(View.VISIBLE);
+                                mTitleTextView.setTypeface(nunito_bold);
                             }
                         }
                         // aggiungi i dot agli eventi

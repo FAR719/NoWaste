@@ -29,19 +29,20 @@
     <style name="CustomHeaderTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
         <item name="fontFamily">@font/nunito_bold</item>
         <item name="textAllCaps">true</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/search_primary_text</item>
     </style>
 
     <style name="CustomWeekdayTextAppearance" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
-        <item name="fontFamily">@font/nunito</item>
+        <item name="fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">10sp</item>
         <item name="textAllCaps">true</item>
     </style>
 
     <style name="CustomDateTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/mcv_text_date_light</item>
-        <item name="fontFamily">@font/nunito</item>
-        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!--Toolbar Title theme. -->

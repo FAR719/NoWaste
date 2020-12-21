@@ -40,7 +40,7 @@
     <color name="chart_background">#EDEDF2</color>
 
     <!--Curiosity card colors-->
-    <color name="card_back_background">#EDEDF2</color>
+    <color name="card_back_background">#F4F4F4</color>
     <color name="card_background">@color/white</color>
 
     <!--SearchView colors-->

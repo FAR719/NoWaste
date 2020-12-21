@@ -40,7 +40,6 @@ public class CuriositaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_curiosita, container, false);
 
-        fStore = FirebaseFirestore.getInstance();
         recView = view.findViewById(R.id.curiosita_recyclerView);
 
         return view;
@@ -49,6 +48,7 @@ public class CuriositaFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        fStore = FirebaseFirestore.getInstance();
         // query
         fStore.collection("curiosity").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
