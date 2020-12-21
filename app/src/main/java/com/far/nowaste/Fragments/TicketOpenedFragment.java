@@ -1,11 +1,14 @@
 package com.far.nowaste.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +25,15 @@ import com.far.nowaste.TicketChatActivity;
 import com.far.nowaste.TicketListActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TicketOpenedFragment extends Fragment {
 
@@ -93,6 +102,44 @@ public class TicketOpenedFragment extends Fragment {
                             detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
                             detailSearchActivity.putExtra("com.far.nowaste.oggetto", model.getOggetto());
                             startActivity(detailSearchActivity);
+                        }
+                    });
+
+                    // da implementare con if di controllo isOperatore
+                    holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            // aptro il dialog per archiviare la chat
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                            builder.setTitle("Archivia");
+                            builder.setMessage("Vuoi archiviare questo ticket?");
+                            builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {}
+                            });
+                            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //String identificativo = model.getEmail() + ora_corr; non funzionante
+                                    Map<String, Object> statoTickets = new HashMap<>();
+                                    statoTickets.put("stato",false);
+                                    firebaseFirestore.collection("tickets").document().update(statoTickets)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getContext(), "Questo ticket è stato archiviato!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("TAG", "Error! " + e.toString());
+                                        }
+                                    });
+                                }
+                            });
+                            builder.show();
+
+                            return true;
                         }
                     });
                 }
