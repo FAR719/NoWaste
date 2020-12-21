@@ -239,4 +239,5 @@ public class TicketListActivity extends AppCompatActivity {
             isMenuOpen = true;
         }
     }
+
 }
