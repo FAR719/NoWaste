@@ -207,7 +207,15 @@ public class Utente {
         return city;
     }
 
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getQuartiere() {
         return quartiere;
+    }
+
+    public void setQuartiere(String quartiere) {
+        this.quartiere = quartiere;
     }
 }

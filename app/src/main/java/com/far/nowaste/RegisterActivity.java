@@ -40,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mFullName, mEmail, mPassword, mPasswordAgain;
     Button mRegisterButton;
     TextView mLoginBtn;
-    Spinner mCitySpinner, mQuartiereSpinner;
     ProgressBar mProgressBar;
 
     FirebaseAuth fAuth;
@@ -69,35 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
         mProgressBar = findViewById(R.id.registerProgressBar);
-        mCitySpinner = findViewById(R.id.citySpinner);
-        mQuartiereSpinner = findViewById((R.id.quartiereSpinner));
-
-        // spinners
-        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(this, R.array.cityList, android.R.layout.simple_spinner_item);
-        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mCitySpinner.setAdapter(cityAdapter);
-        mCitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // imposta secondo spinner nei quartieri della città selezionata
-                if (mCitySpinner.getSelectedItem().toString().equals("Barletta")) {
-                    ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBarlettaList, android.R.layout.simple_spinner_item);
-                    quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    mQuartiereSpinner.setAdapter(quartAdapter);
-                } else if (mCitySpinner.getSelectedItem().toString().equals("Bari")) {
-                    ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBariList, android.R.layout.simple_spinner_item);
-                    quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    mQuartiereSpinner.setAdapter(quartAdapter);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBarlettaList, android.R.layout.simple_spinner_item);
-                quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mQuartiereSpinner.setAdapter(quartAdapter);
-            }
-        });
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -112,8 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String passwordAgain = mPasswordAgain.getText().toString().trim();
-                String city = mCitySpinner.getSelectedItem().toString();
-                String quartiere = mQuartiereSpinner.getSelectedItem().toString();
 
                 // controlla la info aggiunte
                 if (TextUtils.isEmpty(fullName)){
@@ -149,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity {
                 mProgressBar.setVisibility(View.VISIBLE);
 
                 // register the user in firebase
-                register(fullName, email, password, city, quartiere);
+                register(fullName, email, password);
             }
         });
 
@@ -173,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // register method
-    private void register(String fullName, String email, String password, String city, String quartiere) {
+    private void register(String fullName, String email, String password) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -195,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
 
                     // store data in firestore
-                    createFirestoreUser(fullName, city, quartiere);
+                    createFirestoreUser(fullName);
                     finish();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -206,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // crea l'utente in firebase
-    private void createFirestoreUser(String fullName, String city, String quartiere){
+    private void createFirestoreUser(String fullName){
         fStore = FirebaseFirestore.getInstance();
         // insert name into fUser
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
@@ -221,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // store data in firestore
         DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, city, quartiere);
+        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, "", "");
         documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

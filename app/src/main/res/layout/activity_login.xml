@@ -32,7 +32,7 @@
             android:id="@+id/loginTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/nunito_bold"
             android:text="NoWaste"
             android:textColor="@color/secondary"
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/lRegisterTextView"
+            app:layout_constraintBottom_toTopOf="@+id/login_divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/googleButton" />

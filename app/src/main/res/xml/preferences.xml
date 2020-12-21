@@ -37,6 +37,18 @@
             app:layout="@layout/layout_preference_item" />
 
         <Preference
+            app:key="city_preference"
+            app:title="Città"
+            app:summary="Seleziona la tua città"
+            app:layout="@layout/layout_preference_item"/>
+
+        <Preference
+            app:key="quartiere_preference"
+            app:title="Quartiere"
+            app:summary="Seleziona il tuo quartiere"
+            app:layout="@layout/layout_preference_item"/>
+
+        <Preference
             app:key="email_preference"
             app:icon="@drawable/ic_email"
             app:title="Email"

@@ -52,8 +52,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     // dichiarazione view
     Preference mLoginPreference, mFullNamePreference, mNewPicturePreference, mDeletePicturePreference;
-    Preference mEmailPreference, mPasswordPreference, mLogOutPreference, mResetPreference;
-    Preference mDeletePreference, mOperatorePreference, mThemePreference, mVersionePreference;
+    Preference mCityPreference, mQuartierePreference, mEmailPreference, mPasswordPreference;
+    Preference mLogOutPreference, mResetPreference, mDeletePreference, mOperatorePreference;
+    Preference mThemePreference, mVersionePreference;
     SwitchPreferenceCompat mNotificationPreference;
 
     // firebase
@@ -90,6 +91,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mFullNamePreference = findPreference("full_name_preference");
         mNewPicturePreference = findPreference("newpicture_preference");
         mDeletePicturePreference = findPreference("deletepicture_preference");
+        mCityPreference = findPreference("city_preference");
+        mQuartierePreference = findPreference("quartiere_preference");
         mEmailPreference = findPreference("email_preference");
         mPasswordPreference = findPreference("password_preference");
         mLogOutPreference = findPreference("logout_preference");
@@ -113,6 +116,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mFullNamePreference.setVisible(false);
             mNewPicturePreference.setVisible(false);
             mDeletePicturePreference.setVisible(false);
+            mCityPreference.setVisible(false);
+            mQuartierePreference.setVisible(false);
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(false);
@@ -124,6 +129,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
             mDeletePicturePreference.setVisible(true);
+            mCityPreference.setVisible(true);
+            mQuartierePreference.setVisible(!currentUser.getQuartiere().equals(""));
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(true);
@@ -135,6 +142,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
             mDeletePicturePreference.setVisible(true);
+            mCityPreference.setVisible(true);
+            mQuartierePreference.setVisible(!currentUser.getQuartiere().equals(""));
             mEmailPreference.setVisible(true);
             mPasswordPreference.setVisible(true);
             mLogOutPreference.setVisible(true);
@@ -268,6 +277,154 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                 Toast.makeText(getContext(), "Error! " + exception.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        // set the city
+        mCityPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_city, mainLayout, false);
+
+                // declare radioButtons
+                RadioGroup mRadioGroup = layout2.findViewById(R.id.cityRadioGroup);
+                RadioButton mBarlettaRadioBtn = layout2.findViewById(R.id.barlettaRadioButton);
+                RadioButton mBariRadioBtn = layout2.findViewById(R.id.bariRadioButton);
+
+                if (currentUser.getCity() != null) {
+                    switch (currentUser.getCity()){
+                        case "Barletta":
+                            mRadioGroup.check(R.id.barlettaRadioButton);
+                            break;
+                        case "Bari":
+                            mRadioGroup.check(R.id.bariRadioButton);
+                            break;
+                    }
+                }
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Città");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Map<String, Object> cityMap = new HashMap<>();
+                        if (mBarlettaRadioBtn.isChecked()) {
+                            cityMap.put("city", "Barletta");
+                        } else if (mBariRadioBtn.isChecked()) {
+                            cityMap.put("city", "Bari");
+                        }
+                        if (cityMap.get("city") != null) {
+                            fStore = FirebaseFirestore.getInstance();
+                            fStore.collection("users").document(fAuth.getUid()).update(cityMap);
+                            MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
+                            currentUser = MainActivity.CURRENTUSER;
+                            mQuartierePreference.setVisible(true);
+                        }
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
+
+        // set the neighborhood
+        mQuartierePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // main layout
+                LinearLayout mainLayout = new LinearLayout(getContext());
+                mainLayout.setLayoutParams(mainParams);
+
+                // inflate the layout
+                View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_quartiere, mainLayout, false);
+
+                // declare radioButtons
+                RadioGroup mRadioGroup = layout2.findViewById(R.id.quartiereRadioGroup);
+                RadioButton mQ1RadioBtn = layout2.findViewById(R.id.q1RadioButton);
+                RadioButton mQ2RadioBtn = layout2.findViewById(R.id.q2RadioButton);
+
+                switch (currentUser.getCity()){
+                    case "Barletta":
+                        mQ1RadioBtn.setText("Borgovilla");
+                        mQ2RadioBtn.setText("Patalini");
+                        if (currentUser.getQuartiere() != null) {
+                            switch (currentUser.getQuartiere()){
+                                case "Borgovilla":
+                                    mRadioGroup.check(R.id.q1RadioButton);
+                                    break;
+                                case "Patalini":
+                                    mRadioGroup.check(R.id.q2RadioButton);
+                                    break;
+                            }
+                        }
+                        break;
+                    case "Bari":
+                        mQ1RadioBtn.setText("Santo Spirito");
+                        mQ2RadioBtn.setText("Zona industriale");
+                        if (currentUser.getQuartiere() != null) {
+                            switch (currentUser.getQuartiere()){
+                                case "Santo Spirito":
+                                    mRadioGroup.check(R.id.q1RadioButton);
+                                    break;
+                                case "Zona Industriale":
+                                    mRadioGroup.check(R.id.q2RadioButton);
+                                    break;
+                            }
+                        }
+                        break;
+                }
+
+                mainLayout.addView(layout2);
+
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                builder.setTitle("Quartiere");
+                builder.setView(mainLayout);
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Map<String, Object> quartMap = new HashMap<>();
+                        switch (currentUser.getCity()){
+                            case "Barletta":
+                                if (mQ1RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Borgovilla");
+                                } else if (mQ2RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Patalini");
+                                }
+                                break;
+                            case "Bari":
+                                if (mQ1RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Santo Spirito");
+                                } else if (mQ2RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Zona industriale");
+                                }
+                                break;
+                        }
+                        if (quartMap.get("quartiere") != null) {
+                            fStore = FirebaseFirestore.getInstance();
+                            fStore.collection("users").document(fAuth.getUid()).update(quartMap);
+                            MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
+                            currentUser = MainActivity.CURRENTUSER;
+                        }
                     }
                 });
                 builder.show();
