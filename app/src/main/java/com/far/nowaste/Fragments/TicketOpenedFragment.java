@@ -47,6 +47,7 @@ public class TicketOpenedFragment extends Fragment {
         if (fAuth.getCurrentUser() != null) {
             // query
             Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                    .whereEqualTo("stato",true)
                     .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                     .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
                     .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
