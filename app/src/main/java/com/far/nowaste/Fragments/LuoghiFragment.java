@@ -1,17 +1,28 @@
 package com.far.nowaste.Fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.R;
@@ -21,6 +32,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -97,28 +109,19 @@ public class LuoghiFragment extends Fragment {
                             LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
 
                             // marker per segnalare la posizione attuale
-                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Sei qui!");
+                            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
 
                             // Zoom Mappa
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
 
                             // aggiungere il marker sulla mappa
-                            googleMap.addMarker(markerOptions);
+                            Marker marker = googleMap.addMarker(markerOptions);
 
-                            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                @Override
-                                public boolean onMarkerClick(Marker marker) {
-                                    gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
-                                    return false;
-                                }
-                            });
+                            Bitmap icon = drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.ic_my_location));
 
-                            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                                @Override
-                                public void onMapClick(LatLng latLng) {
-                                    gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
-                                }
-                            });
+                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);
+
+                            marker.setIcon(bitmapDescriptor);
                         }
                     });
                 }
@@ -148,9 +151,9 @@ public class LuoghiFragment extends Fragment {
         LatLng latLng2 = new LatLng(lat2,lng2);
 
         MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("Bar.S.A.")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
         MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("Ecocentro Parco degli Ulivi")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
 
         List<MarkerOptions> listMO = new LinkedList<>();
         listMO.add(markerOptions1);
@@ -161,6 +164,7 @@ public class LuoghiFragment extends Fragment {
             public void onMapReady(GoogleMap googleMap) {
                 for(MarkerOptions item : listMO){
                     googleMap.addMarker(item);
+
                 }
                 googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -178,5 +182,27 @@ public class LuoghiFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 }
