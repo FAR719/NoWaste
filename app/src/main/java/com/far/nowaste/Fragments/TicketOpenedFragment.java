@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -105,43 +106,49 @@ public class TicketOpenedFragment extends Fragment {
                         }
                     });
 
-                    // da implementare con if di controllo isOperatore
-                    holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            // aptro il dialog per archiviare la chat
-                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
-                            builder.setTitle("Archivia");
-                            builder.setMessage("Vuoi archiviare questo ticket?");
-                            builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {}
-                            });
-                            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //String identificativo = model.getEmail() + ora_corr; non funzionante
-                                    Map<String, Object> statoTickets = new HashMap<>();
-                                    statoTickets.put("stato",false);
-                                    firebaseFirestore.collection("tickets").document().update(statoTickets)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(getContext(), "Questo ticket è stato archiviato!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.d("TAG", "Error! " + e.toString());
-                                        }
-                                    });
-                                }
-                            });
-                            builder.show();
+                    if(MainActivity.CURRENTUSER.isOperatore()) {
 
-                            return true;
-                        }
-                    });
+                        holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                // aptro il dialog per archiviare la chat
+                                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                                builder.setTitle("Archivia");
+                                builder.setMessage("Vuoi archiviare questo ticket?");
+                                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {}
+                                });
+                                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // implementare query
+                                        //String identificativo = model.getEmail() + ora_corr; non funzionante
+
+                                        Map<String, Object> statoTickets = new HashMap<>();
+                                        statoTickets.put("stato",false);
+                                        firebaseFirestore.collection("tickets").document().update(statoTickets)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(getContext(), "Questo ticket è stato archiviato!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("TAG", "Error! " + e.toString());
+                                            }
+                                        });
+                                    }
+                                });
+                                builder.show();
+
+                                return true;
+                            }
+                        });
+                    }
+
+
                 }
             };
         }
