@@ -16,6 +16,7 @@ import com.far.nowaste.Objects.Evento;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -31,11 +32,13 @@ public class CalendarioFragment extends Fragment {
 
     // definizione view
     MaterialCalendarView mCalendarView;
-    TextView mDateTextView, mEventTextView;
+    TextView mDateTextView, mTitleTextView, mDescTextView;
+    MaterialCardView materialCardView;
 
     // definizione variabili
     List<Evento> eventi;
     List<CalendarDay> dates;
+    CalendarDay currentDay;
 
     // firebase
     FirebaseFirestore fStore;
@@ -47,8 +50,10 @@ public class CalendarioFragment extends Fragment {
         // associazione view
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         mCalendarView = view.findViewById(R.id.calendarView);
-        mDateTextView = view.findViewById(R.id.dateTextView);
-        mEventTextView = view.findViewById(R.id.eventTextView);
+        mDateTextView = view.findViewById(R.id.calendar_event_date);
+        mTitleTextView = view.findViewById(R.id.calendar_event_title);
+        mDescTextView = view.findViewById(R.id.calendar_event_desc);
+        materialCardView = view.findViewById(R.id.cardViewEvent);
 
         // inizializzazione liste
         eventi = new LinkedList<>();
@@ -59,13 +64,10 @@ public class CalendarioFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
 
         // imposta la data odierna
-        CalendarDay currentDay = CalendarDay.today();
+        currentDay = CalendarDay.today();
         mCalendarView.setDateSelected(CalendarDay.today(), true);
+        materialCardView.setVisibility(View.GONE);
         mDateTextView.setText(currentDay.getDay() + "/" + currentDay.getMonth() + "/" + currentDay.getYear());
-        if (fAuth.getCurrentUser() == null) {
-            mEventTextView.setText("Accedi per visualizzare i tuoi eventi");
-            mEventTextView.setVisibility(View.VISIBLE);
-        }
 
         // onClick day
         mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -73,11 +75,12 @@ public class CalendarioFragment extends Fragment {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 mDateTextView.setText(date.getDay() + "/" + date.getMonth() + "/" + date.getYear());
                 if (fAuth.getCurrentUser() != null) {
-                    mEventTextView.setVisibility(View.INVISIBLE);
+                    materialCardView.setVisibility(View.GONE);
                     for (Evento evento : eventi) {
                         if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
-                            mEventTextView.setText(evento.getTitle());
-                            mEventTextView.setVisibility(View.VISIBLE);
+                            mTitleTextView.setText(evento.getTitle());
+                            mDescTextView.setText(evento.getDescription());
+                            materialCardView.setVisibility(View.VISIBLE);
                         }
                     }
                 }
@@ -103,6 +106,12 @@ public class CalendarioFragment extends Fragment {
                             // prelevo le date dai documenti e le metto in dates
                             CalendarDay calendarDay = CalendarDay.from(evento.getYear(), evento.getMonth(), evento.getDay());
                             dates.add(calendarDay);
+                            // aggiungo la scheda per l'evento di oggi
+                            if (currentDay.getYear() == evento.getYear() && currentDay.getMonth() == evento.getMonth() && currentDay.getDay() == evento.getDay()) {
+                                mTitleTextView.setText(evento.getTitle());
+                                mDescTextView.setText(evento.getDescription());
+                                materialCardView.setVisibility(View.VISIBLE);
+                            }
                         }
                         // aggiungi i dot agli eventi
                         mCalendarView.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.cinnamon_satin), dates));
