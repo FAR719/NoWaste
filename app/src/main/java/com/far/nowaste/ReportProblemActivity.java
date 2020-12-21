@@ -88,7 +88,7 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
                 String indirizzo = mIndirizzo.getText().toString();
                 String commento = mCommento.getText().toString();
                 // controlla la info aggiunte
-                if(cassonetto == ""){
+                if(cassonetto.equals("")){
                     mIndirizzo.setError("Selezionare un cassonetto");
                     return;
                 } else if(TextUtils.isEmpty(indirizzo)){
