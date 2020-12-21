@@ -3,13 +3,13 @@ package com.far.nowaste.Objects;
 public class Utente {
 
     // definizione campi
-    public String fullName, email, image;
+    public String fullName, email, image, city, quartiere;
     public int nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
     public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
     public boolean isGoogle, isOperatore;
 
     // costruttore nuovo utente
-    public Utente(String fullName, String email, String image, boolean isGoogle, boolean isOperatore){
+    public Utente(String fullName, String email, String image, boolean isGoogle, boolean isOperatore, String city, String quartiere){
         this.fullName = fullName;
         this.email = email;
         this.image = image;
@@ -31,6 +31,8 @@ public class Utente {
         this.pSpeciali = 0;
         this.isGoogle = isGoogle;
         this.isOperatore = isOperatore;
+        this.city = city;
+        this.quartiere = quartiere;
     }
 
     //costruttore vuoto utile per FireBase
@@ -199,5 +201,13 @@ public class Utente {
 
     public void setOperatore(boolean isOperatore) {
         this.isOperatore = isOperatore;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getQuartiere() {
+        return quartiere;
     }
 }

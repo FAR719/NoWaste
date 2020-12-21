@@ -279,7 +279,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser fUser = fAuth.getCurrentUser();
                             Toast.makeText(LoginActivity.this, "Hai effettuato l'accesso come " + fUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             // crea utente in Firestore se non esiste
-                            createFirestoreUser();
+                            //createFirestoreUser();
                             verificaEmail();
                             finish();
                         } else {
@@ -290,7 +290,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // se accedi con Google crea l'utente in firestore (se non è già presente)
+    /*// se accedi con Google crea l'utente in firestore (se non è già presente)
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (!exists(fUser)) {
@@ -308,7 +308,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
     // metodo che restituisce un boolean che indica se l'account è già presente in Firestore
     private boolean exists(FirebaseUser fUser){

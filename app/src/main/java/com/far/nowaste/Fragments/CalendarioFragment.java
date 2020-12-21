@@ -90,6 +90,7 @@ public class CalendarioFragment extends Fragment {
         // imposta il default "Nessun evento"
         mDescTextView.setVisibility(View.GONE);
         mDateTextView.setVisibility(View.GONE);
+        mTitleTextView.setText("Nessun evento");
         mTitleTextView.setTypeface(nunito);
 
         // onClick day

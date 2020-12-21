@@ -32,7 +32,7 @@
             android:id="@+id/registerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:fontFamily="@font/nunito_bold"
             android:text="NoWaste"
             android:textColor="@color/secondary"
@@ -49,10 +49,10 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:ems="10"
+            android:fontFamily="@font/nunito"
             android:hint="Nome e cognome"
             android:inputType="textPersonName|textCapWords"
             android:padding="10dp"
-            android:fontFamily="@font/nunito"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerTextView" />
@@ -65,10 +65,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:ems="10"
+            android:fontFamily="@font/nunito"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:fontFamily="@font/nunito"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fullNameEditText" />
@@ -81,10 +81,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:ems="10"
+            android:fontFamily="@font/nunito"
             android:hint="Password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:fontFamily="@font/nunito"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
@@ -97,10 +97,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:ems="10"
+            android:fontFamily="@font/nunito"
             android:hint="Inserisci nuovamente la password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:fontFamily="@font/nunito"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
@@ -116,7 +116,29 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quartiereSpinner" />
+
+        <Spinner
+            android:id="@+id/citySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordAgainEditText" />
+
+        <Spinner
+            android:id="@+id/quartiereSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
 
         <ProgressBar
             android:id="@+id/registerProgressBar"
@@ -124,12 +146,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/rLogintextView"
+            app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
         <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="10dp"
@@ -145,8 +168,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Hai già un account? Accedi"
             android:fontFamily="@font/nunito"
+            android:text="Hai già un account? Accedi"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

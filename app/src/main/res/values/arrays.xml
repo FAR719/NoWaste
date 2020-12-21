@@ -5,4 +5,19 @@
         <item>Cassonetto pieno</item>
         <item>Cassonetto rotto</item>
     </string-array>
+
+    <string-array name="cityList">
+        <item>Barletta</item>
+        <item>Bari</item>
+    </string-array>
+
+    <string-array name="qBarlettaList">
+        <item>Borgovilla</item>
+        <item>Patalini</item>
+    </string-array>
+
+    <string-array name="qBariList">
+        <item>Santo Spirito</item>
+        <item>Zona industriale</item>
+    </string-array>
 </resources>

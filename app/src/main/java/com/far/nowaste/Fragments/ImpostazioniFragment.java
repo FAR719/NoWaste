@@ -404,7 +404,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         mappa.put("pSpeciali", 0);
                         fStore.collection("users").document(fUser.getUid()).update(mappa);
                         if (MainActivity.CURRENTUSER != null) {
-                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(), MainActivity.CURRENTUSER.email, MainActivity.CURRENTUSER.getImage(), MainActivity.CURRENTUSER.isGoogle(), MainActivity.CURRENTUSER.isOperatore());
+                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(),
+                                    MainActivity.CURRENTUSER.getEmail(), MainActivity.CURRENTUSER.getImage(),
+                                    MainActivity.CURRENTUSER.isGoogle(), MainActivity.CURRENTUSER.isOperatore(),
+                                    MainActivity.CURRENTUSER.getCity(), MainActivity.CURRENTUSER.getQuartiere());
                             MainActivity.CURRENTUSER = utente;
                         }
                         dialog.dismiss();

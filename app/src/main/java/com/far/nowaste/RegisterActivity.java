@@ -12,9 +12,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +40,12 @@ public class RegisterActivity extends AppCompatActivity {
     EditText mFullName, mEmail, mPassword, mPasswordAgain;
     Button mRegisterButton;
     TextView mLoginBtn;
-    ProgressBar progressBar;
+    Spinner mCitySpinner, mQuartiereSpinner;
+    ProgressBar mProgressBar;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     FirebaseUser fUser;
-    FirebaseAuth.AuthStateListener fAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +68,38 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordAgain = findViewById(R.id.passwordAgainEditText);
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
-        progressBar = findViewById(R.id.registerProgressBar);
+        mProgressBar = findViewById(R.id.registerProgressBar);
+        mCitySpinner = findViewById(R.id.citySpinner);
+        mQuartiereSpinner = findViewById((R.id.quartiereSpinner));
+
+        // spinners
+        ArrayAdapter<CharSequence> cityAdapter = ArrayAdapter.createFromResource(this, R.array.cityList, android.R.layout.simple_spinner_item);
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mCitySpinner.setAdapter(cityAdapter);
+        mCitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // imposta secondo spinner nei quartieri della città selezionata
+                if (mCitySpinner.getSelectedItem().toString().equals("Barletta")) {
+                    ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBarlettaList, android.R.layout.simple_spinner_item);
+                    quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mQuartiereSpinner.setAdapter(quartAdapter);
+                } else if (mCitySpinner.getSelectedItem().toString().equals("Bari")) {
+                    ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBariList, android.R.layout.simple_spinner_item);
+                    quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mQuartiereSpinner.setAdapter(quartAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ArrayAdapter<CharSequence> quartAdapter = ArrayAdapter.createFromResource(getApplicationContext(),R.array.qBarlettaList, android.R.layout.simple_spinner_item);
+                quartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mQuartiereSpinner.setAdapter(quartAdapter);
+            }
+        });
 
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
 
         if (fAuth.getCurrentUser() != null){
             finish();
@@ -82,6 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String passwordAgain = mPasswordAgain.getText().toString().trim();
+                String city = mCitySpinner.getSelectedItem().toString();
+                String quartiere = mQuartiereSpinner.getSelectedItem().toString();
 
                 // controlla la info aggiunte
                 if (TextUtils.isEmpty(fullName)){
@@ -114,10 +146,10 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
 
                 // register the user in firebase
-                register(fullName, email, password);
+                register(fullName, email, password, city, quartiere);
             }
         });
 
@@ -141,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // register method
-    private void register(String fullName, String email, String password) {
+    private void register(String fullName, String email, String password, String city, String quartiere) {
         fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -163,18 +195,19 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
 
                     // store data in firestore
-                    createFirestoreUser(fullName);
+                    createFirestoreUser(fullName, city, quartiere);
                     finish();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.GONE);
                 }
             }
         });
     }
 
     // crea l'utente in firebase
-    private void createFirestoreUser(String fullName){
+    private void createFirestoreUser(String fullName, String city, String quartiere){
+        fStore = FirebaseFirestore.getInstance();
         // insert name into fUser
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
         fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -188,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // store data in firestore
         DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false);
+        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, city, quartiere);
         documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
