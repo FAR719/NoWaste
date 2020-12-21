@@ -39,12 +39,14 @@
         <Preference
             app:key="city_preference"
             app:title="Città"
+            app:icon="@drawable/ic_place"
             app:summary="Seleziona la tua città"
             app:layout="@layout/layout_preference_item"/>
 
         <Preference
             app:key="quartiere_preference"
             app:title="Quartiere"
+            app:icon="@drawable/ic_baseline_home_work_24"
             app:summary="Seleziona il tuo quartiere"
             app:layout="@layout/layout_preference_item"/>
 
