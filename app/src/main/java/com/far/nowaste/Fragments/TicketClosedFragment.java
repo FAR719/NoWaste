@@ -40,7 +40,7 @@ public class TicketClosedFragment extends Fragment {
 
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
-        mFirestoreList = view.findViewById(R.id.fragment_ticketsOpen_recyclerView);
+        mFirestoreList = view.findViewById(R.id.fragment_ticketsClose_recyclerView);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
