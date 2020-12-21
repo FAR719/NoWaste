@@ -1,376 +1,561 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/card_back_background">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--nuovo gridlayout per le cardview-->
-        <GridLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:rowCount="4"
-            android:columnCount="2"
-            android:layout_margin="15dp"
-            android:paddingBottom="25dp">
+            android:layout_height="wrap_content">
 
-            <!--CardViewPlastica-->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/plasticaCardView"
-                android:layout_width="wrap_content"
+                android:id="@+id/settimanale_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
+                android:layout_margin="15dp"
                 app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                app:cardElevation="@dimen/card_elevation"
+                app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/plasticaImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_plastica"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView38"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="Conferimento settimanale"
+                        android:textAllCaps="true"
+                        android:textColor="@color/search_primary_text"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/textView39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="PLASTICA"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Lunedì"
+                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/plasticaImageView" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+                    <TextView
+                        android:id="@+id/textView40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Martedì"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView39"
+                        app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+                    <TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Mercoledì"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView40"
+                        app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+                    <TextView
+                        android:id="@+id/textView42"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Giovedì"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView41"
+                        app:layout_constraintTop_toBottomOf="@+id/textView41" />
+
+                    <TextView
+                        android:id="@+id/textView43"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Venerdì"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView42"
+                        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Sabato"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/textView43"
+                        app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="15dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textAllCaps="true"
+                        android:text="Domenica"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView44"
+                        app:layout_constraintTop_toBottomOf="@+id/textView44" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
-            <!--CardViewOrganico-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/organicoCardView"
-                android:layout_width="wrap_content"
+            <!--nuovo gridlayout per le cardview-->
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:columnCount="2"
+                android:rowCount="4"
+                app:layout_constraintTop_toBottomOf="@+id/settimanale_card">
+
+                <!--CardViewPlastica-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/plasticaCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="4dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/organicoImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_organico"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ORGANICO"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/organicoImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewIndifferenziata-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/indifferenziataCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/plasticaImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_plastica"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="PLASTICA"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/plasticaImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewOrganico-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/organicoCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/indifferenziataImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_indifferenziata"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SECCO"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/indifferenziataImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewCarta-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cartaCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/organicoImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_organico"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="ORGANICO"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/organicoImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewIndifferenziata-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/indifferenziataCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="1"
+                    android:layout_rowWeight="1"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="5dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/cartaImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_carta"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CARTA"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cartaImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewVetro-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/vetroCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/indifferenziataImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_indifferenziata"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="SECCO"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/indifferenziataImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewCarta-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cartaCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="1"
+                    android:layout_rowWeight="1"
+                    android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="5dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/vetroImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_vetro"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VETRO"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/vetroImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewMetalli-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/metalliCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="2"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/cartaImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_carta"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="CARTA"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cartaImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewVetro-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/vetroCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="2"
+                    android:layout_rowWeight="1"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/metalliImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_metalli"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="METALLI"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/metalliImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewElettrici-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/elettriciCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/vetroImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_vetro"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="VETRO"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/vetroImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewMetalli-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/metalliCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="2"
+                    android:layout_rowWeight="1"
+                    android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/elettriciImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_elettrici"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ELETTRICI"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/elettriciImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-            <!--CardViewSpeciali-->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/specialiCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="3"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                        <ImageView
+                            android:id="@+id/metalliImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_metalli"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="METALLI"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/metalliImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewElettrici-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/elettriciCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp">
+                    android:layout_row="3"
+                    android:layout_rowWeight="1"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
 
-                    <ImageView
-                        android:id="@+id/specialiImageView"
-                        android:layout_width="@dimen/card_icon_width_height"
-                        android:layout_height="@dimen/card_icon_width_height"
-                        android:src="@drawable/ic_card_ingombranti"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SPECIALI"
-                        android:fontFamily="@font/nunito_bold"
-                        android:textAlignment="center"
-                        android:paddingTop="@dimen/card_text_padding"
-                        android:textSize="@dimen/card_text_size"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/specialiImageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
-        </GridLayout>
+                        <ImageView
+                            android:id="@+id/elettriciImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_elettrici"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="ELETTRICI"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/elettriciImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!--CardViewSpeciali-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/specialiCardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="3"
+                    android:layout_rowWeight="1"
+                    android:layout_column="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardCornerRadius="@dimen/card_corner_radius"
+                    app:cardElevation="@dimen/card_elevation">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
+
+                        <ImageView
+                            android:id="@+id/specialiImageView"
+                            android:layout_width="@dimen/card_icon_width_height"
+                            android:layout_height="@dimen/card_icon_width_height"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/ic_card_ingombranti"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/nunito_bold"
+                            android:text="SPECIALI"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/card_text_size"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/specialiImageView"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     </ScrollView>
 
