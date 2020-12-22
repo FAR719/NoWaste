@@ -18,6 +18,10 @@
     <!--232D36-->
     <!--101D25-->
 
+
+    <color name="hint_text">#828D93</color>
+    <color name="divider">#B4BDC4</color>
+
     <color name="chart_background">@color/primary</color>
 
     <!--Curiosity card colors-->
@@ -28,7 +32,7 @@
     <color name="search_background">@color/primary</color>
     <color name="search_primary_text">@color/white</color>
     <color name="search_hint_text">#6F6F6F</color>
-    <color name="divider_color">#1FFFFFFF</color>
+    <color name="search_divider_color">#1FFFFFFF</color>
     <color name="active_icon_color">@android:color/white</color>
     <color name="cards_and_dialogs_color">#424242</color>
 </resources>

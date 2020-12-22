@@ -1,5 +1,6 @@
 package com.far.nowaste.Fragments;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.NewEventActivity;
 import com.far.nowaste.Other.EventDecorator;
 import com.far.nowaste.Objects.Evento;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -37,6 +40,7 @@ public class CalendarioFragment extends Fragment {
     MaterialCalendarView mCalendarView;
     TextView mTitleTextView, mDescTextView;
     MaterialCardView eventCardView;
+    FloatingActionButton addEventBtn;
 
     // definizione variabili
     List<Evento> eventi;
@@ -57,6 +61,7 @@ public class CalendarioFragment extends Fragment {
         mTitleTextView = view.findViewById(R.id.calendar_event_title);
         mDescTextView = view.findViewById(R.id.calendar_event_desc);
         eventCardView = view.findViewById(R.id.cardViewEvent);
+        addEventBtn = view.findViewById(R.id.calendar_addFloatingActionButton);
 
         // typefaces
         nunito = ResourcesCompat.getFont(getContext(), R.font.nunito);
@@ -83,6 +88,17 @@ public class CalendarioFragment extends Fragment {
                 }
             });
         } else {
+            if (MainActivity.CURRENTUSER.isOperatore()){
+                addEventBtn.setVisibility(View.VISIBLE);
+                addEventBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getContext(), NewEventActivity.class));
+                    }
+                });
+            } else {
+                addEventBtn.setVisibility(View.GONE);
+            }
             // imposta il default "Nessun evento"
             mDescTextView.setVisibility(View.GONE);
             mTitleTextView.setText("Nessun evento");

@@ -3,11 +3,12 @@ package com.far.nowaste.Objects;
 public class Evento {
 
     // definizione campi
-    public String title, description;
+    public String email, title, description;
     public int year, month, day;
 
     // costruttore
-    public Evento(String title, String description, int year, int month, int day){
+    public Evento(String email, String title, String description, int year, int month, int day){
+        this.email = email;
         this.title = title;
         this.description = description;
         this.year = year;
@@ -19,6 +20,10 @@ public class Evento {
     private Evento(){}
 
     // getter
+    public String getEmail() {
+        return email;
+    }
+
     public String getTitle(){
         return title;
     }

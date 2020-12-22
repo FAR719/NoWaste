@@ -78,6 +78,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@android:id/text1"
         android:layout_marginStart="8dp"
-        android:background="@color/divider_color"
+        android:background="@color/search_divider_color"
         android:visibility="gone" />
 </RelativeLayout>

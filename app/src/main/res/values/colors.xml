@@ -28,6 +28,9 @@
     <color name="background">@color/white</color>
     <color name="error">@color/carmine</color>
 
+    <color name="hint_text">#9D9D9D</color>
+    <color name="divider">#747474</color>
+
     <!--Colori grafici-->
     <color name="plastica">#FFA726</color>
     <color name="organico">#66BB6A</color>
@@ -55,7 +58,7 @@
     <color name="search_hint_text">#61000000</color>
     <color name="material_light_active_icon">#8A000000</color>
     <color name="material_ripple_light">#1F000000</color>
-    <color name="divider_color">#1F000000</color>
+    <color name="search_divider_color">#1F000000</color>
     <color name="active_icon_color">#8A000000</color>
     <color name="cards_and_dialogs_color">@color/white</color>
     <color name="quantum_grey_600">#757575</color>
