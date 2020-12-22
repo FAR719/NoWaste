@@ -55,12 +55,23 @@ public class TicketOpenedFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
-            // query
-            Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-                    .whereEqualTo("stato",true)
-                    .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
-                    .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
-                    .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+            Query query;
+            if(MainActivity.CURRENTUSER.isOperatore()) {
+                // query per l'operatore
+                query = firebaseFirestore.collection("tickets")
+                        .whereEqualTo("stato",true)
+                        .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
+                        .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
+                        .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+
+            } else {
+                // query per l'utente
+                query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                        .whereEqualTo("stato",true)
+                        .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
+                        .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
+                        .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+            }
 
             // recyclerOptions
             FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
@@ -111,7 +122,7 @@ public class TicketOpenedFragment extends Fragment {
                         holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
-                                // aptro il dialog per archiviare la chat
+                                // apro il dialog per archiviare la chat
                                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                                 builder.setTitle("Archivia");
                                 builder.setMessage("Vuoi archiviare questo ticket?");
@@ -122,8 +133,7 @@ public class TicketOpenedFragment extends Fragment {
                                 builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // implementare query
-                                        //String identificativo = model.getEmail() + ora_corr; non funzionante
+                                        // setta lo stato = chiuso del ticket
                                         String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
                                         String identificativo = model.getEmail() + ora_Ticket;
 
