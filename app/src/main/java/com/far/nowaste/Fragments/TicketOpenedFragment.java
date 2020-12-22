@@ -43,7 +43,6 @@ public class TicketOpenedFragment extends Fragment {
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
-    String ora_Ticket;
 
     @Nullable
     @Override
