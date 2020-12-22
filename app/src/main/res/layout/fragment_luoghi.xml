@@ -24,6 +24,7 @@
         android:focusable="true"
         app:elevation="1dp"
         app:backgroundTint="@color/white"
+        app:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_gps_fixed" />
