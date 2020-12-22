@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.far.nowaste.Objects.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -33,6 +34,8 @@ import com.google.firebase.firestore.Query;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TicketChatActivity extends AppCompatActivity {
     // definizione variabili
@@ -156,6 +159,20 @@ public class TicketChatActivity extends AppCompatActivity {
 
                 saveAnswer(risposta,identificativo);
                 mRisposta.setText("");
+
+                // Setta lo Stato del Ticket = aperto all'invio del messaggio
+                Map<String, Object> statoTickets = new HashMap<>();
+                statoTickets.put("stato",true);
+                firebaseFirestore.collection("tickets").document(identificativo).update(statoTickets)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) { }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", "Error! " + e.toString());
+                    }
+                });
 
             }
         });
