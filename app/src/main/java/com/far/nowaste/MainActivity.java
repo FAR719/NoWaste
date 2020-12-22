@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 fAuth = FirebaseAuth.getInstance();
                 if (fAuth.getCurrentUser() == null) {
-                    launchLogin();
+                    goToLogin();
                 } else {
                     mToolbar.setTitle("Profilo");
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //set queryListener searchView
         SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        wasteSearchView.setQueryHint("Cerca un rifiuto...");
         wasteSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // metodi impostazioni
-    public void launchLogin(){
+    public void goToLogin(){
         startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
     }
 

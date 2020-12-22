@@ -79,7 +79,7 @@ public class CalendarioFragment extends Fragment {
             eventCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity)getActivity()).launchLogin();
+                    ((MainActivity)getActivity()).goToLogin();
                 }
             });
         } else {

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,13 +19,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.far.nowaste.BuildConfig;
-import com.far.nowaste.LoginActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.Objects.Utente;
@@ -44,7 +41,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,7 +148,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mLoginPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                ((MainActivity)getActivity()).launchLogin();
+                ((MainActivity)getActivity()).goToLogin();
                 return true;
             }
         });

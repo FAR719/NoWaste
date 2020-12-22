@@ -76,8 +76,6 @@
                 android:textColorHint="@color/search_hint_text"
                 android:textSize="20sp"
                 android:fontFamily="@font/nunito"/>
-                <!--android:layout_marginEnd="@dimen/item_list_horizontal_margin"
-                android:layout_marginStart="@dimen/item_list_horizontal_margin"-->
 
             <ImageView
                 android:id="@+id/search_close_btn"

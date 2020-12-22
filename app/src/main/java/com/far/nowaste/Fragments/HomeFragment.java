@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment {
             warningCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((MainActivity)getActivity()).launchLogin();
+                    ((MainActivity)getActivity()).goToLogin();
                 }
             });
         }
