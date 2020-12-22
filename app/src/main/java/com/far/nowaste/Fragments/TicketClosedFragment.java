@@ -44,12 +44,24 @@ public class TicketClosedFragment extends Fragment {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
-            // query
-            Query query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-                    .whereEqualTo("stato",false)
-                    .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
-                    .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
-                    .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+            Query query;
+            if(MainActivity.CURRENTUSER.isOperatore()){
+                // query per l'operatore
+                query = firebaseFirestore.collection("tickets")
+                        .whereEqualTo("stato",false)
+                        .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
+                        .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
+                        .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+
+            } else {
+                // query per l'utente
+                query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                        .whereEqualTo("stato",false)
+                        .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
+                        .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
+                        .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
+            }
+
 
             // recyclerOptions
             FirestoreRecyclerOptions<Tickets> options = new FirestoreRecyclerOptions.Builder<Tickets>().setQuery(query, Tickets.class).build();
