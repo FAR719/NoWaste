@@ -151,13 +151,13 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     MainActivity.CURRENTUSER.setnOrganico(numero);
                     MainActivity.CURRENTUSER.setpOrganico(punteggio);
                     break;
-                case "Indifferenziata":
-                    numero = currentUser.getnIndifferenziata() + 1;
-                    punteggio = currentUser.getpIndifferenziata() + rifiuto.getPunteggio();
-                    userMap.put("nIndifferenziata", numero);
-                    userMap.put("pIndifferenziata", punteggio);
-                    MainActivity.CURRENTUSER.setnIndifferenziata(numero);
-                    MainActivity.CURRENTUSER.setpIndifferenziata(punteggio);
+                case "Secco":
+                    numero = currentUser.getnSecco() + 1;
+                    punteggio = currentUser.getpSecco() + rifiuto.getPunteggio();
+                    userMap.put("nSecco", numero);
+                    userMap.put("pSecco", punteggio);
+                    MainActivity.CURRENTUSER.setnSecco(numero);
+                    MainActivity.CURRENTUSER.setpSecco(punteggio);
                     break;
                 case "Carta":
                     numero = currentUser.getnCarta() + 1;

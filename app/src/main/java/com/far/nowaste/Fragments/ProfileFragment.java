@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
             // imposta grafici e textView
             tvPlastica.setText((currentUser.getpPlastica()) + "g");
             tvOrganico.setText(currentUser.getpOrganico() + "g");
-            tvSecco.setText(currentUser.getpIndifferenziata() + "g");
+            tvSecco.setText(currentUser.getpSecco() + "g");
             tvCarta.setText(currentUser.getpCarta() + "g");
             tvVetro.setText(currentUser.getpVetro() + "g");
             tvMetalli.setText(currentUser.getpMetalli() + "g");
@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
                     // imposta il grafico a torta
                     tvPlastica.setText((utente.getpPlastica()) + "g");
                     tvOrganico.setText(utente.getpOrganico() + "g");
-                    tvSecco.setText(utente.getpIndifferenziata() + "g");
+                    tvSecco.setText(utente.getpSecco() + "g");
                     tvCarta.setText(utente.getpCarta() + "g");
                     tvVetro.setText(utente.getpVetro() + "g");
                     tvMetalli.setText(utente.getpMetalli() + "g");
@@ -161,7 +161,7 @@ public class ProfileFragment extends Fragment {
         // Set the data and color to the pie chart
         pieChart.addPieSlice(new PieModel("Plastica", Integer.parseInt(((int) utente.getpPlastica()) + ""), colors.get(0)));
         pieChart.addPieSlice(new PieModel("Organico", Integer.parseInt(((int) utente.getpOrganico()) + ""), colors.get(1)));
-        pieChart.addPieSlice(new PieModel("Secco", Integer.parseInt(((int) utente.getpIndifferenziata()) + ""), colors.get(2)));
+        pieChart.addPieSlice(new PieModel("Secco", Integer.parseInt(((int) utente.getpSecco()) + ""), colors.get(2)));
         pieChart.addPieSlice(new PieModel("Carta", Integer.parseInt(((int) utente.getpCarta()) + ""), colors.get(3)));
         pieChart.addPieSlice(new PieModel("Vetro", Integer.parseInt(((int) utente.getpVetro()) + ""), colors.get(4)));
         pieChart.addPieSlice(new PieModel("Metalli", Integer.parseInt(((int) utente.getpMetalli()) + ""), colors.get(5)));
@@ -178,7 +178,7 @@ public class ProfileFragment extends Fragment {
         List<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(1f, utente.getnPlastica()));
         entries.add(new BarEntry(2f, utente.getnOrganico()));
-        entries.add(new BarEntry(3f, utente.getnIndifferenziata()));
+        entries.add(new BarEntry(3f, utente.getnSecco()));
         entries.add(new BarEntry(4f, utente.getnCarta()));
         entries.add(new BarEntry(5f, utente.getnVetro()));
         entries.add(new BarEntry(6f, utente.getnMetalli()));

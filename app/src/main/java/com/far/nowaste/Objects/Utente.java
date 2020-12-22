@@ -4,8 +4,8 @@ public class Utente {
 
     // definizione campi
     public String fullName, email, image, city, quartiere;
-    public int nPlastica, nOrganico, nIndifferenziata, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
-    public double pPlastica, pOrganico, pIndifferenziata, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
+    public int nPlastica, nOrganico, nSecco, nCarta, nVetro, nMetalli, nElettrici, nSpeciali;
+    public double pPlastica, pOrganico, pSecco, pCarta, pVetro, pMetalli, pElettrici, pSpeciali;
     public boolean isGoogle, isOperatore;
 
     // costruttore nuovo utente
@@ -15,7 +15,7 @@ public class Utente {
         this.image = image;
         this.nPlastica = 0;
         this.nOrganico = 0;
-        this.nIndifferenziata = 0;
+        this.nSecco = 0;
         this.nCarta = 0;
         this.nVetro = 0;
         this.nMetalli = 0;
@@ -23,7 +23,7 @@ public class Utente {
         this.nSpeciali = 0;
         this.pPlastica = 0;
         this.pOrganico = 0;
-        this.pIndifferenziata = 0;
+        this.pSecco = 0;
         this.pCarta = 0;
         this.pVetro = 0;
         this.pMetalli = 0;
@@ -79,12 +79,12 @@ public class Utente {
         this.nOrganico = nOrganico;
     }
 
-    public int getnIndifferenziata() {
-        return nIndifferenziata;
+    public int getnSecco() {
+        return nSecco;
     }
 
-    public void setnIndifferenziata(int nIndifferenziata) {
-        this.nIndifferenziata = nIndifferenziata;
+    public void setnSecco(int nSecco) {
+        this.nSecco = nSecco;
     }
 
     public int getnCarta() {
@@ -143,12 +143,12 @@ public class Utente {
         this.pOrganico = pOrganico;
     }
 
-    public double getpIndifferenziata() {
-        return pIndifferenziata;
+    public double getpSecco() {
+        return pSecco;
     }
 
-    public void setpIndifferenziata(double pIndifferenziata) {
-        this.pIndifferenziata = pIndifferenziata;
+    public void setpSecco(double pSecco) {
+        this.pSecco = pSecco;
     }
 
     public double getpCarta() {

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
         // definizione onClick cardView
         clickCard(plasticaCardView, "Plastica");
         clickCard(organicoCardView, "Organico");
-        clickCard(seccoCardView,"Indifferenziata");
+        clickCard(seccoCardView,"Secco");
         clickCard(cartaCardView, "Carta");
         clickCard(vetroCardView, "Vetro");
         clickCard(metalliCardView,"Metalli");
