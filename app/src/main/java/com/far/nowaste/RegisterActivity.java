@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
 
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
     FirebaseUser fUser;
 
     @Override
@@ -175,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // crea l'utente in firebase
     private void createFirestoreUser(String fullName){
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         // insert name into fUser
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
         fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -188,9 +187,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         // store data in firestore
-        DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
         Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, "", "");
-        documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());

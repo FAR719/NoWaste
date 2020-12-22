@@ -53,7 +53,6 @@ public class ProfileFragment extends Fragment {
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
     FirebaseUser fUser;
 
     Utente currentUser;
@@ -124,7 +123,7 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (currentUser == null) {
-            fStore = FirebaseFirestore.getInstance();
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fAuth = FirebaseAuth.getInstance();
             fUser = fAuth.getCurrentUser();
 

@@ -41,7 +41,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
     FirebaseUser fUser;
 
     Rifiuto rifiuto;
@@ -95,7 +94,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         initFloatingMenu();
 
         // associazione firebase
-        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
     }
@@ -105,6 +103,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         super.onStart();
 
         // query per istanziare il rifiuto e impostare le view
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -131,7 +130,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     public void loadPunteggio() {
         if (currentUser != null){
             // carica punteggio in firestore
-            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             int numero;
             double punteggio;
             Map<String,Object> userMap = new HashMap<>();
@@ -201,7 +200,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     MainActivity.CURRENTUSER.setpSpeciali(punteggio);
                     break;
             }
-            documentReference.update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            fStore.collection("users").document(fUser.getUid()).update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(DetailRifiutoActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();

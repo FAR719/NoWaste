@@ -32,7 +32,6 @@ public class ListaSearchActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     TextView noResult;
 
@@ -53,9 +52,8 @@ public class ListaSearchActivity extends AppCompatActivity {
         // to launch the activity
         Intent in = getIntent();
 
-        // recyclerView + FireBase + noResultTextView
+        // recyclerView + noResultTextView
         mFirestoreList = findViewById(R.id.listaSearch_recyclerView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
         noResult = findViewById(R.id.noResultTextView);
 
         // variabile passata
@@ -65,7 +63,8 @@ public class ListaSearchActivity extends AppCompatActivity {
         mToolbar.setTitle(stringName);
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        Query query = fStore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

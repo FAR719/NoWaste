@@ -30,7 +30,6 @@ import java.util.Random;
 
 public class CuriositaFragment extends Fragment {
 
-    FirebaseFirestore fStore;
     List<Curiosity> randomCuriosityList;
 
     RecyclerView recView;
@@ -48,7 +47,7 @@ public class CuriositaFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         // query
         fStore.collection("curiosity").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

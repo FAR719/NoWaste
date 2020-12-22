@@ -58,13 +58,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     SwitchPreferenceCompat mNotificationPreference;
 
     // firebase
-    FirebaseFirestore fStore;
     FirebaseAuth fAuth;
     FirebaseUser fUser;
     FirebaseStorage storage;
     StorageReference storageReference;
-
-    Utente currentUser;
 
     final String operatoreKey = "a1b2c3d4e5";
 
@@ -78,9 +75,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        currentUser = MainActivity.CURRENTUSER;
-
-        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
@@ -111,7 +105,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     }
 
     private void setVisiblePreferences(){
-        if (currentUser == null) {
+        if (MainActivity.CURRENTUSER == null) {
             mLoginPreference.setVisible(true);
             mFullNamePreference.setVisible(false);
             mNewPicturePreference.setVisible(false);
@@ -124,32 +118,32 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(false);
-        } else if (currentUser.isGoogle()) {
+        } else if (MainActivity.CURRENTUSER.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
             mDeletePicturePreference.setVisible(true);
             mCityPreference.setVisible(true);
-            mQuartierePreference.setVisible(!currentUser.getQuartiere().equals(""));
+            mQuartierePreference.setVisible(!MainActivity.CURRENTUSER.getCity().equals(""));
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
-            mOperatorePreference.setVisible(!currentUser.isOperatore());
+            mOperatorePreference.setVisible(!MainActivity.CURRENTUSER.isOperatore());
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
             mDeletePicturePreference.setVisible(true);
             mCityPreference.setVisible(true);
-            mQuartierePreference.setVisible(!currentUser.getQuartiere().equals(""));
+            mQuartierePreference.setVisible(!MainActivity.CURRENTUSER.getCity().equals(""));
             mEmailPreference.setVisible(true);
             mPasswordPreference.setVisible(true);
             mLogOutPreference.setVisible(true);
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
-            mOperatorePreference.setVisible(!currentUser.isOperatore());
+            mOperatorePreference.setVisible(!MainActivity.CURRENTUSER.isOperatore());
         }
     }
 
@@ -194,8 +188,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         String newFullName = fullNameEditText.getText().toString().trim();
                         if (!newFullName.equals(fUser.getDisplayName())){
                             // update main and firestore
-                            MainActivity.CURRENTUSER.setFullName(newFullName);
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             fStore.collection("users").document(fUser.getUid()).set(MainActivity.CURRENTUSER);
+                            MainActivity.CURRENTUSER.setFullName(newFullName);
 
                             // update fAuth
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
@@ -247,12 +242,12 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         storageReference = storage.getReference();
-                        final String key = currentUser.getEmail();
+                        final String key = MainActivity.CURRENTUSER.getEmail();
                         StorageReference picRef = storageReference.child("proPics/" + key);
                         picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                fStore = FirebaseFirestore.getInstance();
+                                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                                 Map<String, Object> imageMap = new HashMap<>();
                                 imageMap.put("image", null);
                                 fStore.collection("users").document(fUser.getUid()).update(imageMap)
@@ -260,7 +255,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 MainActivity.CURRENTUSER.setImage(null);
-                                                currentUser = MainActivity.CURRENTUSER;
                                                 ((MainActivity)getActivity()).updateHeader();
                                                 Toast.makeText(getContext(), "Immagine eliminata!", Toast.LENGTH_SHORT).show();
                                             }
@@ -300,8 +294,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 RadioButton mBarlettaRadioBtn = layout2.findViewById(R.id.barlettaRadioButton);
                 RadioButton mBariRadioBtn = layout2.findViewById(R.id.bariRadioButton);
 
-                if (currentUser.getCity() != null) {
-                    switch (currentUser.getCity()){
+                if (MainActivity.CURRENTUSER.getCity() != null) {
+                    switch (MainActivity.CURRENTUSER.getCity()){
                         case "Barletta":
                             mRadioGroup.check(R.id.barlettaRadioButton);
                             break;
@@ -325,15 +319,21 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     public void onClick(DialogInterface dialog, int which) {
                         Map<String, Object> cityMap = new HashMap<>();
                         if (mBarlettaRadioBtn.isChecked()) {
-                            cityMap.put("city", "Barletta");
+                            if (!MainActivity.CURRENTUSER.getCity().equals("Barletta")) {
+                                cityMap.put("city", "Barletta");
+                                cityMap.put("quartiere", "");
+                            }
                         } else if (mBariRadioBtn.isChecked()) {
-                            cityMap.put("city", "Bari");
+                            if (!MainActivity.CURRENTUSER.getCity().equals("Bari")) {
+                                cityMap.put("city", "Bari");
+                                cityMap.put("quartiere", "");
+                            }
                         }
                         if (cityMap.get("city") != null) {
-                            fStore = FirebaseFirestore.getInstance();
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             fStore.collection("users").document(fAuth.getUid()).update(cityMap);
                             MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
-                            currentUser = MainActivity.CURRENTUSER;
+                            MainActivity.CURRENTUSER.setQuartiere("");
                             mQuartierePreference.setVisible(true);
                         }
                     }
@@ -359,12 +359,12 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 RadioButton mQ1RadioBtn = layout2.findViewById(R.id.q1RadioButton);
                 RadioButton mQ2RadioBtn = layout2.findViewById(R.id.q2RadioButton);
 
-                switch (currentUser.getCity()){
+                switch (MainActivity.CURRENTUSER.getCity()){
                     case "Barletta":
                         mQ1RadioBtn.setText("Borgovilla");
                         mQ2RadioBtn.setText("Patalini");
-                        if (currentUser.getQuartiere() != null) {
-                            switch (currentUser.getQuartiere()){
+                        if (MainActivity.CURRENTUSER.getQuartiere() != null) {
+                            switch (MainActivity.CURRENTUSER.getQuartiere()){
                                 case "Borgovilla":
                                     mRadioGroup.check(R.id.q1RadioButton);
                                     break;
@@ -377,8 +377,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     case "Bari":
                         mQ1RadioBtn.setText("Santo Spirito");
                         mQ2RadioBtn.setText("Zona industriale");
-                        if (currentUser.getQuartiere() != null) {
-                            switch (currentUser.getQuartiere()){
+                        if (MainActivity.CURRENTUSER.getQuartiere() != null) {
+                            switch (MainActivity.CURRENTUSER.getQuartiere()){
                                 case "Santo Spirito":
                                     mRadioGroup.check(R.id.q1RadioButton);
                                     break;
@@ -403,7 +403,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Map<String, Object> quartMap = new HashMap<>();
-                        switch (currentUser.getCity()){
+                        switch (MainActivity.CURRENTUSER.getCity()){
                             case "Barletta":
                                 if (mQ1RadioBtn.isChecked()) {
                                     quartMap.put("quartiere", "Borgovilla");
@@ -420,10 +420,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                 break;
                         }
                         if (quartMap.get("quartiere") != null) {
-                            fStore = FirebaseFirestore.getInstance();
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             fStore.collection("users").document(fAuth.getUid()).update(quartMap);
                             MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
-                            currentUser = MainActivity.CURRENTUSER;
                         }
                     }
                 });
@@ -542,6 +541,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         Map<String, Object> mappa = new HashMap<>();
                         mappa.put("nPlastica", 0);
                         mappa.put("pPlastica", 0);
@@ -639,7 +639,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        fStore = FirebaseFirestore.getInstance();
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         String writtenKey = keyEditText.getText().toString().trim();
                         if (writtenKey.length() != 10) {
                             Toast.makeText(getContext(), "La chiave deve essere lunga 10 caratteri.", Toast.LENGTH_SHORT).show();
@@ -655,7 +655,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                         public void onSuccess(Void aVoid) {
                                             // aggiorna variabile in main
                                             MainActivity.CURRENTUSER.setOperatore(true);
-                                            currentUser = MainActivity.CURRENTUSER;
                                             mOperatorePreference.setVisible(false);
                                             Toast.makeText(getContext(), "Il tuo account operatore è stato attivato!", Toast.LENGTH_SHORT).show();
                                         }
@@ -754,7 +753,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         pd.setTitle("Caricamento dell'immagine...");
         pd.show();
 
-        final String key = currentUser.getEmail();
+        final String key = MainActivity.CURRENTUSER.getEmail();
         StorageReference pictureRef = storageReference.child("proPics/" + key);
 
         pictureRef.putFile(imageUri)
@@ -793,7 +792,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         fUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                fStore = FirebaseFirestore.getInstance();
+                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 fStore.collection("users").document(fUser.getUid()).update(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

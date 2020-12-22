@@ -28,7 +28,6 @@ public class ListaCardActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
 
     @Override
@@ -45,9 +44,8 @@ public class ListaCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // recyclerView + FireBase
+        // recyclerView
         mFirestoreList = findViewById(R.id.tickets_listaCard_recyclerView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
 
         // to launch the activity
         Intent in = getIntent();
@@ -59,7 +57,8 @@ public class ListaCardActivity extends AppCompatActivity {
         mToolbar.setTitle(stringCardType);
 
         // query
-        Query query = firebaseFirestore.collection("rifiuti").whereEqualTo("smaltimento", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        Query query = fStore.collection("rifiuti").whereEqualTo("smaltimento", stringCardType).orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Rifiuto> options = new FirestoreRecyclerOptions.Builder<Rifiuto>().setQuery(query, Rifiuto.class).build();

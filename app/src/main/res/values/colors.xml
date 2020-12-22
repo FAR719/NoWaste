@@ -40,9 +40,8 @@
 
     <!--Colori home-->
     <color name="plastica_home">#F9CF30</color>
-    <color name="organico_home">#6C121B</color>
+    <color name="organico_home">#9F4242</color>
     <color name="secco_home">#1B8C52</color>
-    <color name="carta_home">#DBDDDC</color>
 
     <color name="chart_background">#EDEDF2</color>
 

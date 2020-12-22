@@ -33,8 +33,9 @@ import java.util.List;
 public class CalendarioFragment extends Fragment {
 
     // definizione view
-    MaterialCalendarView mCalendarView, materialCardView;
+    MaterialCalendarView mCalendarView;
     TextView mDateTextView, mTitleTextView, mDescTextView;
+    MaterialCardView materialCardView;
 
     // definizione variabili
     List<Evento> eventi;
@@ -42,7 +43,6 @@ public class CalendarioFragment extends Fragment {
     CalendarDay currentDay;
 
     // firebase
-    FirebaseFirestore fStore;
     FirebaseAuth fAuth;
 
     Typeface nunito, nunito_bold;
@@ -135,7 +135,7 @@ public class CalendarioFragment extends Fragment {
         super.onStart();
         // prendo gli eventi dal database
         if (fAuth.getCurrentUser() != null) {
-            fStore = FirebaseFirestore.getInstance();
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("events").whereEqualTo("email", fAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

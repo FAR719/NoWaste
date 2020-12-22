@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
     FirebaseStorage storage;
     StorageReference storageReference;
 
@@ -140,10 +139,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         // imposta CURRENTUSER
         fAuth = FirebaseAuth.getInstance();
-        if (fAuth.getCurrentUser() != null) {
-            fStore = FirebaseFirestore.getInstance();
-            FirebaseUser user = fAuth.getCurrentUser();
-            fStore.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        FirebaseUser fUser = fAuth.getCurrentUser();
+        if (fUser != null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                     CURRENTUSER = value.toObject(Utente.class);
@@ -286,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changeEmail(String password, String email){
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
@@ -327,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // password from settings
     public void changePassword(String oldPass, String newPass){
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
@@ -358,7 +357,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // logout from settings
     public void logout() {
-        fStore.terminate();
         FirebaseAuth.getInstance().signOut();
         CURRENTUSER = null;
         Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
@@ -370,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // delete account from settings
     public void deleteAccount(String password) {
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
@@ -450,5 +448,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
             mImage.setImageDrawable(defaultImage);
         }
+    }
+
+    public void goToSettings() {
+        mToolbar.setTitle("Impostazioni");
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
+        fragment = 7;
     }
 }

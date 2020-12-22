@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
     View mDivider;
 
-    FirebaseFirestore fStore;
     FirebaseAuth fAuth;
 
     // login Google
@@ -88,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
         mWarning = findViewById(R.id.warningTextView);
         mResendBtn = findViewById(R.id.sendEmailButton);
 
-        fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +203,7 @@ public class LoginActivity extends AppCompatActivity {
         // aggiorna emails
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser == null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -295,8 +294,8 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (!exists(fUser)) {
             Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(), true, false, "", "");
-            DocumentReference documentReference = fStore.collection("users").document(fUser.getUid());
-            documentReference.set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
