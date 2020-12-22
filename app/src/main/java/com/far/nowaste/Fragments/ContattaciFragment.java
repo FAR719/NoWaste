@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.far.nowaste.AssistenzaActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.TabTicketActivity;
 import com.google.android.material.card.MaterialCardView;
@@ -43,7 +44,7 @@ public class ContattaciFragment extends Fragment {
         assistenzaCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(getContext(), AssistenzaActivity.class));
             }
         });
 
