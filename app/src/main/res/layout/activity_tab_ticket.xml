@@ -38,6 +38,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/newTicket_errorFloatingActionButton"
             android:layout_width="wrap_content"
@@ -47,6 +48,7 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
             app:srcCompat="@drawable/ic_campaign"
@@ -61,6 +63,7 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_addFloatingActionButton"
             app:srcCompat="@drawable/ic_create"
@@ -76,6 +79,7 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:srcCompat="@drawable/ic_create"
             app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"

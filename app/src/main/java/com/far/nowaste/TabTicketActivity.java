@@ -55,6 +55,7 @@ public class TabTicketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         // imposta l'animazione del floating button
         initFloatingMenu();
 
@@ -86,6 +87,16 @@ public class TabTicketActivity extends AppCompatActivity {
         errorBtn.setTranslationY(100f);
         errorBtn.setScaleX(0.7f);
         errorBtn.setScaleY(0.7f);
+
+        if(MainActivity.CURRENTUSER.isOperatore()){
+            newTicketBtn.setVisibility(View.GONE);
+            checkBtn.setVisibility(View.GONE);
+            errorBtn.setVisibility(View.GONE);
+        } else {
+            newTicketBtn.setVisibility(View.VISIBLE);
+            checkBtn.setVisibility(View.VISIBLE);
+            errorBtn.setVisibility(View.VISIBLE);
+        }
 
         Intent intentnewTick = new Intent(this, NewTicketActivity.class);
         Intent intentError = new Intent(this, ReportProblemActivity.class);

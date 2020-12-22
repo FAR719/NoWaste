@@ -1,10 +1,13 @@
 package com.far.nowaste.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -93,6 +97,45 @@ public class ReportFragment extends Fragment {
                     } else {
                         holder.rEmail.setVisibility(View.GONE);
                     }
+
+                    holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            // apro le informazioni del report
+
+                            // set custom dialogs layout params
+                            LinearLayout.LayoutParams mainParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            // main layout
+                            LinearLayout mainLayout = new LinearLayout(getContext());
+                            mainLayout.setLayoutParams(mainParams);
+
+                            View layout = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_report, mainLayout, false);
+
+                            // declare and set TextView
+                            TextView tipologia = layout.findViewById(R.id.tipologiaDialog_TextView);
+                            TextView email = layout.findViewById(R.id.emailaDialog_reportTextView);
+                            TextView data = layout.findViewById(R.id.dataDialog_TextView);
+                            TextView indirizzo = layout.findViewById(R.id.indirizzoDialog_textView);
+                            TextView cassonetto = layout.findViewById(R.id.cassonettoDialog_textView);
+                            TextView commento = layout.findViewById(R.id.commentoDialog_textView);
+
+
+                            mainLayout.addView(layout);
+
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                            builder.setView(mainLayout);
+                            builder.setNeutralButton("CHIUDI", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.show();
+
+                            return true;
+                        }
+                    });
                 }
             };
         }
@@ -124,7 +167,9 @@ public class ReportFragment extends Fragment {
             rData = itemView.findViewById(R.id.recView_ticketsItem_dataTextView);
             rEmail = itemView.findViewById(R.id.recView_ticketsItem_emailTextView);
         }
+
     }
+
 
     //start&stop listening
     @Override
