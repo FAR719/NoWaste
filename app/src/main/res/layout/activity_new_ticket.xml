@@ -30,7 +30,7 @@
         android:layout_below="@+id/nuovoTicket_appBarLayout">
 
         <EditText
-            android:id="@+id/oggettoEditText"
+            android:id="@+id/oggettoTicket_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/textTicketEditText"
+            android:id="@+id/textTicket_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -55,10 +55,10 @@
             android:padding="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oggettoEditText"/>
+            app:layout_constraintTop_toBottomOf="@+id/oggettoTicket_EditText"/>
 
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/sendTicketButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="250dp"
@@ -68,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textTicketEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/textTicket_EditText" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

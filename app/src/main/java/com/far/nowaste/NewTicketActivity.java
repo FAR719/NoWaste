@@ -53,9 +53,9 @@ public class NewTicketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamento view
-        mOggetto = findViewById(R.id.oggettoEditText);
-        mTesto = findViewById(R.id.textTicketEditText);
-        mSendBtn = findViewById(R.id.sendButton);
+        mOggetto = findViewById(R.id.oggettoTicket_EditText);
+        mTesto = findViewById(R.id.textTicket_EditText);
+        mSendBtn = findViewById(R.id.sendTicketButton);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
