@@ -7,8 +7,6 @@ public class Tickets {
     public boolean stato;
 
     // costruttore
-
-
     public Tickets(String oggetto, String email, int day, int month, int year, int hour, int minute, int second, boolean stato) {
         this.oggetto = oggetto;
         this.email = email;
