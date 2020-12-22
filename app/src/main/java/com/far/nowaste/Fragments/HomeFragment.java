@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
                     if (currentuser.getCity().equals("")) {
                         raccoltaCardView.setVisibility(View.GONE);
                         warningCardView.setVisibility(View.VISIBLE);
-                        warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale.");
+                        warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
                         warningCardView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment {
                     } else if (currentuser.getQuartiere().equals("")){
                         raccoltaCardView.setVisibility(View.GONE);
                         warningCardView.setVisibility(View.VISIBLE);
-                        warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale.");
+                        warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
                         warningCardView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -132,76 +132,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                 Settimanale settimanale = value.toObject(Settimanale.class);
-                                lunedi1.setText(settimanale.getLunedi1());
-                                colorTextView(lunedi1);
-                                if (!settimanale.getLunedi2().equals("")) {
-                                    lunediE.setVisibility(View.VISIBLE);
-                                    lunediE.setText(" e ");
-                                    lunedi2.setVisibility(View.VISIBLE);
-                                    lunedi2.setText(value.getString("lunedi2"));
-                                    colorTextView(lunedi2);
-                                } else {
-                                    lunediE.setVisibility(View.GONE);
-                                    lunedi2.setVisibility(View.GONE);
-                                }
-
-                                martedi1.setText(settimanale.getMartedi1());
-                                colorTextView(martedi1);
-                                if (!settimanale.getMartedi2().equals("")) {
-                                    martediE.setVisibility(View.VISIBLE);
-                                    martediE.setText(" e ");
-                                    martedi2.setVisibility(View.VISIBLE);
-                                    martedi2.setText(value.getString("martedi2"));
-                                    colorTextView(martedi2);
-                                } else {
-                                    martediE.setVisibility(View.GONE);
-                                    martedi2.setVisibility(View.GONE);
-                                }
-
-                                mercoledi1.setText(settimanale.getMercoledi1());
-                                colorTextView(mercoledi1);
-                                if (!settimanale.getMercoledi2().equals("")) {
-                                    mercolediE.setVisibility(View.VISIBLE);
-                                    mercolediE.setText(" e ");
-                                    mercoledi2.setVisibility(View.VISIBLE);
-                                    mercoledi2.setText(value.getString("mercoledi2"));
-                                    colorTextView(mercoledi2);
-                                } else {
-                                    mercolediE.setVisibility(View.GONE);
-                                    mercoledi2.setVisibility(View.GONE);
-                                }
-
-                                giovedi1.setText(settimanale.getGiovedi1());
-                                colorTextView(giovedi1);
-                                if (!settimanale.getGiovedi2().equals("")) {
-                                    giovediE.setVisibility(View.VISIBLE);
-                                    giovediE.setText(" e ");
-                                    giovedi2.setVisibility(View.VISIBLE);
-                                    giovedi2.setText(value.getString("giovedi2"));
-                                    colorTextView(giovedi2);
-                                } else {
-                                    giovediE.setVisibility(View.GONE);
-                                    giovedi2.setVisibility(View.GONE);
-                                }
-
-                                venerdi1.setText(settimanale.getVenerdi1());
-                                colorTextView(venerdi1);
-                                if (!settimanale.getVenerdi2().equals("")) {
-                                    venerdiE.setVisibility(View.VISIBLE);
-                                    venerdiE.setText(" e ");
-                                    venerdi2.setVisibility(View.VISIBLE);
-                                    venerdi2.setText(value.getString("venerdi2"));
-                                    colorTextView(venerdi2);
-                                } else {
-                                    venerdiE.setVisibility(View.GONE);
-                                    venerdi2.setVisibility(View.GONE);
-                                }
-
-                                sabato.setText(settimanale.getSabato());
-                                colorTextView(sabato);
-
-                                domenica.setText(settimanale.getDomenica());
-                                colorTextView(domenica);
+                                setDayViews(settimanale);
                             }
                         });
                     }
@@ -210,7 +141,7 @@ public class HomeFragment extends Fragment {
         } else {
             raccoltaCardView.setVisibility(View.GONE);
             warningCardView.setVisibility(View.VISIBLE);
-            warningTextView.setText("Accedi per visualizzare il calendario della raccolta settimanale.");
+            warningTextView.setText("Accedi per visualizzare il calendario della raccolta settimanale");
             warningCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -232,7 +163,80 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void colorTextView(TextView textView){
+    private void setDayViews(Settimanale settimanale){
+        lunedi1.setText(settimanale.getLunedi1());
+        setViewColor(lunedi1);
+        if (!settimanale.getLunedi2().equals("")) {
+            lunediE.setVisibility(View.VISIBLE);
+            lunediE.setText(" e ");
+            lunedi2.setVisibility(View.VISIBLE);
+            lunedi2.setText(settimanale.getLunedi2());
+            setViewColor(lunedi2);
+        } else {
+            lunediE.setVisibility(View.GONE);
+            lunedi2.setVisibility(View.GONE);
+        }
+
+        martedi1.setText(settimanale.getMartedi1());
+        setViewColor(martedi1);
+        if (!settimanale.getMartedi2().equals("")) {
+            martediE.setVisibility(View.VISIBLE);
+            martediE.setText(" e ");
+            martedi2.setVisibility(View.VISIBLE);
+            martedi2.setText(settimanale.getMartedi2());
+            setViewColor(martedi2);
+        } else {
+            martediE.setVisibility(View.GONE);
+            martedi2.setVisibility(View.GONE);
+        }
+
+        mercoledi1.setText(settimanale.getMercoledi1());
+        setViewColor(mercoledi1);
+        if (!settimanale.getMercoledi2().equals("")) {
+            mercolediE.setVisibility(View.VISIBLE);
+            mercolediE.setText(" e ");
+            mercoledi2.setVisibility(View.VISIBLE);
+            mercoledi2.setText(settimanale.getMercoledi2());
+            setViewColor(mercoledi2);
+        } else {
+            mercolediE.setVisibility(View.GONE);
+            mercoledi2.setVisibility(View.GONE);
+        }
+
+        giovedi1.setText(settimanale.getGiovedi1());
+        setViewColor(giovedi1);
+        if (!settimanale.getGiovedi2().equals("")) {
+            giovediE.setVisibility(View.VISIBLE);
+            giovediE.setText(" e ");
+            giovedi2.setVisibility(View.VISIBLE);
+            giovedi2.setText(settimanale.getGiovedi2());
+            setViewColor(giovedi2);
+        } else {
+            giovediE.setVisibility(View.GONE);
+            giovedi2.setVisibility(View.GONE);
+        }
+
+        venerdi1.setText(settimanale.getVenerdi1());
+        setViewColor(venerdi1);
+        if (!settimanale.getVenerdi2().equals("")) {
+            venerdiE.setVisibility(View.VISIBLE);
+            venerdiE.setText(" e ");
+            venerdi2.setVisibility(View.VISIBLE);
+            venerdi2.setText(settimanale.getVenerdi2());
+            setViewColor(venerdi2);
+        } else {
+            venerdiE.setVisibility(View.GONE);
+            venerdi2.setVisibility(View.GONE);
+        }
+
+        sabato.setText(settimanale.getSabato());
+        setViewColor(sabato);
+
+        domenica.setText(settimanale.getDomenica());
+        setViewColor(domenica);
+    }
+
+    private void setViewColor(TextView textView){
         switch (textView.getText().toString()) {
             case "Plastica":
                 textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.plastica_home));

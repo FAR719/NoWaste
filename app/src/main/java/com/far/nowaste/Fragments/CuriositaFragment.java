@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -105,6 +106,7 @@ public class CuriositaFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             holder.descrizione.setText(curiosityList.get(position).getDescrizione());
             holder.etichetta.setText(curiosityList.get(position).getEtichetta());
+            setViewColor(holder.etichetta);
         }
 
         @Override
@@ -121,6 +123,35 @@ public class CuriositaFragment extends Fragment {
                 descrizione = itemView.findViewById(R.id.recView_curiosityItem_descTextView);
                 etichetta = itemView.findViewById(R.id.recView_curiosityItem_etichettaTextView);
             }
+        }
+    }
+
+    private void setViewColor(TextView textView) {
+        switch (textView.getText().toString()) {
+            case "Plastica":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.plastica));
+                break;
+            case "Organico":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.organico));
+                break;
+            case "Secco":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.secco));
+                break;
+            case "Carta":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.carta));
+                break;
+            case "Vetro":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.vetro));
+                break;
+            case "Metalli":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.metalli));
+                break;
+            case "Elettrici":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.elettrici));
+                break;
+            case "Speciali":
+                textView.setTextColor(ContextCompat.getColor(textView.getContext(), R.color.speciali));
+                break;
         }
     }
 }

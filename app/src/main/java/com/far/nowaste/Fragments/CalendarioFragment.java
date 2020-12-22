@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.far.nowaste.MainActivity;
 import com.far.nowaste.Other.EventDecorator;
 import com.far.nowaste.Objects.Evento;
 import com.far.nowaste.R;
@@ -34,8 +35,8 @@ public class CalendarioFragment extends Fragment {
 
     // definizione view
     MaterialCalendarView mCalendarView;
-    TextView mDateTextView, mTitleTextView, mDescTextView;
-    MaterialCardView materialCardView;
+    TextView mTitleTextView, mDescTextView;
+    MaterialCardView eventCardView;
 
     // definizione variabili
     List<Evento> eventi;
@@ -53,10 +54,9 @@ public class CalendarioFragment extends Fragment {
         // associazione view
         View view = inflater.inflate(R.layout.fragment_calendario, container, false);
         mCalendarView = view.findViewById(R.id.calendarView);
-        mDateTextView = view.findViewById(R.id.calendar_event_date);
         mTitleTextView = view.findViewById(R.id.calendar_event_title);
         mDescTextView = view.findViewById(R.id.calendar_event_desc);
-        materialCardView = view.findViewById(R.id.cardViewEvent);
+        eventCardView = view.findViewById(R.id.cardViewEvent);
 
         // typefaces
         nunito = ResourcesCompat.getFont(getContext(), R.font.nunito);
@@ -72,60 +72,43 @@ public class CalendarioFragment extends Fragment {
         // imposta la data odierna
         currentDay = CalendarDay.today();
         mCalendarView.setDateSelected(CalendarDay.today(), true);
-        String month;
-        String day;
-        if (currentDay.getMonth() < 10) {
-            month = "0" + currentDay.getMonth();
-        } else {
-            month = currentDay.getMonth() + "";
-        }
-        if (currentDay.getDay() < 10) {
-            day = "0" + currentDay.getDay();
-        } else {
-            day = currentDay.getDay() + "";
-        }
-        mDateTextView.setText(day + "/" + month + "/" + currentDay.getYear());
 
-        // imposta il default "Nessun evento"
-        mDescTextView.setVisibility(View.GONE);
-        mDateTextView.setVisibility(View.GONE);
-        mTitleTextView.setText("Nessun evento");
-        mTitleTextView.setTypeface(nunito);
+        if (fAuth.getCurrentUser() == null) {
+            mTitleTextView.setText("Eventi");
+            mDescTextView.setText("Accedi per visualizzare i tuoi eventi");
+            eventCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity)getActivity()).launchLogin();
+                }
+            });
+        } else {
+            // imposta il default "Nessun evento"
+            mDescTextView.setVisibility(View.GONE);
+            mTitleTextView.setText("Nessun evento");
+            mTitleTextView.setTypeface(nunito);
 
-        // onClick day
-        mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                String month, day;
-                if (date.getMonth() < 10) {
-                    month = "0" + date.getMonth();
-                } else {
-                    month = date.getMonth() + "";
-                }
-                if (date.getDay() < 10) {
-                    day = "0" + date.getDay();
-                } else {
-                    day = date.getDay() + "";
-                }
-                mDateTextView.setText(day + "/" + month + "/" + date.getYear());
-                if (fAuth.getCurrentUser() != null) {
-                    mTitleTextView.setText("Nessun evento");
-                    mDescTextView.setVisibility(View.GONE);
-                    mDateTextView.setVisibility(View.GONE);
-                    mTitleTextView.setTypeface(nunito);
-                    for (Evento evento : eventi) {
-                        if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
-                            mTitleTextView.setText(evento.getTitle());
-                            mDescTextView.setText(evento.getDescription());
-                            mDescTextView.setVisibility(View.VISIBLE);
-                            mDateTextView.setVisibility(View.VISIBLE);
-                            mTitleTextView.setTypeface(nunito_bold);
+            // onClick day
+            mCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+                @Override
+                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                    if (fAuth.getCurrentUser() != null) {
+                        mTitleTextView.setText("Nessun evento");
+                        mDescTextView.setVisibility(View.GONE);
+                        mTitleTextView.setTypeface(nunito);
+                        for (Evento evento : eventi) {
+                            if (date.getYear() == evento.getYear() && date.getMonth() == evento.getMonth() && date.getDay() == evento.getDay()) {
+                                mTitleTextView.setText(evento.getTitle());
+                                mDescTextView.setText(evento.getDescription());
+                                mDescTextView.setVisibility(View.VISIBLE);
+                                mTitleTextView.setTypeface(nunito_bold);
+                            }
                         }
                     }
-                }
 
-            }
-        });
+                }
+            });
+        }
 
         return view;
     }
@@ -151,7 +134,6 @@ public class CalendarioFragment extends Fragment {
                                 mTitleTextView.setText(evento.getTitle());
                                 mDescTextView.setText(evento.getDescription());
                                 mDescTextView.setVisibility(View.VISIBLE);
-                                mDateTextView.setVisibility(View.VISIBLE);
                                 mTitleTextView.setTypeface(nunito_bold);
                             }
                         }

@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
             });
-            fStore.terminate();
         } else {
             mEmail.setText("Accedi al tuo account");
             mFullName.setVisibility(View.GONE);
@@ -326,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // password from settings
     public void changePassword(String oldPass, String newPass){
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
 
