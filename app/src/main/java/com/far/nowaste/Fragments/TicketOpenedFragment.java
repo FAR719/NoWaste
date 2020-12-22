@@ -43,6 +43,7 @@ public class TicketOpenedFragment extends Fragment {
     FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
+    String ora_Ticket;
 
     @Nullable
     @Override
@@ -98,9 +99,9 @@ public class TicketOpenedFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             // apro la chat
+                            String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
                             Intent detailSearchActivity = new Intent(getContext(), TicketChatActivity.class);
-                            String ora_corr= model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
-                            detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_corr);
+                            detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_Ticket);
                             detailSearchActivity.putExtra("com.far.nowaste.oggetto", model.getOggetto());
                             startActivity(detailSearchActivity);
                         }
@@ -124,10 +125,12 @@ public class TicketOpenedFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // implementare query
                                         //String identificativo = model.getEmail() + ora_corr; non funzionante
+                                        String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                                        String identificativo = model.getEmail() + ora_Ticket;
 
                                         Map<String, Object> statoTickets = new HashMap<>();
                                         statoTickets.put("stato",false);
-                                        firebaseFirestore.collection("tickets").document().update(statoTickets)
+                                        firebaseFirestore.collection("tickets").document(identificativo).update(statoTickets)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
