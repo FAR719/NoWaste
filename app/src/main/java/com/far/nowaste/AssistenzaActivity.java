@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.far.nowaste.Objects.Bug;
-import com.far.nowaste.Objects.Tickets;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,7 @@ public class AssistenzaActivity extends AppCompatActivity {
     // variabili
     Toolbar mToolbar;
     EditText mOggetto, mTesto;
-    Button mSendBtn;
+    Button mSendBugBtn;
 
     // firebase
     FirebaseAuth fAuth;
@@ -55,12 +54,12 @@ public class AssistenzaActivity extends AppCompatActivity {
         // collegamento view
         mOggetto = findViewById(R.id.oggettoBug_EditText);
         mTesto = findViewById(R.id.textBug_EditText);
-        mSendBtn = findViewById(R.id.sendBugButton);
+        mSendBugBtn = findViewById(R.id.sendBugButton);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
+        mSendBugBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String oggetto = mOggetto.getText().toString();

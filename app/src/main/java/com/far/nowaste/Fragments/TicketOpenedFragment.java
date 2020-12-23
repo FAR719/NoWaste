@@ -22,7 +22,6 @@ import com.far.nowaste.MainActivity;
 import com.far.nowaste.Objects.Tickets;
 import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
-import com.far.nowaste.TicketListActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
