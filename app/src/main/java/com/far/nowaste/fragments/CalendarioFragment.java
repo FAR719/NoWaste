@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -16,8 +16,8 @@ import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.NewEventActivity;
-import com.far.nowaste.Other.EventDecorator;
-import com.far.nowaste.Objects.Evento;
+import com.far.nowaste.ui.main.EventDecorator;
+import com.far.nowaste.objects.Evento;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

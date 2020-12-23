@@ -1,4 +1,4 @@
-package com.far.nowaste.Objects;
+package com.far.nowaste.objects;
 
 public class Message {
     // variabili

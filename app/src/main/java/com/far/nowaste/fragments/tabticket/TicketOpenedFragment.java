@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments.tabticket;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.Objects.Tickets;
+import com.far.nowaste.objects.Tickets;
 import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -28,7 +28,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 

@@ -100,7 +100,7 @@ public class TabTicketActivity extends AppCompatActivity {
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                animeteFloatingMenu();
+                animateFloatingMenu();
             }
         });
 
@@ -108,7 +108,7 @@ public class TabTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), NewTicketActivity.class));
-                animeteFloatingMenu();
+                animateFloatingMenu();
             }
         });
 
@@ -116,12 +116,12 @@ public class TabTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ReportProblemActivity.class));
-                animeteFloatingMenu();
+                animateFloatingMenu();
             }
         });
     }
 
-    private void animeteFloatingMenu() {
+    private void animateFloatingMenu() {
         if(isMenuOpen){
             newTicketBtn.animate().setInterpolator(interpolator).rotation(0f).setDuration(300).start();
             checkBtn.animate().translationY(100f).alpha(0f).setInterpolator(interpolator).setDuration(300).start();

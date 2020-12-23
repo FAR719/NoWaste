@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments.tabticket;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.Objects.Tickets;
+import com.far.nowaste.objects.Tickets;
 import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

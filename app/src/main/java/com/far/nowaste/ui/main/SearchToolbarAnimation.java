@@ -1,4 +1,4 @@
-package com.far.nowaste.Other;
+package com.far.nowaste.ui.main;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

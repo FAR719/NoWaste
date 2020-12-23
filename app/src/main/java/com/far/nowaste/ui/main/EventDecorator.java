@@ -1,4 +1,4 @@
-package com.far.nowaste.Other;
+package com.far.nowaste.ui.main;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;

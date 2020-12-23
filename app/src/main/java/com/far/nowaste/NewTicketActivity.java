@@ -3,9 +3,7 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,8 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.far.nowaste.Objects.Message;
-import com.far.nowaste.Objects.Tickets;
+import com.far.nowaste.objects.Message;
+import com.far.nowaste.objects.Tickets;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

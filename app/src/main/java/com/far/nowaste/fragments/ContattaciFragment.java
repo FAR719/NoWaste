@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

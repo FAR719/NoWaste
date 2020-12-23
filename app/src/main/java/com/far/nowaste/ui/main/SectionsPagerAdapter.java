@@ -6,13 +6,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.far.nowaste.R;
-import com.far.nowaste.Fragments.ReportFragment;
-import com.far.nowaste.Fragments.TicketClosedFragment;
-import com.far.nowaste.Fragments.TicketOpenedFragment;
+import com.far.nowaste.fragments.tabticket.ReportFragment;
+import com.far.nowaste.fragments.tabticket.TicketClosedFragment;
+import com.far.nowaste.fragments.tabticket.TicketOpenedFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,7 +28,7 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.far.nowaste.BuildConfig;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
-import com.far.nowaste.Objects.Utente;
+import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -724,12 +724,33 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         if (mChiaroRadioBtn.isChecked()) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             mThemePreference.setSummary("Chiaro");
+
+                            nightMode = AppCompatDelegate.getDefaultNightMode();
+                            sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+
+                            editor.putInt("NightModeInt", nightMode);
+                            editor.apply();
                         } else if (mScuroRadioBtn.isChecked()) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                             mThemePreference.setSummary("Scuro");
+
+                            nightMode = AppCompatDelegate.getDefaultNightMode();
+                            sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+
+                            editor.putInt("NightModeInt", nightMode);
+                            editor.apply();
                         } else if (mDefaultRadioBtn.isChecked()) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                             mThemePreference.setSummary("Predefinito di sistema");
+
+                            nightMode = AppCompatDelegate.getDefaultNightMode();
+                            sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+                            editor = sharedPreferences.edit();
+
+                            editor.putInt("NightModeInt", nightMode);
+                            editor.apply();
                         }
                     }
                 });
@@ -818,16 +839,5 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        nightMode = AppCompatDelegate.getDefaultNightMode();
-        sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
-        editor.putInt("NightModeInt", nightMode);
-        editor.apply();
     }
 }

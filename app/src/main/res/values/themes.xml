@@ -26,6 +26,31 @@
         <item name="searchViewStyle">@style/SearchViewTheme</item>
     </style>
 
+    <!--Toolbar Title theme. -->
+    <style name="nunitoLargeTitle" parent="TextAppearance.AppCompat.Large">
+        <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <!--SearchView theme. -->
+    <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="layout">@layout/toolbar_search_view</item>
+        <item name="commitIcon">@drawable/ic_search_commit</item>
+        <item name="colorControlNormal">@color/material_light_active_icon</item>
+        <item name="colorControlHighlight">@color/material_ripple_light</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="suggestionRowLayout">@layout/toolbar_search_view_suggestion_row</item>
+        <item name="android:maxWidth">9999dp</item>
+    </style>
+
+    <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:popupBackground">@drawable/search_suggestions_bg</item>
+        <item name="android:popupElevation">0dp</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="searchViewStyle">@style/SearchViewTheme</item>
+    </style>
+
     <!--CalendarView theme. -->
     <style name="CustomHeaderTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
         <item name="fontFamily">@font/nunito_bold</item>
@@ -44,11 +69,6 @@
         <item name="android:textColor">@color/mcv_text_date_light</item>
         <item name="fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">16sp</item>
-    </style>
-
-    <!--Toolbar Title theme. -->
-    <style name="nunitoLargeTitle" parent="TextAppearance.AppCompat.Large">
-        <item name="fontFamily">@font/nunito</item>
     </style>
 
     <!--Navigation View theme. -->

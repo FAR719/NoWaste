@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.Objects.Utente;
+import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;

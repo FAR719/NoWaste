@@ -1,14 +1,14 @@
-package com.far.nowaste.Objects;
+package com.far.nowaste.objects;
 
-public class Tickets {
-    // variabili
-    public String oggetto, email;
+public class Bug {
+
+    public String oggetto, testo ,email;
     public int day, month, year, hour, minute, second;
-    public boolean stato;
 
     // costruttore
-    public Tickets(String oggetto, String email, int day, int month, int year, int hour, int minute, int second, boolean stato) {
+    public Bug(String oggetto, String testo, String email, int day, int month, int year, int hour, int minute, int second) {
         this.oggetto = oggetto;
+        this.testo = testo;
         this.email = email;
         this.day = day;
         this.month = month;
@@ -16,14 +16,18 @@ public class Tickets {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
-        this.stato = stato;
     }
 
-    //costruttore vuoto per firebase
-    private Tickets(){}
+    // costruttore vuoto per firebase
+    public Bug(){}
 
+    // getter
     public String getOggetto() {
         return oggetto;
+    }
+
+    public String getTesto() {
+        return testo;
     }
 
     public String getEmail() {
@@ -52,9 +56,5 @@ public class Tickets {
 
     public int getSecond() {
         return second;
-    }
-
-    public boolean getStato() {
-        return stato;
     }
 }

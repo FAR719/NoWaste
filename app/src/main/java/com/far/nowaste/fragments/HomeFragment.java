@@ -1,4 +1,4 @@
-package com.far.nowaste.Fragments;
+package com.far.nowaste.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.ListaCardActivity;
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.Objects.Settimanale;
-import com.far.nowaste.Objects.Utente;
+import com.far.nowaste.objects.Settimanale;
+import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
