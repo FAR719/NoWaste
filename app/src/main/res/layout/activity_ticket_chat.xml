@@ -24,28 +24,24 @@
             app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ticketChat_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ticketChat_appBarLayout">
+        android:layout_below="@+id/ticketChat_appBarLayout"
+        android:layout_above="@+id/writeLayout"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ticketChat_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/writeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
 
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="15dp"
             android:background="@android:color/darker_gray"
             app:layout_constraintBottom_toTopOf="@+id/rRispostaEditText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +52,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/background"
             android:ems="10"
             android:fontFamily="@font/nunito"
             android:hint="Invia una risposta"
@@ -67,18 +63,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent" />
-            <!--app:layout_constraintTop_toBottomOf="@id/ticketChat_recyclerView" /> -->
 
         <ImageButton
             android:id="@+id/rSentimageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_send"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_send" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

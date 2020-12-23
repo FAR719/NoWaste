@@ -100,7 +100,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         // query per istanziare il rifiuto e impostare le view
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -114,16 +113,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
             }
         });
-
-        /*if (fUser != null) {
-            // query per istanziare un Utente
-            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    utente = value.toObject(Utente.class);
-                }
-            });
-        }*/
     }
 
     public void loadPunteggio() {

@@ -20,7 +20,7 @@
         <item name="colorOnError">@color/white</item>
         <item name="divider">@color/divider</item>
 
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="searchViewStyle">@style/SearchViewTheme</item>
@@ -95,5 +95,9 @@
 
     <style name="ThemeMaterialCalendarButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="fontFamily">@font/nunito_semibold</item>
+    </style>
+
+    <style name="CustomSpinner">
+        <item name="android:fontFamily">@font/nunito</item>
     </style>
 </resources>
