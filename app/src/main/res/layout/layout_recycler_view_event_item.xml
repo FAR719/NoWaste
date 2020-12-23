@@ -24,43 +24,36 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/recView_eventItem_titoloTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/nunito"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:fontFamily="@font/nunito_bold"
                 android:text="Titolo"
+                android:textColor="@color/search_primary_text"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/recView_eventItem_emailTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/nunito_semibold"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
                 android:text="Email"
-                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recView_eventItem_titoloTextView" />
 
             <TextView
                 android:id="@+id/recView_eventItem_descrizioneTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/nunito_semibold"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito"
                 android:text="Descrizione"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,14 +63,9 @@
                 android:id="@+id/recView_eventItem_dataTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/nunito_semibold"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/nunito"
                 android:text="Data"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recView_eventItem_descrizioneTextView" />
