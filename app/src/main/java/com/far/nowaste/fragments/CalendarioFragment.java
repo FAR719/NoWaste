@@ -100,9 +100,6 @@ public class CalendarioFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), NewEventActivity.class);
-                        intent.putExtra("com.far.nowaste.YEAR", year);
-                        intent.putExtra("com.far.nowaste.MONTH", month);
-                        intent.putExtra("com.far.nowaste.DAY", day);
                         startActivity(intent);
                     }
                 });

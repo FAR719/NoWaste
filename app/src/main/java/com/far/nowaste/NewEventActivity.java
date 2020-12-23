@@ -22,6 +22,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -59,13 +60,12 @@ public class NewEventActivity extends AppCompatActivity {
         mDate = findViewById(R.id.newEvent_dateTextView);
         mAddBtn = findViewById(R.id.newEvent_addBtn);
 
-        // variabili passate
-        Intent in = getIntent();
-        year = in.getIntExtra("com.far.nowaste.YEAR", 2020);
-        month = in.getIntExtra("com.far.nowaste.MONTH", 1);
-        day = in.getIntExtra("com.far.nowaste.DAY", 1);
+        // set data odierna
+        CalendarDay currentDay = CalendarDay.today();
+        year = currentDay.getYear();
+        month = currentDay.getMonth();
+        day = currentDay.getDay();
 
-        // set data passata
         String dayString, monthString;
         if (day < 10) {
             dayString = "0" + day;
