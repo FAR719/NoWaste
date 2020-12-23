@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ToolbarTheme"
-            app:title="Eventi Programmati"
+            app:title="Eventi Inseriti"
             app:titleTextAppearance="@style/nunitoLargeTitle"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
