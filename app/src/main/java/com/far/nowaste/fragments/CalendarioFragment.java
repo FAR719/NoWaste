@@ -62,7 +62,7 @@ public class CalendarioFragment extends Fragment {
         mTitleTextView = view.findViewById(R.id.calendar_event_title);
         mDescTextView = view.findViewById(R.id.calendar_event_desc);
         eventCardView = view.findViewById(R.id.cardViewEvent);
-        addEventBtn = view.findViewById(R.id.calendar_addFloatingActionButton);
+        addEventBtn = view.findViewById(R.id.calendar_eventListActionButton);
 
         // typefaces
         nunito = ResourcesCompat.getFont(getContext(), R.font.nunito);
