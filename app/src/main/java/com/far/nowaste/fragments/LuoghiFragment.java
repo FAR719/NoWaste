@@ -138,20 +138,25 @@ public class LuoghiFragment extends Fragment {
         // inizializzazione latitudine e longitudine
         double lat1 = 41.308120, lng1 = 16.297810;
         double lat2 = 41.307560, lng2 = 16.264670;
+        double lat3 = 41.323926, lng3 = 16.230124;
 
 
         //inizializzazione LatLng
         LatLng latLng1 = new LatLng(lat1,lng1);
         LatLng latLng2 = new LatLng(lat2,lng2);
+        LatLng latLng3 = new LatLng(lat3,lng3);
 
         MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("Bar.S.A.")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
         MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("Ecocentro Parco degli Ulivi")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
+        MarkerOptions markerOptions3 = new MarkerOptions().position(latLng3).title("Smaltimento Rifiuti")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
 
         List<MarkerOptions> listMO = new LinkedList<>();
         listMO.add(markerOptions1);
         listMO.add(markerOptions2);
+        listMO.add(markerOptions3);
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
