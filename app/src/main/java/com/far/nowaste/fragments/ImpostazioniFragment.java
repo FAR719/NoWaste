@@ -175,7 +175,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 // declare fullNameEditText
                 TextInputEditText fullNameInput = layout2.findViewById(R.id.fullNameDialog_nameInputText);
-                String fullNamea = fullNameInput.getText().toString();
 
                 mainLayout.addView(layout2);
 
@@ -487,8 +486,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_password, mainLayout, false);
 
                 // declare and set oldPassEditText and newPassEditText
-                TextInputEditText oldPassEditText = layout2.findViewById(R.id.passwordDialog_oldPasswordInputText);
-                TextInputEditText newPassEditText = layout2.findViewById(R.id.passwordDialog_newPasswordInputText);
+                TextInputEditText oldPassInput = layout2.findViewById(R.id.passwordDialog_oldPasswordInputText);
+                TextInputEditText newPassInput = layout2.findViewById(R.id.passwordDialog_newPasswordInputText);
 
                 mainLayout.addView(layout2);
 
@@ -502,7 +501,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).changePassword(oldPassEditText.getText().toString().trim(), newPassEditText.getText().toString().trim());
+                        ((MainActivity)getActivity()).changePassword(oldPassInput.getText().toString().trim(), newPassInput.getText().toString().trim());
                     }
                 });
                 builder.show();
@@ -538,7 +537,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Reset dati");
-                builder.setMessage("Vuoi cancellare i dati del tuo account? Tale operazione è irreversibile!");
+                builder.setMessage("Vuoi eliminare i dati del tuo account? Tale operazione è irreversibile!");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
@@ -593,15 +592,12 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_delete, mainLayout, false);
 
                 // declare and set emailText and passEditText
-                TextView emailView = layout2.findViewById(R.id.deleteDialog_emailTextView);
-                emailView.setText(MainActivity.CURRENTUSER.getEmail());
-                EditText passEditText = layout2.findViewById(R.id.deleteDialog_editTextPassword);
+                TextInputEditText passInput = layout2.findViewById(R.id.deleteDialog_passwordInputText);
 
                 mainLayout.addView(layout2);
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Elimina account");
-                builder.setMessage("Per cancellare il tuo account inserisci nuovamente la password:");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
@@ -610,7 +606,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).deleteAccount(passEditText.getText().toString().trim());
+                        ((MainActivity)getActivity()).deleteAccount(passInput.getText().toString().trim());
                     }
                 });
                 builder.show();
@@ -629,13 +625,12 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_key_operatore, mainLayout, false);
 
                 // declare keyEditText
-                EditText keyEditText = layout2.findViewById(R.id.keyOperatoreDialog_editTextKey);
+                TextInputEditText keyInput = layout2.findViewById(R.id.operatoreDialog_keyInputText);
 
                 mainLayout.addView(layout2);
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Operatore ecologico");
-                builder.setMessage("Inserisci la chiave di attivazione fornita dalla tua azienda.");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
@@ -645,7 +640,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        String writtenKey = keyEditText.getText().toString().trim();
+                        String writtenKey = keyInput.getText().toString().trim();
                         if (writtenKey.length() != 10) {
                             Toast.makeText(getContext(), "La chiave deve essere lunga 10 caratteri.", Toast.LENGTH_SHORT).show();
                         } else if (!writtenKey.equals(operatoreKey)) {

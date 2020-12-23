@@ -14,9 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import com.far.nowaste.EventListActivity;
+import com.far.nowaste.ListaEventiActivity;
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.NewEventActivity;
 import com.far.nowaste.ui.main.EventDecorator;
 import com.far.nowaste.objects.Evento;
 import com.far.nowaste.R;
@@ -100,7 +99,7 @@ public class CalendarioFragment extends Fragment {
                 addEventListBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getContext(), EventListActivity.class));
+                        startActivity(new Intent(getContext(), ListaEventiActivity.class));
                     }
                 });
             } else {

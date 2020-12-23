@@ -64,7 +64,7 @@ public class SearchToolbarAnimation {
     // animazioni searchView
     private void animateSearchToolbar(int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
-        nightMode = sharedPreferences.getInt("NightModeInt", 1);
+        nightMode = sharedPreferences.getInt("NightModeInt", -1);
         if (nightMode == AppCompatDelegate.MODE_NIGHT_YES){
             mToolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.toolbar_dark));
             mToolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.toolbar_dark));

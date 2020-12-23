@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
-        nightMode = sharedPreferences.getInt("NightModeInt", 1);
+        nightMode = sharedPreferences.getInt("NightModeInt", -1);
         AppCompatDelegate.setDefaultNightMode(nightMode);
 
         setContentView(R.layout.activity_main);

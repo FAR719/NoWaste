@@ -4,27 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Evento;
-import com.far.nowaste.objects.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class EventListActivity extends AppCompatActivity {
+public class ListaEventiActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView recView;
@@ -37,19 +35,18 @@ public class EventListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_list);
+        setContentView(R.layout.activity_lista_eventi);
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
         recView = findViewById(R.id.eventList_recyclerView);
 
         // toolbar
-        mToolbar = findViewById(R.id.ticketsList_toolbar);
-        //setSupportActionBar(mToolbar);
-        //mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
+        mToolbar = findViewById(R.id.eventList_toolbar);
+        setSupportActionBar(mToolbar);
 
         // back arrow
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // query
         Query query = fStore.collection("events").orderBy("year",Query.Direction.DESCENDING).
@@ -58,17 +55,17 @@ public class EventListActivity extends AppCompatActivity {
         // recyclerOptions
         FirestoreRecyclerOptions<Evento> options = new FirestoreRecyclerOptions.Builder<Evento>().setQuery(query,Evento.class).build();
 
-        adapter = new FirestoreRecyclerAdapter<Evento, EventListActivity.EventViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<Evento, ListaEventiActivity.EventViewHolder>(options) {
             @NonNull
             @Override
-            public EventListActivity.EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ListaEventiActivity.EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_event_item, parent, false);
-                return new EventListActivity.EventViewHolder(view);
+                return new ListaEventiActivity.EventViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull EventListActivity.EventViewHolder holder, int position, @NonNull Evento model) {
-                String day, month, hour, minute;
+            protected void onBindViewHolder(@NonNull ListaEventiActivity.EventViewHolder holder, int position, @NonNull Evento model) {
+                String day, month;
                 if (model.getDay() < 10) {
                     day = "0" + model.getDay();
                 } else {
@@ -127,5 +124,16 @@ public class EventListActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
