@@ -84,6 +84,7 @@ public class CalendarioFragment extends Fragment {
         day = currentDay.getDay();
 
         if (fAuth.getCurrentUser() == null) {
+            addEventBtn.setVisibility(View.GONE);
             mTitleTextView.setText("Eventi");
             mDescTextView.setText("Accedi per visualizzare i tuoi eventi");
             eventCardView.setOnClickListener(new View.OnClickListener() {
