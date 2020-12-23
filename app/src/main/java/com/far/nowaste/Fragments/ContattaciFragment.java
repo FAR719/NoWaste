@@ -10,12 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.far.nowaste.AssistenzaActivity;
 import com.far.nowaste.R;
-import com.far.nowaste.TicketListActivity;
+import com.far.nowaste.TabTicketActivity;
 import com.google.android.material.card.MaterialCardView;
 
 public class ContattaciFragment extends Fragment {
-    MaterialCardView ticketCard, contattaciCard;
+    MaterialCardView ticketCard, contattaciCard, assistenzaCard;
 
     @Nullable
     @Override
@@ -24,17 +25,25 @@ public class ContattaciFragment extends Fragment {
 
         ticketCard = view.findViewById(R.id.contattaci_ticketCard);
         contattaciCard = view.findViewById(R.id.contattaci_contattaciCard);
+        assistenzaCard = view.findViewById(R.id.assistenza_MaterialCard);
 
         ticketCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),TicketListActivity.class));
+                startActivity(new Intent(getContext(), TabTicketActivity.class));
             }
         });
 
         contattaciCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {}
+        });
+
+        assistenzaCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AssistenzaActivity.class));
+            }
         });
 
         return view;

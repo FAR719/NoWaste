@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.far.nowaste.Objects.Message;
-import com.far.nowaste.Objects.Tickets;
+import com.far.nowaste.Objects.Bug;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +25,11 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Date;
 
-public class NewTicketActivity extends AppCompatActivity {
-
+public class AssistenzaActivity extends AppCompatActivity {
     // variabili
     Toolbar mToolbar;
     EditText mOggetto, mTesto;
-    Button mSendBtn;
+    Button mSendBugBtn;
 
     // firebase
     FirebaseAuth fAuth;
@@ -38,10 +37,10 @@ public class NewTicketActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_ticket);
+        setContentView(R.layout.activity_assistenza);
 
         // toolbar
-        mToolbar = findViewById(R.id.nuovoTicket_toolbar);
+        mToolbar = findViewById(R.id.assistenza_toolbar);
         setSupportActionBar(mToolbar);
 
         // back arrow
@@ -49,13 +48,13 @@ public class NewTicketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamento view
-        mOggetto = findViewById(R.id.oggettoTicket_EditText);
-        mTesto = findViewById(R.id.textTicket_EditText);
-        mSendBtn = findViewById(R.id.sendTicketButton);
+        mOggetto = findViewById(R.id.oggettoBug_EditText);
+        mTesto = findViewById(R.id.textBug_EditText);
+        mSendBugBtn = findViewById(R.id.sendBugButton);
 
         fAuth = FirebaseAuth.getInstance();
 
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
+        mSendBugBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String oggetto = mOggetto.getText().toString();
@@ -67,32 +66,22 @@ public class NewTicketActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (oggetto.length() > 20) {
-                    mOggetto.setError("L'oggetto non può superare 20 caratteri!");
-                    return;
-                }
-
                 if (TextUtils.isEmpty(testo)) {
                     mTesto.setError("Inserisci testo.");
                     return;
                 }
 
                 // inserisce il ticket in firebase
-                insertNewTicket(oggetto, testo);
+                insertNewBug(oggetto, testo);
+                Toast.makeText(getApplicationContext(), "Bug segnalato!",Toast.LENGTH_SHORT).show();
                 finish();
-
             }
         });
+
     }
 
-
-    // insert method
-    private void insertNewTicket(String oggetto, String testo) {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
+    private void insertNewBug(String oggetto, String testo) {
         // variabili
-        boolean stato = true;
-
         Date date = new Date();
         int hour = date.getHours();
         int minute= date.getMinutes();
@@ -105,48 +94,15 @@ public class NewTicketActivity extends AppCompatActivity {
 
         String email = fAuth.getCurrentUser().getEmail();
 
-        //Formatto l’ora
-        String ora_corr= hour + ":" + minute+ ":" + second;
-
-        // ID DOCUMENTO
-        String ticketID = email + ora_corr;
-
         // caricamneto su firebase
-        DocumentReference documentReference = fStore.collection("tickets").document(ticketID);
-        Tickets ticket = new Tickets(oggetto,email,day,month,year,hour,minute,second,stato);
-
-        documentReference.set(ticket).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: ticket sent");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
-            }
-        });
-
-        createMessage(testo, ticket,ticketID);
-
-    }
-
-
-    // chat method
-    private void createMessage(String testo,Tickets ticket,String ticketID) {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fStore.collection("bugs").document();
+        Bug bug = new Bug(oggetto,testo,email,day,month,year,hour,minute,second);
 
-        // variabili
-        boolean operatore = false;
-
-        DocumentReference documentReference = fStore.collection("tickets").document(ticketID).
-                collection("messages").document();
-
-        Message message = new Message(testo,ticket.getDay(),ticket.getMonth(),ticket.getYear(),ticket.getHour(),ticket.getMinute(),ticket.getSecond(),operatore);
-
-        documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.set(bug).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                Log.d("TAG", "onSuccess: bug sent");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -154,10 +110,8 @@ public class NewTicketActivity extends AppCompatActivity {
                 Log.d("TAG", "onFailure: " + e.toString());
             }
         });
+
     }
-
-
-
     // ends this activity (back arrow)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -168,5 +122,4 @@ public class NewTicketActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

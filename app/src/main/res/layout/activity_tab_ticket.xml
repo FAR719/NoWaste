@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TicketListActivity">
+    tools:context=".TabTicketActivity">
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/ticketsList_appBarLayout"
+        android:id="@+id/ticketsTab_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,23 +20,25 @@
             app:title="Tickets"
             app:titleTextColor="@color/white"
             app:theme="@style/ToolbarTheme"
+            android:background="?attr/colorPrimary"
             app:titleTextAppearance="@style/nunitoLargeTitle"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ticketsList_appBarLayout">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <!--RecyclerView-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tickets_listaCard_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/newTicket_errorFloatingActionButton"
@@ -47,6 +49,7 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
             app:srcCompat="@drawable/ic_campaign"
@@ -61,6 +64,7 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_addFloatingActionButton"
             app:srcCompat="@drawable/ic_create"
@@ -76,9 +80,11 @@
             android:focusable="true"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
+            android:visibility="visible"
             app:srcCompat="@drawable/ic_create"
             app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
