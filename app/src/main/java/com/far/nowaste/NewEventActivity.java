@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -60,6 +61,26 @@ public class NewEventActivity extends AppCompatActivity {
         mDate = findViewById(R.id.newEvent_dateTextView);
         mAddBtn = findViewById(R.id.newEvent_addBtn);
 
+        // variabili passate
+        Intent in = getIntent();
+        year = in.getIntExtra("com.far.nowaste.YEAR", 2020);
+        month = in.getIntExtra("com.far.nowaste.MONTH", 1);
+        day = in.getIntExtra("com.far.nowaste.DAY", 1);
+
+        // set data passata
+        String dayString, monthString;
+        if (day < 10) {
+            dayString = "0" + day;
+        } else {
+            dayString = day + "";
+        }
+        if (month < 10) {
+            monthString = "0" + month;
+        } else {
+            monthString = month + "";
+        }
+        mDate.setText(dayString + "/" + monthString + "/" + year);
+
         // date picker
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.clear();
@@ -86,7 +107,7 @@ public class NewEventActivity extends AppCompatActivity {
                 // controlla le info aggiunte
 
                 if (TextUtils.isEmpty(email)) {
-                    mEmail.setError("Inserisci la tua email.");
+                    mEmail.setError("Inserisci l'email del destinatario.");
                     return;
                 }
 
@@ -96,23 +117,19 @@ public class NewEventActivity extends AppCompatActivity {
                 }
 
                 if (TextUtils.isEmpty(description)) {
-                    mTitle.setError("Inserisci una descrizione dell'evento.");
+                    mDesc.setError("Inserisci una descrizione dell'evento.");
                     return;
                 }
 
-                if (mDate.getText().toString().trim().equals("Seleziona una data")) {
-                    showDatePicker(materialDatePicker);
-                } else {
-                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                    Evento evento = new Evento(email, title, description, year, month, day);
-                    fStore.collection("events").add(evento).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            Toast.makeText(NewEventActivity.this, "Evento creato.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    });
-                }
+                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                Evento evento = new Evento(email, title, description, year, month, day);
+                fStore.collection("events").add(evento).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Toast.makeText(NewEventActivity.this, "Evento creato.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -151,7 +168,6 @@ public class NewEventActivity extends AppCompatActivity {
                     monthString = month + "";
                 }
                 mDate.setText(dayString + "/" + monthString + "/" + year);
-                mDate.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.search_primary_text));
             }
         });
     }

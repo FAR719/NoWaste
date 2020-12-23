@@ -46,6 +46,7 @@ public class CalendarioFragment extends Fragment {
     List<Evento> eventi;
     List<CalendarDay> dates;
     CalendarDay currentDay;
+    int year, month, day;
 
     // firebase
     FirebaseAuth fAuth;
@@ -78,6 +79,10 @@ public class CalendarioFragment extends Fragment {
         currentDay = CalendarDay.today();
         mCalendarView.setDateSelected(CalendarDay.today(), true);
 
+        year = currentDay.getYear();
+        month = currentDay.getMonth();
+        day = currentDay.getDay();
+
         if (fAuth.getCurrentUser() == null) {
             mTitleTextView.setText("Eventi");
             mDescTextView.setText("Accedi per visualizzare i tuoi eventi");
@@ -93,7 +98,11 @@ public class CalendarioFragment extends Fragment {
                 addEventBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getContext(), NewEventActivity.class));
+                        Intent intent = new Intent(getContext(), NewEventActivity.class);
+                        intent.putExtra("com.far.nowaste.YEAR", year);
+                        intent.putExtra("com.far.nowaste.MONTH", month);
+                        intent.putExtra("com.far.nowaste.DAY", day);
+                        startActivity(intent);
                     }
                 });
             } else {
@@ -120,6 +129,9 @@ public class CalendarioFragment extends Fragment {
                                 mTitleTextView.setTypeface(nunito_bold);
                             }
                         }
+                        year = date.getYear();
+                        month = date.getMonth();
+                        day = date.getDay();
                     }
 
                 }
