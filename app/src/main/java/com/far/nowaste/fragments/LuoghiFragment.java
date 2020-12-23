@@ -147,11 +147,11 @@ public class LuoghiFragment extends Fragment {
         LatLng latLng3 = new LatLng(lat3,lng3);
 
         MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("Bar.S.A.")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Servizio Ambientale");
         MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("Ecocentro Parco degli Ulivi")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Ecocentro");
         MarkerOptions markerOptions3 = new MarkerOptions().position(latLng3).title("Smaltimento Rifiuti")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Tipo di centro");
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Ecoambiente");
 
         List<MarkerOptions> listMO = new LinkedList<>();
         listMO.add(markerOptions1);
