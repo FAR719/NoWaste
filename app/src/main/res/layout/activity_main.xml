@@ -33,6 +33,7 @@
                 app:titleTextColor="@color/white"
                 app:collapseIcon="@drawable/ic_arrow_back_search_toolbar"
                 app:theme="@style/ToolbarTheme"
+                android:background="?attr/colorPrimary"
                 app:titleTextAppearance="@style/nunitoLargeTitle"/>
 
             <!--View per le suggestion-->

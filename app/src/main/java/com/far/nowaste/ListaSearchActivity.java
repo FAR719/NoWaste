@@ -43,7 +43,6 @@ public class ListaSearchActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.listaSearch_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -18,6 +18,7 @@
     <color name="mine_shaft">#272727</color>
     <color name="transparent">#00000000</color>
     <color name="disabled_gray">#D4D4D4</color>
+    <color name="toolbar_dark">#232D36</color>
 
     <!--Theme colors-->
     <color name="primary">@color/basil</color>

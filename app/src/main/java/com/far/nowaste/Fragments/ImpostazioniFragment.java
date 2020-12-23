@@ -2,8 +2,10 @@ package com.far.nowaste.Fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +68,11 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
     // imageUri
     Uri imageUri;
+
+    // variabili night mode
+    int nightMode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -811,5 +818,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        nightMode = AppCompatDelegate.getDefaultNightMode();
+        sharedPreferences = getActivity().getSharedPreferences("SharedPrefs", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        editor.putInt("NightModeInt", nightMode);
+        editor.apply();
     }
 }

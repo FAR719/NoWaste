@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -53,7 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.register_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

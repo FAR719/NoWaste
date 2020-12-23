@@ -70,7 +70,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.detailSearch_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,9 +83,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
     int fragment;
 
+    // variabili per la night mode
+    int nightMode;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences("SharedPrefs", MODE_PRIVATE);
+        nightMode = sharedPreferences.getInt("NightModeInt", 1);
+        AppCompatDelegate.setDefaultNightMode(nightMode);
+
         setContentView(R.layout.activity_main);
 
         CURRENTUSER = null;
@@ -90,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // toolbar
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // navigationView
         drawerLayout = findViewById(R.id.main_drawerlayout);
@@ -167,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchItem = menu.findItem(R.id.m_search);
 
         // crea le animazioni
-        new SearchToolbarAnimation(getWindow(), mToolbar, mSearchItem, getApplicationContext(), getResources()).setAnimation();
+        new SearchToolbarAnimation(getWindow(), mToolbar, mSearchItem, getApplicationContext(), getResources(), sharedPreferences).setAnimation();
 
         //set queryListener searchView
         SearchView wasteSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);

@@ -4,7 +4,7 @@
     <color name="disabled_gray">#3F4952</color>
 
     <!--Theme colors-->
-    <color name="primary">#232D36</color>
+    <color name="primary">@color/toolbar_dark</color>
     <color name="primary_light">#4b5660</color>
     <color name="primary_dark">#000210</color>
     <color name="background">#101D25</color>
