@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/recView_curiosityItem_constraintLayout">
+    android:id="@+id/recView_eventItem_constraintLayout">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardViewGraph"
+        android:id="@+id/event_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -24,35 +24,51 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
             <TextView
-                android:id="@+id/recView_curiosityItem_descTextView"
-                android:layout_width="match_parent"
+                android:id="@+id/recView_eventItem_titoloTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/nunito"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="Descrizione"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/nunito_bold"
+                android:text="Titolo"
+                android:textColor="@color/search_primary_text"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/recView_curiosityItem_etichettaTextView"
+                android:id="@+id/recView_eventItem_emailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
                 android:fontFamily="@font/nunito_semibold"
-                android:text="Etichetta"
+                android:text="Email"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recView_eventItem_titoloTextView" />
+
+            <TextView
+                android:id="@+id/recView_eventItem_descrizioneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito"
+                android:text="Descrizione"
                 android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recView_eventItem_emailTextView" />
+
+            <TextView
+                android:id="@+id/recView_eventItem_dataTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/nunito"
+                android:text="Data"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recView_curiosityItem_descTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/recView_eventItem_descrizioneTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
