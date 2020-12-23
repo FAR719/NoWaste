@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
-        <activity android:name=".EventListActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -25,6 +24,7 @@
             android:name=".TabTicketActivity"
             android:label="@string/title_activity_tab_ticket" />
         <activity android:name=".ReportProblemActivity" />
+        <activity android:name=".EventListActivity"/>
         <activity android:name=".NewEventActivity" />
         <activity android:name=".NewTicketActivity" />
         <activity android:name=".TicketChatActivity" />

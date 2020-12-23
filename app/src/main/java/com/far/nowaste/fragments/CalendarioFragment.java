@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import com.far.nowaste.EventListActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.NewEventActivity;
 import com.far.nowaste.ui.main.EventDecorator;
@@ -40,7 +41,7 @@ public class CalendarioFragment extends Fragment {
     MaterialCalendarView mCalendarView;
     TextView mTitleTextView, mDescTextView;
     MaterialCardView eventCardView;
-    FloatingActionButton addEventBtn;
+    FloatingActionButton addEventListBtn;
 
     // definizione variabili
     List<Evento> eventi;
@@ -62,7 +63,7 @@ public class CalendarioFragment extends Fragment {
         mTitleTextView = view.findViewById(R.id.calendar_event_title);
         mDescTextView = view.findViewById(R.id.calendar_event_desc);
         eventCardView = view.findViewById(R.id.cardViewEvent);
-        addEventBtn = view.findViewById(R.id.calendar_eventListActionButton);
+        addEventListBtn = view.findViewById(R.id.calendar_eventListActionButton);
 
         // typefaces
         nunito = ResourcesCompat.getFont(getContext(), R.font.nunito);
@@ -84,7 +85,7 @@ public class CalendarioFragment extends Fragment {
         day = currentDay.getDay();
 
         if (fAuth.getCurrentUser() == null) {
-            addEventBtn.setVisibility(View.GONE);
+            addEventListBtn.setVisibility(View.GONE);
             mTitleTextView.setText("Eventi");
             mDescTextView.setText("Accedi per visualizzare i tuoi eventi");
             eventCardView.setOnClickListener(new View.OnClickListener() {
@@ -95,16 +96,15 @@ public class CalendarioFragment extends Fragment {
             });
         } else {
             if (MainActivity.CURRENTUSER.isOperatore()){
-                addEventBtn.setVisibility(View.VISIBLE);
-                addEventBtn.setOnClickListener(new View.OnClickListener() {
+                addEventListBtn.setVisibility(View.VISIBLE);
+                addEventListBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), NewEventActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(getContext(), EventListActivity.class));
                     }
                 });
             } else {
-                addEventBtn.setVisibility(View.GONE);
+                addEventListBtn.setVisibility(View.GONE);
             }
             // imposta il default "Nessun evento"
             mDescTextView.setVisibility(View.GONE);
