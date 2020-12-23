@@ -21,6 +21,7 @@
             app:title="Nuovo Ticket"
             app:titleTextColor="@color/white"
             app:theme="@style/ToolbarTheme"
+            android:background="?attr/colorPrimary"
             app:titleTextAppearance="@style/nunitoLargeTitle"/>
     </com.google.android.material.appbar.AppBarLayout>
 

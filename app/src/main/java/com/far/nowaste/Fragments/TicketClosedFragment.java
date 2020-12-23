@@ -29,7 +29,6 @@ public class TicketClosedFragment extends Fragment {
 
     // definizione variabili
     RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
 
@@ -41,13 +40,13 @@ public class TicketClosedFragment extends Fragment {
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = view.findViewById(R.id.fragment_ticketsClose_recyclerView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
             Query query;
             if(MainActivity.CURRENTUSER.isOperatore()){
                 // query per l'operatore
-                query = firebaseFirestore.collection("tickets")
+                query = fStore.collection("tickets")
                         .whereEqualTo("stato",false)
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
@@ -55,7 +54,7 @@ public class TicketClosedFragment extends Fragment {
 
             } else {
                 // query per l'utente
-                query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                query = fStore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
                         .whereEqualTo("stato",false)
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)

@@ -34,19 +34,15 @@ public class NewTicketActivity extends AppCompatActivity {
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_ticket);
 
-        Intent intent = getIntent();
-
         // toolbar
         mToolbar = findViewById(R.id.nuovoTicket_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -58,7 +54,6 @@ public class NewTicketActivity extends AppCompatActivity {
         mSendBtn = findViewById(R.id.sendTicketButton);
 
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +88,8 @@ public class NewTicketActivity extends AppCompatActivity {
 
     // insert method
     private void insertNewTicket(String oggetto, String testo) {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
         // variabili
         boolean stato = true;
 
@@ -137,6 +134,8 @@ public class NewTicketActivity extends AppCompatActivity {
 
     // chat method
     private void createMessage(String testo,Tickets ticket,String ticketID) {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
         // variabili
         boolean operatore = false;
 

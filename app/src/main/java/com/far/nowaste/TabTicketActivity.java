@@ -49,7 +49,6 @@ public class TabTicketActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.ticketsList_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -98,9 +97,6 @@ public class TabTicketActivity extends AppCompatActivity {
             errorBtn.setVisibility(View.VISIBLE);
         }
 
-        Intent intentnewTick = new Intent(this, NewTicketActivity.class);
-        Intent intentError = new Intent(this, ReportProblemActivity.class);
-
         newTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +107,7 @@ public class TabTicketActivity extends AppCompatActivity {
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intentnewTick);
+                startActivity(new Intent(getApplicationContext(), NewTicketActivity.class));
                 animeteFloatingMenu();
             }
         });
@@ -119,7 +115,7 @@ public class TabTicketActivity extends AppCompatActivity {
         errorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intentError);
+                startActivity(new Intent(getApplicationContext(), ReportProblemActivity.class));
                 animeteFloatingMenu();
             }
         });

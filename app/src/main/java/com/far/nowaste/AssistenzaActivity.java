@@ -33,19 +33,15 @@ public class AssistenzaActivity extends AppCompatActivity {
 
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistenza);
 
-        Intent intent = getIntent();
-
         // toolbar
         mToolbar = findViewById(R.id.assistenza_toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -57,7 +53,6 @@ public class AssistenzaActivity extends AppCompatActivity {
         mSendBugBtn = findViewById(R.id.sendBugButton);
 
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
 
         mSendBugBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +95,7 @@ public class AssistenzaActivity extends AppCompatActivity {
         String email = fAuth.getCurrentUser().getEmail();
 
         // caricamneto su firebase
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = fStore.collection("bugs").document();
         Bug bug = new Bug(oggetto,testo,email,day,month,year,hour,minute,second);
 

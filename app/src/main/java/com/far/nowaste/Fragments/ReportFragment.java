@@ -34,7 +34,6 @@ public class ReportFragment extends Fragment {
 
     // definizione variabili
     RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
 
@@ -46,20 +45,20 @@ public class ReportFragment extends Fragment {
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = view.findViewById(R.id.fragment_report_recyclerView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             Query query;
             if(MainActivity.CURRENTUSER.isOperatore()){
                 // query per l'operatore
-                query = firebaseFirestore.collection("reports")
+                query = fStore.collection("reports")
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
                         .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
 
             } else {
                 // query per l'utente
-                query = firebaseFirestore.collection("reports").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                query = fStore.collection("reports").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
                         .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
@@ -113,26 +112,40 @@ public class ReportFragment extends Fragment {
                             View layout = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_report, mainLayout, false);
 
                             // declare and set TextView
-                            TextView tipologia = layout.findViewById(R.id.tipologiaDialog_TextView);
                             TextView email = layout.findViewById(R.id.emailaDialog_reportTextView);
                             TextView data = layout.findViewById(R.id.dataDialog_TextView);
                             TextView indirizzo = layout.findViewById(R.id.indirizzoDialog_textView);
                             TextView cassonetto = layout.findViewById(R.id.cassonettoDialog_textView);
                             TextView commento = layout.findViewById(R.id.commentoDialog_textView);
 
+                            // set data
+                            email.setText(model.getEmail());
+                            indirizzo.setText(model.getIndirizzo());
+                            cassonetto.setText("Tipologia: " + model.getCassonetto());
+                            if (model.getCommento().equals("")) {
+                                commento.setVisibility(View.GONE);
+                            } else {
+                                commento.setText(model.getCommento());
+                            }
+                            String day, month;
+                            if (model.getDay() < 10) {
+                                day = "0" + model.getDay();
+                            } else {
+                                day = model.getDay() + "";
+                            }
+                            if (model.getMonth() < 10) {
+                                month = "0" + model.getMonth();
+                            } else  {
+                                month = model.getMonth() + "";
+                            }
+                            data.setText(day + "/" + month + "/" + model.getYear());
 
                             mainLayout.addView(layout);
 
                             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                            builder.setTitle(model.getTipologia());
                             builder.setView(mainLayout);
-                            builder.setNeutralButton("CHIUDI", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
                             builder.show();
-
                             return true;
                         }
                     });

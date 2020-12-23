@@ -39,7 +39,6 @@ public class TicketOpenedFragment extends Fragment {
 
     // definizione variabili
     RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
 
@@ -51,22 +50,21 @@ public class TicketOpenedFragment extends Fragment {
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = view.findViewById(R.id.fragment_ticketsOpen_recyclerView);
-        firebaseFirestore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             Query query;
             if(MainActivity.CURRENTUSER.isOperatore()) {
                 // query per l'operatore
-                query = firebaseFirestore.collection("tickets")
+                query = fStore.collection("tickets")
                         .whereEqualTo("stato",true)
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
                         .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
-
             } else {
                 // query per l'utente
-                query = firebaseFirestore.collection("tickets").whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-                        .whereEqualTo("stato",true)
+                query = fStore.collection("tickets")
+                        .whereEqualTo("email",fAuth.getCurrentUser().getEmail()).whereEqualTo("stato",true)
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
                         .orderBy("day", Query.Direction.DESCENDING).orderBy("hour", Query.Direction.DESCENDING)
                         .orderBy("minute", Query.Direction.DESCENDING).orderBy("second", Query.Direction.DESCENDING);
@@ -124,12 +122,12 @@ public class TicketOpenedFragment extends Fragment {
                                 // apro il dialog per archiviare la chat
                                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                                 builder.setTitle("Archivia");
-                                builder.setMessage("Vuoi archiviare questo ticket?");
+                                builder.setMessage("Vuoi chiudere questo ticket?");
                                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {}
                                 });
-                                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         // setta lo stato = chiuso del ticket
@@ -138,7 +136,7 @@ public class TicketOpenedFragment extends Fragment {
 
                                         Map<String, Object> statoTickets = new HashMap<>();
                                         statoTickets.put("stato",false);
-                                        firebaseFirestore.collection("tickets").document(identificativo).update(statoTickets)
+                                        fStore.collection("tickets").document(identificativo).update(statoTickets)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
@@ -153,7 +151,6 @@ public class TicketOpenedFragment extends Fragment {
                                     }
                                 });
                                 builder.show();
-
                                 return true;
                             }
                         });

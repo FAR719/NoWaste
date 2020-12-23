@@ -4,53 +4,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingHorizontal="25dp"
+    android:paddingBottom="20dp">
 
 
     <!-- Tipologia -->
-    <TextView
-        android:id="@+id/tipologiaDialog_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Tipologia"
-        android:textColor="@color/search_primary_text"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Email -->
     <TextView
         android:id="@+id/emailaDialog_reportTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/nunito"
         android:text="mittente@email.com"
-        app:layout_constraintStart_toStartOf="@+id/tipologiaDialog_TextView"
-        app:layout_constraintTop_toTopOf="@+id/dataDialog_TextView" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cassonettoDialog_textView" />
 
     <!-- Data -->
+
+    <!-- Indirizzo -->
     <TextView
         android:id="@+id/dataDialog_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Data"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tipologiaDialog_TextView" />
+        app:layout_constraintTop_toBottomOf="@+id/commentoDialog_textView" />
 
-    <!-- Indirizzo -->
     <TextView
         android:id="@+id/indirizzoDialog_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/nunito"
         android:text="Indirizzo"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailaDialog_reportTextView" />
 
@@ -59,22 +52,23 @@
         android:id="@+id/cassonettoDialog_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunito_semibold"
         android:text="Cassonetto"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indirizzoDialog_textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Commento -->
     <TextView
         android:id="@+id/commentoDialog_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunito"
         android:text="Commento"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cassonettoDialog_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/indirizzoDialog_textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
