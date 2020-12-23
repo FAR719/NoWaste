@@ -1,5 +1,6 @@
 package com.far.nowaste.fragments.tabticket;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -92,9 +94,9 @@ public class ReportFragment extends Fragment {
                         holder.rEmail.setVisibility(View.GONE);
                     }
 
-                    holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                    holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public boolean onLongClick(View v) {
+                        public void onClick(View v) {
                             // apro le informazioni del report
 
                             // set custom dialogs layout params
@@ -107,6 +109,7 @@ public class ReportFragment extends Fragment {
                             View layout = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_report, mainLayout, false);
 
                             // declare and set TextView
+                            Toolbar mToolbar = layout.findViewById(R.id.report_toolbar);
                             TextView email = layout.findViewById(R.id.emailaDialog_reportTextView);
                             TextView data = layout.findViewById(R.id.dataDialog_TextView);
                             TextView indirizzo = layout.findViewById(R.id.indirizzoDialog_textView);
@@ -114,6 +117,7 @@ public class ReportFragment extends Fragment {
                             TextView commento = layout.findViewById(R.id.commentoDialog_textView);
 
                             // set data
+                            mToolbar.setTitle(model.getTipologia());
                             email.setText(model.getEmail());
                             indirizzo.setText(model.getIndirizzo());
                             cassonetto.setText("Tipologia: " + model.getCassonetto());
@@ -138,10 +142,12 @@ public class ReportFragment extends Fragment {
                             mainLayout.addView(layout);
 
                             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
-                            builder.setTitle(model.getTipologia());
                             builder.setView(mainLayout);
+                            builder.setPositiveButton("Chiudi", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {}
+                            });
                             builder.show();
-                            return true;
                         }
                     });
                 }
@@ -177,7 +183,6 @@ public class ReportFragment extends Fragment {
         }
 
     }
-
 
     //start&stop listening
     @Override

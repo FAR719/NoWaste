@@ -34,6 +34,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -172,14 +174,14 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_full_name, mainLayout, false);
 
                 // declare fullNameEditText
-                EditText fullNameEditText = layout2.findViewById(R.id.fullNameDialog_editTextFullName);
+                TextInputEditText fullNameInput = layout2.findViewById(R.id.fullNameDialog_nameInputText);
+                String fullNamea = fullNameInput.getText().toString();
 
                 mainLayout.addView(layout2);
 
                 // set dialog
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Nome");
-                builder.setMessage("Inserisci il tuo nome:");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
@@ -188,28 +190,32 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String newFullName = fullNameEditText.getText().toString().trim();
-                        if (!newFullName.equals(fUser.getDisplayName())){
+                        String newFullName = fullNameInput.getText().toString().trim();
+                        String oldName = fUser.getDisplayName();
+                        if (!newFullName.equals(oldName)){
                             // update main and firestore
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fUser.getUid()).set(MainActivity.CURRENTUSER);
-                            MainActivity.CURRENTUSER.setFullName(newFullName);
-
-                            // update fAuth
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
-                            fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            Map<String, Object> nameMap = new HashMap<>();
+                            nameMap.put("fullName", newFullName);
+                            fStore.collection("users").document(fUser.getUid()).update(nameMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("TAG", "User profile updated.");
-                                    }
+                                    // update fAuth
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
+                                    fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d("TAG", "User profile updated.");
+                                            }
+                                        }
+                                    });
+                                    MainActivity.CURRENTUSER.setFullName(newFullName);
+                                    // update the nav_header
+                                    ((MainActivity)getActivity()).updateHeader();
+                                    Toast.makeText(getContext(), "Nome aggiornato.", Toast.LENGTH_SHORT).show();
                                 }
                             });
-
-                            // update the nav_header
-                            ((MainActivity)getActivity()).updateHeader();
-
-                            Toast.makeText(getContext(), "Nome aggiornato.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -446,14 +452,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_email, mainLayout, false);
 
                 // declare and set passEditText and emailEditText
-                EditText passEditText = layout2.findViewById(R.id.emailDialog_editTextPassword);
-                EditText emailEditText = layout2.findViewById(R.id.emailDialog_editTextEmail);
+                TextInputEditText emailInput = layout2.findViewById(R.id.emailDialog_emailInputText);
+                TextInputEditText passInput = layout2.findViewById(R.id.emailDialog_passwordInputText);
 
                 mainLayout.addView(layout2);
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Email");
-                builder.setMessage("Inserisci la tua nuova email e la password corrente:");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
@@ -462,7 +467,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).changeEmail(passEditText.getText().toString().trim(), emailEditText.getText().toString().trim());
+                        ((MainActivity)getActivity()).changeEmail(passInput.getText().toString().trim(), emailInput.getText().toString().trim());
                     }
                 });
                 builder.show();
@@ -481,17 +486,14 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 // inflate the layout
                 View layout2 = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_password, mainLayout, false);
 
-                // declare and set emailText, oldPassEditText and newPassEditText
-                TextView emailView = layout2.findViewById(R.id.passwordDialog_emailTextView);
-                emailView.setText(MainActivity.CURRENTUSER.getEmail());
-                EditText oldPassEditText = layout2.findViewById(R.id.passwordDialog_editTextOldPassword);
-                EditText newPassEditText = layout2.findViewById(R.id.passwordDialog_editTextNewPassword);
+                // declare and set oldPassEditText and newPassEditText
+                TextInputEditText oldPassEditText = layout2.findViewById(R.id.passwordDialog_oldPasswordInputText);
+                TextInputEditText newPassEditText = layout2.findViewById(R.id.passwordDialog_newPasswordInputText);
 
                 mainLayout.addView(layout2);
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
                 builder.setTitle("Password");
-                builder.setMessage("Inserisci la tua nuova password:");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override

@@ -1,74 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="25dp"
-    android:paddingBottom="20dp">
+    android:layout_height="match_parent">
 
-
-    <!-- Tipologia -->
-
-    <!-- Email -->
-    <TextView
-        android:id="@+id/emailaDialog_reportTextView"
-        android:layout_width="wrap_content"
+    <!--Toolbar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/report_appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/nunito"
-        android:text="mittente@email.com"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cassonettoDialog_textView" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Data -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/report_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/white"
+            app:theme="@style/ToolbarTheme"
+            android:background="?attr/colorPrimary"
+            app:titleTextAppearance="@style/nunitoLargeTitle"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Indirizzo -->
-    <TextView
-        android:id="@+id/dataDialog_TextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentoDialog_textView" />
+        android:layout_below="@id/report_appBarLayout"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="20dp">
 
-    <TextView
-        android:id="@+id/indirizzoDialog_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/nunito"
-        android:text="Indirizzo"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailaDialog_reportTextView" />
+        <TextView
+            android:id="@+id/cassonettoDialog_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Cassonetto"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Cassonetto -->
-    <TextView
-        android:id="@+id/cassonettoDialog_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_semibold"
-        android:text="Cassonetto"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/emailaDialog_reportTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nunito"
+            android:text="mittente@email.com"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cassonettoDialog_textView" />
 
-    <!-- Commento -->
-    <TextView
-        android:id="@+id/commentoDialog_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/nunito"
-        android:text="Commento"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indirizzoDialog_textView" />
+        <TextView
+            android:id="@+id/dataDialog_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commentoDialog_textView" />
 
+        <TextView
+            android:id="@+id/indirizzoDialog_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nunito"
+            android:text="Indirizzo"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailaDialog_reportTextView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/commentoDialog_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito"
+            android:text="Commento"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/indirizzoDialog_textView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
-    EditText mFullName, mEmail, mPassword, mPasswordAgain;
+    TextInputLayout mFullNameLayout, mEmailLayout, mPasswordLayout, mPasswordAgainLayout;
+    TextInputEditText mFullName, mEmail, mPassword, mPasswordAgain;
     Button mRegisterButton;
     TextView mLoginBtn;
     ProgressBar mProgressBar;
@@ -52,10 +54,16 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamento view
-        mFullName = findViewById(R.id.fullNameEditText);
-        mEmail = findViewById(R.id.emailEditText);
-        mPassword = findViewById(R.id.passwordEditText);
-        mPasswordAgain = findViewById(R.id.passwordAgainEditText);
+        mFullName = findViewById(R.id.login_nameInputText);
+        mEmail = findViewById(R.id.login_emailInputText);
+        mPassword = findViewById(R.id.login_passwordInputText);
+        mPasswordAgain = findViewById(R.id.login_passwordAgainInputText);
+
+        mFullNameLayout = findViewById(R.id.register_nameInputLayout);
+        mEmailLayout = findViewById(R.id.register_emailInputLayout);
+        mPasswordLayout = findViewById(R.id.register_passwordInputLayout);
+        mPasswordAgainLayout = findViewById(R.id.register_passwordAgainInputLayout);
+
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
         mProgressBar = findViewById(R.id.registerProgressBar);
@@ -76,32 +84,32 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // controlla la info aggiunte
                 if (TextUtils.isEmpty(fullName)){
-                    mEmail.setError("Inserisci nome e cognome.");
+                    mFullNameLayout.setError("Inserisci nome e cognome.");
                     return;
                 }
 
                 if (TextUtils.isEmpty(email)){
-                    mEmail.setError("Inserisci la tua email.");
+                    mEmailLayout.setError("Inserisci la tua email.");
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)){
-                    mPassword.setError("Inserisci la password.");
+                    mPasswordLayout.setError("Inserisci la password.");
                     return;
                 }
 
                 if (password.length() < 8){
-                    mPassword.setError("La password deve essere lunga almeno 8 caratteri!");
+                    mPasswordLayout.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
                 }
 
                 if (passwordAgain.length() == 0){
-                    mPasswordAgain.setError("Inserisci nuovamente la password.");
+                    mPasswordAgainLayout.setError("Inserisci nuovamente la password.");
                     return;
                 }
 
                 if (!passwordAgain.equals(password)){
-                    mPasswordAgain.setError("Le password inserite non corrispondono!");
+                    mPasswordAgainLayout.setError("Le password inserite non corrispondono!");
                     return;
                 }
 

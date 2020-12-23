@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
-    EditText mEmail, mPassword;
+    TextInputLayout mEmailLayout, mPasswordLayout;
+    TextInputEditText mEmail, mPassword;
     Button mLoginBtn, mResendBtn;
     TextView mResetBtn, mRegisterBtn, mWarning;
     Button mGoogleBtn;
@@ -71,8 +74,12 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamento view
-        mEmail = findViewById(R.id.emailEditText);
-        mPassword = findViewById(R.id.passwordEditText);
+        mEmail = findViewById(R.id.login_nameInputText);
+        mPassword = findViewById(R.id.login_passwordInputText);
+
+        mEmailLayout = findViewById(R.id.login_emailInputLayout);
+        mPasswordLayout = findViewById(R.id.login_passwordInputLayout);
+
         mLoginBtn = findViewById(R.id.loginButton);
         mResetBtn = findViewById(R.id.resetPassTextView);
         mGoogleBtn = findViewById(R.id.googleButton);
@@ -92,17 +99,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 // controlla le info aggiunte
                 if (TextUtils.isEmpty(email)) {
-                    mEmail.setError("Inserisci la tua email.");
+                    mEmailLayout.setError("Inserisci la tua email.");
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    mPassword.setError("Inserisci la password.");
+                    mPasswordLayout.setError("Inserisci la password.");
                     return;
                 }
 
                 if (password.length() < 8) {
-                    mPassword.setError("La password deve essere lunga almeno 8 caratteri!");
+                    mPasswordLayout.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
                 }
 
@@ -326,8 +333,8 @@ public class LoginActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         } else {
-            mEmail.setVisibility(View.GONE);
-            mPassword.setVisibility(View.GONE);
+            mEmailLayout.setVisibility(View.GONE);
+            mPasswordLayout.setVisibility(View.GONE);
             mLoginBtn.setVisibility(View.GONE);
             mResetBtn.setVisibility(View.GONE);
             mGoogleBtn.setVisibility(View.GONE);
