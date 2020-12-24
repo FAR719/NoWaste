@@ -16,7 +16,7 @@
         android:id="@+id/report_bottomSheet"
         style="?attr/bottomSheetStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:paddingHorizontal="25dp"
         android:paddingVertical="20dp"
         android:elevation="1dp"
@@ -89,10 +89,8 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/nunito_semibold"
             android:text="Data"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_commento"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/reportSheet_commento" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

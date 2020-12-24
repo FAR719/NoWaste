@@ -35,7 +35,7 @@ public class TicketClosedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ticket_close_layout,container,false);
+        View view = inflater.inflate(R.layout.fragment_ticket_close,container,false);
 
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
