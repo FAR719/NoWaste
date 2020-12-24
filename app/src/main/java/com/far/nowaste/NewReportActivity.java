@@ -48,8 +48,6 @@ public class NewReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_report);
 
-        Intent intent = getIntent();
-
         // toolbar
         mToolbar = findViewById(R.id.reportProblem_toolbar);
         setSupportActionBar(mToolbar);

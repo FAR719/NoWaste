@@ -6,26 +6,19 @@
     android:layout_height="match_parent">
 
     <!--Toolbar-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/report_appBarLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/report_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/report_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/white"
-            app:theme="@style/ToolbarTheme"
-            android:background="?attr/colorPrimary"
-            app:titleTextAppearance="@style/nunitoLargeTitle"/>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
+        app:theme="@style/ToolbarTheme"
+        android:background="?attr/colorPrimary"
+        app:titleTextAppearance="@style/nunitoLargeTitle"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/report_appBarLayout"
+        android:layout_below="@id/report_toolbar"
         android:paddingHorizontal="25dp"
         android:paddingVertical="20dp">
 
