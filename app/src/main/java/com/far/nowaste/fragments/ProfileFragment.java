@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.BarModel;
 import org.eazegraph.lib.models.PieModel;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class ProfileFragment extends Fragment {
     TextView tvCO, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
     BarChart istograph;
+    org.eazegraph.lib.charts.BarChart lalala;
     Typeface nunito;
 
     List<Integer> colors;
@@ -69,7 +71,7 @@ public class ProfileFragment extends Fragment {
 
         // dassegnazione views
         pieChart = view.findViewById(R.id.piechart);
-        istograph = view.findViewById(R.id.istograph);
+        lalala = (org.eazegraph.lib.charts.BarChart) view.findViewById(R.id.istograph);
         tvPlastica = view.findViewById(R.id.tvPlastica);
         tvOrganico = view.findViewById(R.id.tvOrganico);
         tvSecco = view.findViewById(R.id.tvSecco);
@@ -114,7 +116,8 @@ public class ProfileFragment extends Fragment {
             tvElettrici.setText(currentUser.getpElettrici() + "g");
             tvSpeciali.setText(currentUser.getpSpeciali() + "g");
             setPieChartData(currentUser);
-            setIstographData(currentUser);
+            setBarChart(currentUser);
+            //setIstographData(currentUser);
         }
         return view;
     }
@@ -150,10 +153,10 @@ public class ProfileFragment extends Fragment {
                     tvElettrici.setText(utente.getpElettrici() + "g");
                     tvSpeciali.setText(utente.getpSpeciali() + "g");
                     setPieChartData(utente);
-                    setIstographData(utente);
+                    setBarChart(utente);
+                    //setIstographData(utente);
                 }
             });
-            fStore.terminate();
         }
     }
 
@@ -204,5 +207,18 @@ public class ProfileFragment extends Fragment {
         istograph.getDescription().setText("");
         istograph.getLegend().setEnabled(false);
         istograph.invalidate();
+    }
+
+    private void setBarChart(Utente utente) {
+        lalala.addBar(new BarModel("Plastica",(float)utente.getnPlastica(), colors.get(0)));
+        lalala.addBar(new BarModel("Organico",(float)utente.getnOrganico(), colors.get(1)));
+        lalala.addBar(new BarModel("Secco",(float)utente.getnSecco(), colors.get(2)));
+        lalala.addBar(new BarModel("Carta",(float)utente.getnCarta(), colors.get(3)));
+        lalala.addBar(new BarModel("Vetro",(float)utente.getnVetro(), colors.get(4)));
+        lalala.addBar(new BarModel("Metalli",(float)utente.getnMetalli(), colors.get(5)));
+        lalala.addBar(new BarModel("Elettrici",(float)utente.getnElettrici(), colors.get(6)));
+        lalala.addBar(new BarModel("Speciali",(float)utente.getnSpeciali(), colors.get(7)));
+
+        lalala.startAnimation();
     }
 }

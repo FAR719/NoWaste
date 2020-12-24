@@ -314,7 +314,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.github.mikephil.charting.charts.BarChart
+                <org.eazegraph.lib.charts.BarChart
                     android:id="@+id/istograph"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
