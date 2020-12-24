@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.ListaEventiActivity;
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.ui.main.CurrentDayDecorator;
 import com.far.nowaste.ui.main.EventDecorator;
 import com.far.nowaste.objects.Evento;
 import com.far.nowaste.R;
@@ -78,6 +79,7 @@ public class CalendarioFragment extends Fragment {
         // imposta la data odierna
         currentDay = CalendarDay.today();
         mCalendarView.setDateSelected(CalendarDay.today(), true);
+        mCalendarView.addDecorator(new CurrentDayDecorator(getContext()));
 
         year = currentDay.getYear();
         month = currentDay.getMonth();
