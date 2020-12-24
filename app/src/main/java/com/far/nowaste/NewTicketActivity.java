@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -77,8 +79,6 @@ public class NewTicketActivity extends AppCompatActivity {
 
                 // inserisce il ticket in firebase
                 insertNewTicket(oggetto, testo);
-                finish();
-
             }
         });
     }
@@ -145,6 +145,10 @@ public class NewTicketActivity extends AppCompatActivity {
         documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("com.far.nowaste.NEW_TICKET_REQUEST", true);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

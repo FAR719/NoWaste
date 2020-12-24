@@ -162,14 +162,11 @@ public class TicketChatActivity extends AppCompatActivity {
                 Map<String, Object> statoTickets = new HashMap<>();
                 statoTickets.put("stato",true);
                 firebaseFirestore.collection("tickets").document(identificativo).update(statoTickets)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        .addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onSuccess(Void aVoid) { }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("TAG", "Error! " + e.toString());
-                    }
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("TAG", "Error! " + e.toString());
+                            }
                 });
 
             }
@@ -218,11 +215,7 @@ public class TicketChatActivity extends AppCompatActivity {
 
         Message message = new Message(risposta,day,month,year,hour,minute,second,operatore);
 
-        documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+        documentReference.set(message).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("TAG", "onFailure: " + e.toString());

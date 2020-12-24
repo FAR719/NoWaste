@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.TabTicketActivity;
 import com.far.nowaste.objects.Report;
 import com.far.nowaste.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,10 +36,43 @@ public class ReportFragment extends Fragment {
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
 
+    ConstraintLayout mBottomSheet;
+    BottomSheetBehavior mBottomSheetBehavior;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_report_layout,container,false);
+
+        mBottomSheet = view.findViewById(R.id.report_bottomSheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        TextView titolo = view.findViewById(R.id.reportSheet_title);
+        TextView cassonetto = view.findViewById(R.id.reportSheet_cassonetto);
+        TextView email = view.findViewById(R.id.reportSheet_email);
+        TextView indirizzo = view.findViewById(R.id.reportSheet_indirizzo);
+        TextView commento = view.findViewById(R.id.reportSheet_commento);
+        TextView data = view.findViewById(R.id.reportSheet_data);
+
+        mBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        ((TabTicketActivity)getActivity()).showFAB();
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        ((TabTicketActivity)getActivity()).hideFAB();
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                ((TabTicketActivity)getActivity()).hideFAB();
+            }
+        });
 
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
@@ -98,8 +133,38 @@ public class ReportFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             // apro le informazioni del report
+                            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-                            // set custom dialogs layout params
+                            // set data
+                            titolo.setText(model.getTipologia());
+                            cassonetto.setText("Tipologia: " + model.getCassonetto());
+                            if (MainActivity.CURRENTUSER.isOperatore()) {
+                                email.setVisibility(View.VISIBLE);
+                                email.setText(model.getEmail());
+                            } else {
+                                email.setVisibility(View.GONE);
+                            }
+                            indirizzo.setText(model.getIndirizzo());
+                            if (model.getCommento().equals("")) {
+                                commento.setVisibility(View.GONE);
+                            } else {
+                                commento.setVisibility(View.VISIBLE);
+                                commento.setText(model.getCommento());
+                            }
+                            String day, month;
+                            if (model.getDay() < 10) {
+                                day = "0" + model.getDay();
+                            } else {
+                                day = model.getDay() + "";
+                            }
+                            if (model.getMonth() < 10) {
+                                month = "0" + model.getMonth();
+                            } else  {
+                                month = model.getMonth() + "";
+                            }
+                            data.setText(day + "/" + month + "/" + model.getYear());
+
+                            /*// set custom dialogs layout params
                             LinearLayout.LayoutParams mainParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
                             // main layout
@@ -147,7 +212,7 @@ public class ReportFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {}
                             });
-                            builder.show();
+                            builder.show();*/
                         }
                     });
                 }

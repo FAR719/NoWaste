@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/ticketsList_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -51,11 +53,12 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="visible"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
-            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/newTicket_checkFloatingActionButton"
             app:srcCompat="@drawable/ic_campaign"
             app:tint="@color/white" />
 
@@ -66,11 +69,12 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="visible"
             app:backgroundTint="@color/secondary"
             app:elevation="2dp"
-            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_addFloatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/newTicket_addFloatingActionButton"
             app:srcCompat="@drawable/ic_create"
             app:tint="@color/white" />
 

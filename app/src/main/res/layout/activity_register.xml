@@ -155,6 +155,7 @@
             android:fontFamily="@font/nunito_semibold"
             android:text="Registrati"
             android:textColor="@color/white"
+            app:cornerRadius="@dimen/field_corner_radius"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_passwordAgainInputLayout" />

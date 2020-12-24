@@ -10,6 +10,8 @@
     <color name="background">#101D25</color>
     <color name="error">@color/cinnamon_satin</color>
 
+    <color name="snackbar">@color/primary</color>
+
     <!--Google Play-->
     <!--313537-->
     <!--202125-->

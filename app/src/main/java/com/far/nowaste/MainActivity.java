@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +45,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView mFullName, mEmail;
     ImageView mImage;
 
+    Typeface nunito;
+
     // firebase
     FirebaseAuth fAuth;
     FirebaseStorage storage;
@@ -95,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppCompatDelegate.setDefaultNightMode(nightMode);
 
         setContentView(R.layout.activity_main);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
 
         CURRENTUSER = null;
 
@@ -266,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             detailUserRequest = data.getBooleanExtra("com.far.nowaste.detailUserRequest", false);
         }
         if (detailUserRequest) {
+            showSnackbar("Hai effettuato l'accesso come " + fAuth.getCurrentUser().getDisplayName());
             mToolbar.setTitle("Profilo");
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
@@ -317,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             fStore.collection("users").document(user.getUid()).update(emailMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(MainActivity.this, "Email aggiornata.", Toast.LENGTH_SHORT).show();
+                                    showSnackbar("Email aggiornata!");
                                     CURRENTUSER.setEmail(email);
                                     updateHeader();
                                 }
@@ -351,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Password aggiornata.", Toast.LENGTH_SHORT).show();
+                            showSnackbar("Password aggiornata!");
                         }
                     }
                 });
@@ -368,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         CURRENTUSER = null;
-        Toast.makeText(MainActivity.this, "Logout effettuato.", Toast.LENGTH_SHORT).show();
+        showSnackbar("Logout effettuato!");
         updateHeader();
         mToolbar.setTitle("NoWaste");
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
@@ -407,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(getApplicationContext(), "Account eliminato.", Toast.LENGTH_SHORT).show();
+                                            showSnackbar("Account eliminato!");
                                             CURRENTUSER = null;
 
                                             updateHeader();
@@ -464,5 +473,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
         fragment = 7;
+    }
+
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(drawerLayout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

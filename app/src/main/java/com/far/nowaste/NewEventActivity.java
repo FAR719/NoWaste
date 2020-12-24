@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -124,7 +125,9 @@ public class NewEventActivity extends AppCompatActivity {
                 fStore.collection("events").add(evento).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(NewEventActivity.this, "Evento creato.", Toast.LENGTH_SHORT).show();
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("com.far.nowaste.NEW_EVENT_REQUEST", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }
                 });

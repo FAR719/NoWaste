@@ -3,9 +3,12 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
@@ -53,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar progressBar;
     View mDivider;
 
+    RelativeLayout layout;
+    Typeface nunito;
+
     FirebaseAuth fAuth;
 
     // login Google
@@ -64,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.login_layout);
 
         // toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -120,7 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Accesso effettuato", Toast.LENGTH_SHORT).show();
                             verificaEmail();
                         } else {
                             Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -145,16 +156,14 @@ public class LoginActivity extends AppCompatActivity {
                 fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(LoginActivity.this, "Email di reset password inviata", Toast.LENGTH_SHORT).show();
+                        showSnackbar("Email inviata. Controlla la tua posta!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
                     }
                 });
-                finish();
             }
         });
 
@@ -181,13 +190,12 @@ public class LoginActivity extends AppCompatActivity {
                 fAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                        showSnackbar("Email inviata. Controlla la tua posta!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
+                        Toast.makeText(LoginActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -216,8 +224,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-        } else {
-            verificaEmail();
         }
     }
 
@@ -253,6 +259,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        boolean registerRequest = false;
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -266,6 +273,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 // ...
             }
+        } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            registerRequest = data.getBooleanExtra("com.far.nowaste.REGISTER_REQUEST", false);
+        }
+        if (registerRequest) {
+            showSnackbar("Account creato!");
         }
     }
 
@@ -277,8 +289,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser fUser = fAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Hai effettuato l'accesso come " + fUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                             // crea utente in Firestore se non esiste
                             createFirestoreUser();
                             verificaEmail();
@@ -324,7 +334,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // non accedere se la mail non è stata verificata
-    // metodo utilizzato anche per il passaggio da un fragment all'altro
     private void verificaEmail(){
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser.isEmailVerified()){
@@ -333,6 +342,7 @@ public class LoginActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         } else {
+            showSnackbar("Accesso effettuato!");
             mEmailLayout.setVisibility(View.GONE);
             mPasswordLayout.setVisibility(View.GONE);
             mLoginBtn.setVisibility(View.GONE);
@@ -344,5 +354,14 @@ public class LoginActivity extends AppCompatActivity {
             mWarning.setVisibility(View.VISIBLE);
             mResendBtn.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

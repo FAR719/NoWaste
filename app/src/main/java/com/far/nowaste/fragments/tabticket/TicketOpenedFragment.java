@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.TabTicketActivity;
 import com.far.nowaste.objects.Tickets;
 import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
@@ -139,7 +140,7 @@ public class TicketOpenedFragment extends Fragment {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
-                                                        Toast.makeText(getContext(), "Questo ticket è stato archiviato!", Toast.LENGTH_SHORT).show();
+                                                        ((TabTicketActivity)getActivity()).showSnackbar("Ticket archiviato!");
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -202,5 +203,4 @@ public class TicketOpenedFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
-
 }

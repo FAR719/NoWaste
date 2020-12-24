@@ -11,11 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +33,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -205,14 +202,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Log.d("TAG", "User profile updated.");
+                                                MainActivity.CURRENTUSER.setFullName(newFullName);
+                                                // update the nav_header
+                                                ((MainActivity)getActivity()).updateHeader();
+                                                ((MainActivity)getActivity()).showSnackbar("Nome aggiornato!");
                                             }
                                         }
                                     });
-                                    MainActivity.CURRENTUSER.setFullName(newFullName);
-                                    // update the nav_header
-                                    ((MainActivity)getActivity()).updateHeader();
-                                    Toast.makeText(getContext(), "Nome aggiornato.", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -264,7 +260,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                             public void onSuccess(Void aVoid) {
                                                 MainActivity.CURRENTUSER.setImage(null);
                                                 ((MainActivity)getActivity()).updateHeader();
-                                                Toast.makeText(getContext(), "Immagine eliminata!", Toast.LENGTH_SHORT).show();
+                                                ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata eliminata!");
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -339,10 +335,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }
                         if (cityMap.get("city") != null) {
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fAuth.getUid()).update(cityMap);
-                            MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
-                            MainActivity.CURRENTUSER.setQuartiere("");
-                            mQuartierePreference.setVisible(true);
+                            fStore.collection("users").document(fAuth.getUid()).update(cityMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
+                                    MainActivity.CURRENTUSER.setQuartiere("");
+                                    mQuartierePreference.setVisible(true);
+                                    ((MainActivity)getActivity()).showSnackbar("Città impostata: " + cityMap.get("city"));
+                                }
+                            });
+
                         }
                     }
                 });
@@ -429,8 +431,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }
                         if (quartMap.get("quartiere") != null) {
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fAuth.getUid()).update(quartMap);
-                            MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
+                            fStore.collection("users").document(fAuth.getUid()).update(quartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
+                                    ((MainActivity)getActivity()).showSnackbar("Quartiere impostato: " + quartMap.get("quartiere"));
+                                }
+                            });
                         }
                     }
                 });
@@ -572,7 +579,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             MainActivity.CURRENTUSER = utente;
                         }
                         dialog.dismiss();
-                        Toast.makeText(getContext(), "Reset dei dati eseguito", Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
                     }
                 });
                 builder.show();
@@ -642,9 +649,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         String writtenKey = keyInput.getText().toString().trim();
                         if (writtenKey.length() != 10) {
-                            Toast.makeText(getContext(), "La chiave deve essere lunga 10 caratteri.", Toast.LENGTH_SHORT).show();
+                            ((MainActivity)getActivity()).showSnackbar("La chiave deve essere lunga 10 caratteri!");
                         } else if (!writtenKey.equals(operatoreKey)) {
-                            Toast.makeText(getContext(), "La chiave inserita non è valida.", Toast.LENGTH_SHORT).show();
+                            ((MainActivity)getActivity()).showSnackbar("La chiave inserita non è valida!");
                         } else {
                             // aggiorna profilo Firestore
                             Map<String, Object> operatoreMappa = new HashMap<>();
@@ -656,7 +663,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                             // aggiorna variabile in main
                                             MainActivity.CURRENTUSER.setOperatore(true);
                                             mOperatorePreference.setVisible(false);
-                                            Toast.makeText(getContext(), "Il tuo account operatore è stato attivato!", Toast.LENGTH_SHORT).show();
+                                            ((MainActivity)getActivity()).showSnackbar("Il tuo account aziendale è stato attivato!");
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -820,12 +827,12 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         MainActivity.CURRENTUSER.setImage(picUrl);
                         ((MainActivity)getActivity()).updateHeader();
                         pd.dismiss();
-                        Toast.makeText(getContext(), "Immagine cambiata.", Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata cambiata correttamente!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
+                        Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -150,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                     fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(RegisterActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                            Log.d("TAG", "Email di verifica inviata!");
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -158,12 +160,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
                         }
                     });
-
-                    Toast.makeText(RegisterActivity.this, "Account creato.", Toast.LENGTH_SHORT).show();
-
                     // store data in firestore
                     createFirestoreUser(fullName);
-                    finish();
                 }else {
                     Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     mProgressBar.setVisibility(View.GONE);
@@ -192,6 +190,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

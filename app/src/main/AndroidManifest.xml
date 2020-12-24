@@ -23,7 +23,7 @@
         <activity
             android:name=".TabTicketActivity"
             android:label="@string/title_activity_tab_ticket" />
-        <activity android:name=".ReportProblemActivity" />
+        <activity android:name=".NewReportActivity" />
         <activity android:name=".ListaEventiActivity"/>
         <activity android:name=".NewEventActivity" />
         <activity android:name=".NewTicketActivity" />

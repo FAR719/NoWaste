@@ -1,23 +1,29 @@
 package com.far.nowaste;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.TextView;
 
 import com.far.nowaste.ui.main.SectionsPagerAdapter;
 
@@ -25,6 +31,9 @@ public class TabTicketActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
+
+    CoordinatorLayout layout;
+    Typeface nunito;
 
     // view
     FloatingActionButton newTicketBtn;
@@ -35,11 +44,14 @@ public class TabTicketActivity extends AppCompatActivity {
     boolean isMenuOpen;
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_ticket);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.ticketsList_layout);
+
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -107,7 +119,7 @@ public class TabTicketActivity extends AppCompatActivity {
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), NewTicketActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), NewTicketActivity.class), 1);
                 animateFloatingMenu();
             }
         });
@@ -115,7 +127,7 @@ public class TabTicketActivity extends AppCompatActivity {
         errorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ReportProblemActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), NewReportActivity.class), 2);
                 animateFloatingMenu();
             }
         });
@@ -131,7 +143,7 @@ public class TabTicketActivity extends AppCompatActivity {
             newTicketBtn.setImageDrawable(defaulImage);
 
             isMenuOpen = false;
-        }else {
+        } else {
             newTicketBtn.animate().setInterpolator(interpolator).rotation(90f).setDuration(300).start();
             checkBtn.animate().translationY(15f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
             errorBtn.animate().translationY(55f).alpha(1f).setInterpolator(interpolator).setDuration(300).start();
@@ -140,6 +152,43 @@ public class TabTicketActivity extends AppCompatActivity {
             newTicketBtn.setImageDrawable(defaulImage);
 
             isMenuOpen = true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            boolean ticketSent = data.getBooleanExtra("com.far.nowaste.NEW_TICKET_REQUEST", false);
+            if (ticketSent) {
+                showSnackbar("Ticket inviato!");
+            }
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            boolean reportSent = data.getBooleanExtra("com.far.nowaste.NEW_REPORT_REQUEST", false);
+            if (reportSent) {
+                showSnackbar("Report inviato!");
+            }
+        }
+    }
+
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
+    }
+
+    public void hideFAB(){
+        if (!MainActivity.CURRENTUSER.isOperatore()) {
+            newTicketBtn.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void showFAB() {
+        if (!MainActivity.CURRENTUSER.isOperatore()){
+            newTicketBtn.setVisibility(View.VISIBLE);
         }
     }
 }

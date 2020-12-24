@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +25,8 @@ import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailRifiutoActivity extends AppCompatActivity {
+
+    RelativeLayout layout;
+    Typeface nunito;
 
     Toolbar mToolbar;
 
@@ -63,8 +72,12 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_rifiuto);
 
+        layout = findViewById(R.id.detailRifiuto_layout);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+
         // toolbar
-        mToolbar = findViewById(R.id.detailSearch_toolbar);
+        mToolbar = findViewById(R.id.detailRifiuto_toolbar);
         setSupportActionBar(mToolbar);
 
         // back arrow
@@ -187,7 +200,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             fStore.collection("users").document(fUser.getUid()).update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(DetailRifiutoActivity.this, "Rifiuto aggiunto", Toast.LENGTH_SHORT).show();
+                    showSnackbar("Rifiuto aggiunto!");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -197,7 +210,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(DetailRifiutoActivity.this, "Devi accedere per memorizzare i tuoi progressi!", Toast.LENGTH_SHORT).show();
+            showSnackbar("Accedi per memorizzare i tuoi progressi!");
         }
     }
 
@@ -248,5 +261,14 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT).setAnchorView(addBtn)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,7 +29,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Date;
 
-public class ReportProblemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class NewReportActivity extends AppCompatActivity {
 
     // variabili
     Toolbar mToolbar;
@@ -45,7 +46,7 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_problem);
+        setContentView(R.layout.activity_new_report);
 
         Intent intent = getIntent();
 
@@ -77,7 +78,6 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.themeListReportProblems, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerProb.setAdapter(adapter);
-        mSpinnerProb.setOnItemSelectedListener(this);
 
         mProbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +102,6 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
 
                 // inserisce il ticket in firebase
                 insertReportProblem(problemaScelto,cassonetto,indirizzo,commento);
-                finish();
-
             }
         });
 
@@ -131,7 +129,10 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         documentReference.set(report).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: ticket sent");
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("com.far.nowaste.NEW_REPORT_REQUEST", true);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -153,17 +154,4 @@ public class ReportProblemActivity extends AppCompatActivity implements AdapterV
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    // Metodi per OnItemSelectedListener
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String probChoose = parent.getItemAtPosition(position).toString();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
 }

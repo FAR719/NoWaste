@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailRifiutoActivity">
+    tools:context=".DetailRifiutoActivity"
+    android:id="@+id/detailRifiuto_layout">
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detailSearch_appBarLayout"
+        android:id="@+id/detailRifiuto_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/detailSearch_toolbar"
+            android:id="@+id/detailRifiuto_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ToolbarTheme"
@@ -23,10 +24,10 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/detailSearch_infoLayout"
+        android:id="@+id/detailRifiuto_infoLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/detailSearch_appBarLayout"
+        android:layout_below="@+id/detailRifiuto_appBarLayout"
         android:layout_alignParentStart="true"
         android:layout_marginTop="-3dp"
         >

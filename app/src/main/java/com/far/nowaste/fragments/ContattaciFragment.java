@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.AssistenzaActivity;
+import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.TabTicketActivity;
 import com.google.android.material.card.MaterialCardView;
@@ -39,7 +39,7 @@ public class ContattaciFragment extends Fragment {
                 if (fAuth.getCurrentUser() != null) {
                     startActivity(new Intent(getContext(), TabTicketActivity.class));
                 } else {
-                    Toast.makeText(getContext(), "Accedi per inviare ticket.", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).showSnackbar("Accedi per inviare ticket!");
                 }
             }
         });
@@ -55,7 +55,7 @@ public class ContattaciFragment extends Fragment {
                 if (fAuth.getCurrentUser() != null) {
                     startActivity(new Intent(getContext(), AssistenzaActivity.class));
                 } else {
-                    Toast.makeText(getContext(), "Accedi per ricevere assistenza.", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).showSnackbar("Accedi per ricevere assistenza!");
                 }
             }
         });
