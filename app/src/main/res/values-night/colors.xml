@@ -29,6 +29,8 @@
     <!--Curiosity card colors-->
     <color name="card_background">@color/primary</color>
 
+    <color name="operatore_answer">@color/basil</color>
+
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>
     <color name="search_primary_text">@color/white</color>

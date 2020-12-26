@@ -20,6 +20,8 @@
     <color name="disabled_gray">#D4D4D4</color>
     <color name="toolbar_dark">#232D36</color>
 
+    <color name="basil_light">#7ac282</color>
+
     <!--Theme colors-->
     <color name="primary">@color/basil</color>
     <color name="primary_light">#4a9155</color>
@@ -52,6 +54,8 @@
 
     <!--Curiosity card colors-->
     <color name="card_background">@color/white</color>
+
+    <color name="operatore_answer">@color/basil_light</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/white</color>

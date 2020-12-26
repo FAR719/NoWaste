@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +24,6 @@ import com.far.nowaste.objects.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -123,12 +121,14 @@ public class TicketChatActivity extends AppCompatActivity {
                     holder.operatoreLayout.setVisibility(View.VISIBLE);
                     holder.userLayout.setVisibility(View.GONE);
                     holder.operatoreMessage.setText(model.getTesto());
-                    holder.operatoreDate.setText(day + "/" + month + "/" + model.getYear() + "  -  " + hour + ":" + minute);
+                    holder.operatoreDate.setText(day + "/" + month + "/" + model.getYear());
+                    holder.operatoreHour.setText(hour + ":" +  minute);
                 } else {
                     holder.userLayout.setVisibility(View.VISIBLE);
                     holder.operatoreLayout.setVisibility(View.GONE);
                     holder.userMessage.setText(model.getTesto());
-                    holder.userDate.setText(day + "/" + month + "/" + model.getYear() + "  -  " + hour + ":" + minute);
+                    holder.userDate.setText(day + "/" + month + "/" + model.getYear());
+                    holder.userHour.setText(hour + ":" + minute);
                 }
             }
         };
@@ -138,10 +138,6 @@ public class TicketChatActivity extends AppCompatActivity {
         mFirestoreList.setHasFixedSize(true);
         mFirestoreList.setLayoutManager(new LinearLayoutManager(this));
         mFirestoreList.setAdapter(adapter);
-
-        // divider nella recyclerView
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mFirestoreList.addItemDecoration(dividerItemDecoration);
 
         //  risposta
         mRispBtn = findViewById(R.id.rSentimageButton);
@@ -179,26 +175,26 @@ public class TicketChatActivity extends AppCompatActivity {
 
         ConstraintLayout userLayout;
         ConstraintLayout operatoreLayout;
-        TextView userMessage;
-        TextView userDate;
-        TextView operatoreMessage;
-        TextView operatoreDate;
+        TextView userMessage, userDate, userHour;
+        TextView operatoreMessage, operatoreDate, operatoreHour;
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             userLayout = itemView.findViewById(R.id.userMessageLayout);
-            operatoreLayout = itemView.findViewById(R.id.operatoreMessageLayout);
             userMessage = itemView.findViewById(R.id.userMessageTextView);
             userDate = itemView.findViewById(R.id.userDataTextView);
+            userHour = itemView.findViewById(R.id.userOraTextView);
+            operatoreLayout = itemView.findViewById(R.id.operatoreMessageLayout);
             operatoreMessage = itemView.findViewById(R.id.operatoreMessageTextView);
             operatoreDate = itemView.findViewById(R.id.operatoreDataTextView);
+            operatoreHour = itemView.findViewById(R.id.operatoreOraTextView);
         }
     }
 
 
     private void saveAnswer(String risposta, String identificativo) {
         // variabili
-        boolean operatore = false;
+        boolean operatore = MainActivity.CURRENTUSER.isOperatore();
 
         Date date = new Date();
         int hour = date.getHours();
