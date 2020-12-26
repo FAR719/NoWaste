@@ -10,6 +10,8 @@
         android:id="@+id/userMessageLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,9 +32,7 @@
             android:id="@+id/userMessageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:background="@drawable/chat_bg"
             android:backgroundTint="@color/card_background"
             android:elevation="1dp"
@@ -41,8 +41,6 @@
             android:text="Messaggio"
             android:textColor="@color/search_primary_text"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userDataTextView" />
 
@@ -50,7 +48,7 @@
             android:id="@+id/userOraTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/nunito"
@@ -67,6 +65,8 @@
         android:id="@+id/operatoreMessageLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,9 +88,7 @@
             android:id="@+id/operatoreMessageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:background="@drawable/chat_bg"
             android:backgroundTint="@color/operatore_answer"
             android:elevation="1dp"
@@ -100,8 +98,6 @@
             android:textColor="@color/search_primary_text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/operatoreDataTextView" />
 
         <TextView
@@ -109,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/nunito"
             android:gravity="center"

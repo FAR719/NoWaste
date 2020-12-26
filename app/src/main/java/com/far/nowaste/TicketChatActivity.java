@@ -47,6 +47,8 @@ public class TicketChatActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
+    String date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,8 @@ public class TicketChatActivity extends AppCompatActivity {
         if(fAuth.getCurrentUser() == null){
             finish();
         }
+
+        date = "";
 
         // query
         Query query = firebaseFirestore.collection("tickets").document(identificativo).collection("messages")
@@ -118,16 +122,28 @@ public class TicketChatActivity extends AppCompatActivity {
                 }
 
                 if (model.isOperatore()){
+                    if (!date.equals(day + "/" + month + "/" + model.getYear())) {
+                        holder.operatoreDate.setVisibility(View.VISIBLE);
+                        date = day + "/" + month + "/" + model.getYear();
+                        holder.operatoreDate.setText(date);
+                    } else {
+                        holder.operatoreDate.setVisibility(View.GONE);
+                    }
                     holder.operatoreLayout.setVisibility(View.VISIBLE);
                     holder.userLayout.setVisibility(View.GONE);
                     holder.operatoreMessage.setText(model.getTesto());
-                    holder.operatoreDate.setText(day + "/" + month + "/" + model.getYear());
                     holder.operatoreHour.setText(hour + ":" +  minute);
                 } else {
+                    if (!date.equals(day + "/" + month + "/" + model.getYear())) {
+                        holder.userDate.setVisibility(View.VISIBLE);
+                        date = day + "/" + month + "/" + model.getYear();
+                        holder.userDate.setText(date);
+                    } else {
+                        holder.userDate.setVisibility(View.GONE);
+                    }
                     holder.userLayout.setVisibility(View.VISIBLE);
                     holder.operatoreLayout.setVisibility(View.GONE);
                     holder.userMessage.setText(model.getTesto());
-                    holder.userDate.setText(day + "/" + month + "/" + model.getYear());
                     holder.userHour.setText(hour + ":" + minute);
                 }
             }
