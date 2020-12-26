@@ -152,8 +152,16 @@ public class TicketChatActivity extends AppCompatActivity {
 
         // View Holder
         mFirestoreList.setHasFixedSize(true);
-        mFirestoreList.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        mFirestoreList.setLayoutManager(linearLayoutManager);
         mFirestoreList.setAdapter(adapter);
+        /*mFirestoreList.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mFirestoreList.smoothScrollToPosition(adapter.getItemCount() -1);
+            }
+        }, 20);*/
 
         //  risposta
         mRispBtn = findViewById(R.id.rSentimageButton);

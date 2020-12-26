@@ -1,6 +1,5 @@
 package com.far.nowaste.ui.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
