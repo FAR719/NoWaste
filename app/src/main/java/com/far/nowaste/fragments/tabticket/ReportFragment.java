@@ -1,13 +1,16 @@
 package com.far.nowaste.fragments.tabticket;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -21,6 +24,7 @@ import com.far.nowaste.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -159,56 +163,6 @@ public class ReportFragment extends Fragment {
                                 month = model.getMonth() + "";
                             }
                             data.setText(day + "/" + month + "/" + model.getYear());
-
-                            /*// set custom dialogs layout params
-                            LinearLayout.LayoutParams mainParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                            // main layout
-                            LinearLayout mainLayout = new LinearLayout(getContext());
-                            mainLayout.setLayoutParams(mainParams);
-
-                            View layout = LayoutInflater.from(getContext()).inflate(R.layout.layout_dialog_report, mainLayout, false);
-
-                            // declare and set TextView
-                            Toolbar mToolbar = layout.findViewById(R.id.report_toolbar);
-                            TextView email = layout.findViewById(R.id.emailaDialog_reportTextView);
-                            TextView data = layout.findViewById(R.id.dataDialog_TextView);
-                            TextView indirizzo = layout.findViewById(R.id.indirizzoDialog_textView);
-                            TextView cassonetto = layout.findViewById(R.id.cassonettoDialog_textView);
-                            TextView commento = layout.findViewById(R.id.commentoDialog_textView);
-
-                            // set data
-                            mToolbar.setTitle(model.getTipologia());
-                            email.setText(model.getEmail());
-                            indirizzo.setText(model.getIndirizzo());
-                            cassonetto.setText("Tipologia: " + model.getCassonetto());
-                            if (model.getCommento().equals("")) {
-                                commento.setVisibility(View.GONE);
-                            } else {
-                                commento.setText(model.getCommento());
-                            }
-                            String day, month;
-                            if (model.getDay() < 10) {
-                                day = "0" + model.getDay();
-                            } else {
-                                day = model.getDay() + "";
-                            }
-                            if (model.getMonth() < 10) {
-                                month = "0" + model.getMonth();
-                            } else  {
-                                month = model.getMonth() + "";
-                            }
-                            data.setText(day + "/" + month + "/" + model.getYear());
-
-                            mainLayout.addView(layout);
-
-                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
-                            builder.setView(mainLayout);
-                            builder.setPositiveButton("Chiudi", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {}
-                            });
-                            builder.show();*/
                         }
                     });
                 }

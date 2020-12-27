@@ -50,7 +50,7 @@
     <color name="organico_home">#9F4242</color>
     <color name="secco_home">#1B8C52</color>
 
-    <color name="chart_background">#EDEDF2</color>
+    <color name="piechart_background">#EDEDF2</color>
 
     <!--Curiosity card colors-->
     <color name="card_background">@color/white</color>

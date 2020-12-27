@@ -24,7 +24,7 @@
     <color name="hint_text">#828D93</color>
     <color name="divider">#B4BDC4</color>
 
-    <color name="chart_background">@color/primary</color>
+    <color name="piechart_background">@color/primary</color>
 
     <!--Curiosity card colors-->
     <color name="card_background">@color/primary</color>

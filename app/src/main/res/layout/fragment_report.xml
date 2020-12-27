@@ -16,7 +16,7 @@
         android:id="@+id/report_bottomSheet"
         style="?attr/bottomSheetStyle"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="25dp"
         android:paddingVertical="20dp"
         android:elevation="1dp"
