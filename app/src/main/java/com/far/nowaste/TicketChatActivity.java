@@ -24,6 +24,7 @@ import com.far.nowaste.objects.Message;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -156,12 +157,6 @@ public class TicketChatActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         mFirestoreList.setLayoutManager(linearLayoutManager);
         mFirestoreList.setAdapter(adapter);
-        /*mFirestoreList.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mFirestoreList.smoothScrollToPosition(adapter.getItemCount() -1);
-            }
-        }, 20);*/
 
         //  risposta
         mRispBtn = findViewById(R.id.rSentimageButton);
@@ -220,10 +215,11 @@ public class TicketChatActivity extends AppCompatActivity {
         // variabili
         boolean operatore = MainActivity.CURRENTUSER.isOperatore();
 
-        Date date = new Date();
-        int hour = date.getHours();
-        int minute= date.getMinutes();
-        int second = date.getSeconds();
+        Date time = new Date();
+        int hour = time.getHours();
+        int minute= time.getMinutes();
+        int second = time.getSeconds();
+
 
         CalendarDay currentDate = CalendarDay.today();
         int day = currentDate.getDay();
@@ -235,7 +231,12 @@ public class TicketChatActivity extends AppCompatActivity {
 
         Message message = new Message(risposta,day,month,year,hour,minute,second,operatore);
 
-        documentReference.set(message).addOnFailureListener(new OnFailureListener() {
+        documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                mFirestoreList.smoothScrollToPosition(mFirestoreList.getAdapter().getItemCount() - 1);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("TAG", "onFailure: " + e.toString());
