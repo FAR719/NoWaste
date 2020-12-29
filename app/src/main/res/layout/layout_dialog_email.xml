@@ -13,7 +13,6 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:hint="Inserisci la tua nuova email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxBackgroundMode="outline"
         app:startIconDrawable="@drawable/ic_email"
         app:boxCornerRadiusBottomEnd="@dimen/field_corner_radius"
@@ -35,7 +34,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailDialog_passwordInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

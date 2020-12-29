@@ -33,7 +33,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bug_oggettoInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -59,7 +58,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bug_commentoInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

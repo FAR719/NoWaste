@@ -20,6 +20,9 @@
         <item name="colorOnError">@color/white</item>
         <item name="divider">@color/divider</item>
 
+        <!--Custom material fields style. -->
+        <item name="textInputStyle">@style/CustomMaterialField</item>
+
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -120,4 +123,7 @@
     <style name="CustomSpinner">
         <item name="android:fontFamily">@font/nunito</item>
     </style>
+
+    <!--Material Fields theme. -->
+    <style name="CustomMaterialField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
 </resources>
