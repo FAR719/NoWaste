@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,88 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_report_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/report_bottomSheet"
-        style="?attr/bottomSheetStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp"
-        android:paddingVertical="20dp"
-        android:elevation="1dp"
-        android:background="@drawable/sheet_background"
-        app:behavior_hideable="true"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_report_recyclerView"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/reportSheet_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_bold"
-            android:text="Titolo"
-            android:textSize="20sp"
-            android:textColor="@color/search_primary_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/reportSheet_cassonetto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="Cassonetto"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_title" />
-
-        <TextView
-            android:id="@+id/reportSheet_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/nunito"
-            android:text="mittente@email.com"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_cassonetto" />
-
-        <TextView
-            android:id="@+id/reportSheet_indirizzo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/nunito"
-            android:text="Indirizzo"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_email" />
-
-        <TextView
-            android:id="@+id/reportSheet_commento"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
-            android:text="Commento"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_indirizzo" />
-
-        <TextView
-            android:id="@+id/reportSheet_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="Data"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reportSheet_commento" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

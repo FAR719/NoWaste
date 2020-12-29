@@ -20,8 +20,9 @@
         <item name="colorOnError">@color/white</item>
         <item name="divider">@color/divider</item>
 
-        <!--Custom material fields style. -->
+        <!--Custom widgets style. -->
         <item name="textInputStyle">@style/CustomMaterialField</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheets</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="windowActionBar">false</item>
@@ -126,4 +127,13 @@
 
     <!--Material Fields theme. -->
     <style name="CustomMaterialField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+    <!--Bottom Sheet transparent background. -->
+    <style name="CustomBottomSheets" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/sheet_background</item>
+    </style>
 </resources>
