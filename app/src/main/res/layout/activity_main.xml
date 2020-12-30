@@ -16,7 +16,8 @@
         android:layout_gravity="start"
         android:theme="@style/NunitoNavigationView"
         android:clipToPadding="false"
-
+        app:itemIconTint="@color/nav_item_text"
+        app:itemTextColor="@color/nav_item_text"
         app:itemStyle="rounded_right"
         app:headerLayout="@layout/layout_navigation_header"
         app:menu="@menu/nav_menu" />

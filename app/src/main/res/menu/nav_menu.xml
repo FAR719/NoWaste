@@ -6,6 +6,10 @@
     <group android:checkableBehavior="single">
         <item android:title="@string/nav_menu_sez1">
             <menu>
+                <item android:id="@+id/nav_invisible"
+                    android:checkable="true"
+                    android:checked="false"
+                    android:visible="false"/>
                 <item
                     android:id="@+id/nav_home"
                     android:icon="@drawable/ic_home"

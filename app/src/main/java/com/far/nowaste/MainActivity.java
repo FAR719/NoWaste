@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
                     getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
                     fragment = 2;
+                    navigationView.setCheckedItem(R.id.nav_invisible);
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
@@ -281,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
             fragment = 2;
+            navigationView.setCheckedItem(R.id.nav_invisible);
         }
     }
 
@@ -383,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
         updateHeader();
         mToolbar.setTitle("NoWaste");
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_home);
         fragment = 1;
     }
 
@@ -424,6 +427,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
                                             updateHeader();
                                             mToolbar.setTitle("NoWaste");
                                             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                                            navigationView.setCheckedItem(R.id.nav_home);
                                             fragment = 1;
                                         }
                                     }
@@ -474,6 +478,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
         mToolbar.setTitle("Impostazioni");
         getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_impostazioni);
         fragment = 7;
     }
 
