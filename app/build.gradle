@@ -30,7 +30,6 @@ android {
 }
 
     dependencies {
-
         // For Card view
         implementation 'androidx.cardview:cardview:1.0.0'
 
