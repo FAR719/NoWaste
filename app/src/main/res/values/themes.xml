@@ -47,7 +47,7 @@
     </style>
 
     <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
-        <item name="android:popupBackground">@drawable/search_suggestions_bg</item>
+        <item name="android:popupBackground">@drawable/bg_search_suggestions</item>
         <item name="android:popupElevation">0dp</item>
     </style>
 
@@ -134,6 +134,6 @@
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/sheet_background</item>
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 </resources>

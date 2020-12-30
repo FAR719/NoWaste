@@ -3,11 +3,11 @@
     android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
     <item android:state_checked="true"
-        android:drawable="@drawable/selected_bg_color" />
+        android:drawable="@drawable/bg_current_day_selector" />
 
     <item android:state_pressed="true"
-        android:drawable="@drawable/selected_bg_color" />
+        android:drawable="@drawable/bg_current_day_selector" />
 
-    <item android:drawable="@drawable/basil_circle" />
+    <item android:drawable="@drawable/selector_current_day" />
 
 </selector>

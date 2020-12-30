@@ -7,6 +7,7 @@
     <color name="primary">@color/toolbar_dark</color>
     <color name="primary_light">#4b5660</color>
     <color name="primary_dark">#000210</color>
+    <color name="secondary">#00AF9B</color>
     <color name="background">#101D25</color>
     <color name="error">@color/cinnamon_satin</color>
 
