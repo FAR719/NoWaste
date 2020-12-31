@@ -88,31 +88,43 @@ public class RegisterActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(fullName)){
                     mFullNameLayout.setError("Inserisci nome e cognome.");
                     return;
+                } else {
+                    mFullNameLayout.setErrorEnabled(false);
                 }
 
                 if (TextUtils.isEmpty(email)){
                     mEmailLayout.setError("Inserisci la tua email.");
                     return;
+                } else {
+                    mEmailLayout.setErrorEnabled(false);
                 }
 
                 if (TextUtils.isEmpty(password)){
                     mPasswordLayout.setError("Inserisci la password.");
                     return;
+                } else {
+                    mPasswordLayout.setErrorEnabled(false);
                 }
 
                 if (password.length() < 8){
                     mPasswordLayout.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
+                } else {
+                    mPasswordLayout.setErrorEnabled(false);
                 }
 
                 if (passwordAgain.length() == 0){
                     mPasswordAgainLayout.setError("Inserisci nuovamente la password.");
                     return;
+                } else {
+                    mPasswordAgainLayout.setErrorEnabled(false);
                 }
 
                 if (!passwordAgain.equals(password)){
                     mPasswordAgainLayout.setError("Le password inserite non corrispondono!");
                     return;
+                } else {
+                    mPasswordAgainLayout.setErrorEnabled(false);
                 }
 
                 mProgressBar.setVisibility(View.VISIBLE);

@@ -113,16 +113,22 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(email)) {
                     mEmailLayout.setError("Inserisci la tua email.");
                     return;
+                } else {
+                    mEmailLayout.setErrorEnabled(false);
                 }
 
                 if (TextUtils.isEmpty(password)) {
                     mPasswordLayout.setError("Inserisci la password.");
                     return;
+                } else {
+                    mPasswordLayout.setErrorEnabled(false);
                 }
 
                 if (password.length() < 8) {
                     mPasswordLayout.setError("La password deve essere lunga almeno 8 caratteri!");
                     return;
+                } else {
+                    mPasswordLayout.setErrorEnabled(false);
                 }
 
                 progressBar.setVisibility(View.VISIBLE);

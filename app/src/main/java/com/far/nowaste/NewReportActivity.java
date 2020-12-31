@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 
 import com.far.nowaste.objects.Report;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,7 +37,7 @@ public class NewReportActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RadioButton mVetroRdb, mCartaRdb, mIndifferenziataRdb, mPlasticaRdb, mIndumentiRdb, mAltroRdb;
     EditText mIndirizzo, mCommento;
-    Button mProbBtn;
+    Button mSendBtn;
 
     // firebase
     FirebaseAuth fAuth;
@@ -72,7 +71,7 @@ public class NewReportActivity extends AppCompatActivity {
         mAltroRdb = findViewById(R.id.rdbAltro);
         mIndirizzo = findViewById(R.id.indirizzoEditText);
         mCommento = findViewById(R.id.commentoEditText);
-        mProbBtn = findViewById(R.id.sendProblemButton);
+        mSendBtn = findViewById(R.id.sendButton);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -83,7 +82,7 @@ public class NewReportActivity extends AppCompatActivity {
 
         typoTextView.setAdapter(adapter);
 
-        mProbBtn.setOnClickListener(new View.OnClickListener() {
+        mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tipologia = typoTextView.getText().toString();
@@ -94,7 +93,10 @@ public class NewReportActivity extends AppCompatActivity {
                 // controlla la info aggiunte
                 if (TextUtils.isEmpty(tipologia)) {
                     typoInputLayout.setError("Selezionare una tipologia.");
+                } else {
+                    typoInputLayout.setErrorEnabled(false);
                 }
+
                 if(TextUtils.isEmpty(cassonetto)) {
                     mIndirizzo.setError("Selezionare un cassonetto.");
                     return;
@@ -102,20 +104,21 @@ public class NewReportActivity extends AppCompatActivity {
                     mIndirizzo.setError("Inserisci l'indirizzo.");
                     return;
                 }
+
                 if(cassonetto.equals("Altro") && TextUtils.isEmpty(commento)){
                     mCommento.setError("Specificare la tipologia del cassonetto.");
                     return;
                 }
 
                 // inserisce il ticket in firebase
-                insertReportProblem(tipologia,cassonetto,indirizzo,commento);
+                loadReport(tipologia,cassonetto,indirizzo,commento);
             }
         });
 
 
     }
 
-    private void insertReportProblem(String problemaScelto, String cassonetto, String indirizzo, String commento) {
+    private void loadReport(String problemaScelto, String cassonetto, String indirizzo, String commento) {
         // variabili
         Date date = new Date();
         int hour = date.getHours();
