@@ -21,7 +21,7 @@
         <item name="divider">@color/divider</item>
 
         <!--Custom widgets style. -->
-        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout</item>
+        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout.OutlinedBox</item>
         <item name="bottomSheetDialogTheme">@style/Theme.NoWaste.BottomSheetDialog</item>
 
         <item name="windowActionBar">false</item>
@@ -47,13 +47,24 @@
     </style>
 
     <!--Material Fields theme. -->
-    <style name="Widget.NoWaste.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox</item>
     </style>
 
-    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
+    </style>
+
+    <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox" parent="">
         <item name="colorPrimary">@color/secondary</item>
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
+    </style>
+
+    <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="">
+        <item name="colorPrimary">@color/secondary</item>
+        <item name="autoCompleteTextViewStyle">@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox</item>
     </style>
 
     <!--Bottom Sheet transparent background. -->

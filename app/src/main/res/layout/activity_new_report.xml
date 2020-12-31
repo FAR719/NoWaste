@@ -9,13 +9,13 @@
 
     <!--Toolbar-->
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/reportProblem_appBarLayout"
+        android:id="@+id/report_appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/reportProblem_toolbar"
+            android:id="@+id/report_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Segnala un problema"
@@ -27,22 +27,22 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/reportProblem_appBarLayout">
+        android:layout_below="@+id/report_appBarLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout2"
+                android:id="@+id/typoInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="Seleziona"
+                android:hint="Seleziona tipologia"
                 app:endIconMode="dropdown_menu"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                style="@style/Widget.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 app:boxCornerRadiusBottomEnd="@dimen/field_corner_radius"
                 app:boxCornerRadiusBottomStart="@dimen/field_corner_radius"
                 app:boxCornerRadiusTopEnd="@dimen/field_corner_radius"
@@ -50,23 +50,12 @@
                 app:layout_constraintTop_toTopOf="parent" >
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/typoTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/spinnerTipologia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="10dp"
-                android:entries="@array/listReports"
-                android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <TextView
                 android:id="@+id/chooseTextView"
@@ -78,7 +67,7 @@
                 android:text="Scegli un cassonetto:"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerTipologia" />
+                app:layout_constraintTop_toBottomOf="@+id/typoInputLayout" />
 
             <RadioGroup
                 android:id="@+id/radioGrp"

@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import com.far.nowaste.objects.Report;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +36,6 @@ public class NewReportActivity extends AppCompatActivity {
 
     // variabili
     Toolbar mToolbar;
-    Spinner mSpinnerProb;
     RadioButton mVetroRdb, mCartaRdb, mIndifferenziataRdb, mPlasticaRdb, mIndumentiRdb, mAltroRdb;
     EditText mIndirizzo, mCommento;
     Button mProbBtn;
@@ -43,6 +44,8 @@ public class NewReportActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
 
+    TextInputLayout typoInputLayout;
+    MaterialAutoCompleteTextView typoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class NewReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_report);
 
         // toolbar
-        mToolbar = findViewById(R.id.reportProblem_toolbar);
+        mToolbar = findViewById(R.id.report_toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
 
@@ -59,7 +62,8 @@ public class NewReportActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamneti view
-        mSpinnerProb = findViewById(R.id.spinnerTipologia);
+        typoInputLayout = findViewById(R.id.typoInputLayout);
+        typoTextView = findViewById(R.id.typoTextView);
         mVetroRdb = findViewById(R.id.rdbVetro);
         mCartaRdb = findViewById(R.id.rdbCarta);
         mIndifferenziataRdb = findViewById(R.id.rdbIndifferenziata);
@@ -76,31 +80,35 @@ public class NewReportActivity extends AppCompatActivity {
         // spinner
         ArrayList<String> values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.listReports)));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_spinner, values);
-        mSpinnerProb.setAdapter(adapter);
+
+        typoTextView.setAdapter(adapter);
 
         mProbBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String problemaScelto = mSpinnerProb.getSelectedItem().toString();
+                String tipologia = typoTextView.getText().toString();
                 String cassonetto = (mVetroRdb.isChecked())?"Vetro":(mCartaRdb.isChecked())?"Carta":(mIndifferenziataRdb.isChecked())?"Indifferenziata":
                         (mPlasticaRdb.isChecked())?"Plastica":(mIndumentiRdb.isChecked())?"Indumenti":(mAltroRdb.isChecked())?"Altro":"";
                 String indirizzo = mIndirizzo.getText().toString();
                 String commento = mCommento.getText().toString();
                 // controlla la info aggiunte
-                if(cassonetto.equals("")){
-                    mIndirizzo.setError("Selezionare un cassonetto");
+                if (TextUtils.isEmpty(tipologia)) {
+                    typoInputLayout.setError("Selezionare una tipologia.");
+                }
+                if(TextUtils.isEmpty(cassonetto)) {
+                    mIndirizzo.setError("Selezionare un cassonetto.");
                     return;
                 } else if(TextUtils.isEmpty(indirizzo)){
-                    mIndirizzo.setError("Inserisci indirizzo");
+                    mIndirizzo.setError("Inserisci l'indirizzo.");
                     return;
                 }
-                if(cassonetto == "Altro" && TextUtils.isEmpty(commento)){
-                    mCommento.setError("Specificare la tipologia del cassonetto");
+                if(cassonetto.equals("Altro") && TextUtils.isEmpty(commento)){
+                    mCommento.setError("Specificare la tipologia del cassonetto.");
                     return;
                 }
 
                 // inserisce il ticket in firebase
-                insertReportProblem(problemaScelto,cassonetto,indirizzo,commento);
+                insertReportProblem(tipologia,cassonetto,indirizzo,commento);
             }
         });
 

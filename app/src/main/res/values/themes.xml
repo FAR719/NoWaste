@@ -21,7 +21,7 @@
         <item name="divider">@color/divider</item>
 
         <!--Custom widgets style. -->
-        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout</item>
+        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout.OutlinedBox</item>
         <item name="bottomSheetDialogTheme">@style/Theme.NoWaste.BottomSheetDialog</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
@@ -116,7 +116,11 @@
     </style>
 
     <!--Material Fields theme. -->
-    <style name="Widget.NoWaste.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+
+    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" />
 
     <!--Bottom Sheet transparent background. -->
     <style name="Theme.NoWaste.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
