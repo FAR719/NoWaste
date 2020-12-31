@@ -1,16 +1,13 @@
 package com.far.nowaste.fragments.tabticket;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,15 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.TabTicketActivity;
 import com.far.nowaste.objects.Report;
 import com.far.nowaste.R;
 import com.far.nowaste.ui.main.ReportBottomSheetDialog;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -37,9 +30,6 @@ public class ReportFragment extends Fragment {
     RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
-
-    ConstraintLayout mBottomSheet;
-    BottomSheetBehavior mBottomSheetBehavior;
 
     @Nullable
     @Override
@@ -94,11 +84,11 @@ public class ReportFragment extends Fragment {
                         month = model.getMonth() + "";
                     }
                     holder.rData.setText(day + "/" + month + "/" + model.getYear());
+
                     if (MainActivity.CURRENTUSER.isOperatore()) {
-                        holder.rEmail.setVisibility(View.VISIBLE);
-                        holder.rEmail.setText(model.getEmail());
+                        holder.rSubtitle.setText(model.getEmail());
                     } else {
-                        holder.rEmail.setVisibility(View.GONE);
+                        holder.rSubtitle.setText(model.getCassonetto());
                     }
 
                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -138,10 +128,10 @@ public class ReportFragment extends Fragment {
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rTipologia;
-        private TextView rData;
-        private TextView rEmail;
         ConstraintLayout itemLayout;
+        TextView rTipologia;
+        TextView rData;
+        TextView rSubtitle;
 
 
         public TicketsViewHolder(@NonNull View itemView) {
@@ -149,7 +139,7 @@ public class ReportFragment extends Fragment {
             itemLayout = itemView.findViewById(R.id.recView_ticketsItem_constraintLayout);
             rTipologia = itemView.findViewById(R.id.recView_ticketsItem_oggettoTextView);
             rData = itemView.findViewById(R.id.recView_ticketsItem_dataTextView);
-            rEmail = itemView.findViewById(R.id.recView_ticketsItem_emailTextView);
+            rSubtitle = itemView.findViewById(R.id.recView_ticketsItem_emailTextView);
         }
 
     }
