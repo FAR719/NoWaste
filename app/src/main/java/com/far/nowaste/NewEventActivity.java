@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.far.nowaste.objects.Evento;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -87,7 +86,7 @@ public class NewEventActivity extends AppCompatActivity {
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Seleziona una data");
         builder.setSelection(today);
-        builder.setTheme(R.style.CustomMaterialDatePicker);
+        builder.setTheme(R.style.ThemeOverlay_NoWaste_DatePicker);
         final MaterialDatePicker materialDatePicker = builder.build();
 
         mDateBtn.setOnClickListener(new View.OnClickListener() {

@@ -20,9 +20,9 @@
             android:id="@+id/eventList_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:theme="@style/ToolbarTheme"
+            app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             app:title="Eventi"
-            app:titleTextAppearance="@style/nunitoLargeTitle"
+            app:titleTextAppearance="@style/TextAppearance.NoWaste.Toolbar.Title"
             android:background="?attr/colorPrimary"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>

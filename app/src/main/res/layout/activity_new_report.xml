@@ -20,8 +20,8 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Segnala un problema"
             app:titleTextColor="@color/white"
-            app:theme="@style/ToolbarTheme"
-            app:titleTextAppearance="@style/nunitoLargeTitle"/>
+            app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
+            app:titleTextAppearance="@style/TextAppearance.NoWaste.Toolbar.Title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -33,88 +33,109 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/spinnerProblema"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:entries="@array/themeListReportProblems"
-                android:padding="18dp"
+                android:layout_marginTop="10dp"
+                android:hint="Seleziona"
+                app:endIconMode="dropdown_menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                app:boxCornerRadiusBottomEnd="@dimen/field_corner_radius"
+                app:boxCornerRadiusBottomStart="@dimen/field_corner_radius"
+                app:boxCornerRadiusTopEnd="@dimen/field_corner_radius"
+                app:boxCornerRadiusTopStart="@dimen/field_corner_radius"
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerTipologia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="10dp"
+                android:entries="@array/listReports"
                 android:spinnerMode="dropdown"
-                android:theme="@style/CustomSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <TextView
-                android:id="@+id/choosetextView"
+                android:id="@+id/chooseTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:padding="18dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito"
                 android:text="Scegli un cassonetto:"
                 android:textStyle="normal"
-                android:fontFamily="@font/nunito"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinnerProblema" />
+                app:layout_constraintTop_toBottomOf="@+id/spinnerTipologia" />
 
             <RadioGroup
                 android:id="@+id/radioGrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/choosetextView">
+                app:layout_constraintTop_toBottomOf="@+id/chooseTextView">
 
                 <RadioButton
                     android:id="@+id/rdbVetro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Vetro"
-                    android:fontFamily="@font/nunito"/>
+                    android:text="Vetro" />
 
                 <RadioButton
                     android:id="@+id/rdbCarta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Carta"
-                    android:fontFamily="@font/nunito" />
+                    android:text="Carta" />
 
                 <RadioButton
                     android:id="@+id/rdbIndifferenziata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Indifferenziata"
-                    android:fontFamily="@font/nunito" />
+                    android:text="Indifferenziata" />
 
                 <RadioButton
                     android:id="@+id/rdbPlastica"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Plastica"
-                    android:fontFamily="@font/nunito" />
+                    android:text="Plastica" />
 
                 <RadioButton
                     android:id="@+id/rdbIndumenti"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Indumenti"
-                    android:fontFamily="@font/nunito" />
+                    android:text="Indumenti" />
 
                 <RadioButton
                     android:id="@+id/rdbAltro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:padding="14dp"
-                    android:text="Altro (Specifica nel commento)"
-                    android:fontFamily="@font/nunito" />
+                    android:text="Altro (Specifica nel commento)" />
             </RadioGroup>
 
             <EditText
@@ -122,12 +143,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/nunito"
                 android:hint="Indirizzo"
                 android:inputType="text|textCapSentences"
-                android:padding="18dp"
+                android:padding="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
@@ -142,7 +163,7 @@
                 android:fontFamily="@font/nunito"
                 android:hint="Scrivi un commento (facoltativo)"
                 android:inputType="text|textCapSentences|textMultiLine"
-                android:padding="18dp"
+                android:padding="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/indirizzoEditText" />

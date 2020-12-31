@@ -20,9 +20,9 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Chat"
             app:titleTextColor="@color/white"
-            app:theme="@style/ToolbarTheme"
+            app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             android:background="?attr/colorPrimary"
-            app:titleTextAppearance="@style/nunitoLargeTitle"/>
+            app:titleTextAppearance="@style/TextAppearance.NoWaste.Toolbar.Title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

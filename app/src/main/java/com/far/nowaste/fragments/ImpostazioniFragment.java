@@ -176,7 +176,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 mainLayout.addView(layout2);
 
                 // set dialog
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Nome");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -235,7 +235,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mDeletePicturePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Elimina profilo");
                 builder.setMessage("Vuoi eliminare le foto del tuo profilo?");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -311,7 +311,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Città");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -402,7 +402,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Quartiere");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -463,7 +463,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Email");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -498,7 +498,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Password");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -520,7 +520,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mLogOutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Logout");
                 builder.setMessage("Vuoi uscire dal tuo account?");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -542,7 +542,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mResetPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Reset dati");
                 builder.setMessage("Vuoi eliminare i dati del tuo account? Tale operazione è irreversibile!");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -603,7 +603,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Elimina account");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -636,7 +636,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Operatore ecologico");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -715,7 +715,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
 
                 mainLayout.addView(layout2);
 
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Tema");
                 builder.setView(mainLayout);
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
@@ -777,7 +777,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     }
 
     private void uploadPicture() {
-        final ProgressDialog pd = new ProgressDialog(getContext(), R.style.AlertDialogTheme);
+        final ProgressDialog pd = new ProgressDialog(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
         pd.setTitle("Caricamento dell'immagine...");
         pd.show();
 

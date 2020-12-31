@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="themeListReportProblems">
+    <string-array name="listReports">
         <item>Cassonetto mancante</item>
         <item>Cassonetto pieno</item>
         <item>Cassonetto rotto</item>

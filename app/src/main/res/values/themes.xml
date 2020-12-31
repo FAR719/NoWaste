@@ -21,119 +21,109 @@
         <item name="divider">@color/divider</item>
 
         <!--Custom widgets style. -->
-        <item name="textInputStyle">@style/CustomMaterialField</item>
-        <item name="bottomSheetDialogTheme">@style/CustomBottomSheets</item>
+        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout</item>
+        <item name="bottomSheetDialogTheme">@style/Theme.NoWaste.BottomSheetDialog</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="searchViewStyle">@style/SearchViewTheme</item>
+        <item name="searchViewStyle">@style/Widget.NoWaste.SearchView</item>
     </style>
 
     <!--Toolbar Title theme. -->
-    <style name="nunitoLargeTitle" parent="TextAppearance.AppCompat.Large">
+    <style name="TextAppearance.NoWaste.Toolbar.Title" parent="TextAppearance.AppCompat.Large">
         <item name="fontFamily">@font/nunito</item>
     </style>
 
     <!--SearchView theme. -->
-    <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
+    <style name="Widget.NoWaste.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
         <item name="layout">@layout/toolbar_search_view</item>
         <item name="commitIcon">@drawable/ic_search_commit</item>
         <item name="colorControlNormal">@color/material_light_active_icon</item>
         <item name="colorControlHighlight">@color/material_ripple_light</item>
-        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="autoCompleteTextViewStyle">@style/Widget.NoWaste.AutoCompleteTextView</item>
         <item name="suggestionRowLayout">@layout/toolbar_search_view_suggestion_row</item>
         <item name="android:maxWidth">9999dp</item>
     </style>
 
-    <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+    <style name="Widget.NoWaste.AutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
         <item name="android:popupBackground">@drawable/bg_search_suggestions</item>
         <item name="android:popupElevation">0dp</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="searchViewStyle">@style/SearchViewTheme</item>
+    <style name="ThemeOverlay.NoWaste.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="searchViewStyle">@style/Widget.NoWaste.SearchView</item>
     </style>
 
     <!--CalendarView theme. -->
-    <style name="CustomHeaderTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Header">
+    <style name="TextAppearance.NoWaste.Calendar.Header" parent="TextAppearance.MaterialCalendarWidget.Header">
         <item name="fontFamily">@font/nunito_bold</item>
         <item name="textAllCaps">true</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/search_primary_text</item>
     </style>
 
-    <style name="CustomWeekdayTextAppearance" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
+    <style name="TextAppearance.NoWaste.Calendar.WeekDay" parent="TextAppearance.MaterialCalendarWidget.WeekDay">
         <item name="fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">10sp</item>
         <item name="textAllCaps">true</item>
     </style>
 
-    <style name="CustomDateTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+    <style name="TextAppearance.NoWaste.Calendar.Date" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/mcv_text_date_light</item>
         <item name="fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">16sp</item>
     </style>
 
     <!--Navigation View theme. -->
-    <style name="NunitoNavigationView">
+    <style name="Theme.NoWaste.NavigationView">
         <item name="fontFamily">@font/nunito</item>
     </style>
 
     <!--Dialog Theme. -->
-    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="ThemeOverlay.NoWaste.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="android:backgroundTint">@color/card_background</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
-        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TextAppearance.NoWaste.AlertDialog.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/TextAppearance.NoWaste.AlertDialog.Body</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.NoWaste.AlertDialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.NoWaste.AlertDialog.Button</item>
     </style>
 
-    <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+    <style name="TextAppearance.NoWaste.AlertDialog.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+    <style name="TextAppearance.NoWaste.AlertDialog.Body" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="fontFamily">@font/nunito</item>
     </style>
 
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/secondary</item>
-        <item name="fontFamily">@font/nunito_semibold</item>
-        <item name="textAllCaps">true</item>
-    </style>
-
-    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="Widget.NoWaste.AlertDialog.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/secondary</item>
         <item name="fontFamily">@font/nunito_semibold</item>
         <item name="textAllCaps">true</item>
     </style>
 
     <!--Material DatePicker theme. -->
-    <style name="CustomMaterialDatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+    <style name="ThemeOverlay.NoWaste.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="android:fontFamily">@font/nunito</item>
-        <item name="buttonBarPositiveButtonStyle">@style/ThemeMaterialCalendarButton</item>
-        <item name="buttonBarNegativeButtonStyle">@style/ThemeMaterialCalendarButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.NoWaste.DatePicker.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.NoWaste.DatePicker.Button</item>
     </style>
 
-    <style name="ThemeMaterialCalendarButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="Widget.NoWaste.DatePicker.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 
-    <style name="CustomSpinner">
-        <item name="android:fontFamily">@font/nunito</item>
-    </style>
-
     <!--Material Fields theme. -->
-    <style name="CustomMaterialField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+    <style name="Widget.NoWaste.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
 
     <!--Bottom Sheet transparent background. -->
-    <style name="CustomBottomSheets" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    <style name="Theme.NoWaste.BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.NoWaste.BottomSheet.Modal</item>
     </style>
 
-    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+    <style name="Widget.NoWaste.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 </resources>

@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +26,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class NewReportActivity extends AppCompatActivity {
@@ -58,7 +59,7 @@ public class NewReportActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // collegamneti view
-        mSpinnerProb = findViewById(R.id.spinnerProblema);
+        mSpinnerProb = findViewById(R.id.spinnerTipologia);
         mVetroRdb = findViewById(R.id.rdbVetro);
         mCartaRdb = findViewById(R.id.rdbCarta);
         mIndifferenziataRdb = findViewById(R.id.rdbIndifferenziata);
@@ -73,8 +74,8 @@ public class NewReportActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         // spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.themeListReportProblems, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayList<String> values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.listReports)));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_spinner, values);
         mSpinnerProb.setAdapter(adapter);
 
         mProbBtn.setOnClickListener(new View.OnClickListener() {
