@@ -170,14 +170,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setBarChartData(Utente utente) {
-        barChart.addBar(new BarModel((float)utente.getnPlastica(), colors.get(0)));
-        barChart.addBar(new BarModel((float)utente.getnOrganico(), colors.get(1)));
-        barChart.addBar(new BarModel((float)utente.getnSecco(), colors.get(2)));
-        barChart.addBar(new BarModel((float)utente.getnCarta(), colors.get(3)));
-        barChart.addBar(new BarModel((float)utente.getnVetro(), colors.get(4)));
-        barChart.addBar(new BarModel((float)utente.getnMetalli(), colors.get(5)));
-        barChart.addBar(new BarModel((float)utente.getnElettrici(), colors.get(6)));
-        barChart.addBar(new BarModel((float)utente.getnSpeciali(), colors.get(7)));
+        barChart.addBar(new BarModel(utente.getnPlastica() + "", (float)utente.getnPlastica(), colors.get(0)));
+        barChart.addBar(new BarModel(utente.getnOrganico() + "", (float)utente.getnOrganico(), colors.get(1)));
+        barChart.addBar(new BarModel(utente.getnSecco() + "", (float)utente.getnSecco(), colors.get(2)));
+        barChart.addBar(new BarModel(utente.getnCarta() + "", (float)utente.getnCarta(), colors.get(3)));
+        barChart.addBar(new BarModel(utente.getnVetro() + "", (float)utente.getnVetro(), colors.get(4)));
+        barChart.addBar(new BarModel(utente.getnMetalli() + "", (float)utente.getnMetalli(), colors.get(5)));
+        barChart.addBar(new BarModel(utente.getnElettrici() + "", (float)utente.getnElettrici(), colors.get(6)));
+        barChart.addBar(new BarModel(utente.getnSpeciali() + "", (float)utente.getnSpeciali(), colors.get(7)));
 
         barChart.startAnimation();
     }
