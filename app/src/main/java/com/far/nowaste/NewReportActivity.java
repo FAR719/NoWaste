@@ -78,7 +78,7 @@ public class NewReportActivity extends AppCompatActivity {
 
         // spinner
         ArrayList<String> values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.listReports)));
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_spinner, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_spinner_dropdown, values);
 
         typoTextView.setAdapter(adapter);
 

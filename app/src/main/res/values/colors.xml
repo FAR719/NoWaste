@@ -27,8 +27,9 @@
     <color name="primary_light">#4a9155</color>
     <color name="primary_dark">@color/pine</color>
     <color name="secondary">@color/basil</color>
-    <color name="secondary_variant">@color/primary_light</color>
+    <color name="secondary_variant">@color/basil_light</color>
     <color name="background">#F4F4F4</color>
+    <color name="accent">@color/basil</color>
     <color name="error">@color/carmine</color>
 
     <color name="hint_text">#9D9D9D</color>
@@ -55,7 +56,7 @@
     <!--Curiosity card colors-->
     <color name="card_background">@color/white</color>
 
-    <color name="operatore_answer">@color/basil_light</color>
+    <color name="operatore_answer">#E2FDC9</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/white</color>

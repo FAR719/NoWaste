@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:innerRadius="0dp"
-    android:shape="ring"
-    android:thicknessRatio="2"
-    android:useLevel="false" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
-    <solid android:color="@android:color/transparent" />
+    <item android:state_checked="true"
+        android:drawable="@drawable/bg_selector_current_day_checked" />
 
-    <stroke
-        android:width="2dp"
-        android:color="@color/secondary" />
-</shape>
+    <item android:state_pressed="true"
+        android:drawable="@drawable/bg_selector_current_day_checked" />
+
+    <item android:drawable="@drawable/bg_selector_current_day" />
+
+</selector>

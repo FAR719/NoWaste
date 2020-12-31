@@ -54,13 +54,12 @@
             android:clickable="true"
             android:focusable="true"
             android:visibility="visible"
-            app:backgroundTint="@color/secondary"
+            app:backgroundTint="@color/accent"
             app:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_checkFloatingActionButton"
             app:layout_constraintStart_toStartOf="@+id/newTicket_checkFloatingActionButton"
-            app:srcCompat="@drawable/ic_campaign"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/ic_campaign"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/newTicket_checkFloatingActionButton"
@@ -70,13 +69,12 @@
             android:clickable="true"
             android:focusable="true"
             android:visibility="visible"
-            app:backgroundTint="@color/secondary"
+            app:backgroundTint="@color/accent"
             app:elevation="2dp"
             app:layout_constraintBottom_toTopOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintEnd_toEndOf="@+id/newTicket_addFloatingActionButton"
             app:layout_constraintStart_toStartOf="@+id/newTicket_addFloatingActionButton"
-            app:srcCompat="@drawable/ic_create"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/ic_create"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/newTicket_addFloatingActionButton"
@@ -86,11 +84,10 @@
             android:layout_marginBottom="20dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="@color/secondary"
+            app:backgroundTint="@color/accent"
             app:elevation="2dp"
             android:visibility="visible"
             app:srcCompat="@drawable/ic_create"
-            app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

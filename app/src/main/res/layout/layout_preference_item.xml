@@ -25,6 +25,7 @@
         android:fontFamily="@font/nunito_semibold"
         android:textColor="@color/preference_title_text"
         android:textSize="16sp"
+        android:text="Title"
         app:layout_constraintStart_toEndOf="@android:id/icon"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp"
         android:fontFamily="@font/nunito"
+        android:text="Subtitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@android:id/title"
         app:layout_constraintTop_toBottomOf="@android:id/title"

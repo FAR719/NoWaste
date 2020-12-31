@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:fontFamily="@font/nunito"
-    android:text="Spinner Text"
+    android:text="Option"
     android:maxLines="1"
     android:textAppearance="?attr/textAppearanceSubtitle1"/>

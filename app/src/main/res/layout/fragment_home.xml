@@ -380,21 +380,6 @@
                     android:padding="15dp">
 
                     <TextView
-                        android:id="@+id/home_warningTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/nunito"
-                        android:textAlignment="center"
-                        android:textColor="@color/search_primary_text"
-                        android:textSize="17sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView47" />
-
-                    <TextView
                         android:id="@+id/textView47"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -406,7 +391,24 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/home_warningTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/nunito"
+                        android:textAlignment="center"
+                        android:textColor="@color/search_primary_text"
+                        android:textSize="17sp"
+                        android:text="Warning"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView47" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <TextView

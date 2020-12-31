@@ -51,6 +51,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/accent"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"

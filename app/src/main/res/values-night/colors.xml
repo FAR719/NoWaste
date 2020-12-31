@@ -8,7 +8,9 @@
     <color name="primary_light">#4b5660</color>
     <color name="primary_dark">#000210</color>
     <color name="secondary">#00AF9B</color>
+    <color name="secondary_variant">#59e2cc</color>
     <color name="background">#101D25</color>
+    <color name="accent">#007f6d</color>
     <color name="error">@color/cinnamon_satin</color>
 
     <color name="snackbar">@color/primary</color>
@@ -31,7 +33,7 @@
     <!--Curiosity card colors-->
     <color name="card_background">@color/primary</color>
 
-    <color name="operatore_answer">@color/basil</color>
+    <color name="operatore_answer">#074540</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>

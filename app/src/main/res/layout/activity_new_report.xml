@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/secondary"
+                android:backgroundTint="@color/accent"
                 android:fontFamily="@font/nunito_semibold"
                 android:text="INVIA"
                 android:textColor="@color/white"

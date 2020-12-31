@@ -48,6 +48,7 @@
                 android:fontFamily="@font/nunito"
                 android:textColor="@color/search_primary_text"
                 android:textSize="18sp"
+                android:text="Data"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/basil"
+            android:backgroundTint="@color/accent"
             android:text="Aggiungi evento"
             android:textColor="@color/white"
             app:cornerRadius="@dimen/field_corner_radius"

@@ -17,7 +17,7 @@ public class CurrentDayDecorator implements DayViewDecorator {
     CalendarDay currentDay = CalendarDay.today();
 
     public CurrentDayDecorator(Context context) {
-        drawable = ContextCompat.getDrawable(context, R.drawable.current_day_calendar);
+        drawable = ContextCompat.getDrawable(context, R.drawable.selector_current_day);
     }
 
     @Override

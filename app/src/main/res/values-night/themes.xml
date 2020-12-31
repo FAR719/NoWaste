@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/primary</item>
         <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/accent</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorSurface">@color/background</item>
         <item name="colorError">@color/error</item>
@@ -19,10 +20,6 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorOnError">@color/black</item>
         <item name="divider">@color/divider</item>
-
-        <!--Custom widgets style. -->
-        <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout.OutlinedBox</item>
-        <item name="bottomSheetDialogTheme">@style/Theme.NoWaste.BottomSheetDialog</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -34,45 +31,8 @@
         <item name="android:textColor">@color/my_date_text_color</item>
     </style>
 
-    <!--Material DatePicker theme. -->
-    <style name="ThemeOverlay.NoWaste.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="android:fontFamily">@font/nunito</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Widget.NoWaste.DatePicker.Button</item>
-        <item name="buttonBarNegativeButtonStyle">@style/Widget.NoWaste.DatePicker.Button</item>
-    </style>
-
-    <style name="Widget.NoWaste.DatePicker.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">@font/nunito_semibold</item>
-    </style>
-
-    <!--Material Fields theme. -->
-    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox</item>
-    </style>
-
-    <style name="Widget.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
-    </style>
-
-    <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox" parent="">
-        <item name="colorPrimary">@color/secondary</item>
-        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
-    </style>
-
-    <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="">
-        <item name="colorPrimary">@color/secondary</item>
-        <item name="autoCompleteTextViewStyle">@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox</item>
-    </style>
-
-    <!--Bottom Sheet transparent background. -->
+    <!--Bottom Sheet theme. -->
     <style name="Theme.NoWaste.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.NoWaste.BottomSheet.Modal</item>
-    </style>
-
-    <style name="Widget.NoWaste.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 </resources>
