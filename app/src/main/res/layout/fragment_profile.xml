@@ -36,7 +36,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:text="Full Name"
-                android:textColor="@color/search_primary_text"
+                android:textColor="@color/primary_text"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

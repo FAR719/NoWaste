@@ -120,6 +120,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(false);
+            mNotificationPreference.setVisible(false);
         } else if (MainActivity.CURRENTUSER.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -133,6 +134,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(!MainActivity.CURRENTUSER.isOperatore());
+            mNotificationPreference.setVisible(true);
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -146,6 +148,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
             mOperatorePreference.setVisible(!MainActivity.CURRENTUSER.isOperatore());
+            mNotificationPreference.setVisible(true);
         }
     }
 

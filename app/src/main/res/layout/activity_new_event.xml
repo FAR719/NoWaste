@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:fontFamily="@font/nunito"
-                android:textColor="@color/search_primary_text"
+                android:textColor="@color/primary_text"
                 android:textSize="18sp"
                 android:text="Data"
                 app:layout_constraintStart_toStartOf="parent"

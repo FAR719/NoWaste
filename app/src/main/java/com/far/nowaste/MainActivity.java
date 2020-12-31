@@ -57,12 +57,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.shreyaspatil.material.navigationview.MaterialNavigationView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements MaterialNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // toolbar
     MenuItem mSearchItem;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements MaterialNavigatio
 
     // navigationView
     DrawerLayout drawerLayout;
-    MaterialNavigationView navigationView;
+    NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
     static public Utente CURRENTUSER;

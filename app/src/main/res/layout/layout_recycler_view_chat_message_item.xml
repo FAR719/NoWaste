@@ -41,7 +41,7 @@
             android:fontFamily="@font/nunito_semibold"
             android:padding="10dp"
             android:text="Messaggio"
-            android:textColor="@color/search_primary_text"
+            android:textColor="@color/primary_text"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userDataTextView" />
@@ -99,7 +99,7 @@
             android:fontFamily="@font/nunito_semibold"
             android:padding="10dp"
             android:text="Messaggio"
-            android:textColor="@color/search_primary_text"
+            android:textColor="@color/primary_text"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/operatoreDataTextView" />

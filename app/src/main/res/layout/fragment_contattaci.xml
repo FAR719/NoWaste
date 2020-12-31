@@ -41,7 +41,7 @@
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="Ticket"
-                        android:textColor="@color/search_primary_text"
+                        android:textColor="@color/primary_text"
                         android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -118,7 +118,7 @@
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="Barsa SPA"
-                        android:textColor="@color/search_primary_text"
+                        android:textColor="@color/primary_text"
                         android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -369,7 +369,7 @@
                         android:layout_marginStart="10dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="Assistenza"
-                        android:textColor="@color/search_primary_text"
+                        android:textColor="@color/primary_text"
                         android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView3"
                         app:layout_constraintTop_toTopOf="parent" />

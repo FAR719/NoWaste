@@ -72,7 +72,7 @@
                 android:inputType="text|textAutoComplete|textNoSuggestions|textCapSentences"
                 android:maxLines="1"
                 android:paddingEnd="8dp"
-                android:textColor="@color/search_primary_text"
+                android:textColor="@color/primary_text"
                 android:textColorHint="@color/search_hint_text"
                 android:textSize="20sp"
                 android:fontFamily="@font/nunito"/>

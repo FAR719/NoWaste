@@ -7,8 +7,6 @@
     <color name="primary">@color/toolbar_dark</color>
     <color name="primary_light">#4b5660</color>
     <color name="primary_dark">#000210</color>
-    <color name="secondary">#00AF9B</color>
-    <color name="secondary_variant">#59e2cc</color>
     <color name="background">#101D25</color>
     <color name="accent">#007f6d</color>
     <color name="error">@color/cinnamon_satin</color>
@@ -16,13 +14,13 @@
     <color name="snackbar">@color/primary</color>
 
     <!--Google Play-->
-    <!--313537-->
-    <!--202125-->
+    <!--#313537-->
+    <!--#202125-->
 
     <!--Whatsapp-->
-    <!--232D36-->
-    <!--101D25-->
-    <!--00AF9B-->
+    <!--#232D36-->
+    <!--#101D25-->
+    <!--#00AF9B-->
 
 
     <color name="hint_text">#828D93</color>
@@ -30,14 +28,15 @@
 
     <color name="piechart_background">@color/primary</color>
 
-    <!--Curiosity card colors-->
+    <!--Some useful colors-->
+    <color name="primary_text">@color/white</color>
+    <color name="nav_item_bg">#1E00AF9B</color>
+    <color name="nav_item">#00AF9B</color>
     <color name="card_background">@color/primary</color>
-
     <color name="operatore_answer">#074540</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>
-    <color name="search_primary_text">@color/white</color>
     <color name="search_hint_text">#6F6F6F</color>
     <color name="search_divider_color">#1FFFFFFF</color>
     <color name="active_icon_color">@android:color/white</color>

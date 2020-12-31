@@ -16,7 +16,7 @@
         android:fontFamily="@font/nunito_bold"
         android:text="Titolo"
         android:textSize="20sp"
-        android:textColor="@color/search_primary_text"
+        android:textColor="@color/primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

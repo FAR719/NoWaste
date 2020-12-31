@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_semibold"
         android:text="Oggetto"
-        android:textColor="@color/search_primary_text"
+        android:textColor="@color/primary_text"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
