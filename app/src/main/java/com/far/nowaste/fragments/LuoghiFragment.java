@@ -52,6 +52,8 @@ public class LuoghiFragment extends Fragment {
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
     boolean collapsed = false;
+    int collapsedheight;
+    int expandedHeight;
 
     @Nullable
     @Override
@@ -64,6 +66,11 @@ public class LuoghiFragment extends Fragment {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         gpsBtn = view.findViewById(R.id.gpsButton);
         fullScreenBtn = view.findViewById(R.id.fullScreenButton);
+
+        // calcola le altezze
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        collapsedheight = (int) (300 * scale + 0.5f);
+        expandedHeight = parent.getHeight();
 
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
@@ -225,9 +232,13 @@ public class LuoghiFragment extends Fragment {
     private void collapse() {
         TransitionManager.beginDelayedTransition(parent);
         //change layout params
-        int height = mapContainer.getHeight();
         ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
-        layoutParams.height = !collapsed ? height / 2 : height * 2;
+        if (collapsed) {
+            layoutParams.height = expandedHeight;
+        } else {
+            layoutParams.height = collapsedheight;
+        }
+        //layoutParams.height = !collapsed ? height / 2 : height * 2;
         mapContainer.requestLayout();
     }
 }
