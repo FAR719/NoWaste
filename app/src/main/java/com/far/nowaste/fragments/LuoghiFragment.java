@@ -15,9 +15,12 @@ import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.transition.TransitionManager;
 
 import com.far.nowaste.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,10 +44,14 @@ import java.util.List;
 public class LuoghiFragment extends Fragment {
 
     // variabaili
+    ConstraintLayout parent, mapContainer;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
-    FloatingActionButton gpsBtn;
+    FloatingActionButton gpsBtn, fullScreenBtn;
+
     OvershootInterpolator interpolator = new OvershootInterpolator();
+
+    boolean collapsed = false;
 
     @Nullable
     @Override
@@ -52,7 +59,11 @@ public class LuoghiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_luoghi, container, false);
 
         // assegnazione variabile
+        parent = view.findViewById(R.id.luoghiLayout);
+        mapContainer = view.findViewById(R.id.mapContainer);
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        gpsBtn = view.findViewById(R.id.gpsButton);
+        fullScreenBtn = view.findViewById(R.id.fullScreenButton);
 
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
@@ -70,12 +81,18 @@ public class LuoghiFragment extends Fragment {
         // load marker
         caricaMarker();
 
-        // gpsBtn
-        gpsBtn = view.findViewById(R.id.gpsButton);
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCurrentLocation();
+            }
+        });
+
+        fullScreenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collapsed  = !collapsed;
+                collapse();
             }
         });
 
@@ -203,5 +220,14 @@ public class LuoghiFragment extends Fragment {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private void collapse() {
+        TransitionManager.beginDelayedTransition(parent);
+        //change layout params
+        int height = mapContainer.getHeight();
+        ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
+        layoutParams.height = !collapsed ? height / 2 : height * 2;
+        mapContainer.requestLayout();
     }
 }
