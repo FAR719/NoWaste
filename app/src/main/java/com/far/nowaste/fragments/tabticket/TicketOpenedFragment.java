@@ -114,13 +114,12 @@ public class TicketOpenedFragment extends Fragment {
                     });
 
                     if(MainActivity.CURRENTUSER.isOperatore()) {
-
                         holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
                                 // apro il dialog per archiviare la chat
                                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
-                                builder.setTitle("Archivia");
+                                builder.setTitle("Chiudi ticket");
                                 builder.setMessage("Vuoi chiudere questo ticket?");
                                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                                     @Override

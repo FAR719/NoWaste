@@ -52,8 +52,8 @@ public class LuoghiFragment extends Fragment {
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
     boolean collapsed = false;
-    int collapsedheight;
-    int expandedHeight;
+    int collapsedheight, expandedHeight, miniFAB, normalFAB;
+    Drawable fs, fsExit;
 
     @Nullable
     @Override
@@ -67,10 +67,16 @@ public class LuoghiFragment extends Fragment {
         gpsBtn = view.findViewById(R.id.gpsButton);
         fullScreenBtn = view.findViewById(R.id.fullScreenButton);
 
-        // calcola le altezze
+        // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
         collapsedheight = (int) (300 * scale + 0.5f);
         expandedHeight = parent.getHeight();
+        miniFAB = (int) (40 * scale + 0.5f);
+        normalFAB = (int) (56 * scale + 0.5f);
+
+        // fullscreen drawables
+        fs = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen);
+        fsExit = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen_exit);
 
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
@@ -235,8 +241,14 @@ public class LuoghiFragment extends Fragment {
         ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
         if (collapsed) {
             layoutParams.height = expandedHeight;
+            fullScreenBtn.setCustomSize(normalFAB);
+            fullScreenBtn.setImageDrawable(fsExit);
+            gpsBtn.setCustomSize(normalFAB);
         } else {
             layoutParams.height = collapsedheight;
+            fullScreenBtn.setCustomSize(miniFAB);
+            fullScreenBtn.setImageDrawable(fs);
+            gpsBtn.setCustomSize(miniFAB);
         }
         //layoutParams.height = !collapsed ? height / 2 : height * 2;
         mapContainer.requestLayout();

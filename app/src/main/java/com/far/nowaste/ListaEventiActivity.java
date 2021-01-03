@@ -29,6 +29,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class ListaEventiActivity extends AppCompatActivity {
     // definizione variabili
@@ -42,18 +43,12 @@ public class ListaEventiActivity extends AppCompatActivity {
 
     FirestoreRecyclerAdapter adapter;
 
+    CalendarDay currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_eventi);
-
-        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
-        layout = findViewById(R.id.eventList_layout);
-
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
-        recView = findViewById(R.id.eventList_recyclerView);
 
         // toolbar
         mToolbar = findViewById(R.id.eventList_toolbar);
@@ -63,9 +58,19 @@ public class ListaEventiActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // query
-        Query query = fStore.collection("events").orderBy("year",Query.Direction.DESCENDING).
-                orderBy("month", Query.Direction.DESCENDING).orderBy("day", Query.Direction.DESCENDING);
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.eventList_layout);
+
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
+        recView = findViewById(R.id.eventList_recyclerView);
+
+        currentDay = CalendarDay.today();
+
+        // query (Firebase permette di utilizzare whereGreaterThan in un solo campo quindi filtro per anno
+        Query query = fStore.collection("events").whereGreaterThanOrEqualTo("year", currentDay.getYear())
+                .orderBy("year",Query.Direction.ASCENDING).orderBy("month", Query.Direction.ASCENDING)
+                .orderBy("day", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Evento> options = new FirestoreRecyclerOptions.Builder<Evento>().setQuery(query,Evento.class).build();
@@ -80,22 +85,28 @@ public class ListaEventiActivity extends AppCompatActivity {
 
             @Override
             protected void onBindViewHolder(@NonNull ListaEventiActivity.EventViewHolder holder, int position, @NonNull Evento model) {
-                String day, month;
-                if (model.getDay() < 10) {
-                    day = "0" + model.getDay();
-                } else {
-                    day = model.getDay() + "";
-                }
-                if (model.getMonth() < 10) {
-                    month = "0" + model.getMonth();
-                } else  {
-                    month = model.getMonth() + "";
-                }
+                // filtro mese e giorno
+                if (model.getMonth() >= currentDay.getMonth() && model.getDay() >= currentDay.getDay()) {
+                    String day, month;
+                    if (model.getDay() < 10) {
+                        day = "0" + model.getDay();
+                    } else {
+                        day = model.getDay() + "";
+                    }
+                    if (model.getMonth() < 10) {
+                        month = "0" + model.getMonth();
+                    } else  {
+                        month = model.getMonth() + "";
+                    }
 
-                holder.rdata.setText(day + "/" + month + "/" + model.getYear());
-                holder.rtitolo.setText(model.getTitle());
-                holder.remail.setText("Destinatario: " + model.getEmail());
-                holder.rdescrizione.setText(model.getDescription());
+                    holder.rdata.setText(day + "/" + month + "/" + model.getYear());
+                    holder.rtitolo.setText(model.getTitle());
+                    holder.remail.setText("Destinatario: " + model.getEmail());
+                    holder.rdescrizione.setText(model.getDescription());
+                } else {
+                    holder.itemLayout.setVisibility(View.GONE);
+                    holder.itemLayout.setMaxHeight(0);
+                }
             }
         };
 
