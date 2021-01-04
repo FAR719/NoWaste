@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             showSnackbar("La password inserita non è corretta.");
                         } else if (e instanceof FirebaseAuthInvalidUserException) {
@@ -186,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
                         showSnackbar("Errore! Email non inviata.");
                     }
                 });
@@ -220,7 +222,8 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        showSnackbar("Errore! Email non inviata.");
                     }
                 });
             }
@@ -239,14 +242,17 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser == null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            fStore.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            emails.add(document.getString("email"));
-                        }
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        emails.add(document.getString("email"));
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         } else {
@@ -286,6 +292,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // utile quando si crea un account in RegisterActivity e non si ha ancora una email verificata
         boolean registerRequest = false;
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -297,7 +305,8 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                showSnackbar("Accesso con Google fallito.");
                 // ...
             }
         } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
@@ -310,24 +319,23 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        fAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            // crea utente in Firestore se non esiste
-                            createFirestoreUser();
-                            verificaEmail();
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            showSnackbar("Accesso con Google fallito.");
-                            Log.d("TAG", "onFailure: " + task.getException().toString());
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+        fAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    // crea utente in Firestore se non esiste
+                    createFirestoreUser();
+                    verificaEmail();
+                    finish();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    showSnackbar("Accesso con Google fallito.");
+                    Log.d("LOG", "Error! " + task.getException().getLocalizedMessage());
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     // se accedi con Google crea l'utente in firestore (se non è già presente)
@@ -344,8 +352,8 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    showSnackbar("Accesso con Google fallito.");
-                    Log.d("TAG", "onFailure: " + e.toString());
+                    showSnackbar("Accesso con Google non effettuato correttamente.");
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                     progressBar.setVisibility(View.GONE);
                     fAuth.signOut();
                 }

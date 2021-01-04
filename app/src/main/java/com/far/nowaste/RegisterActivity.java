@@ -183,7 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("TAG", "onFailure: Email not sent " + e.getMessage());
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
                     }
                 });
                 // store data in firestore
@@ -192,6 +192,7 @@ public class RegisterActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthWeakPasswordException) {
                     showSnackbar("La password inserita non è abbastanza sicura.");
                 } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
@@ -211,30 +212,32 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         // insert name into fUser
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
-        fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d("TAG", "User profile updated.");
-                }
-            }
-        });
-
-        // store data in firestore
-        Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, "", "");
-        fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+        fUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
+                // store data in firestore
+                Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, "", "");
+                fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        showSnackbar("Account non creato correttamente!");
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                showSnackbar("Account non creato correttamente!");
             }
         });
     }

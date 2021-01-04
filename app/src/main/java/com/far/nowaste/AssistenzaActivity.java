@@ -118,7 +118,8 @@ public class AssistenzaActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                showSnackbar("Bug non segnalato correttamente!");
             }
         });
 

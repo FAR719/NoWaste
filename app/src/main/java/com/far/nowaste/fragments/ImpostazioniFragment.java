@@ -196,24 +196,32 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             Map<String, Object> nameMap = new HashMap<>();
                             nameMap.put("fullName", newFullName);
-                            fStore.collection("users").document(fUser.getUid()).update(nameMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            fStore.collection("users").document(fUser.getUid()).update(nameMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onSuccess(Void aVoid) {
                                     // update fAuth
                                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newFullName).build();
-                                    fUser.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    fUser.updateProfile(profileUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                MainActivity.CURRENTUSER.setFullName(newFullName);
-                                                // update the nav_header
-                                                ((MainActivity)getActivity()).updateHeader();
-                                                ((MainActivity)getActivity()).showSnackbar("Nome aggiornato!");
-                                            } else {
-                                                ((MainActivity)getActivity()).showSnackbar(task.getException().getLocalizedMessage());
-                                            }
+                                        public void onSuccess(Void aVoid) {
+                                            MainActivity.CURRENTUSER.setFullName(newFullName);
+                                            // update the nav_header
+                                            ((MainActivity)getActivity()).updateHeader();
+                                            ((MainActivity)getActivity()).showSnackbar("Nome aggiornato!");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            ((MainActivity)getActivity()).showSnackbar("Il nome non è stato aggiornato correttamente!");
                                         }
                                     });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    ((MainActivity)getActivity()).showSnackbar("Il nome non è stato aggiornato correttamente!");
                                 }
                             });
                         }
@@ -270,13 +278,15 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
+                                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                                 ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
                                             }
                                         });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
-                            public void onFailure(@NonNull Exception exception) {
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                 ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
                             }
                         });
@@ -351,6 +361,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                     ((MainActivity)getActivity()).showSnackbar("La città non è stata impostata correttamente.");
                                 }
                             });
@@ -449,6 +460,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                     ((MainActivity)getActivity()).showSnackbar("Il quartiere non è stato impostato correttamente.");
                                 }
                             });
@@ -581,6 +593,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                 ((MainActivity)getActivity()).showSnackbar("Reset dei dati non eseguito correttamente.");
                             }
                         });
@@ -672,6 +685,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
+                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                             ((MainActivity)getActivity()).showSnackbar("Il tuo account aziendale non è stato attivato correttamente.");
                                         }
                                     });
@@ -788,25 +802,32 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         final String key = MainActivity.CURRENTUSER.getEmail();
         StorageReference pictureRef = storageReference.child("proPics/" + key);
 
-        pictureRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        pictureRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+                downloadUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-                        downloadUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                updateFireStoreAuth(uri.toString(), pd);
-                            }
-                        });
+                    public void onSuccess(Uri uri) {
+                        updateFireStoreAuth(uri.toString(), pd);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception exception) {
+                    public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        ((MainActivity)getActivity()).showSnackbar(exception.getLocalizedMessage());
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
                     }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                 double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
@@ -828,16 +849,17 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 fStore.collection("users").document(fUser.getUid()).update(imageMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        pd.dismiss();
                         MainActivity.CURRENTUSER.setImage(picUrl);
                         ((MainActivity)getActivity()).updateHeader();
-                        pd.dismiss();
-                        ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata cambiata correttamente!");
+                        ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata caricata correttamente!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        ((MainActivity)getActivity()).showSnackbar(e.getLocalizedMessage());
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
                     }
                 });
             }
@@ -845,7 +867,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                ((MainActivity)getActivity()).showSnackbar(e.getLocalizedMessage());
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
             }
         });
     }

@@ -133,7 +133,6 @@ public class ReportFragment extends Fragment {
         TextView rData;
         TextView rSubtitle;
 
-
         public TicketsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.recView_ticketsItem_constraintLayout);
@@ -141,7 +140,6 @@ public class ReportFragment extends Fragment {
             rData = itemView.findViewById(R.id.recView_ticketsItem_dataTextView);
             rSubtitle = itemView.findViewById(R.id.recView_ticketsItem_emailTextView);
         }
-
     }
 
     //start&stop listening

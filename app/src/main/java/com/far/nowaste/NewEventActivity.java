@@ -4,22 +4,31 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Evento;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -40,6 +49,9 @@ public class NewEventActivity extends AppCompatActivity {
 
     int year, month, day;
 
+    RelativeLayout layout;
+    Typeface nunito;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +64,9 @@ public class NewEventActivity extends AppCompatActivity {
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.newEvent_layout);
 
         mEmail = findViewById(R.id.newEvent_editTextTextEmail);
         mTitle = findViewById(R.id.newEvent_editTextTextTitle);
@@ -121,13 +136,19 @@ public class NewEventActivity extends AppCompatActivity {
 
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 Evento evento = new Evento(email, title, description, year, month, day);
-                fStore.collection("events").add(evento).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                fStore.collection("events").add(evento).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onSuccess(DocumentReference documentReference) {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("com.far.nowaste.NEW_EVENT_REQUEST", true);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        showSnackbar("Evento non creato!");
                     }
                 });
             }
@@ -170,5 +191,14 @@ public class NewEventActivity extends AppCompatActivity {
                 mDate.setText(dayString + "/" + monthString + "/" + year);
             }
         });
+    }
+
+    private void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

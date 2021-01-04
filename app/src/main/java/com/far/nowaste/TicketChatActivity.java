@@ -38,15 +38,13 @@ import java.util.Map;
 public class TicketChatActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
-    RecyclerView mFirestoreList;
-    FirebaseFirestore firebaseFirestore;
 
     EditText mRisposta;
     ImageButton mRispBtn;
 
+    RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +65,9 @@ public class TicketChatActivity extends AppCompatActivity {
 
         mToolbar.setTitle(oggetto);
 
-        // recyclerView + FireBase
-        firebaseFirestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        mFirestoreList = findViewById(R.id.ticketChat_recyclerView);
 
+        mFirestoreList = findViewById(R.id.ticketChat_recyclerView);
         mRisposta = findViewById(R.id.rRispostaEditText);
 
         if(fAuth.getCurrentUser() == null){
@@ -80,7 +75,8 @@ public class TicketChatActivity extends AppCompatActivity {
         }
 
         // query
-        Query query = firebaseFirestore.collection("tickets").document(identificativo).collection("messages")
+        FirebaseFirestore fstore = FirebaseFirestore.getInstance();
+        Query query = fstore.collection("tickets").document(identificativo).collection("messages")
                 .orderBy("year").orderBy("month").orderBy("day").orderBy("hour").orderBy("minute").orderBy("second");
 
         // recyclerOptions
@@ -160,19 +156,16 @@ public class TicketChatActivity extends AppCompatActivity {
                 // Setta lo Stato del Ticket = aperto all'invio del messaggio
                 Map<String, Object> statoTickets = new HashMap<>();
                 statoTickets.put("stato",true);
-                firebaseFirestore.collection("tickets").document(identificativo).update(statoTickets)
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("TAG", "Error! " + e.toString());
-                            }
+                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                fStore.collection("tickets").document(identificativo).update(statoTickets).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    }
                 });
-
             }
         });
     }
-
-
 
     private class ChatViewHolder extends RecyclerView.ViewHolder{
 
@@ -204,14 +197,14 @@ public class TicketChatActivity extends AppCompatActivity {
         int minute= time.getMinutes();
         int second = time.getSeconds();
 
-
         CalendarDay currentDate = CalendarDay.today();
         int day = currentDate.getDay();
         int month = currentDate.getMonth();
         int year = currentDate.getYear();
 
-        DocumentReference documentReference = fStore.collection("tickets").document(identificativo).
-                collection("messages").document();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fStore.collection("tickets").document(identificativo)
+                .collection("messages").document();
 
         Message message = new Message(risposta,day,month,year,hour,minute,second,operatore);
 
@@ -223,11 +216,10 @@ public class TicketChatActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
-
 
     //start&stop listening
     @Override

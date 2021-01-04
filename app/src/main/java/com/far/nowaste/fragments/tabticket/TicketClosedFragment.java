@@ -40,9 +40,9 @@ public class TicketClosedFragment extends Fragment {
         // recyclerView + FireBase
         fAuth = FirebaseAuth.getInstance();
         mFirestoreList = view.findViewById(R.id.fragment_ticketsClose_recyclerView);
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
 
         if (fAuth.getCurrentUser() != null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             Query query;
             if(MainActivity.CURRENTUSER.isOperatore()){
                 // query per l'operatore
@@ -124,9 +124,9 @@ public class TicketClosedFragment extends Fragment {
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rOggetto;
-        private TextView rData;
-        private TextView rEmail;
+        TextView rOggetto;
+        TextView rData;
+        TextView rEmail;
         ConstraintLayout itemLayout;
 
 

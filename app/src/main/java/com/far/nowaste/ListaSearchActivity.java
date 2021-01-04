@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.far.nowaste.objects.Rifiuto;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -62,22 +65,26 @@ public class ListaSearchActivity extends AppCompatActivity {
 
         // query
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        Query query = fStore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING).startAt(stringName).endAt(stringName + "\uf8ff");
+        Query query = fStore.collection("rifiuti").orderBy("nome", Query.Direction.ASCENDING)
+                .startAt(stringName).endAt(stringName + "\uf8ff");
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 boolean ciSonoRisultati = false;
-                if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ciSonoRisultati = true;
-                    }
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    ciSonoRisultati = true;
                 }
                 if (!ciSonoRisultati) {
                     mFirestoreList.setVisibility(View.GONE);
                     noResult.setText("Nessun risultato relativo a " + stringName);
                     noResult.setVisibility(View.VISIBLE);
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
 

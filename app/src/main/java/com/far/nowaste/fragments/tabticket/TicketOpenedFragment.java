@@ -134,16 +134,16 @@ public class TicketOpenedFragment extends Fragment {
 
                                         Map<String, Object> statoTickets = new HashMap<>();
                                         statoTickets.put("stato",false);
-                                        fStore.collection("tickets").document(identificativo).update(statoTickets)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        ((TabTicketActivity)getActivity()).showSnackbar("Ticket archiviato!");
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
+                                        fStore.collection("tickets").document(identificativo).update(statoTickets).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                ((TabTicketActivity)getActivity()).showSnackbar("Ticket archiviato!");
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Log.d("TAG", "Error! " + e.toString());
+                                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                                ((TabTicketActivity)getActivity()).showSnackbar("Ticket non archiviato correttamente.");
                                             }
                                         });
                                     }
@@ -153,8 +153,6 @@ public class TicketOpenedFragment extends Fragment {
                             }
                         });
                     }
-
-
                 }
             };
         }
@@ -174,9 +172,9 @@ public class TicketOpenedFragment extends Fragment {
 
     private class TicketsViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rOggetto;
-        private TextView rData;
-        private TextView rEmail;
+        TextView rOggetto;
+        TextView rData;
+        TextView rEmail;
         ConstraintLayout itemLayout;
 
 

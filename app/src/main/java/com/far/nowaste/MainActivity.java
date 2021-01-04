@@ -321,41 +321,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onSuccess(Void aVoid) {
                 // cambia la mail in Auth
-                user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // cambia la mail in firestore
-                            Map<String,Object> emailMap = new HashMap<>();
-                            emailMap.put("email", email);
-                            fStore.collection("users").document(user.getUid()).update(emailMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    showSnackbar("Email aggiornata!");
-                                    CURRENTUSER.setEmail(email);
-                                    updateHeader();
-                                }
-                            });
-                        }
+                    public void onSuccess(Void aVoid) {
+                        // cambia la mail in firestore
+                        Map<String,Object> emailMap = new HashMap<>();
+                        emailMap.put("email", email);
+                        fStore.collection("users").document(user.getUid()).update(emailMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                showSnackbar("Email aggiornata!");
+                                CURRENTUSER.setEmail(email);
+                                updateHeader();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                showSnackbar("Errore! Email non aggiornata correttamente.");
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        showSnackbar("Errore! Email non aggiornata correttamente.");
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La password inserita non è corretta.");
-                } else if (e instanceof FirebaseAuthInvalidUserException) {
-                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
-
-                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
-                        showSnackbar("L'email inserita non ha un account associato.");
-                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
-                        showSnackbar("Il tuo account è stato disabilitato.");
-                    } else {
-                        showSnackbar(e.getLocalizedMessage());
-                    }
-                }  else {
+                } else {
                     showSnackbar(e.getLocalizedMessage());
                 }
             }
@@ -383,6 +384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
                         showSnackbar("La password non è stata aggiornata correttamente.");
                     }
                 });
@@ -390,19 +392,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La password inserita non è corretta.");
-                } else if (e instanceof FirebaseAuthInvalidUserException) {
-                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
-
-                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
-                        showSnackbar("L'email inserita non ha un account associato.");
-                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
-                        showSnackbar("Il tuo account è stato disabilitato.");
-                    } else {
-                        showSnackbar(e.getLocalizedMessage());
-                    }
-                }  else {
+                } else {
                     showSnackbar(e.getLocalizedMessage());
                 }
             }
@@ -463,20 +456,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        showSnackbar("L'account non è stato eliminato correttamente");
+                                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                        showSnackbar("Account non eliminato correttamente.");
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                showSnackbar("Account non eliminato correttamente!");
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                showSnackbar("Account non eliminato correttamente.");
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
                         showSnackbar("Account non eliminato correttamente!");
                     }
                 });
@@ -484,19 +480,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La password inserita non è corretta.");
-                } else if (e instanceof FirebaseAuthInvalidUserException) {
-                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
-
-                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
-                        showSnackbar("L'email inserita non ha un account associato.");
-                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
-                        showSnackbar("Il tuo account è stato disabilitato.");
-                    } else {
-                        showSnackbar(e.getLocalizedMessage());
-                    }
-                }  else {
+                } else {
                     showSnackbar(e.getLocalizedMessage());
                 }
             }

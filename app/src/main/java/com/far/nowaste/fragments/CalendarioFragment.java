@@ -3,6 +3,7 @@ package com.far.nowaste.fragments;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.far.nowaste.ui.main.EventDecorator;
 import com.far.nowaste.objects.Evento;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -136,7 +139,6 @@ public class CalendarioFragment extends Fragment {
                 }
             });
         }
-
         return view;
     }
 
@@ -146,27 +148,30 @@ public class CalendarioFragment extends Fragment {
         // prendo gli eventi dal database
         if (fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("events").whereEqualTo("email", fAuth.getCurrentUser().getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            fStore.collection("events").whereEqualTo("email", fAuth.getCurrentUser().getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()){
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Evento evento = document.toObject(Evento.class);
-                            eventi.add(evento);
-                            // prelevo le date dai documenti e le metto in dates
-                            CalendarDay calendarDay = CalendarDay.from(evento.getYear(), evento.getMonth(), evento.getDay());
-                            dates.add(calendarDay);
-                            // aggiungo la scheda per l'evento di oggi
-                            if (currentDay.getYear() == evento.getYear() && currentDay.getMonth() == evento.getMonth() && currentDay.getDay() == evento.getDay()) {
-                                mTitleTextView.setText(evento.getTitle());
-                                mDescTextView.setText(evento.getDescription());
-                                mDescTextView.setVisibility(View.VISIBLE);
-                                mTitleTextView.setTypeface(nunito_bold);
-                            }
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        Evento evento = document.toObject(Evento.class);
+                        eventi.add(evento);
+                        // prelevo le date dai documenti e le metto in dates
+                        CalendarDay calendarDay = CalendarDay.from(evento.getYear(), evento.getMonth(), evento.getDay());
+                        dates.add(calendarDay);
+                        // aggiungo la scheda per l'evento di oggi
+                        if (currentDay.getYear() == evento.getYear() && currentDay.getMonth() == evento.getMonth() && currentDay.getDay() == evento.getDay()) {
+                            mTitleTextView.setText(evento.getTitle());
+                            mDescTextView.setText(evento.getDescription());
+                            mDescTextView.setVisibility(View.VISIBLE);
+                            mTitleTextView.setTypeface(nunito_bold);
                         }
-                        // aggiungi i dot agli eventi
-                        mCalendarView.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.cinnamon_satin), dates));
                     }
+                    // aggiungi i dot agli eventi
+                    mCalendarView.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.cinnamon_satin), dates));
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         }

@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,10 +18,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.far.nowaste.objects.Report;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,9 +45,11 @@ public class NewReportActivity extends AppCompatActivity {
     EditText mIndirizzo, mCommento;
     Button mSendBtn;
 
+    RelativeLayout layout;
+    Typeface nunito;
+
     // firebase
     FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
 
     TextInputLayout typoInputLayout;
     MaterialAutoCompleteTextView typoTextView;
@@ -60,6 +68,9 @@ public class NewReportActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.newTicket_layout);
+
         // collegamneti view
         typoInputLayout = findViewById(R.id.typoInputLayout);
         typoTextView = findViewById(R.id.typoTextView);
@@ -74,7 +85,6 @@ public class NewReportActivity extends AppCompatActivity {
         mSendBtn = findViewById(R.id.sendButton);
 
         fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
 
         // spinner
         ArrayList<String> values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.listReports)));
@@ -133,6 +143,7 @@ public class NewReportActivity extends AppCompatActivity {
         String email = fAuth.getCurrentUser().getEmail();
 
         // caricamneto su firebase
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = fStore.collection("reports").document();
         Report report= new Report(problemaScelto,cassonetto,indirizzo,commento,email,day,month,year,hour,minute,second);
 
@@ -147,12 +158,12 @@ public class NewReportActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                showSnackbar("Report non inviato!");
             }
         });
 
     }
-
 
     // ends this activity (back arrow)
     @Override
@@ -163,5 +174,14 @@ public class NewReportActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

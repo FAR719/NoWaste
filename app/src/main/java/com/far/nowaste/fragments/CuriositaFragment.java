@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.far.nowaste.objects.Curiosity;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,35 +50,36 @@ public class CuriositaFragment extends Fragment {
         super.onStart();
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         // query
-        fStore.collection("curiosity").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fStore.collection("curiosity").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<Curiosity> curiosityList = new ArrayList<>();
-                    for (DocumentSnapshot document : task.getResult()) {
-                        Curiosity curiosity = document.toObject(Curiosity.class);
-                        curiosityList.add(curiosity);
-                    }
-
-                    int curiosityCount = curiosityList.size();
-                    int randomNumber= new Random().nextInt(curiosityCount);
-
-                    randomCuriosityList = new ArrayList<>();
-                    for(Curiosity curiosity : curiosityList) {
-                        randomCuriosityList.add(curiosityList.get(randomNumber));
-                        if (randomNumber != curiosityCount - 1) {
-                            randomNumber++;
-                        } else {
-                            randomNumber = 0;
-                        }
-                    }
-
-                    MyAdapter myAdapter = new MyAdapter(getContext(), randomCuriosityList);
-                    recView.setAdapter(myAdapter);
-                    recView.setLayoutManager(new LinearLayoutManager(getContext()));
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<Curiosity> curiosityList = new ArrayList<>();
+                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                    Curiosity curiosity = document.toObject(Curiosity.class);
+                    curiosityList.add(curiosity);
                 }
+
+                int curiosityCount = curiosityList.size();
+                int randomNumber= new Random().nextInt(curiosityCount);
+
+                randomCuriosityList = new ArrayList<>();
+                for(Curiosity curiosity : curiosityList) {
+                    randomCuriosityList.add(curiosityList.get(randomNumber));
+                    if (randomNumber != curiosityCount - 1) {
+                        randomNumber++;
+                    } else {
+                        randomNumber = 0;
+                    }
+                }
+
+                MyAdapter myAdapter = new MyAdapter(getContext(), randomCuriosityList);
+                recView.setAdapter(myAdapter);
+                recView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }

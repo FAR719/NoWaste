@@ -205,8 +205,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(DetailRifiutoActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "onFailure: " + e.toString());
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                 }
             });
         } else {

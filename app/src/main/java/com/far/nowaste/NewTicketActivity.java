@@ -3,9 +3,12 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,11 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.far.nowaste.objects.Message;
 import com.far.nowaste.objects.Tickets;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +38,9 @@ public class NewTicketActivity extends AppCompatActivity {
     Toolbar mToolbar;
     EditText mOggetto, mTesto;
     Button mSendBtn;
+
+    RelativeLayout layout;
+    Typeface nunito;
 
     // firebase
     FirebaseAuth fAuth;
@@ -47,6 +57,9 @@ public class NewTicketActivity extends AppCompatActivity {
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        layout = findViewById(R.id.newReport_layout);
 
         // collegamento view
         mOggetto = findViewById(R.id.oggettoTicket_EditText);
@@ -86,11 +99,6 @@ public class NewTicketActivity extends AppCompatActivity {
 
     // insert method
     private void insertNewTicket(String oggetto, String testo) {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
-        // variabili
-        boolean stato = true;
-
         Date date = new Date();
         int hour = date.getHours();
         int minute= date.getMinutes();
@@ -110,37 +118,32 @@ public class NewTicketActivity extends AppCompatActivity {
         String ticketID = email + ora_corr;
 
         // caricamneto su firebase
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = fStore.collection("tickets").document(ticketID);
-        Tickets ticket = new Tickets(oggetto,email,day,month,year,hour,minute,second,stato);
+        Tickets ticket = new Tickets(oggetto, email, day, month, year, hour, minute, second,true);
 
         documentReference.set(ticket).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("TAG", "onSuccess: ticket sent");
+                createMessage(testo, ticket,ticketID);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
-
-        createMessage(testo, ticket,ticketID);
-
     }
 
 
     // chat method
     private void createMessage(String testo,Tickets ticket,String ticketID) {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-
-        // variabili
-        boolean operatore = false;
-
         DocumentReference documentReference = fStore.collection("tickets").document(ticketID).
                 collection("messages").document();
 
-        Message message = new Message(testo,ticket.getDay(),ticket.getMonth(),ticket.getYear(),ticket.getHour(),ticket.getMinute(),ticket.getSecond(),operatore);
+        Message message = new Message(testo, ticket.getDay(), ticket.getMonth(), ticket.getYear(), ticket.getHour(),
+                ticket.getMinute(), ticket.getSecond(),false);
 
         documentReference.set(message).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -153,12 +156,11 @@ public class NewTicketActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: " + e.toString());
+                showSnackbar("Ticket non inviato!");
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
-
-
 
     // ends this activity (back arrow)
     @Override
@@ -171,4 +173,12 @@ public class NewTicketActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
+    }
 }

@@ -66,10 +66,8 @@ public class TabTicketActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         // imposta l'animazione del floating button
         initFloatingMenu();
-
     }
 
     // ends this activity (back arrow)
@@ -178,17 +176,5 @@ public class TabTicketActivity extends AppCompatActivity {
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();
-    }
-
-    public void hideFAB(){
-        if (!MainActivity.CURRENTUSER.isOperatore()) {
-            newTicketBtn.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void showFAB() {
-        if (!MainActivity.CURRENTUSER.isOperatore()){
-            newTicketBtn.setVisibility(View.VISIBLE);
-        }
     }
 }
