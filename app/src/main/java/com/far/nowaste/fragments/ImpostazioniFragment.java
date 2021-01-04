@@ -209,6 +209,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                                 // update the nav_header
                                                 ((MainActivity)getActivity()).updateHeader();
                                                 ((MainActivity)getActivity()).showSnackbar("Nome aggiornato!");
+                                            } else {
+                                                ((MainActivity)getActivity()).showSnackbar(task.getException().getLocalizedMessage());
                                             }
                                         }
                                     });
@@ -240,7 +242,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Elimina profilo");
-                builder.setMessage("Vuoi eliminare le foto del tuo profilo?");
+                builder.setMessage("Vuoi rimuovere la foto del tuo profilo?");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
@@ -263,19 +265,19 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                             public void onSuccess(Void aVoid) {
                                                 MainActivity.CURRENTUSER.setImage(null);
                                                 ((MainActivity)getActivity()).updateHeader();
-                                                ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata eliminata!");
+                                                ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata rimossa!");
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
+                                            }
+                                        });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception exception) {
-                                Toast.makeText(getContext(), "Error! " + exception.toString(), Toast.LENGTH_SHORT).show();
+                                ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
                             }
                         });
                     }
@@ -338,16 +340,20 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }
                         if (cityMap.get("city") != null) {
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fAuth.getUid()).update(cityMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            fStore.collection("users").document(fAuth.getUid()).update(cityMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onSuccess(Void aVoid) {
                                     MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
                                     MainActivity.CURRENTUSER.setQuartiere("");
                                     mQuartierePreference.setVisible(true);
                                     ((MainActivity)getActivity()).showSnackbar("Città impostata: " + cityMap.get("city"));
                                 }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    ((MainActivity)getActivity()).showSnackbar("La città non è stata impostata correttamente.");
+                                }
                             });
-
                         }
                     }
                 });
@@ -434,11 +440,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }
                         if (quartMap.get("quartiere") != null) {
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fAuth.getUid()).update(quartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            fStore.collection("users").document(fAuth.getUid()).update(quartMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onSuccess(Void aVoid) {
                                     MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
                                     ((MainActivity)getActivity()).showSnackbar("Quartiere impostato: " + quartMap.get("quartiere"));
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    ((MainActivity)getActivity()).showSnackbar("Il quartiere non è stato impostato correttamente.");
                                 }
                             });
                         }
@@ -556,33 +567,23 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        Map<String, Object> mappa = new HashMap<>();
-                        mappa.put("nPlastica", 0);
-                        mappa.put("pPlastica", 0);
-                        mappa.put("nOrganico", 0);
-                        mappa.put("pOrganico", 0);
-                        mappa.put("nIndifferenziata", 0);
-                        mappa.put("pIndifferenziata", 0);
-                        mappa.put("nCarta", 0);
-                        mappa.put("pCarta", 0);
-                        mappa.put("nVetro", 0);
-                        mappa.put("pVetro", 0);
-                        mappa.put("nMetalli", 0);
-                        mappa.put("pMetalli", 0);
-                        mappa.put("nElettrici", 0);
-                        mappa.put("pElettrici", 0);
-                        mappa.put("nSpeciali", 0);
-                        mappa.put("pSpeciali", 0);
-                        fStore.collection("users").document(fUser.getUid()).update(mappa);
-                        if (MainActivity.CURRENTUSER != null) {
-                            Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(),
-                                    MainActivity.CURRENTUSER.getEmail(), MainActivity.CURRENTUSER.getImage(),
-                                    MainActivity.CURRENTUSER.isGoogle(), MainActivity.CURRENTUSER.isOperatore(),
-                                    MainActivity.CURRENTUSER.getCity(), MainActivity.CURRENTUSER.getQuartiere());
-                            MainActivity.CURRENTUSER = utente;
-                        }
-                        dialog.dismiss();
-                        ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
+                        Utente utente = new Utente(MainActivity.CURRENTUSER.getFullName(),
+                                MainActivity.CURRENTUSER.getEmail(), MainActivity.CURRENTUSER.getImage(),
+                                MainActivity.CURRENTUSER.isGoogle(), MainActivity.CURRENTUSER.isOperatore(),
+                                MainActivity.CURRENTUSER.getCity(), MainActivity.CURRENTUSER.getQuartiere());
+                        fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                MainActivity.CURRENTUSER = utente;
+                                dialog.dismiss();
+                                ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                ((MainActivity)getActivity()).showSnackbar("Reset dei dati non eseguito correttamente.");
+                            }
+                        });
                     }
                 });
                 builder.show();
@@ -669,11 +670,11 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                             ((MainActivity)getActivity()).showSnackbar("Il tuo account aziendale è stato attivato!");
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("TAG", "Error! " + e.toString());
-                                }
-                            });
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            ((MainActivity)getActivity()).showSnackbar("Il tuo account aziendale non è stato attivato correttamente.");
+                                        }
+                                    });
                         }
                     }
                 });
@@ -803,7 +804,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         pd.dismiss();
-                        Toast.makeText(getContext(), "Errore di caricamento." + exception.toString().trim(), Toast.LENGTH_SHORT).show();
+                        ((MainActivity)getActivity()).showSnackbar(exception.getLocalizedMessage());
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -835,7 +836,8 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        ((MainActivity)getActivity()).showSnackbar(e.getLocalizedMessage());
                     }
                 });
             }
@@ -843,7 +845,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(getContext(), "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).showSnackbar(e.getLocalizedMessage());
             }
         });
     }

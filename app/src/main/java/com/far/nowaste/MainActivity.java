@@ -50,6 +50,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -341,7 +343,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    showSnackbar("La password inserita non è corretta.");
+                } else if (e instanceof FirebaseAuthInvalidUserException) {
+                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
+
+                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
+                        showSnackbar("L'email inserita non ha un account associato.");
+                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
+                        showSnackbar("Il tuo account è stato disabilitato.");
+                    } else {
+                        showSnackbar(e.getLocalizedMessage());
+                    }
+                }  else {
+                    showSnackbar(e.getLocalizedMessage());
+                }
             }
         });
     }
@@ -359,19 +375,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onSuccess(Void aVoid) {
                 // cambia la mail in Auth
-                user.updatePassword(newPass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                user.updatePassword(newPass).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            showSnackbar("Password aggiornata!");
-                        }
+                    public void onSuccess(Void aVoid) {
+                        showSnackbar("Password aggiornata!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showSnackbar("La password non è stata aggiornata correttamente.");
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    showSnackbar("La password inserita non è corretta.");
+                } else if (e instanceof FirebaseAuthInvalidUserException) {
+                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
+
+                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
+                        showSnackbar("L'email inserita non ha un account associato.");
+                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
+                        showSnackbar("Il tuo account è stato disabilitato.");
+                    } else {
+                        showSnackbar(e.getLocalizedMessage());
+                    }
+                }  else {
+                    showSnackbar(e.getLocalizedMessage());
+                }
             }
         });
     }
@@ -416,40 +449,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void onSuccess(Void aVoid) {
                                 Log.d("TAG", "Foto eliminata da storage.");
                                 // cancella l'utente da fireauth
-                                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            showSnackbar("Account eliminato!");
-                                            CURRENTUSER = null;
-
-                                            updateHeader();
-                                            mToolbar.setTitle("NoWaste");
-                                            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
-                                            navigationView.setCheckedItem(R.id.nav_home);
-                                            fragment = 1;
-                                        }
+                                    public void onSuccess(Void aVoid) {
+                                        showSnackbar("Account eliminato!");
+                                        CURRENTUSER = null;
+                                        updateHeader();
+                                        mToolbar.setTitle("NoWaste");
+                                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                                        navigationView.setCheckedItem(R.id.nav_home);
+                                        fragment = 1;
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        showSnackbar("L'account non è stato eliminato correttamente");
                                     }
                                 });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                                showSnackbar("Account non eliminato correttamente!");
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                        showSnackbar("Account non eliminato correttamente!");
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Error! " + e.toString(), Toast.LENGTH_SHORT).show();
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    showSnackbar("La password inserita non è corretta.");
+                } else if (e instanceof FirebaseAuthInvalidUserException) {
+                    String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
+
+                    if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
+                        showSnackbar("L'email inserita non ha un account associato.");
+                    } else if (errorCode.equals("ERROR_USER_DISABLED")) {
+                        showSnackbar("Il tuo account è stato disabilitato.");
+                    } else {
+                        showSnackbar(e.getLocalizedMessage());
+                    }
+                }  else {
+                    showSnackbar(e.getLocalizedMessage());
+                }
             }
         });
     }

@@ -249,6 +249,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
+        } else {
+            verificaEmail();
         }
     }
 
