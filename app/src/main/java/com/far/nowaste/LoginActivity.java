@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -38,6 +40,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -134,15 +138,30 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 // authenticate the user
-                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            verificaEmail();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
+                    public void onSuccess(AuthResult authResult) {
+                        verificaEmail();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            showSnackbar("La password inserita non è corretta.");
+                        } else if (e instanceof FirebaseAuthInvalidUserException) {
+                            String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
+
+                            if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
+                                showSnackbar("L'email inserita non ha un account associato.");
+                            } else if (errorCode.equals("ERROR_USER_DISABLED")) {
+                                showSnackbar("Il tuo account è stato disabilitato.");
+                            } else {
+                                showSnackbar(e.getLocalizedMessage());
+                            }
+                        }  else {
+                            showSnackbar(e.getLocalizedMessage());
                         }
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
@@ -301,7 +320,9 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                            showSnackbar("Accesso con Google fallito.");
+                            Log.d("TAG", "onFailure: " + task.getException().toString());
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -321,7 +342,10 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    showSnackbar("Accesso con Google fallito.");
                     Log.d("TAG", "onFailure: " + e.toString());
+                    progressBar.setVisibility(View.GONE);
+                    fAuth.signOut();
                 }
             });
         }
