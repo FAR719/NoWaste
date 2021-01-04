@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
-                    mEmail.setError("Inserisci la tua email.");
+                    mEmailLayout.setError("Inserisci la tua email.");
                     return;
                 }
 
