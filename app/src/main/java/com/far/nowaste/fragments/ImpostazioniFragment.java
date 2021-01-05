@@ -224,6 +224,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     ((MainActivity)getActivity()).showSnackbar("Il nome non è stato aggiornato correttamente!");
                                 }
                             });
+                        } else if (newFullName.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci un nome.");
+                        } else {
+                            ((MainActivity)getActivity()).showSnackbar("Il nome inserito è uguale al precedente.");
                         }
                     }
                 });
@@ -499,7 +503,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).changeEmail(passInput.getText().toString().trim(), emailInput.getText().toString().trim());
+                        String email = emailInput.getText().toString().trim();
+                        String password = passInput.getText().toString().trim();
+
+                        if (email.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la nuova mail.");
+                        } else if (password.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la password.");
+                        } else {
+                            ((MainActivity)getActivity()).changeEmail(email, password);
+                        }
                     }
                 });
                 builder.show();
@@ -534,7 +547,16 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).changePassword(oldPassInput.getText().toString().trim(), newPassInput.getText().toString().trim());
+                        String oldPass = oldPassInput.getText().toString().trim();
+                        String newPass = newPassInput.getText().toString().trim();
+
+                        if (oldPass.equals("")){
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la vecchia password.");
+                        } else if (newPass.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la nuova password.");
+                        } else {
+                            ((MainActivity)getActivity()).changePassword(oldPass, newPass);
+                        }
                     }
                 });
                 builder.show();
@@ -630,7 +652,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((MainActivity)getActivity()).deleteAccount(passInput.getText().toString().trim());
+                        String password = passInput.getText().toString().trim();
+
+                        if (password.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la password.");
+                        } else {
+                            ((MainActivity)getActivity()).deleteAccount(password);
+                        }
                     }
                 });
                 builder.show();
@@ -665,7 +693,10 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     public void onClick(DialogInterface dialog, int which) {
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         String writtenKey = keyInput.getText().toString().trim();
-                        if (writtenKey.length() != 10) {
+
+                        if (writtenKey.equals("")) {
+                            ((MainActivity)getActivity()).showSnackbar("Inserisci la chiave.");
+                        } else if (writtenKey.length() != 10) {
                             ((MainActivity)getActivity()).showSnackbar("La chiave deve essere lunga 10 caratteri!");
                         } else if (!writtenKey.equals(operatoreKey)) {
                             ((MainActivity)getActivity()).showSnackbar("La chiave inserita non è valida!");
