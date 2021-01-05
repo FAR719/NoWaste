@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mEmail = header.findViewById(R.id.navHeader_emailTextView);
         mImage = header.findViewById(R.id.navHeader_userImageView);
 
+        fAuth = FirebaseAuth.getInstance();
+
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
+        }
+
+        if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
+            goToLogin();
         }
     }
 
