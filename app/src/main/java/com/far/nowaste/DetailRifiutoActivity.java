@@ -111,15 +111,20 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         super.onStart();
         // query per istanziare il rifiuto e impostare le view
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        fStore.collection("rifiuti").document(stringName).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        fStore.collection("rifiuti").document(stringName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                rifiuto = value.toObject(Rifiuto.class);
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                rifiuto = documentSnapshot.toObject(Rifiuto.class);
 
                 nomeTextView.setText(rifiuto.getNome());
                 materialeTextView.setText(rifiuto.getMateriale());
                 descrizioneTextView.setText(rifiuto.getDescrizione());
                 Glide.with(getApplicationContext()).load(rifiuto.getImmagine()).into(immagineImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }

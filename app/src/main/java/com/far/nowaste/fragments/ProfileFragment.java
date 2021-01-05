@@ -3,6 +3,7 @@ package com.far.nowaste.fragments;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.far.nowaste.R;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -126,10 +129,10 @@ public class ProfileFragment extends Fragment {
             fUser = fAuth.getCurrentUser();
 
             // imposta dati personali
-            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            fStore.collection("users").document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    Utente utente = value.toObject(Utente.class);
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Utente utente = documentSnapshot.toObject(Utente.class);
 
                     // imposta nome, cognome e immagine
                     mFullName.setText(utente.getFullName());
@@ -149,6 +152,11 @@ public class ProfileFragment extends Fragment {
                     tvSpeciali.setText(utente.getpSpeciali() + "g");
                     setPieChartData(utente);
                     setBarChartData(utente);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         }

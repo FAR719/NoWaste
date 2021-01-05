@@ -131,11 +131,16 @@ public class HomeFragment extends Fragment {
                         String userQuartiere = currentuser.getQuartiere();
                         quartiere.setText("Quartiere " + userQuartiere);
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        fStore.collection("settimanale").document(userQuartiere).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                Settimanale settimanale = value.toObject(Settimanale.class);
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Settimanale settimanale = documentSnapshot.toObject(Settimanale.class);
                                 setDayViews(settimanale);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
                             }
                         });
                     }
