@@ -96,8 +96,7 @@ public class ListaCardActivity extends AppCompatActivity {
 
     private class RifiutoViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rName;
-        private TextView rSmaltimento;
+        TextView rName, rSmaltimento;
         ConstraintLayout itemLayout;
 
         public RifiutoViewHolder(@NonNull View itemView) {

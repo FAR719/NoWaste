@@ -8,10 +8,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +22,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.far.nowaste.R;
+import com.far.nowaste.objects.Luogo;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,9 +42,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +61,9 @@ public class LuoghiFragment extends Fragment {
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
     FloatingActionButton gpsBtn, fullScreenBtn;
+
+    RecyclerView mListaLuoghi;
+    FirestoreRecyclerAdapter adapter;
 
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
@@ -65,6 +82,7 @@ public class LuoghiFragment extends Fragment {
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         gpsBtn = view.findViewById(R.id.gpsButton);
         fullScreenBtn = view.findViewById(R.id.fullScreenButton);
+        mListaLuoghi = view.findViewById(R.id.luoghi_recyclerView);
 
         // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
@@ -90,9 +108,7 @@ public class LuoghiFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
 
-        // load marker
-        caricaMarker();
-
+        // gps onclick
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +116,7 @@ public class LuoghiFragment extends Fragment {
             }
         });
 
+        // fullscreen onclick
         fullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +125,102 @@ public class LuoghiFragment extends Fragment {
             }
         });
 
+        // markers onclick sposta il pulsante del gps
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
+                        return false;
+                    }
+                });
+
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
+                    }
+                });
+            }
+        });
+
+        // query
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        Query query = fStore.collection("luoghi").orderBy("nome");
+
+        FirestoreRecyclerOptions<Luogo> options = new FirestoreRecyclerOptions.Builder<Luogo>().setQuery(query, Luogo.class).build();
+
+        adapter = new FirestoreRecyclerAdapter<Luogo, LuogoViewHolder>(options) {
+            @NonNull
+            @Override
+            public LuogoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_luoghi, parent, false);
+                return new LuogoViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull LuogoViewHolder holder, int position, @NonNull Luogo model) {
+                holder.mNome.setText(model.getNome());
+                holder.mCategoria.setText(model.getCategoria());
+                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_home_work);
+                holder.mIcona.setImageDrawable(icon);
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                            @Override
+                            public void onMapReady(GoogleMap googleMap) {
+                                // Zoom Mappa
+                                LatLng latLng = new LatLng(model.getLat(),model.getLng());
+                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                            }
+                        });
+                    }
+                });
+            }
+        };
+
+        // View Holder
+        mListaLuoghi.setHasFixedSize(true);
+        mListaLuoghi.setLayoutManager(new LinearLayoutManager(getContext()));
+        mListaLuoghi.setAdapter(adapter);
+
+        // divider nella recyclerView
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        mListaLuoghi.addItemDecoration(dividerItemDecoration);
+
         return view;
+    }
+
+    private class LuogoViewHolder extends RecyclerView.ViewHolder{
+        TextView mNome, mCategoria;
+        ImageView mIcona;
+        ConstraintLayout itemLayout;
+
+        public LuogoViewHolder(@NonNull View itemView) {
+            super(itemView);
+            itemLayout = itemView.findViewById(R.id.luogo_layout);
+            mNome = itemView.findViewById(R.id.luogo_nome);
+            mCategoria = itemView.findViewById(R.id.luogo_categoria);
+            mIcona = itemView.findViewById(R.id.luogo_icona);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+
+        // load marker
+        caricaMarker();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     // metodi Maps
@@ -164,50 +276,27 @@ public class LuoghiFragment extends Fragment {
     }
 
     private void caricaMarker(){
-        // inizializzazione latitudine e longitudine
-        double lat1 = 41.308120, lng1 = 16.297810;
-        double lat2 = 41.307560, lng2 = 16.264670;
-        double lat3 = 41.323926, lng3 = 16.230124;
-
-
-        //inizializzazione LatLng
-        LatLng latLng1 = new LatLng(lat1,lng1);
-        LatLng latLng2 = new LatLng(lat2,lng2);
-        LatLng latLng3 = new LatLng(lat3,lng3);
-
-        MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).title("Bar.S.A.")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Servizio Ambientale");
-        MarkerOptions markerOptions2 = new MarkerOptions().position(latLng2).title("Ecocentro Parco degli Ulivi")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Ecocentro");
-        MarkerOptions markerOptions3 = new MarkerOptions().position(latLng3).title("Smaltimento Rifiuti")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).snippet("Ecoambiente");
-
-        List<MarkerOptions> listMO = new LinkedList<>();
-        listMO.add(markerOptions1);
-        listMO.add(markerOptions2);
-        listMO.add(markerOptions3);
-
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("luoghi").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
-                for(MarkerOptions item : listMO){
-                    googleMap.addMarker(item);
-
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                    Luogo luogo = document.toObject(Luogo.class);
+                    LatLng latLng = new LatLng(luogo.getLat(), luogo.getLng());
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome())
+                            .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            googleMap.addMarker(markerOptions);
+                        }
+                    });
                 }
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
-                        return false;
-                    }
-                });
-
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
-                    }
-                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
