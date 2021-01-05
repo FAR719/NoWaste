@@ -852,7 +852,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         pd.dismiss();
                         MainActivity.CURRENTUSER.setImage(picUrl);
                         ((MainActivity)getActivity()).updateHeader();
-                        ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata caricata correttamente!");
+                        ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata cambiata correttamente!");
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

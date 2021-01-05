@@ -196,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (e instanceof FirebaseAuthWeakPasswordException) {
                     showSnackbar("La password inserita non è abbastanza sicura.");
                 } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    showSnackbar("L'email inserita non è corretta.");
+                    showSnackbar("L'email inserita non è ben formata.");
                 } else if (e instanceof FirebaseAuthUserCollisionException) {
                     showSnackbar("L'email inserita ha già un account associato.");
                 } else {

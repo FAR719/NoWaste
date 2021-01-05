@@ -52,6 +52,8 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -351,7 +353,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        showSnackbar("Errore! Email non aggiornata correttamente.");
+                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            showSnackbar("L'email inserita non è ben formata.");
+                        } else if (e instanceof FirebaseAuthUserCollisionException) {
+                            showSnackbar("L'email inserita è già associata ad un account.");
+                        } else {
+                            showSnackbar(e.getLocalizedMessage());
+                        }
                     }
                 });
             }
@@ -380,26 +388,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                // cambia la mail in Auth
-                user.updatePassword(newPass).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        showSnackbar("Password aggiornata!");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        showSnackbar("La password non è stata aggiornata correttamente.");
-                    }
-                });
+                if (newPass.length() >= 8) {
+                    // cambia la mail in Auth
+                    user.updatePassword(newPass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            showSnackbar("Password aggiornata!");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                            if (e instanceof FirebaseAuthWeakPasswordException) {
+                                showSnackbar("La password inserita non è abbastanza sicura.");
+                            } else {
+                                showSnackbar(e.getLocalizedMessage());
+                            }
+                        }
+                    });
+                } else {
+                    showSnackbar("La nuova password deve essere lunga almeno 8 caratteri!");
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    showSnackbar("La password inserita non è corretta.");
+                    showSnackbar("La vecchia password inserita non è corretta.");
                 } else {
                     showSnackbar(e.getLocalizedMessage());
                 }
