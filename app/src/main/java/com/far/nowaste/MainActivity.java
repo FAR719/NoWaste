@@ -163,10 +163,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            fStore.collection("users").document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    CURRENTUSER = value.toObject(Utente.class);
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    CURRENTUSER = documentSnapshot.toObject(Utente.class);
 
                     mFullName.setText(CURRENTUSER.getFullName());
                     mEmail.setText(CURRENTUSER.getEmail());
@@ -174,6 +174,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (CURRENTUSER.getImage() != null) {
                         Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         } else {
@@ -431,43 +436,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fStore.collection("users").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        // elimina la proPic da storage
                         Log.d("TAG", "Account eliminato da FireStore.");
-                        storage = FirebaseStorage.getInstance();
-                        storageReference = storage.getReference();
-                        final String key = CURRENTUSER.getEmail();
-                        StorageReference picRef = storageReference.child("proPics/" + key);
-                        picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("TAG", "Foto eliminata da storage.");
-                                // cancella l'utente da fireauth
-                                user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        showSnackbar("Account eliminato!");
-                                        CURRENTUSER = null;
-                                        updateHeader();
-                                        mToolbar.setTitle("NoWaste");
-                                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
-                                        navigationView.setCheckedItem(R.id.nav_home);
-                                        fragment = 1;
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                                        showSnackbar("Account non eliminato correttamente.");
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                                showSnackbar("Account non eliminato correttamente.");
-                            }
-                        });
+                        // se esiste, elimina la proPic da storage
+                        if (CURRENTUSER.getImage() != null) {
+                            storage = FirebaseStorage.getInstance();
+                            storageReference = storage.getReference();
+                            final String key = CURRENTUSER.getEmail();
+                            StorageReference picRef = storageReference.child("proPics/" + key);
+                            picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("TAG", "Foto eliminata da storage.");
+                                    // cancella l'utente da fireauth
+                                    user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            showSnackbar("Account eliminato!");
+                                            CURRENTUSER = null;
+                                            updateHeader();
+                                            mToolbar.setTitle("NoWaste");
+                                            getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                                            navigationView.setCheckedItem(R.id.nav_home);
+                                            fragment = 1;
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            showSnackbar("Account non eliminato correttamente.");
+                                        }
+                                    });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    showSnackbar("Account non eliminato correttamente.");
+                                }
+                            });
+                        } else {
+                            // cancella l'utente da fireauth
+                            user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    showSnackbar("Account eliminato!");
+                                    CURRENTUSER = null;
+                                    updateHeader();
+                                    mToolbar.setTitle("NoWaste");
+                                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                                    navigationView.setCheckedItem(R.id.nav_home);
+                                    fragment = 1;
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    showSnackbar("Account non eliminato correttamente.");
+                                }
+                            });
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

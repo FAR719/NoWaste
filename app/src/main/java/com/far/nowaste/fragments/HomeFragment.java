@@ -2,6 +2,7 @@ package com.far.nowaste.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.far.nowaste.MainActivity;
 import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -98,10 +101,10 @@ public class HomeFragment extends Fragment {
         super.onStart();
         if (fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fAuth.getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                    currentuser = value.toObject(Utente.class);
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    currentuser = documentSnapshot.toObject(Utente.class);
                     if (currentuser.getCity().equals("")) {
                         raccoltaCardView.setVisibility(View.GONE);
                         warningCardView.setVisibility(View.VISIBLE);
@@ -136,6 +139,11 @@ public class HomeFragment extends Fragment {
                             }
                         });
                     }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         } else {
