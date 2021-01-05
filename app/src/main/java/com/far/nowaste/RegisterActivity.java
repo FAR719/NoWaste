@@ -194,11 +194,11 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthWeakPasswordException) {
-                    showSnackbar("La password inserita non è abbastanza sicura.");
+                    mPasswordLayout.setError("La password inserita non è abbastanza sicura.");
                 } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    showSnackbar("L'email inserita non è ben formata.");
+                    mEmailLayout.setError("L'email inserita non è ben formata.");
                 } else if (e instanceof FirebaseAuthUserCollisionException) {
-                    showSnackbar("L'email inserita ha già un account associato.");
+                    mEmailLayout.setError("L'email inserita ha già un account associato.");
                 } else {
                     showSnackbar(e.getLocalizedMessage());
                 }

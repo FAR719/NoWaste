@@ -148,14 +148,20 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Log.d("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            showSnackbar("La password inserita non è corretta.");
+                            String errorCode = ((FirebaseAuthInvalidCredentialsException) e).getErrorCode();
+
+                            if (errorCode.equals("ERROR_INVALID_EMAIL")) {
+                                mEmailLayout.setError("L'email inserita non è ben formata.");
+                            } else if (errorCode.equals("ERROR_WRONG_PASSWORD")){
+                                mPasswordLayout.setError("La password inserita non è corretta.");
+                            }
                         } else if (e instanceof FirebaseAuthInvalidUserException) {
                             String errorCode = ((FirebaseAuthInvalidUserException) e).getErrorCode();
 
                             if (errorCode.equals("ERROR_USER_NOT_FOUND")) {
-                                showSnackbar("L'email inserita non ha un account associato.");
+                                mEmailLayout.setError("L'email inserita non ha un account associato.");
                             } else if (errorCode.equals("ERROR_USER_DISABLED")) {
-                                showSnackbar("Il tuo account è stato disabilitato.");
+                                mEmailLayout.setError("Il tuo account è stato disabilitato.");
                             } else {
                                 showSnackbar(e.getLocalizedMessage());
                             }
