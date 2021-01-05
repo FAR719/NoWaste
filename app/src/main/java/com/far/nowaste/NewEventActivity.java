@@ -141,16 +141,20 @@ public class NewEventActivity extends AppCompatActivity {
                 }
 
                 // verifica che la mail inserita corrisponda ad un account esistente
-                boolean exist = false;
-                for (String item : emails) {
-                    if (email.equals(item)) {
-                        exist = true;
-                        break;
+                if (email != null) {
+                    boolean exist = false;
+                    for (String item : emails) {
+                        if (email.equals(item)) {
+                            exist = true;
+                            break;
+                        }
                     }
-                }
-                if (!exist) {
-                    mEmail.setError("L'email non corrisponde a nessun account registrato.");
-                    return;
+                    if (!exist) {
+                        mEmail.setError("L'email non corrisponde a nessun account registrato.");
+                        return;
+                    }
+                } else {
+                    showSnackbar("Errore! Riprovare.");
                 }
 
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
