@@ -265,13 +265,10 @@ public class LoginActivity extends AppCompatActivity {
     // ends this activity (back arrow)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
-                fAuth.signOut();
-            }
-            this.finish();
+        if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
+            fAuth.signOut();
         }
+        this.finish();
         return super.onOptionsItemSelected(item);
     }
 
