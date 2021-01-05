@@ -31,10 +31,14 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.TimeZone;
 
 public class NewEventActivity extends AppCompatActivity {
@@ -51,6 +55,8 @@ public class NewEventActivity extends AppCompatActivity {
 
     RelativeLayout layout;
     Typeface nunito;
+
+    List<String> emails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +140,19 @@ public class NewEventActivity extends AppCompatActivity {
                     return;
                 }
 
+                // verifica che la mail inserita corrisponda ad un account esistente
+                boolean exist = false;
+                for (String item : emails) {
+                    if (email.equals(item)) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    mEmail.setError("L'email non corrisponde a nessun account registrato.");
+                    return;
+                }
+
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 Evento evento = new Evento(email, title, description, year, month, day);
                 fStore.collection("events").add(evento).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -151,6 +170,30 @@ public class NewEventActivity extends AppCompatActivity {
                         showSnackbar("Evento non creato!");
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // resetta emails
+        emails = null;
+        emails = new LinkedList<>();
+
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    emails.add(document.getString("email"));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
