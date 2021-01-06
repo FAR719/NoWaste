@@ -70,8 +70,8 @@ public class CuriositaFragment extends Fragment {
                     }
                 }
 
-                MyAdapter myAdapter = new MyAdapter(getContext(), randomCuriosityList);
-                recView.setAdapter(myAdapter);
+                CuriosityAdapter curiosityAdapter = new CuriosityAdapter(getContext(), randomCuriosityList);
+                recView.setAdapter(curiosityAdapter);
                 recView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -82,27 +82,27 @@ public class CuriositaFragment extends Fragment {
         });
     }
 
-    class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    class CuriosityAdapter extends RecyclerView.Adapter<CuriosityAdapter.CuriosityViewHolder> {
 
         Context context;
         List<Curiosity> curiosityList;
 
-        public MyAdapter(Context c, List<Curiosity> curList){
+        public CuriosityAdapter(Context c, List<Curiosity> curList){
             context = c;
             curiosityList = curList;
         }
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public CuriosityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.layout_recycler_view_curiosity_item, parent, false);
 
-            return new MyViewHolder(view);
+            return new CuriosityViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull CuriosityViewHolder holder, int position) {
             holder.descrizione.setText(curiosityList.get(position).getDescrizione());
             holder.etichetta.setText(curiosityList.get(position).getEtichetta());
             setViewColor(holder.etichetta);
@@ -113,11 +113,11 @@ public class CuriositaFragment extends Fragment {
             return curiosityList.size();
         }
 
-        public class MyViewHolder extends RecyclerView.ViewHolder {
+        public class CuriosityViewHolder extends RecyclerView.ViewHolder {
 
             TextView descrizione, etichetta;
 
-            public MyViewHolder(@NonNull View itemView) {
+            public CuriosityViewHolder(@NonNull View itemView) {
                 super(itemView);
                 descrizione = itemView.findViewById(R.id.recView_curiosityItem_descTextView);
                 etichetta = itemView.findViewById(R.id.recView_curiosityItem_etichettaTextView);

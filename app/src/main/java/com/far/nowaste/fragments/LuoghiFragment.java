@@ -1,6 +1,7 @@
 package com.far.nowaste.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -51,7 +52,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LuoghiFragment extends Fragment {
@@ -63,13 +64,13 @@ public class LuoghiFragment extends Fragment {
     FloatingActionButton gpsBtn, fullScreenBtn;
 
     RecyclerView mListaLuoghi;
-    FirestoreRecyclerAdapter adapter;
+    List<Luogo> luoghi;
 
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
     boolean collapsed = false;
     int collapsedheight, expandedHeight, miniFAB, normalFAB;
-    Drawable fs, fsExit;
+    Drawable fsIcon, fsExitIcon;
 
     @Nullable
     @Override
@@ -92,8 +93,8 @@ public class LuoghiFragment extends Fragment {
         normalFAB = (int) (56 * scale + 0.5f);
 
         // fullscreen drawables
-        fs = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen);
-        fsExit = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen_exit);
+        fsIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen);
+        fsExitIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_fullscreen_exit);
 
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
@@ -146,84 +147,16 @@ public class LuoghiFragment extends Fragment {
             }
         });
 
-        // query
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        Query query = fStore.collection("luoghi").orderBy("nome");
-
-        FirestoreRecyclerOptions<Luogo> options = new FirestoreRecyclerOptions.Builder<Luogo>().setQuery(query, Luogo.class).build();
-
-        adapter = new FirestoreRecyclerAdapter<Luogo, LuogoViewHolder>(options) {
-            @NonNull
-            @Override
-            public LuogoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_luoghi, parent, false);
-                return new LuogoViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull LuogoViewHolder holder, int position, @NonNull Luogo model) {
-                holder.mNome.setText(model.getNome());
-                holder.mCategoria.setText(model.getCategoria());
-                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_place);
-                holder.mIcona.setImageDrawable(icon);
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                            @Override
-                            public void onMapReady(GoogleMap googleMap) {
-                                // Zoom Mappa
-                                LatLng latLng = new LatLng(model.getLat(),model.getLng());
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                            }
-                        });
-                    }
-                });
-            }
-        };
-
-        // View Holder
-        mListaLuoghi.setHasFixedSize(true);
-        mListaLuoghi.setLayoutManager(new LinearLayoutManager(getContext()));
-        mListaLuoghi.setAdapter(adapter);
-
-        // divider nella recyclerView
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        mListaLuoghi.addItemDecoration(dividerItemDecoration);
-
         return view;
-    }
-
-    private class LuogoViewHolder extends RecyclerView.ViewHolder{
-        TextView mNome, mCategoria;
-        ImageView mIcona;
-        ConstraintLayout itemLayout;
-
-        public LuogoViewHolder(@NonNull View itemView) {
-            super(itemView);
-            itemLayout = itemView.findViewById(R.id.luogo_layout);
-            mNome = itemView.findViewById(R.id.luogo_nome);
-            mCategoria = itemView.findViewById(R.id.luogo_categoria);
-            mIcona = itemView.findViewById(R.id.luogo_icona);
-        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
-
         // load marker
-        caricaMarker();
+        caricaLuoghi();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        adapter.stopListening();
-    }
-
-    // metodi Maps
     private void getCurrentLocation() {
         // permessi per usare getLastLocation
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -275,13 +208,15 @@ public class LuoghiFragment extends Fragment {
         }
     }
 
-    private void caricaMarker(){
+    private void caricaLuoghi(){
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        fStore.collection("luoghi").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        fStore.collection("luoghi").orderBy("nome").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                luoghi = new ArrayList<>();
                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                     Luogo luogo = document.toObject(Luogo.class);
+                    luoghi.add(luogo);
                     LatLng latLng = new LatLng(luogo.getLat(), luogo.getLng());
                     MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome())
                             .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -292,6 +227,11 @@ public class LuoghiFragment extends Fragment {
                         }
                     });
                 }
+
+                // imposta lista luoghi
+                LuogoAdapter luogoAdapter = new LuogoAdapter(getContext(), luoghi);
+                mListaLuoghi.setAdapter(luogoAdapter);
+                mListaLuoghi.setLayoutManager(new LinearLayoutManager(getContext()));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -299,6 +239,68 @@ public class LuoghiFragment extends Fragment {
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
+    }
+
+    // adapter per la recView
+    class LuogoAdapter extends RecyclerView.Adapter<LuogoAdapter.LuogoViewHolder> {
+
+        Context context;
+        List<Luogo> luoghiList;
+
+        public LuogoAdapter(Context c, List<Luogo> luogList) {
+            context = c;
+            luoghiList = luogList;
+        }
+
+        @NonNull
+        @Override
+        public LuogoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.layout_recycler_view_luoghi_item, parent, false);
+
+            return new LuogoViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull LuogoViewHolder holder, int position) {
+            holder.mNome.setText(luoghiList.get(position).getNome());
+            holder.mCategoria.setText(luoghiList.get(position).getCategoria());
+            Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_place);
+            holder.mIcona.setImageDrawable(icon);
+            holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            // Zoom Mappa
+                            LatLng latLng = new LatLng(luoghiList.get(position).getLat(), luoghiList.get(position).getLng());
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                        }
+                    });
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return luoghiList.size();
+        }
+
+        public class LuogoViewHolder extends RecyclerView.ViewHolder {
+
+            TextView mNome, mCategoria;
+            ImageView mIcona;
+            ConstraintLayout itemLayout;
+
+            public LuogoViewHolder(@NonNull View itemView) {
+                super(itemView);
+                itemLayout = itemView.findViewById(R.id.luogo_layout);
+                mNome = itemView.findViewById(R.id.luogo_nome);
+                mCategoria = itemView.findViewById(R.id.luogo_categoria);
+                mIcona = itemView.findViewById(R.id.luogo_icona);
+            }
+        }
     }
 
     private static Bitmap drawableToBitmap (Drawable drawable) {
@@ -330,12 +332,12 @@ public class LuoghiFragment extends Fragment {
         if (collapsed) {
             layoutParams.height = expandedHeight;
             fullScreenBtn.setCustomSize(normalFAB);
-            fullScreenBtn.setImageDrawable(fsExit);
+            fullScreenBtn.setImageDrawable(fsExitIcon);
             gpsBtn.setCustomSize(normalFAB);
         } else {
             layoutParams.height = collapsedheight;
             fullScreenBtn.setCustomSize(miniFAB);
-            fullScreenBtn.setImageDrawable(fs);
+            fullScreenBtn.setImageDrawable(fsIcon);
             gpsBtn.setCustomSize(miniFAB);
         }
         //layoutParams.height = !collapsed ? height / 2 : height * 2;
