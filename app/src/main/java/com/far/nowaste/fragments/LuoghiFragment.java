@@ -164,7 +164,7 @@ public class LuoghiFragment extends Fragment {
             protected void onBindViewHolder(@NonNull LuogoViewHolder holder, int position, @NonNull Luogo model) {
                 holder.mNome.setText(model.getNome());
                 holder.mCategoria.setText(model.getCategoria());
-                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_home_work);
+                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_place);
                 holder.mIcona.setImageDrawable(icon);
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override

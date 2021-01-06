@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
     // login Google
     GoogleSignInClient mGoogleSignInClient;
     private final static int RC_SIGN_IN = 101;
-    List<String> emails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +101,10 @@ public class LoginActivity extends AppCompatActivity {
         mResendBtn = findViewById(R.id.sendEmailButton);
 
         fAuth = FirebaseAuth.getInstance();
+
+        if (fAuth.getCurrentUser() != null) {
+            verificaEmail();
+        }
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +173,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Configure Google Sign In
+        createRequest();
+        mGoogleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                signIn();
+            }
+        });
+
         // reset password tramite email
         mResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,16 +206,6 @@ public class LoginActivity extends AppCompatActivity {
                         showSnackbar("Errore! Email non inviata.");
                     }
                 });
-            }
-        });
-
-        // Configure Google Sign In
-        createRequest();
-        mGoogleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                signIn();
             }
         });
 
@@ -230,36 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // resetta emails
-        emails = null;
-        emails = new LinkedList<>();
-
-        // aggiorna emails
-        FirebaseUser fUser = fAuth.getCurrentUser();
-        if (fUser == null) {
-            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        emails.add(document.getString("email"));
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                }
-            });
-        } else {
-            verificaEmail();
-        }
     }
 
     // ends this activity (back arrow)
@@ -325,8 +298,6 @@ public class LoginActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     // crea utente in Firestore se non esiste
                     createFirestoreUser();
-                    verificaEmail();
-                    finish();
                 } else {
                     // If sign in fails, display a message to the user.
                     showSnackbar("Accesso con Google fallito.");
@@ -340,36 +311,38 @@ public class LoginActivity extends AppCompatActivity {
     // se accedi con Google crea l'utente in firestore (se non è già presente)
     private void createFirestoreUser() {
         FirebaseUser fUser = fAuth.getCurrentUser();
-        if (!exists(fUser)) {
-            Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(), true, false, "", "");
-            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").whereEqualTo("email", fUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()) {
+                    Utente utente = new Utente(fUser.getDisplayName(), fUser.getEmail(), fUser.getPhotoUrl().toString(),
+                            true, false, "", "");
+                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                    fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            verificaEmail();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            showSnackbar("Accesso con Google non effettuato correttamente.");
+                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                            progressBar.setVisibility(View.GONE);
+                            fAuth.signOut();
+                        }
+                    });
+                } else {
+                    verificaEmail();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    showSnackbar("Accesso con Google non effettuato correttamente.");
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                    progressBar.setVisibility(View.GONE);
-                    fAuth.signOut();
-                }
-            });
-        }
-    }
-
-    // metodo che restituisce un boolean che indica se l'account è già presente in Firestore
-    private boolean exists(FirebaseUser fUser){
-        boolean esiste = false;
-        for (String email : emails) {
-            if (fUser.getEmail().equals(email)){
-                esiste = true;
-                break;
             }
-        }
-        return esiste;
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+            }
+        });
     }
 
     // non accedere se la mail non è stata verificata
