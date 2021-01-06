@@ -23,15 +23,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
 import com.far.nowaste.R;
 import com.far.nowaste.objects.Luogo;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,32 +40,36 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LuoghiFragment extends Fragment {
+public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
     // variabaili
     ConstraintLayout parent, mapContainer;
-    SupportMapFragment supportMapFragment;
+    SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
     FloatingActionButton gpsBtn, fullScreenBtn;
+
+    GoogleMap map;
+    boolean locationPermissionGranted;
+    Location lastKnownLocation;
 
     RecyclerView mListaLuoghi;
     List<Luogo> luoghi;
 
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
-    boolean collapsed = false;
+    boolean isCollapsed;
     int collapsedheight, expandedHeight, miniFAB, normalFAB;
     Drawable fsIcon, fsExitIcon;
 
@@ -80,10 +81,13 @@ public class LuoghiFragment extends Fragment {
         // assegnazione variabile
         parent = view.findViewById(R.id.luoghiLayout);
         mapContainer = view.findViewById(R.id.mapContainer);
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         gpsBtn = view.findViewById(R.id.gpsButton);
         fullScreenBtn = view.findViewById(R.id.fullScreenButton);
         mListaLuoghi = view.findViewById(R.id.luoghi_recyclerView);
+
+        locationPermissionGranted = false;
+        isCollapsed = true;
 
         // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
@@ -99,21 +103,14 @@ public class LuoghiFragment extends Fragment {
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
 
-        // Check permessi
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // permesso concesso
-            getCurrentLocation();
-        } else {
-            // permesso negato
-            // RICHIESTA PERMESSO
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
-        }
+        getLocationPermission();
 
         // gps onclick
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCurrentLocation();
+                updateLocationUI();
+                getDeviceLocation();
             }
         });
 
@@ -121,31 +118,11 @@ public class LuoghiFragment extends Fragment {
         fullScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                collapsed  = !collapsed;
-                collapse();
+                animateMap();
             }
         });
 
-        // markers onclick sposta il pulsante del gps
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
-                        return false;
-                    }
-                });
-
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
-                    }
-                });
-            }
-        });
+        mapFragment.getMapAsync(this);
 
         return view;
     }
@@ -157,54 +134,101 @@ public class LuoghiFragment extends Fragment {
         caricaLuoghi();
     }
 
-    private void getCurrentLocation() {
-        // permessi per usare getLastLocation
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
 
-        // Inizializzazione task Location
-        Task<Location> task = client.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+        updateLocationUI();
+        getDeviceLocation();
+
+        // animazione pulsante gps
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public void onSuccess(Location location) {
-                if(location != null){
-                    // Sincronizza Mappa
-                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-                            // inizializzazione Latitudine e Longitudine
-                            LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-
-                            // marker per segnalare la posizione attuale
-                            MarkerOptions markerOptions = new MarkerOptions().position(latLng);
-
-                            // Zoom Mappa
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-
-                            // aggiungere il marker sulla mappa
-                            Marker marker = googleMap.addMarker(markerOptions);
-
-                            Bitmap icon = drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.ic_my_location));
-
-                            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(icon);
-
-                            marker.setIcon(bitmapDescriptor);
-                        }
-                    });
-                }
+            public boolean onMarkerClick(Marker marker) {
+                gpsBtn.animate().translationY(-140f).setInterpolator(interpolator).setDuration(400).start();
+                return false;
+            }
+        });
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
             }
         });
     }
 
+    private void getLocationPermission() {
+        // Check permessi
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // permesso concesso
+            locationPermissionGranted = true;
+        } else {
+            // permesso negato
+            // RICHIESTA PERMESSO
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 44){
+        locationPermissionGranted = false;
+        if (requestCode == 44){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 //Quando Permesso concesso
-                getCurrentLocation();
+                locationPermissionGranted = true;
             }
+        }
+    }
+
+    private void updateLocationUI() {
+        if (map == null) {
+            return;
+        }
+        try {
+            if (locationPermissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = client.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            if (lastKnownLocation != null) {
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()), 16));
+                            }
+                        } else {
+                            Log.d("TAG", "Current location is null. Using defaults.");
+                            Log.e("TAG", "Exception: %s", task.getException());
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
         }
     }
 
@@ -219,8 +243,9 @@ public class LuoghiFragment extends Fragment {
                     luoghi.add(luogo);
                     LatLng latLng = new LatLng(luogo.getLat(), luogo.getLng());
                     MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome())
-                            .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                            .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
                             googleMap.addMarker(markerOptions);
@@ -239,6 +264,25 @@ public class LuoghiFragment extends Fragment {
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
+    }
+
+    private void animateMap() {
+        TransitionManager.beginDelayedTransition(parent);
+        //change layout params
+        ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
+        if (isCollapsed) {
+            layoutParams.height = expandedHeight;
+            fullScreenBtn.setCustomSize(normalFAB);
+            fullScreenBtn.setImageDrawable(fsExitIcon);
+            gpsBtn.setCustomSize(normalFAB);
+        } else {
+            layoutParams.height = collapsedheight;
+            fullScreenBtn.setCustomSize(miniFAB);
+            fullScreenBtn.setImageDrawable(fsIcon);
+            gpsBtn.setCustomSize(miniFAB);
+        }
+        mapContainer.requestLayout();
+        isCollapsed = !isCollapsed;
     }
 
     // adapter per la recView
@@ -270,7 +314,7 @@ public class LuoghiFragment extends Fragment {
             holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                    mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
                             // Zoom Mappa
@@ -301,46 +345,5 @@ public class LuoghiFragment extends Fragment {
                 mIcona = itemView.findViewById(R.id.luogo_icona);
             }
         }
-    }
-
-    private static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
-    private void collapse() {
-        TransitionManager.beginDelayedTransition(parent);
-        //change layout params
-        ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
-        if (collapsed) {
-            layoutParams.height = expandedHeight;
-            fullScreenBtn.setCustomSize(normalFAB);
-            fullScreenBtn.setImageDrawable(fsExitIcon);
-            gpsBtn.setCustomSize(normalFAB);
-        } else {
-            layoutParams.height = collapsedheight;
-            fullScreenBtn.setCustomSize(miniFAB);
-            fullScreenBtn.setImageDrawable(fsIcon);
-            gpsBtn.setCustomSize(miniFAB);
-        }
-        //layoutParams.height = !collapsed ? height / 2 : height * 2;
-        mapContainer.requestLayout();
     }
 }
