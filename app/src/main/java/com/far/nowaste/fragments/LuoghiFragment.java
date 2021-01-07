@@ -58,7 +58,7 @@ import java.util.List;
 
 public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
-    // variabaili
+    // variabili
     ConstraintLayout parent, mapContainer;
     SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
@@ -73,7 +73,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
-    boolean isCollapsed;
+    static public boolean ISEXPANDED;
     int collapsedheight, expandedHeight, miniFAB, normalFAB;
     Drawable fsIcon, fsExitIcon;
 
@@ -91,7 +91,6 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         mListaLuoghi = view.findViewById(R.id.luoghi_recyclerView);
 
         locationPermissionGranted = false;
-        isCollapsed = true;
 
         // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
@@ -276,11 +275,11 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     }
 
     // imposta il fullscreen
-    private void animateMap() {
+    public void animateMap() {
         TransitionManager.beginDelayedTransition(parent);
         //change layout params
         ViewGroup.LayoutParams layoutParams = mapContainer.getLayoutParams();
-        if (isCollapsed) {
+        if (!ISEXPANDED) {
             layoutParams.height = expandedHeight;
             fullScreenBtn.setCustomSize(normalFAB);
             fullScreenBtn.setImageDrawable(fsExitIcon);
@@ -292,7 +291,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             gpsBtn.setCustomSize(miniFAB);
         }
         mapContainer.requestLayout();
-        isCollapsed = !isCollapsed;
+        ISEXPANDED = !ISEXPANDED;
     }
 
     // controlla se il gps è disattivato e chiede di attivarlo

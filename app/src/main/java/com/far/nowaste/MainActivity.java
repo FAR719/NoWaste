@@ -283,6 +283,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if(fragment == 5 && LuoghiFragment.ISEXPANDED) {
+            LuoghiFragment fragment = (LuoghiFragment) getSupportFragmentManager().findFragmentById(R.id.main_frameLayout);
+            fragment.animateMap();
         } else if(fragment != 1){
             mToolbar.setTitle("NoWaste");
             getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
