@@ -39,6 +39,8 @@ public class HomeFragment extends Fragment {
 
     Utente currentuser;
 
+    static public Settimanale SETTIMANALE;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,13 +93,8 @@ public class HomeFragment extends Fragment {
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (fAuth.getCurrentUser() != null) {
+        // imposta i dati
+        if (MainActivity.CURRENTUSER == null && fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
@@ -129,18 +126,22 @@ public class HomeFragment extends Fragment {
                         String userQuartiere = currentuser.getQuartiere();
                         quartiere.setText("Quartiere " + userQuartiere);
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                Settimanale settimanale = documentSnapshot.toObject(Settimanale.class);
-                                setDayViews(settimanale);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                            }
-                        });
+                        if (SETTIMANALE != null) {
+                            setDayViews(SETTIMANALE);
+                        } else {
+                            fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                                    setDayViews(SETTIMANALE);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                }
+                            });
+                        }
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -149,6 +150,50 @@ public class HomeFragment extends Fragment {
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
+        } else if (MainActivity.CURRENTUSER != null) {
+            if (MainActivity.CURRENTUSER.getCity().equals("")) {
+                raccoltaCardView.setVisibility(View.GONE);
+                warningCardView.setVisibility(View.VISIBLE);
+                warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
+                warningCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity)getActivity()).goToSettings();
+                    }
+                });
+            } else if (MainActivity.CURRENTUSER.getQuartiere().equals("")){
+                raccoltaCardView.setVisibility(View.GONE);
+                warningCardView.setVisibility(View.VISIBLE);
+                warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
+                warningCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity)getActivity()).goToSettings();
+                    }
+                });
+            } else {
+                raccoltaCardView.setVisibility(View.VISIBLE);
+                warningCardView.setVisibility(View.GONE);
+                String userQuartiere = MainActivity.CURRENTUSER.getQuartiere();
+                quartiere.setText("Quartiere " + userQuartiere);
+                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                if (SETTIMANALE != null) {
+                    setDayViews(SETTIMANALE);
+                } else {
+                    fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                            setDayViews(SETTIMANALE);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        }
+                    });
+                }
+            }
         } else {
             raccoltaCardView.setVisibility(View.GONE);
             warningCardView.setVisibility(View.VISIBLE);
@@ -160,6 +205,7 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+        return view;
     }
 
     // definizione metodo per onClickCardView (valido per ogni carta)

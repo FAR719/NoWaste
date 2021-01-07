@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // home 1, profilo 2, curiosità 3, calendario 4, luoghi 5, contattaci 6, impostazioni 7
     int fragment;
+    Fragment mFragmentToSet;
 
     // variabili per la night mode
     int nightMode;
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
 
         CURRENTUSER = null;
+        mFragmentToSet = null;
 
         // toolbar
         mToolbar = findViewById(R.id.main_toolbar);
@@ -137,8 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     goToLogin();
                 } else {
                     mToolbar.setTitle("Profilo");
-                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
+                    mFragmentToSet = new ProfileFragment();
                     fragment = 2;
                     navigationView.setCheckedItem(R.id.nav_invisible);
                 }
@@ -146,47 +148,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
+            goToLogin();
+        }
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
             fragment = 1;
         }
 
-        if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
-            goToLogin();
-        }
+        // serve per evitare i lag nel navdrawer
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {}
+            @Override public void onDrawerOpened(@NonNull View drawerView) {}
+            @Override public void onDrawerStateChanged(int newState) {}
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                if (mFragmentToSet != null) {
+                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .replace(R.id.main_frameLayout, mFragmentToSet).commit();
+                    mFragmentToSet = null;
+                }
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // imposta CURRENTUSER
-        fAuth = FirebaseAuth.getInstance();
-        FirebaseUser fUser = fAuth.getCurrentUser();
-        if (fUser != null) {
-            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    CURRENTUSER = documentSnapshot.toObject(Utente.class);
-
-                    mFullName.setText(CURRENTUSER.getFullName());
-                    mEmail.setText(CURRENTUSER.getEmail());
-                    mFullName.setVisibility(View.VISIBLE);
-                    if (CURRENTUSER.getImage() != null) {
-                        Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                }
-            });
-        } else {
-            mEmail.setText("Accedi al tuo account");
-            mFullName.setVisibility(View.GONE);
-        }
+        setCurrentUser();
     }
 
     @Override
@@ -221,54 +213,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         item.setChecked(true);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()){
             case R.id.nav_home:
                 if (fragment != 1) {
                     mToolbar.setTitle("NoWaste");
-                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                            .replace(R.id.main_frameLayout, new HomeFragment()).commit();
+                    mFragmentToSet = new HomeFragment();
                     fragment = 1;
                 }
                 break;
             case R.id.nav_curiosita:
                 if (fragment != 3) {
                     mToolbar.setTitle("Curiosità");
-                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new CuriositaFragment()).commit();
+                    mFragmentToSet = new CuriositaFragment();
                     fragment = 3;
                 }
                 break;
             case R.id.nav_calendario:
                 if (fragment != 4) {
                     mToolbar.setTitle("Calendario");
-                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new CalendarioFragment()).commit();
+                    mFragmentToSet = new CalendarioFragment();
                     fragment = 4;
                 }
                 break;
             case R.id.nav_luoghi:
                 if (fragment != 5) {
                     mToolbar.setTitle("Luoghi");
-                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new LuoghiFragment()).commit();
+                    mFragmentToSet = new LuoghiFragment();
                     fragment = 5;
                 }
                 break;
             case R.id.nav_contattaci:
                 if (fragment != 6) {
                     mToolbar.setTitle("Contattaci");
-                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new ContattaciFragment()).commit();
+                    mFragmentToSet = new ContattaciFragment();
                     fragment = 6;
                 }
                 break;
             case R.id.nav_impostazioni:
                 if (fragment != 7) {
                     mToolbar.setTitle("Impostazioni");
-                    getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .replace(R.id.main_frameLayout, new ImpostazioniFragment()).commit();
+                    mFragmentToSet = new ImpostazioniFragment();
                     fragment = 7;
                 }
                 break;
@@ -427,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         CURRENTUSER = null;
+        HomeFragment.SETTIMANALE = null;
         showSnackbar("Logout effettuato!");
         updateHeader();
         mToolbar.setTitle("NoWaste");
@@ -469,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         public void onSuccess(Void aVoid) {
                                             showSnackbar("Account eliminato!");
                                             CURRENTUSER = null;
+                                            HomeFragment.SETTIMANALE = null;
                                             updateHeader();
                                             mToolbar.setTitle("NoWaste");
                                             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
@@ -567,5 +553,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();
+    }
+
+    private void setCurrentUser(){
+        // imposta CURRENTUSER
+        fAuth = FirebaseAuth.getInstance();
+        FirebaseUser fUser = fAuth.getCurrentUser();
+        if (fUser != null) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    CURRENTUSER = documentSnapshot.toObject(Utente.class);
+                    updateHeader();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                }
+            });
+        } else {
+            updateHeader();
+        }
     }
 }

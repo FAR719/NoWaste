@@ -358,6 +358,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     MainActivity.CURRENTUSER.setCity(cityMap.get("city").toString());
                                     MainActivity.CURRENTUSER.setQuartiere("");
                                     mQuartierePreference.setVisible(true);
+                                    HomeFragment.SETTIMANALE = null;
                                     ((MainActivity)getActivity()).showSnackbar("Città impostata: " + cityMap.get("city"));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -457,6 +458,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
+                                    HomeFragment.SETTIMANALE = null;
                                     ((MainActivity)getActivity()).showSnackbar("Quartiere impostato: " + quartMap.get("quartiere"));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -606,8 +608,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                MainActivity.CURRENTUSER = utente;
                                 dialog.dismiss();
+                                MainActivity.CURRENTUSER = utente;
+                                HomeFragment.SETTIMANALE = null;
                                 ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
                             }
                         }).addOnFailureListener(new OnFailureListener() {
