@@ -2,10 +2,8 @@ package com.far.nowaste.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -27,15 +25,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
+import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.objects.Luogo;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -103,6 +107,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
 
+        // ask for permission
         getLocationPermission();
 
         // gps onclick
@@ -138,6 +143,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        // show current position
         updateLocationUI();
         getDeviceLocation();
 
@@ -163,9 +169,9 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // permesso concesso
             locationPermissionGranted = true;
+            enableLocation();
         } else {
-            // permesso negato
-            // RICHIESTA PERMESSO
+            // permesso negato, richiedi il permesso
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
@@ -178,10 +184,12 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 //Quando Permesso concesso
                 locationPermissionGranted = true;
+                enableLocation();
             }
         }
     }
 
+    // abilita la posizione attuale
     private void updateLocationUI() {
         if (map == null) {
             return;
@@ -201,11 +209,8 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    // get the current location
     private void getDeviceLocation() {
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = client.getLastLocation();
@@ -219,9 +224,12 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), 16));
+                            } else {
+                                // controlla se il gps è acceso
+                                enableLocation();
                             }
                         } else {
-                            Log.d("TAG", "Current location is null. Using defaults.");
+                            Log.d("TAG", "Current location is null.");
                             Log.e("TAG", "Exception: %s", task.getException());
                         }
                     }
@@ -238,6 +246,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 luoghi = new ArrayList<>();
+                // aggiungi i marker
                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                     Luogo luogo = document.toObject(Luogo.class);
                     luoghi.add(luogo);
@@ -266,6 +275,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    // imposta il fullscreen
     private void animateMap() {
         TransitionManager.beginDelayedTransition(parent);
         //change layout params
@@ -283,6 +293,47 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         }
         mapContainer.requestLayout();
         isCollapsed = !isCollapsed;
+    }
+
+    // controlla se il gps è disattivato e chiede di attivarlo
+    private void enableLocation() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(30 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getContext())
+                .checkLocationSettings(builder.build());
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(Task<LocationSettingsResponse> task) {
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    // All location settings are satisfied. The client can initialize location requests here.
+                } catch (ApiException exception) {
+                    switch (exception.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            // Location settings are not satisfied. But could be fixed by showing the user a dialog.
+                            try {
+                                // Cast to a resolvable exception.
+                                ResolvableApiException resolvable = (ResolvableApiException) exception;
+                                // Show the dialog by calling startResolutionForResult() and check the result in onActivityResult().
+                                resolvable.startResolutionForResult(getActivity(), 10);
+                            } catch (IntentSender.SendIntentException | ClassCastException e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                ((MainActivity)getActivity()).showSnackbar("Errore! Il gps non è disponibile!");
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            Log.d("LOG", "Error! " + exception.getLocalizedMessage());
+                            ((MainActivity)getActivity()).showSnackbar("Errore! Il gps non è disponibile!");
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     // adapter per la recView
