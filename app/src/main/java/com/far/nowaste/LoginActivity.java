@@ -33,6 +33,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +42,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     Button mLoginBtn, mResendBtn;
     TextView mResetBtn, mRegisterBtn, mWarning;
     Button mGoogleBtn;
-    ProgressBar progressBar;
+    ProgressBar mProgressBar;
     View mDivider;
 
     RelativeLayout layout;
@@ -94,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginButton);
         mResetBtn = findViewById(R.id.resetPassTextView);
         mGoogleBtn = findViewById(R.id.googleButton);
-        progressBar = findViewById(R.id.progressBar);
+        mProgressBar = findViewById(R.id.progressBar);
         mDivider = findViewById(R.id.login_divider);
         mRegisterBtn = findViewById(R.id.lRegisterTextView);
         mWarning = findViewById(R.id.warningTextView);
@@ -134,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                     mPasswordLayout.setErrorEnabled(false);
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
 
                 // authenticate the user
                 fAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -167,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                         }  else {
                             showSnackbar(e.getLocalizedMessage());
                         }
-                        progressBar.setVisibility(View.GONE);
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
             }
@@ -178,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 signIn();
             }
         });
@@ -203,7 +200,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        showSnackbar("Errore! Email non inviata.");
+                        if (e instanceof FirebaseTooManyRequestsException) {
+                            showSnackbar("Email non inviata! Sono state effettuate troppe richieste.");
+                        } else {
+                            showSnackbar("Errore! Email non inviata.");
+                        }
                     }
                 });
             }
@@ -227,8 +228,11 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        showSnackbar("Errore! Email non inviata.");
+                        if (e instanceof FirebaseTooManyRequestsException) {
+                            showSnackbar("Email non inviata! Sono state effettuate troppe richieste.");
+                        } else {
+                            showSnackbar("Errore! Email non inviata.");
+                        }
                     }
                 });
             }
@@ -279,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 showSnackbar("Accesso con Google fallito.");
-                // ...
+                mProgressBar.setVisibility(View.GONE);
             }
         } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             registerRequest = data.getBooleanExtra("com.far.nowaste.REGISTER_REQUEST", false);
@@ -302,7 +306,7 @@ public class LoginActivity extends AppCompatActivity {
                     // If sign in fails, display a message to the user.
                     showSnackbar("Accesso con Google fallito.");
                     Log.d("LOG", "Error! " + task.getException().getLocalizedMessage());
-                    progressBar.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -329,7 +333,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             showSnackbar("Accesso con Google non effettuato correttamente.");
                             Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                            progressBar.setVisibility(View.GONE);
+                            mProgressBar.setVisibility(View.GONE);
                             fAuth.signOut();
                         }
                     });
@@ -340,7 +344,10 @@ public class LoginActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                showSnackbar("Accesso con Google non effettuato correttamente.");
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                mProgressBar.setVisibility(View.GONE);
+                fAuth.signOut();
             }
         });
     }
@@ -360,7 +367,7 @@ public class LoginActivity extends AppCompatActivity {
             mLoginBtn.setVisibility(View.GONE);
             mResetBtn.setVisibility(View.GONE);
             mGoogleBtn.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
             mDivider.setVisibility(View.GONE);
             mRegisterBtn.setVisibility(View.GONE);
             mWarning.setVisibility(View.VISIBLE);

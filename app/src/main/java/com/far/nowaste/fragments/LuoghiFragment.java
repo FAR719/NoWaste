@@ -114,7 +114,6 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 updateLocationUI();
-                getDeviceLocation();
             }
         });
 
@@ -144,7 +143,6 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
         // show current position
         updateLocationUI();
-        getDeviceLocation();
 
         // animazione pulsante gps
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -197,6 +195,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             if (locationPermissionGranted) {
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
+                getDeviceLocation();
             } else {
                 map.setMyLocationEnabled(false);
                 map.getUiSettings().setMyLocationButtonEnabled(false);

@@ -227,6 +227,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        mProgressBar.setVisibility(View.GONE);
                         showSnackbar("Account non creato correttamente!");
                     }
                 });
@@ -235,6 +236,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showSnackbar("Account non creato correttamente!");
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
