@@ -166,7 +166,6 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // permesso concesso
             locationPermissionGranted = true;
-            enableLocation();
         } else {
             // permesso negato, richiedi il permesso
             ActivityCompat.requestPermissions(getActivity(),
@@ -181,7 +180,6 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 //Quando Permesso concesso
                 locationPermissionGranted = true;
-                enableLocation();
             }
         }
     }
