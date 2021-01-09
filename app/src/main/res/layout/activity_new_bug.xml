@@ -19,7 +19,7 @@
             android:id="@+id/newBug_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Segnala Bug"
+            app:title="Segnala un bug"
             app:titleTextColor="@color/white"
             app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             android:background="?attr/colorPrimary"
