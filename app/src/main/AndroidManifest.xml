@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.far.nowaste">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,11 +20,12 @@
             android:value="AIzaSyAEzpKkhJ9VfLZ2iG15iQeDPWAdzgNE5DA" />
 
         <activity android:name=".AssistenzaActivity" />
+        <activity android:name=".NewBugActivity" />
         <activity
             android:name=".TabTicketActivity"
             android:label="@string/title_activity_tab_ticket" />
         <activity android:name=".NewReportActivity" />
-        <activity android:name=".ListaEventiActivity"/>
+        <activity android:name=".ListaEventiActivity" />
         <activity android:name=".NewEventActivity" />
         <activity android:name=".NewTicketActivity" />
         <activity android:name=".TicketChatActivity" />

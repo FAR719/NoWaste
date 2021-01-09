@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.AssistenzaActivity;
+import com.far.nowaste.NewBugActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.TabTicketActivity;
@@ -52,11 +53,7 @@ public class ContattaciFragment extends Fragment {
         assistenzaCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (fAuth.getCurrentUser() != null) {
-                    startActivity(new Intent(getContext(), AssistenzaActivity.class));
-                } else {
-                    ((MainActivity)getActivity()).showSnackbar("Accedi per ricevere assistenza!");
-                }
+                startActivity(new Intent(getContext(), AssistenzaActivity.class));
             }
         });
 

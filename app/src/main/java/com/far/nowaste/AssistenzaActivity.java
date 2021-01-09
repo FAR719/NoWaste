@@ -1,41 +1,31 @@
 package com.far.nowaste;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.far.nowaste.objects.Bug;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-
-import java.util.Date;
 
 public class AssistenzaActivity extends AppCompatActivity {
+
     // variabili
     Toolbar mToolbar;
-    EditText mOggetto, mTesto;
-    Button mSendBugBtn;
+    FloatingActionButton mNewBugBtn;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -59,71 +49,34 @@ public class AssistenzaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // collegamento view
-        mOggetto = findViewById(R.id.oggettoBug_EditText);
-        mTesto = findViewById(R.id.textBug_EditText);
-        mSendBugBtn = findViewById(R.id.sendBugButton);
+        mNewBugBtn = findViewById(R.id.assistenza_floatingActionButton);
 
         fAuth = FirebaseAuth.getInstance();
 
-        mSendBugBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String oggetto = mOggetto.getText().toString();
-                String testo = mTesto.getText().toString();
-
-                // controlla la info aggiunte
-                if (TextUtils.isEmpty(oggetto)) {
-                    mOggetto.setError("Inserisci oggetto.");
-                    return;
+        if (fAuth.getCurrentUser() != null) {
+            mNewBugBtn.setVisibility(View.VISIBLE);
+            mNewBugBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(igetApplicationContext(), NewBugActivity.class), 1);
                 }
-
-                if (TextUtils.isEmpty(testo)) {
-                    mTesto.setError("Inserisci testo.");
-                    return;
-                }
-
-                // inserisce il ticket in firebase
-                insertNewBug(oggetto, testo);
-                finish();
-            }
-        });
-
+            });
+        } else {
+            mNewBugBtn.setVisibility(View.GONE);
+        }
     }
 
-    private void insertNewBug(String oggetto, String testo) {
-        // variabili
-        Date date = new Date();
-        int hour = date.getHours();
-        int minute= date.getMinutes();
-        int second = date.getSeconds();
-
-        CalendarDay currentDate = CalendarDay.today();
-        int day = currentDate.getDay();
-        int month = currentDate.getMonth();
-        int year = currentDate.getYear();
-
-        String email = fAuth.getCurrentUser().getEmail();
-
-        // caricamneto su firebase
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = fStore.collection("bugs").document();
-        Bug bug = new Bug(oggetto,testo,email,day,month,year,hour,minute,second);
-
-        documentReference.set(bug).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                showSnackbar("Bug segnalato!");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            boolean bugSent = data.getBooleanExtra("com.far.nowaste.NEW_BUG_REQUEST", false);
+            if (bugSent) {
+                showSnackbar("Segnalazione inviata!");
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                showSnackbar("Bug non segnalato correttamente!");
-            }
-        });
-
+        }
     }
+
     // ends this activity (back arrow)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -135,8 +88,8 @@ public class AssistenzaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSnackbar(String string) {
-        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT).setAnchorView(mNewBugBtn)
                 .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
                 .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));

@@ -19,7 +19,7 @@
             android:id="@+id/assistenza_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Segnala Bug"
+            app:title="Assistenza"
             app:titleTextColor="@color/white"
             app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             android:background="?attr/colorPrimary"
@@ -31,98 +31,20 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/assistenza_appBarLayout">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bug_oggettoInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
-            android:hint="Oggetto"
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="@dimen/field_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/field_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/field_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/field_corner_radius"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginTextView">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bug_oggettoInputText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:inputType="text|textCapSentences" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bug_commentoInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:hint="Scrivi..."
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="50dp"
-            app:boxCornerRadiusBottomStart="50dp"
-            app:boxCornerRadiusTopEnd="50dp"
-            app:boxCornerRadiusTopStart="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bug_oggettoInputLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bug_commentoInputText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:inputType="text|textCapSentences|textMultiLine" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <EditText
-            android:id="@+id/oggettoBug_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/nunito"
-            android:hint="Oggetto"
-            android:inputType="text|textCapSentences"
-            android:padding="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bug_commentoInputLayout" />
-
-        <EditText
-            android:id="@+id/textBug_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/nunito"
-            android:hint="Scrivi..."
-            android:inputType="text|textCapSentences|textMultiLine"
-            android:padding="18dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oggettoBug_EditText"/>
-
-        <Button
-            android:id="@+id/sendBugButton"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/assistenza_floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/accent"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="INVIA"
-            android:textColor="@color/white"
-            app:cornerRadius="@dimen/field_corner_radius"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/accent"
+            app:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:srcCompat="@drawable/ic_feedback" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </RelativeLayout>
