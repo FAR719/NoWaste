@@ -141,6 +141,10 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        // default location impostata su Bari
+        LatLng defaultLocation = new LatLng( 41.11148, 16.8554);
+        map.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
+
         // show current position
         updateLocationUI();
 
