@@ -135,6 +135,8 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         super.onStart();
         // load marker
         caricaLuoghi();
+
+        // cerchio di visione dei luoghi
     }
 
     @Override
