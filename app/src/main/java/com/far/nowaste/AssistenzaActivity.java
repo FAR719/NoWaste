@@ -58,7 +58,7 @@ public class AssistenzaActivity extends AppCompatActivity {
             mNewBugBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivityForResult(new Intent(igetApplicationContext(), NewBugActivity.class), 1);
+                    startActivityForResult(new Intent(getApplicationContext(), NewBugActivity.class), 1);
                 }
             });
         } else {
