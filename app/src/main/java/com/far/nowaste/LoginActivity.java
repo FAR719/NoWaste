@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                 showSnackbar(e.getLocalizedMessage());
                             }
                         }  else {
-                            showSnackbar(e.getLocalizedMessage());
+                            showSnackbar("Accesso fallito.");
                         }
                         mProgressBar.setVisibility(View.GONE);
                     }

@@ -197,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (e instanceof FirebaseAuthUserCollisionException) {
                     mEmailLayout.setError("L'email inserita ha già un account associato.");
                 } else {
-                    showSnackbar(e.getLocalizedMessage());
+                    showSnackbar("Registrazione fallita.");
                 }
                 mProgressBar.setVisibility(View.GONE);
             }
