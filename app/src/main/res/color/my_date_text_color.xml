@@ -3,18 +3,15 @@
 
     <item
         android:state_checked="true"
-        android:color="@android:color/white"
-        />
+        android:color="@android:color/white" />
 
     <item
         android:state_pressed="true"
-        android:color="@android:color/white"
-        />
+        android:color="@android:color/white" />
 
     <item
         android:state_enabled="false"
-        android:color="#808080"
-        />
+        android:color="#808080" />
 
     <item android:color="@android:color/white" />
 

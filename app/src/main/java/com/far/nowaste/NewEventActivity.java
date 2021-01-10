@@ -49,6 +49,15 @@ public class NewEventActivity extends AppCompatActivity {
     TextView mDate;
     Button mAddBtn;
 
+    int requestcode;
+    String eventoId;
+    String eventoEmail;
+    String eventoTitle;
+    String eventoDescription;
+    int eventoYear;
+    int eventoMonth;
+    int eventoDay;
+
     int year, month, day;
 
     RelativeLayout layout;
@@ -79,24 +88,50 @@ public class NewEventActivity extends AppCompatActivity {
         mDate = findViewById(R.id.newEvent_dateTextView);
         mAddBtn = findViewById(R.id.newEvent_addBtn);
 
-        // set data odierna
-        CalendarDay currentDay = CalendarDay.today();
-        year = currentDay.getYear();
-        month = currentDay.getMonth();
-        day = currentDay.getDay();
+        // stabilisci se bisogna creare un nuovo evento (1) o modificarne uno esistente (2)
+        Intent intent = getIntent();
+        requestcode = intent.getIntExtra("com.far.nowaste.REQUESTCODE", 0);
 
-        String dayString, monthString;
-        if (day < 10) {
-            dayString = "0" + day;
-        } else {
-            dayString = day + "";
+        if (requestcode == 1) {
+            // set data odierna
+            CalendarDay currentDay = CalendarDay.today();
+            year = currentDay.getYear();
+            month = currentDay.getMonth();
+            day = currentDay.getDay();
+
+            String dayString, monthString;
+            if (day < 10) {
+                dayString = "0" + day;
+            } else {
+                dayString = day + "";
+            }
+            if (month < 10) {
+                monthString = "0" + month;
+            } else {
+                monthString = month + "";
+            }
+            mDate.setText(dayString + "/" + monthString + "/" + year);
+        } else if (requestcode == 2){
+            eventoId = intent.getStringExtra("com.far.nowaste.EVENTO_ID");
+            eventoEmail = intent.getStringExtra("com.far.nowaste.EVENTO_EMAIL");
+            eventoTitle = intent.getStringExtra("com.far.nowaste.EVENTO_TITLE");
+            eventoDescription = intent.getStringExtra("com.far.nowaste.EVENTO_DESCRIPTION");
+            eventoYear = intent.getIntExtra("com.far.nowaste.EVENTO_YEAR", 0);
+            eventoMonth = intent.getIntExtra("com.far.nowaste.EVENTO_MONTH", 0);
+            eventoDay = intent.getIntExtra("com.far.nowaste.EVENTO_DAY", 0);
+
+            year = eventoYear;
+            month = eventoMonth;
+            day = eventoDay;
+
+            mDate.setText(eventoDay + "/" + eventoMonth + "/" + eventoYear);
+            mEmail.setText(eventoEmail);
+            mTitle.setText(eventoTitle);
+            mDesc.setText(eventoDescription);
+            mAddBtn.setText("Modifica evento");
         }
-        if (month < 10) {
-            monthString = "0" + month;
-        } else {
-            monthString = month + "";
-        }
-        mDate.setText(dayString + "/" + monthString + "/" + year);
+
+
 
         // date picker
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -154,24 +189,47 @@ public class NewEventActivity extends AppCompatActivity {
                 } else {
                     showSnackbar("Errore! Riprovare.");
                 }
-
-                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 Evento evento = new Evento(email, title, description, year, month, day);
-                fStore.collection("events").add(evento).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("com.far.nowaste.NEW_EVENT_REQUEST", true);
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        showSnackbar("Evento non creato!");
-                    }
-                });
+                if (requestcode == 1) {
+                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                    fStore.collection("events").add(evento).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("com.far.nowaste.NEW_EVENT_REQUEST", true);
+                            setResult(Activity.RESULT_OK, returnIntent);
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                            showSnackbar("Evento non creato!");
+                        }
+                    });
+                } else if (requestcode == 2 && email.equals(eventoEmail) && title.equals(eventoTitle)
+                        && description.equals(eventoDescription) && year == eventoYear
+                        && month == eventoMonth && day == eventoDay){
+                    finish();
+                } else if (requestcode == 2) {
+                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                        fStore.collection("events").document(eventoId).set(evento).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("com.far.nowaste.MODIFY_EVENT_REQUEST", true);
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {Intent returnIntent = new Intent();
+                                returnIntent.putExtra("com.far.nowaste.MODIFY_EVENT_REQUEST", false);
+                                setResult(Activity.RESULT_CANCELED, returnIntent);
+                                finish();
+                            }
+                        });
+                }
             }
         });
     }

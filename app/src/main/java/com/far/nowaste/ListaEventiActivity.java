@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +30,10 @@ import android.view.ActionMode;
 import com.far.nowaste.objects.Evento;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -42,7 +47,10 @@ public class ListaEventiActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView recView;
     ActionMode mActionMode;
+
     MaterialCardView selectedCard;
+    String selectedEventId;
+    Evento selectedEvent;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -125,6 +133,9 @@ public class ListaEventiActivity extends AppCompatActivity {
                                 return false;
                             }
 
+                            selectedEventId = getSnapshots().getSnapshot(position).getId();
+                            selectedEvent = model;
+
                             // cambia lo sfondo della statusbar e della card dopo 190 millisecondi
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -158,7 +169,9 @@ public class ListaEventiActivity extends AppCompatActivity {
         newEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getApplicationContext(), NewEventActivity.class), 1);
+                Intent intent = new Intent(getApplicationContext(), NewEventActivity.class);
+                intent.putExtra("com.far.nowaste.REQUESTCODE", 1);
+                startActivityForResult(intent, 1);
             }
         });
     }
@@ -183,8 +196,44 @@ public class ListaEventiActivity extends AppCompatActivity {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.modify:
+                    Intent intent = new Intent(getApplicationContext(), NewEventActivity.class);
+                    intent.putExtra("com.far.nowaste.REQUESTCODE", 2);
+                    intent.putExtra("com.far.nowaste.EVENTO_ID", selectedEventId);
+                    intent.putExtra("com.far.nowaste.EVENTO_EMAIL", selectedEvent.getEmail());
+                    intent.putExtra("com.far.nowaste.EVENTO_TITLE", selectedEvent.getTitle());
+                    intent.putExtra("com.far.nowaste.EVENTO_DESCRIPTION", selectedEvent.getDescription());
+                    intent.putExtra("com.far.nowaste.EVENTO_YEAR", selectedEvent.getYear());
+                    intent.putExtra("com.far.nowaste.EVENTO_MONTH", selectedEvent.getMonth());
+                    intent.putExtra("com.far.nowaste.EVENTO_DAY", selectedEvent.getDay());
+                    startActivityForResult(intent, 2);
                     return true;
                 case R.id.delete:
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListaEventiActivity.this, R.style.ThemeOverlay_NoWaste_AlertDialog);
+                    builder.setTitle("Elimina");
+                    builder.setMessage("Vuoi eliminare l'evento selezionato?");
+                    builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {}
+                    });
+                    builder.setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                            fStore.collection("events").document(selectedEventId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    showSnackbar("Evento eliminato.");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    showSnackbar("Evento non eliminato correttamente!");
+                                }
+                            });
+                            mode.finish();
+                        }
+                    });
+                    builder.show();
                     return true;
             }
             return false;
@@ -204,6 +253,8 @@ public class ListaEventiActivity extends AppCompatActivity {
                 }
             }, 190);
             mActionMode = null;
+            selectedEventId = null;
+            selectedEvent = null;
         }
     };
 
@@ -251,12 +302,21 @@ public class ListaEventiActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean eventoCreato = false;
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            eventoCreato = data.getBooleanExtra("com.far.nowaste.NEW_EVENT_REQUEST", false);
+            boolean eventoCreato = data.getBooleanExtra("com.far.nowaste.NEW_EVENT_REQUEST", false);
+            if (eventoCreato) {
+                showSnackbar("Evento creato!");
+            }
+        } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            boolean eventoModificato = data.getBooleanExtra("com.far.nowaste.MODIFY_EVENT_REQUEST", false);
+            if (eventoModificato) {
+                showSnackbar("Evento modificato!");
+            } else {
+                showSnackbar("Evento non modificato correttamente.");
+            }
         }
-        if (eventoCreato) {
-            showSnackbar("Evento creato!");
+        if (mActionMode != null) {
+            mActionMode.finish();
         }
     }
 

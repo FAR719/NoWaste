@@ -42,7 +42,7 @@
     <color name="nav_item_bg">#1E17632B</color>
     <color name="nav_item">@color/basil</color>
     <color name="card_background">@color/white</color>
-    <color name="card_background_selected">#F1F1F1</color>
+    <color name="card_background_selected">#bebebe</color>
     <color name="operatore_answer">#E2FDC9</color>
     <color name="piechart_background">#EDEDF2</color>
 
