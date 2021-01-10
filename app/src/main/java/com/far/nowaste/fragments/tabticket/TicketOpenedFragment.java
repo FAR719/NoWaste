@@ -2,7 +2,6 @@ package com.far.nowaste.fragments.tabticket;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +98,9 @@ public class TicketOpenedFragment extends Fragment {
                         public void onClick(View v) {
                             boolean isMenuOpened = ((TabTicketActivity)getActivity()).isMenuOpened();
                             if (isMenuOpened) {
-                                ((TabTicketActivity)getActivity()).closeContextualBar(holder.itemLayout);
+                                String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                                String identificativo = model.getEmail() + ora_Ticket;
+                                ((TabTicketActivity)getActivity()).updateCloseMenu(holder.itemLayout, identificativo);
                             } else {
                                 // apro la chat
                                 String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
@@ -117,7 +118,7 @@ public class TicketOpenedFragment extends Fragment {
                             public boolean onLongClick(View v) {
                                 String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
                                 String identificativo = model.getEmail() + ora_Ticket;
-                                ((TabTicketActivity)getActivity()).showContextualBar(holder.itemLayout, identificativo);
+                                ((TabTicketActivity)getActivity()).updateCloseMenu(holder.itemLayout, identificativo);
                                 return true;
                             }
                         });

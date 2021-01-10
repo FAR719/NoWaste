@@ -124,6 +124,13 @@ public class ListaEventiActivity extends AppCompatActivity {
                             if (holder.card.isSelected()) {
                                 mActionMode.finish();
                             }
+                            else if (mActionMode != null){
+                                selectedCard.setSelected(false);
+                                selectedEventId = getSnapshots().getSnapshot(position).getId();
+                                selectedEvent = model;
+                                selectedCard = (MaterialCardView) v;
+                                selectedCard.setSelected(true);
+                            }
                         }
                     });
                     holder.card.setOnLongClickListener(new View.OnLongClickListener() {
@@ -147,8 +154,8 @@ public class ListaEventiActivity extends AppCompatActivity {
 
                             // attiva la contextual action bar
                             mActionMode = ListaEventiActivity.this.startActionMode(mActionModeCallback);
-                            v.setSelected(true);
                             selectedCard = (MaterialCardView) v;
+                            selectedCard.setSelected(true);
                             return true;
                         }
                     });

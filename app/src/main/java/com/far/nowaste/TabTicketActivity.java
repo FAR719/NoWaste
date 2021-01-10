@@ -173,12 +173,12 @@ public class TabTicketActivity extends AppCompatActivity {
         }
     }
 
-    public void showContextualBar(ConstraintLayout itemLayout, String identificativo){
+    public void updateCloseMenu(ConstraintLayout itemLayout, String identificativo){
         if (mActionMode == null) {
             selectedLayout = itemLayout;
             this.identificativo = identificativo;
 
-            // cambia lo sfondo della statusbar e della card dopo 190 millisecondi
+            // cambia lo sfondo della statusbar dopo 190 millisecondi
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -189,13 +189,22 @@ public class TabTicketActivity extends AppCompatActivity {
 
             // attiva la contextual action bar
             mActionMode = TabTicketActivity.this.startActionMode(mActionModeCallback);
-            itemLayout.setBackgroundColor(ContextCompat.getColor(TabTicketActivity.this, R.color.ticket_item_background_selected));
-        }
-    }
-
-    public void closeContextualBar(ConstraintLayout layout){
-        if (selectedLayout == layout && mActionMode != null) {
+            selectedLayout.setBackgroundColor(ContextCompat.getColor(TabTicketActivity.this, R.color.ticket_item_background_selected));
+        } else if (selectedLayout == itemLayout) {
             mActionMode.finish();
+        } else {
+            TypedValue outValue = new TypedValue();
+            TabTicketActivity.this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+            selectedLayout.setBackgroundResource(outValue.resourceId);
+            selectedLayout = itemLayout;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    selectedLayout.setBackgroundColor(ContextCompat.getColor(TabTicketActivity.this, R.color.ticket_item_background_selected));
+                }
+            }, 190);
+            this.identificativo = identificativo;
         }
     }
 
@@ -241,7 +250,7 @@ public class TabTicketActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // chiudi il ticket
                         Map<String, Object> statoTickets = new HashMap<>();
-                        statoTickets.put("stato",false);
+                        statoTickets.put("stato", false);
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         fStore.collection("tickets").document(identificativo).update(statoTickets).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
