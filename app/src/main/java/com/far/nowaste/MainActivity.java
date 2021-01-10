@@ -139,10 +139,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (fAuth.getCurrentUser() == null) {
                     goToLogin();
                 } else {
-                    mToolbar.setTitle("Profilo");
-                    mFragmentToSet = new ProfileFragment();
-                    fragment = 2;
-                    navigationView.setCheckedItem(R.id.nav_invisible);
+                    if (fragment != 2) {
+                        mToolbar.setTitle("Profilo");
+                        mFragmentToSet = new ProfileFragment();
+                        fragment = 2;
+                        navigationView.setCheckedItem(R.id.nav_invisible);
+                    }
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
             }

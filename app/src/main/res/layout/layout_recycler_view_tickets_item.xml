@@ -4,7 +4,10 @@
     android:id="@+id/recView_ticketsItem_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20sp">
+    android:padding="20sp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
     <!-- Oggetto -->
     <TextView
