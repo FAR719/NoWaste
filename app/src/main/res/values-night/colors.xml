@@ -33,7 +33,8 @@
     <color name="nav_item_bg">#1E00AF9B</color>
     <color name="nav_item">#00AF9B</color>
     <color name="card_background">@color/primary</color>
-    <color name="card_background_selected">#4b5660</color>
+    <color name="card_background_selected">#4E575E</color>
+    <color name="ticket_item_background_selected">#404B51</color>
     <color name="operatore_answer">#074540</color>
 
     <!--SearchView colors-->

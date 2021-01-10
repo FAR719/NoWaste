@@ -1,9 +1,8 @@
 package com.far.nowaste.fragments.tabticket;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +23,9 @@ import com.far.nowaste.R;
 import com.far.nowaste.TicketChatActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TicketOpenedFragment extends Fragment {
 
@@ -104,12 +97,17 @@ public class TicketOpenedFragment extends Fragment {
                     holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // apro la chat
-                            String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
-                            Intent detailSearchActivity = new Intent(getContext(), TicketChatActivity.class);
-                            detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_Ticket);
-                            detailSearchActivity.putExtra("com.far.nowaste.oggetto", model.getOggetto());
-                            startActivity(detailSearchActivity);
+                            boolean isMenuOpened = ((TabTicketActivity)getActivity()).isMenuOpened();
+                            if (isMenuOpened) {
+                                ((TabTicketActivity)getActivity()).closeContextualBar(holder.itemLayout);
+                            } else {
+                                // apro la chat
+                                String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                                Intent detailSearchActivity = new Intent(getContext(), TicketChatActivity.class);
+                                detailSearchActivity.putExtra("com.far.nowaste.identificativo", model.getEmail() + ora_Ticket);
+                                detailSearchActivity.putExtra("com.far.nowaste.oggetto", model.getOggetto());
+                                startActivity(detailSearchActivity);
+                            }
                         }
                     });
 
@@ -117,38 +115,9 @@ public class TicketOpenedFragment extends Fragment {
                         holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
-                                // apro il dialog per archiviare la chat
-                                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
-                                builder.setTitle("Chiudi ticket");
-                                builder.setMessage("Vuoi chiudere questo ticket?");
-                                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {}
-                                });
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // setta lo stato = chiuso del ticket
-                                        String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
-                                        String identificativo = model.getEmail() + ora_Ticket;
-
-                                        Map<String, Object> statoTickets = new HashMap<>();
-                                        statoTickets.put("stato",false);
-                                        fStore.collection("tickets").document(identificativo).update(statoTickets).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                ((TabTicketActivity)getActivity()).showSnackbar("Ticket archiviato!");
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                                                ((TabTicketActivity)getActivity()).showSnackbar("Ticket non archiviato correttamente.");
-                                            }
-                                        });
-                                    }
-                                });
-                                builder.show();
+                                String ora_Ticket = model.getHour() + ":" + model.getMinute()+ ":" + model.getSecond();
+                                String identificativo = model.getEmail() + ora_Ticket;
+                                ((TabTicketActivity)getActivity()).showContextualBar(holder.itemLayout, identificativo);
                                 return true;
                             }
                         });

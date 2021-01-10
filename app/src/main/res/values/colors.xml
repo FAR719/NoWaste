@@ -42,7 +42,8 @@
     <color name="nav_item_bg">#1E17632B</color>
     <color name="nav_item">@color/basil</color>
     <color name="card_background">@color/white</color>
-    <color name="card_background_selected">#bebebe</color>
+    <color name="card_background_selected">#CBCBCB</color>
+    <color name="ticket_item_background_selected">#D5D5D5</color>
     <color name="operatore_answer">#E2FDC9</color>
     <color name="piechart_background">#EDEDF2</color>
 

@@ -142,7 +142,6 @@ public class ListaEventiActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     getWindow().setStatusBarColor(getResources().getColor(R.color.material_grey_900));
-                                    holder.card.setCardBackgroundColor(getResources().getColor(R.color.card_background_selected));
                                 }
                             }, 190);
 
@@ -181,7 +180,7 @@ public class ListaEventiActivity extends AppCompatActivity {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate the menu
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.contextual_action_bar, menu);
+            inflater.inflate(R.menu.contextual_action_bar_events, menu);
             return true;
         }
 
@@ -247,11 +246,11 @@ public class ListaEventiActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
-                    selectedCard.setCardBackgroundColor(getResources().getColor(R.color.card_background));
-                    selectedCard.setSelected(false);
-                    selectedCard = null;
                 }
             }, 190);
+
+            selectedCard.setSelected(false);
+            selectedCard = null;
             mActionMode = null;
             selectedEventId = null;
             selectedEvent = null;

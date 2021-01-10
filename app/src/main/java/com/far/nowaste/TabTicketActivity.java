@@ -1,11 +1,15 @@
 package com.far.nowaste;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -14,23 +18,39 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.far.nowaste.ui.main.SectionsPagerAdapter;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TabTicketActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
+    TabLayout tabLayout;
+
+    ActionMode mActionMode;
+    ConstraintLayout selectedLayout;
+    String identificativo;
 
     CoordinatorLayout layout;
     Typeface nunito;
@@ -55,8 +75,8 @@ public class TabTicketActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabLayout);
-        tabs.setupWithViewPager(viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
         // toolbar
         mToolbar = findViewById(R.id.ticketsList_toolbar);
@@ -152,6 +172,118 @@ public class TabTicketActivity extends AppCompatActivity {
             isMenuOpen = true;
         }
     }
+
+    public void showContextualBar(ConstraintLayout itemLayout, String identificativo){
+        if (mActionMode == null) {
+            selectedLayout = itemLayout;
+            this.identificativo = identificativo;
+
+            // cambia lo sfondo della statusbar e della card dopo 190 millisecondi
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.material_grey_900));
+                }
+            }, 190);
+
+            // attiva la contextual action bar
+            mActionMode = TabTicketActivity.this.startActionMode(mActionModeCallback);
+            itemLayout.setBackgroundColor(ContextCompat.getColor(TabTicketActivity.this, R.color.ticket_item_background_selected));
+        }
+    }
+
+    public void closeContextualBar(ConstraintLayout layout){
+        if (selectedLayout == layout && mActionMode != null) {
+            mActionMode.finish();
+        }
+    }
+
+    public boolean isMenuOpened(){
+        return mActionMode != null;
+    }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate the menu
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.contextual_action_bar_tickets, menu);
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    tabLayout.setVisibility(View.GONE);
+                }
+            }, 190);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            if (item.getItemId() == R.id.close) {
+                // apro il dialog per archiviare la chat
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(TabTicketActivity.this, R.style.ThemeOverlay_NoWaste_AlertDialog);
+                builder.setTitle("Chiudi ticket");
+                builder.setMessage("Vuoi chiudere questo ticket?");
+                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // chiudi il ticket
+                        Map<String, Object> statoTickets = new HashMap<>();
+                        statoTickets.put("stato",false);
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                        fStore.collection("tickets").document(identificativo).update(statoTickets).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                showSnackbar("Ticket archiviato!");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                showSnackbar("Ticket non archiviato correttamente.");
+                            }
+                        });
+                        mActionMode.finish();
+                    }
+                });
+                builder.show();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+                    tabLayout.setVisibility(View.VISIBLE);
+                    // set background
+                    TypedValue outValue = new TypedValue();
+                    TabTicketActivity.this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+                    selectedLayout.setBackgroundResource(outValue.resourceId);
+                    selectedLayout = null;
+                }
+            }, 190);
+
+            identificativo = null;
+            mActionMode = null;
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
