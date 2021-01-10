@@ -14,16 +14,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.ActionMode;
 
 import com.far.nowaste.objects.Evento;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,9 +37,12 @@ import com.google.firebase.firestore.Query;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class ListaEventiActivity extends AppCompatActivity {
+
     // definizione variabili
     Toolbar mToolbar;
     RecyclerView recView;
+    ActionMode mActionMode;
+    MaterialCardView selectedCard;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -103,6 +111,37 @@ public class ListaEventiActivity extends AppCompatActivity {
                     holder.rtitolo.setText(model.getTitle());
                     holder.remail.setText("Destinatario: " + model.getEmail());
                     holder.rdescrizione.setText(model.getDescription());
+                    holder.card.setOnClickListener(new View.OnClickListener() {
+                        @Override public void onClick(View v) {
+                            if (holder.card.isSelected()) {
+                                mActionMode.finish();
+                            }
+                        }
+                    });
+                    holder.card.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            if (mActionMode != null) {
+                                return false;
+                            }
+
+                            // cambia lo sfondo della statusbar e della card dopo 190 millisecondi
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getWindow().setStatusBarColor(getResources().getColor(R.color.material_grey_900));
+                                    holder.card.setCardBackgroundColor(getResources().getColor(R.color.card_background_selected));
+                                }
+                            }, 190);
+
+                            // attiva la contextual action bar
+                            mActionMode = ListaEventiActivity.this.startActionMode(mActionModeCallback);
+                            v.setSelected(true);
+                            selectedCard = (MaterialCardView) v;
+                            return true;
+                        }
+                    });
                 } else {
                     holder.itemLayout.setVisibility(View.GONE);
                     holder.itemLayout.setMaxHeight(0);
@@ -124,14 +163,60 @@ public class ListaEventiActivity extends AppCompatActivity {
         });
     }
 
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate the menu
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.contextual_action_bar, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            // Called each time ActionMode is shown. Always called after onCreateActionMode.
+            // Return false if nothing is done
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.modify:
+                    return true;
+                case R.id.delete:
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            // cambia lo sfondo della statusbar e della card dopo 190 millisecondi
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.primary));
+                    selectedCard.setCardBackgroundColor(getResources().getColor(R.color.card_background));
+                    selectedCard.setSelected(false);
+                    selectedCard = null;
+                }
+            }, 190);
+            mActionMode = null;
+        }
+    };
+
     private class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView rtitolo, remail, rdescrizione, rdata;
         ConstraintLayout itemLayout;
+        MaterialCardView card;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.recView_eventItem_constraintLayout);
+            card = itemView.findViewById(R.id.event_cardView);
             rtitolo = itemView.findViewById(R.id.recView_eventItem_titoloTextView);
             remail = itemView.findViewById(R.id.recView_eventItem_emailTextView);
             rdescrizione = itemView.findViewById(R.id.recView_eventItem_descrizioneTextView);

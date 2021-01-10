@@ -25,6 +25,12 @@
         <item name="textInputStyle">@style/Widget.NoWaste.TextInputLayout.OutlinedBox</item>
         <item name="bottomSheetDialogTheme">@style/Theme.NoWaste.BottomSheetDialog</item>
 
+        <!--Contextual action bar-->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/Widget.NoWaste.ActionMode</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_clear</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -34,6 +40,13 @@
     <!--Toolbar theme. -->
     <style name="TextAppearance.NoWaste.Toolbar.Title" parent="TextAppearance.AppCompat.Large">
         <item name="fontFamily">@font/nunito</item>
+    </style>
+
+    <!--Contextual Action Bar theme. -->
+    <style name="Widget.NoWaste.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+        <item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+        <item name="background">@color/material_grey_900</item>
     </style>
 
     <!--SearchView theme. -->
