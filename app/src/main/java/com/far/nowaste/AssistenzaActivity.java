@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +27,7 @@ public class AssistenzaActivity extends AppCompatActivity {
     // variabili
     Toolbar mToolbar;
     FloatingActionButton mNewBugBtn;
+    RecyclerView mAssistenzaList;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -44,6 +46,9 @@ public class AssistenzaActivity extends AppCompatActivity {
         // toolbar
         mToolbar = findViewById(R.id.assistenza_toolbar);
         setSupportActionBar(mToolbar);
+
+        // recyclerView
+        mAssistenzaList = findViewById(R.id.assistenza_recyclerView);
 
         // back arrow
         getSupportActionBar().setDisplayShowHomeEnabled(true);
