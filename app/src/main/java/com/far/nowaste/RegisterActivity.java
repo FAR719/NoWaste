@@ -218,6 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
+                        MainActivity.CURRENTUSER = utente;
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
                         setResult(Activity.RESULT_OK, returnIntent);

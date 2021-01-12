@@ -326,6 +326,7 @@ public class LoginActivity extends AppCompatActivity {
                     fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
+                            MainActivity.CURRENTUSER = utente;
                             verificaEmail();
                         }
                     }).addOnFailureListener(new OnFailureListener() {

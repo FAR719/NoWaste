@@ -137,12 +137,11 @@ public class CalendarioFragment extends Fragment {
                 }
             });
         }
+        loadEventi();
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void loadEventi() {
         // prendo gli eventi dal database
         if (fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();

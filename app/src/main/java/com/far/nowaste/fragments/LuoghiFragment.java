@@ -127,14 +127,9 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
         mapFragment.getMapAsync(this);
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // load marker
         caricaLuoghi();
+
+        return view;
     }
 
     @Override

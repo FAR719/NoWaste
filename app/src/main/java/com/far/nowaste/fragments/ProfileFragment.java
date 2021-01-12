@@ -51,8 +51,6 @@ public class ProfileFragment extends Fragment {
     FirebaseAuth fAuth;
     FirebaseUser fUser;
 
-    Utente currentUser;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,34 +87,9 @@ public class ProfileFragment extends Fragment {
         colors.add(ContextCompat.getColor(getContext(), R.color.speciali));
 
         // utente implementato con variabile static in MainActivity
-        currentUser = MainActivity.CURRENTUSER;
-        if (currentUser != null) {
-            // imposta nome, cognome e immagine
-            mFullName.setText(currentUser.getFullName());
-            mEmail.setText(currentUser.getEmail());
-            if (currentUser.getImage() != null) {
-                Glide.with(getContext()).load(currentUser.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
-            }
-
-            // imposta grafici e textView
-            tvPlastica.setText((currentUser.getpPlastica()) + "g");
-            tvOrganico.setText(currentUser.getpOrganico() + "g");
-            tvSecco.setText(currentUser.getpSecco() + "g");
-            tvCarta.setText(currentUser.getpCarta() + "g");
-            tvVetro.setText(currentUser.getpVetro() + "g");
-            tvMetalli.setText(currentUser.getpMetalli() + "g");
-            tvElettrici.setText(currentUser.getpElettrici() + "g");
-            tvSpeciali.setText(currentUser.getpSpeciali() + "g");
-            setPieChartData(currentUser);
-            setBarChartData(currentUser);
-        }
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (currentUser == null) {
+        if (MainActivity.CURRENTUSER != null) {
+            setData(MainActivity.CURRENTUSER);
+        } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fAuth = FirebaseAuth.getInstance();
             fUser = fAuth.getCurrentUser();
@@ -126,25 +99,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     Utente utente = documentSnapshot.toObject(Utente.class);
-
-                    // imposta nome, cognome e immagine
-                    mFullName.setText(utente.getFullName());
-                    mEmail.setText(utente.getEmail());
-                    if (utente.getImage() != null) {
-                        Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
-                    }
-
-                    // imposta il grafico a torta
-                    tvPlastica.setText((utente.getpPlastica()) + "g");
-                    tvOrganico.setText(utente.getpOrganico() + "g");
-                    tvSecco.setText(utente.getpSecco() + "g");
-                    tvCarta.setText(utente.getpCarta() + "g");
-                    tvVetro.setText(utente.getpVetro() + "g");
-                    tvMetalli.setText(utente.getpMetalli() + "g");
-                    tvElettrici.setText(utente.getpElettrici() + "g");
-                    tvSpeciali.setText(utente.getpSpeciali() + "g");
-                    setPieChartData(utente);
-                    setBarChartData(utente);
+                    setData(utente);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -153,6 +108,28 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
+        return view;
+    }
+
+    private void setData(Utente utente){
+        // imposta nome, cognome e immagine
+        mFullName.setText(utente.getFullName());
+        mEmail.setText(utente.getEmail());
+        if (utente.getImage() != null) {
+            Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+        }
+
+        // imposta grafici e textView
+        tvPlastica.setText((utente.getpPlastica()) + "g");
+        tvOrganico.setText(utente.getpOrganico() + "g");
+        tvSecco.setText(utente.getpSecco() + "g");
+        tvCarta.setText(utente.getpCarta() + "g");
+        tvVetro.setText(utente.getpVetro() + "g");
+        tvMetalli.setText(utente.getpMetalli() + "g");
+        tvElettrici.setText(utente.getpElettrici() + "g");
+        tvSpeciali.setText(utente.getpSpeciali() + "g");
+        setPieChartData(utente);
+        setBarChartData(utente);
     }
 
     private void setPieChartData(Utente utente) {
