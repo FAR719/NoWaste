@@ -91,9 +91,9 @@ public class AssistenzaActivity extends AppCompatActivity {
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Intent detailSearchActivity = new Intent(getApplicationContext(), DetailRifiutoActivity.class);
-                        //detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
-                        //startActivity(detailSearchActivity);
+                        Intent detailFunzionalitaActivity = new Intent(getApplicationContext(), DetailFunzionalitaActivity.class);
+                        detailFunzionalitaActivity.putExtra("com.far.nowaste.NOME", model.getNome());
+                        startActivity(detailFunzionalitaActivity);
                     }
                 });
             }
@@ -159,5 +159,18 @@ public class AssistenzaActivity extends AppCompatActivity {
             rName = itemView.findViewById(R.id.recView_assItem_funzionalitaTextView);
             itemLayout = itemView.findViewById(R.id.recView_assItem_constraintLayout);
         }
+    }
+
+    //start&stop listening
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
