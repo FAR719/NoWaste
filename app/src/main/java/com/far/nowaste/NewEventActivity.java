@@ -98,20 +98,8 @@ public class NewEventActivity extends AppCompatActivity {
             year = currentDay.getYear();
             month = currentDay.getMonth();
             day = currentDay.getDay();
-
-            String dayString, monthString;
-            if (day < 10) {
-                dayString = "0" + day;
-            } else {
-                dayString = day + "";
-            }
-            if (month < 10) {
-                monthString = "0" + month;
-            } else {
-                monthString = month + "";
-            }
-            mDate.setText(dayString + "/" + monthString + "/" + year);
         } else if (requestcode == 2){
+            mToolbar.setTitle("Modifica evento");
             eventoId = intent.getStringExtra("com.far.nowaste.EVENTO_ID");
             eventoEmail = intent.getStringExtra("com.far.nowaste.EVENTO_EMAIL");
             eventoTitle = intent.getStringExtra("com.far.nowaste.EVENTO_TITLE");
@@ -124,14 +112,24 @@ public class NewEventActivity extends AppCompatActivity {
             month = eventoMonth;
             day = eventoDay;
 
-            mDate.setText(eventoDay + "/" + eventoMonth + "/" + eventoYear);
             mEmail.setText(eventoEmail);
             mTitle.setText(eventoTitle);
             mDesc.setText(eventoDescription);
-            mAddBtn.setText("Modifica evento");
+            mAddBtn.setText("Modifica");
         }
 
-
+        String dayString, monthString;
+        if (day < 10) {
+            dayString = "0" + day;
+        } else {
+            dayString = day + "";
+        }
+        if (month < 10) {
+            monthString = "0" + month;
+        } else {
+            monthString = month + "";
+        }
+        mDate.setText(dayString + "/" + monthString + "/" + year);
 
         // date picker
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
