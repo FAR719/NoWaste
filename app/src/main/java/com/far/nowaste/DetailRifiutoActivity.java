@@ -45,8 +45,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     FirebaseUser fUser;
 
     Rifiuto rifiuto;
-    //Utente utente;
-    Utente currentUser;
+    Utente modifiedUser;
 
     // view
     TextView nomeTextView;
@@ -86,8 +85,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         // variabile passata
         stringName = in.getStringExtra("com.far.nowaste.NAME");
 
-        currentUser = MainActivity.CURRENTUSER;
-
         // associazione view
         nomeTextView = findViewById(R.id.detailRifiuto_nomeTextView);
         materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
@@ -100,11 +97,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         // associazione firebase
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         // query per istanziare il rifiuto e impostare le view
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("rifiuti").document(stringName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -126,7 +119,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     }
 
     public void loadPunteggio() {
-        if (currentUser != null){
+        if (MainActivity.CURRENTUSER != null){
+            modifiedUser = MainActivity.CURRENTUSER;
             // carica punteggio in firestore
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             int numero;
@@ -134,79 +128,82 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             Map<String,Object> userMap = new HashMap<>();
             switch (rifiuto.getSmaltimento()){
                 case "Plastica":
-                    numero = currentUser.getnPlastica() + 1;
-                    punteggio = currentUser.getpPlastica() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnPlastica() + 1;
+                    punteggio = modifiedUser.getpPlastica() + rifiuto.getPunteggio();
                     userMap.put("nPlastica", numero);
                     userMap.put("pPlastica", punteggio);
-                    MainActivity.CURRENTUSER.setnPlastica(numero);
-                    MainActivity.CURRENTUSER.setpPlastica(punteggio);
+                    modifiedUser.setnPlastica(numero);
+                    modifiedUser.setpPlastica(punteggio);
                     break;
                 case "Organico":
-                    numero = currentUser.getnOrganico() + 1;
-                    punteggio = currentUser.getpOrganico() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnOrganico() + 1;
+                    punteggio = modifiedUser.getpOrganico() + rifiuto.getPunteggio();
                     userMap.put("nOrganico", numero);
                     userMap.put("pOrganico", punteggio);
-                    MainActivity.CURRENTUSER.setnOrganico(numero);
-                    MainActivity.CURRENTUSER.setpOrganico(punteggio);
+                    modifiedUser.setnOrganico(numero);
+                    modifiedUser.setpOrganico(punteggio);
                     break;
                 case "Secco":
-                    numero = currentUser.getnSecco() + 1;
-                    punteggio = currentUser.getpSecco() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnSecco() + 1;
+                    punteggio = modifiedUser.getpSecco() + rifiuto.getPunteggio();
                     userMap.put("nSecco", numero);
                     userMap.put("pSecco", punteggio);
-                    MainActivity.CURRENTUSER.setnSecco(numero);
-                    MainActivity.CURRENTUSER.setpSecco(punteggio);
+                    modifiedUser.setnSecco(numero);
+                    modifiedUser.setpSecco(punteggio);
                     break;
                 case "Carta":
-                    numero = currentUser.getnCarta() + 1;
-                    punteggio = currentUser.getpCarta() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnCarta() + 1;
+                    punteggio = modifiedUser.getpCarta() + rifiuto.getPunteggio();
                     userMap.put("nCarta", numero);
                     userMap.put("pCarta", punteggio);
-                    MainActivity.CURRENTUSER.setnCarta(numero);
-                    MainActivity.CURRENTUSER.setpCarta(punteggio);
+                    modifiedUser.setnCarta(numero);
+                    modifiedUser.setpCarta(punteggio);
                     break;
                 case "Vetro":
-                    numero = currentUser.getnVetro() + 1;
-                    punteggio = currentUser.getpVetro() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnVetro() + 1;
+                    punteggio = modifiedUser.getpVetro() + rifiuto.getPunteggio();
                     userMap.put("nVetro", numero);
                     userMap.put("pVetro", punteggio);
-                    MainActivity.CURRENTUSER.setnVetro(numero);
-                    MainActivity.CURRENTUSER.setpVetro(punteggio);
+                    modifiedUser.setnVetro(numero);
+                    modifiedUser.setpVetro(punteggio);
                     break;
                 case "Metalli":
-                    numero = currentUser.getnMetalli() + 1;
-                    punteggio = currentUser.getpMetalli() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnMetalli() + 1;
+                    punteggio = modifiedUser.getpMetalli() + rifiuto.getPunteggio();
                     userMap.put("nMetalli", numero);
                     userMap.put("pMetalli", punteggio);
-                    MainActivity.CURRENTUSER.setnMetalli(numero);
-                    MainActivity.CURRENTUSER.setpMetalli(punteggio);
+                    modifiedUser.setnMetalli(numero);
+                    modifiedUser.setpMetalli(punteggio);
                     break;
                 case "Elettrici":
-                    numero = currentUser.getnElettrici() + 1;
-                    punteggio = currentUser.getpElettrici() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnElettrici() + 1;
+                    punteggio = modifiedUser.getpElettrici() + rifiuto.getPunteggio();
                     userMap.put("nElettrici", numero);
                     userMap.put("pElettrici", punteggio);
-                    MainActivity.CURRENTUSER.setnElettrici(numero);
-                    MainActivity.CURRENTUSER.setpElettrici(punteggio);
+                    modifiedUser.setnElettrici(numero);
+                    modifiedUser.setpElettrici(punteggio);
                     break;
                 case "Speciali":
-                    numero = currentUser.getnSpeciali() + 1;
-                    punteggio = currentUser.getpSpeciali() + rifiuto.getPunteggio();
+                    numero = modifiedUser.getnSpeciali() + 1;
+                    punteggio = modifiedUser.getpSpeciali() + rifiuto.getPunteggio();
                     userMap.put("nSpeciali", numero);
                     userMap.put("pSpeciali", punteggio);
-                    MainActivity.CURRENTUSER.setnSpeciali(numero);
-                    MainActivity.CURRENTUSER.setpSpeciali(punteggio);
+                    modifiedUser.setnSpeciali(numero);
+                    modifiedUser.setpSpeciali(punteggio);
                     break;
             }
             fStore.collection("users").document(fUser.getUid()).update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
+                    MainActivity.CURRENTUSER = modifiedUser;
+                    modifiedUser = null;
                     showSnackbar("Rifiuto aggiunto!");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    modifiedUser = null;
                     showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                 }
             });
