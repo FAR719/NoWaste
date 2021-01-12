@@ -4,19 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.far.nowaste.objects.Funzionalita;
+import com.far.nowaste.objects.Rifiuto;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,6 +38,7 @@ public class AssistenzaActivity extends AppCompatActivity {
     Toolbar mToolbar;
     FloatingActionButton mNewBugBtn;
     RecyclerView mAssistenzaList;
+    FirestoreRecyclerAdapter adapter;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -62,7 +71,35 @@ public class AssistenzaActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        Query query = fStore.collection("assistenza").orderBy("nome", Query.Direction.DESCENDING);
+        Query query = fStore.collection("funzionalita").orderBy("nome", Query.Direction.DESCENDING);
+
+        FirestoreRecyclerOptions<Funzionalita> options = new FirestoreRecyclerOptions.Builder<Funzionalita>().setQuery(query, Funzionalita.class).build();
+
+        adapter = new FirestoreRecyclerAdapter<Funzionalita, AssistenzaActivity.FunzionalitaViewHolder>(options) {
+            @NonNull
+            @Override
+            public AssistenzaActivity.FunzionalitaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_assistenza_item, parent, false);
+                return new AssistenzaActivity.FunzionalitaViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull AssistenzaActivity.FunzionalitaViewHolder holder, int position, @NonNull Funzionalita model) {
+                holder.rName.setText(model.getNome());
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Intent detailSearchActivity = new Intent(getApplicationContext(), DetailRifiutoActivity.class);
+                        //detailSearchActivity.putExtra("com.far.nowaste.NAME", model.getNome());
+                        //startActivity(detailSearchActivity);
+                    }
+                });
+            }
+        };
+
+        mAssistenzaList.setHasFixedSize(true);
+        mAssistenzaList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mAssistenzaList.setAdapter(adapter);
 
         // visibilità pulsante
         if (fAuth.getCurrentUser() != null) {
@@ -107,5 +144,17 @@ public class AssistenzaActivity extends AppCompatActivity {
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();
+    }
+
+    private class FunzionalitaViewHolder extends RecyclerView.ViewHolder{
+
+        private TextView rName;
+        ConstraintLayout itemLayout;
+
+        public FunzionalitaViewHolder(@NonNull View itemView) {
+            super(itemView);
+            rName = itemView.findViewById(R.id.recView_assItem_funzionalitaTextView);
+            itemLayout = itemView.findViewById(R.id.recView_assItem_constraintLayout);
+        }
     }
 }

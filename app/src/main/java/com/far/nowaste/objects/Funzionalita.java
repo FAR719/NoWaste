@@ -13,7 +13,6 @@ public class Funzionalita {
     public Funzionalita(){}
 
     //getter
-
     public String getNome() {
         return nome;
     }
