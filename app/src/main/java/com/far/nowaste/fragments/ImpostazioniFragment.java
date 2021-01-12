@@ -25,6 +25,7 @@ import androidx.preference.SwitchPreferenceCompat;
 import com.far.nowaste.BuildConfig;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
+import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +35,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -458,7 +460,22 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     MainActivity.CURRENTUSER.setQuartiere(quartMap.get("quartiere").toString());
-                                    HomeFragment.SETTIMANALE = null;
+
+                                    // precarica il settimanale
+                                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                                    fStore.collection("settimanale").document(MainActivity.CURRENTUSER.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                            HomeFragment.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            HomeFragment.SETTIMANALE = null;
+                                        }
+                                    });
+
                                     ((MainActivity)getActivity()).showSnackbar("Quartiere impostato: " + quartMap.get("quartiere"));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

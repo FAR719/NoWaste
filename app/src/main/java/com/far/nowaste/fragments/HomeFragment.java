@@ -125,23 +125,7 @@ public class HomeFragment extends Fragment {
                         warningCardView.setVisibility(View.GONE);
                         String userQuartiere = currentuser.getQuartiere();
                         quartiere.setText("Quartiere " + userQuartiere);
-                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        if (SETTIMANALE != null) {
-                            setDayViews(SETTIMANALE);
-                        } else {
-                            fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
-                                    setDayViews(SETTIMANALE);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                                }
-                            });
-                        }
+                        loadSettimanale();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -206,6 +190,26 @@ public class HomeFragment extends Fragment {
             });
         }
         return view;
+    }
+
+    public void loadSettimanale() {
+        if (SETTIMANALE != null) {
+            setDayViews(SETTIMANALE);
+        } else {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("settimanale").document(currentuser.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                    setDayViews(SETTIMANALE);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                }
+            });
+        }
     }
 
     // definizione metodo per onClickCardView (valido per ogni carta)
