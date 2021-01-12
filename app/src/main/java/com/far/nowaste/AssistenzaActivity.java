@@ -71,8 +71,10 @@ public class AssistenzaActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+        // query
         Query query = fStore.collection("funzionalita").orderBy("nome", Query.Direction.DESCENDING);
 
+        // recyclerOptions
         FirestoreRecyclerOptions<Funzionalita> options = new FirestoreRecyclerOptions.Builder<Funzionalita>().setQuery(query, Funzionalita.class).build();
 
         adapter = new FirestoreRecyclerAdapter<Funzionalita, AssistenzaActivity.FunzionalitaViewHolder>(options) {
@@ -97,6 +99,7 @@ public class AssistenzaActivity extends AppCompatActivity {
             }
         };
 
+        // View Holder
         mAssistenzaList.setHasFixedSize(true);
         mAssistenzaList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAssistenzaList.setAdapter(adapter);
