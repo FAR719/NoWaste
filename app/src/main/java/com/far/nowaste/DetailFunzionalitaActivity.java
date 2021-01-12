@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class DetailFunzionalitaActivity extends AppCompatActivity {
 
@@ -13,6 +14,9 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
     // nome funzionalità
     String stringName;
+
+    // view
+    TextView testoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +39,9 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
         // cambia il titolo della toolbar
         mToolbar.setTitle(stringName);
+
+        // associazione view
+        testoTextView = findViewById(R.id.detailFunzionalita_testoTextView);
+
     }
 }
