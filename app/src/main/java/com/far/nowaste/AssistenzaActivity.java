@@ -92,7 +92,7 @@ public class AssistenzaActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent detailFunzionalitaActivity = new Intent(getApplicationContext(), DetailFunzionalitaActivity.class);
-                        detailFunzionalitaActivity.putExtra("com.far.nowaste.NOME", model.getNome());
+                        detailFunzionalitaActivity.putExtra("com.far.nowaste.NOMEfunzionalita", model.getNome());
                         startActivity(detailFunzionalitaActivity);
                     }
                 });
