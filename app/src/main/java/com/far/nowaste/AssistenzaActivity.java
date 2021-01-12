@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AssistenzaActivity extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class AssistenzaActivity extends AppCompatActivity {
 
     // firebase
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,9 @@ public class AssistenzaActivity extends AppCompatActivity {
         mNewBugBtn = findViewById(R.id.assistenza_floatingActionButton);
 
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
+        // visibilità pulsante
         if (fAuth.getCurrentUser() != null) {
             mNewBugBtn.setVisibility(View.VISIBLE);
             mNewBugBtn.setOnClickListener(new View.OnClickListener() {
