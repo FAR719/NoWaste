@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class AssistenzaActivity extends AppCompatActivity {
 
@@ -60,6 +61,8 @@ public class AssistenzaActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+        Query query = fStore.collection("assistenza").orderBy("nome", Query.Direction.DESCENDING);
 
         // visibilità pulsante
         if (fAuth.getCurrentUser() != null) {
