@@ -379,7 +379,7 @@ public class LoginActivity extends AppCompatActivity {
     private void showSnackbar(String string) {
         Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
                 .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
-                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();

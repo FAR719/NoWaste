@@ -32,12 +32,12 @@
     <color name="accent">@color/basil</color>
     <color name="error">@color/carmine</color>
 
-
     <!--Some useful colors-->
     <color name="primary_text">@color/black</color>
+    <color name="secondary_text">@color/white</color>
     <color name="hint_text">#9D9D9D</color>
     <color name="divider">#747474</color>
-    <color name="snackbar">#323232</color>
+    <color name="snackbar">@color/toolbar_dark</color>
 
     <color name="nav_item_bg">#1E17632B</color>
     <color name="nav_item">@color/basil</color>

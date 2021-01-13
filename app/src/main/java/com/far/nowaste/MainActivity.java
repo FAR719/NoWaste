@@ -551,15 +551,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = 7;
     }
 
-    public void showSnackbar(String string) {
-        Snackbar snackbar = Snackbar.make(drawerLayout, string, BaseTransientBottomBar.LENGTH_SHORT)
-                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
-                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
-        tv.setTypeface(nunito);
-        snackbar.show();
-    }
-
     private void setCurrentUser(){
         // imposta CURRENTUSER
         fAuth = FirebaseAuth.getInstance();
@@ -581,5 +572,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             updateHeader();
         }
+    }
+
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(drawerLayout, string, BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }
