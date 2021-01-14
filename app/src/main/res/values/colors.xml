@@ -34,7 +34,8 @@
 
     <!--Some useful colors-->
     <color name="primary_text">@color/black</color>
-    <color name="secondary_text">@color/white</color>
+    <color name="inverted_primary_text">@color/white</color>
+    <color name="secondary_text">#8A000000</color>
     <color name="hint_text">#9D9D9D</color>
     <color name="divider">#747474</color>
     <color name="snackbar">#101D25</color>

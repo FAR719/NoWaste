@@ -20,7 +20,8 @@
 
     <!--Some useful colors-->
     <color name="primary_text">@color/white</color>
-    <color name="secondary_text">@color/black</color>
+    <color name="inverted_primary_text">@color/black</color>
+    <color name="secondary_text">#B3FFFFFF</color>
     <color name="nav_item_bg">#1E00AF9B</color>
     <color name="nav_item">#00AF9B</color>
     <color name="card_background">@color/primary</color>

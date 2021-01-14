@@ -1,10 +1,12 @@
 package com.far.nowaste.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ public class ContattaciFragment extends Fragment {
 
     MaterialCardView ticketCard, contattaciCard, assistenzaCard;
     TextView nomeAzienda, indirizzoAzienda, telefonoAzienda, emailAzienda, lun, mar, mer, gio, ven, sab, dom;
+    Button callBtn, emailBtn;
 
     final Azienda Barsa = new Azienda("Barsa SPA", "Via Callano, 61, 76121 Barletta BT",
             "0883 304215", "info@barsa.it", "8.30-13, 15-18", "8.30-13, 15-18",
@@ -44,6 +47,9 @@ public class ContattaciFragment extends Fragment {
         ticketCard = view.findViewById(R.id.contattaci_ticketCard);
         contattaciCard = view.findViewById(R.id.contattaci_contattaciCard);
         assistenzaCard = view.findViewById(R.id.assistenza_MaterialCard);
+
+        callBtn = view.findViewById(R.id.callBtn);
+        emailBtn = view.findViewById(R.id.emailBtn);
 
         // textViews azienda
         nomeAzienda = view.findViewById(R.id.nome_azienda);
@@ -98,5 +104,25 @@ public class ContattaciFragment extends Fragment {
         ven.setText(azienda.getVen());
         sab.setText(azienda.getSab());
         dom.setText(azienda.getDom());
+
+        callBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + azienda.getTelefono()));
+                startActivity(intent);
+            }
+        });
+
+        emailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                String[] recipients = {azienda.getEmail()};
+                intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+                intent.setType("text/html");
+                startActivity(Intent.createChooser(intent, "Invia una mail"));
+            }
+        });
     }
 }

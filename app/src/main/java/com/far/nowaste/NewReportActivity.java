@@ -9,7 +9,6 @@ import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Report;
@@ -29,8 +27,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -174,7 +170,7 @@ public class NewReportActivity extends AppCompatActivity {
     public void showSnackbar(String string) {
         Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
                 .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
-                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.inverted_primary_text));
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();

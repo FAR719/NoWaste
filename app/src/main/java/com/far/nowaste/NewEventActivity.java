@@ -267,37 +267,39 @@ public class NewEventActivity extends AppCompatActivity {
     }
 
     private void showDatePicker(MaterialDatePicker materialDatePicker) {
-        materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
-        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                // get selected date
-                Date date = new Date(Long.parseLong(selection.toString()));
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(date);
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH) + 1;
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                String dayString, monthString;
-                if (day < 10) {
-                    dayString = "0" + day;
-                } else {
-                    dayString = day + "";
+        if (!materialDatePicker.isAdded()) {
+            materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+            materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                @Override
+                public void onPositiveButtonClick(Object selection) {
+                    // get selected date
+                    Date date = new Date(Long.parseLong(selection.toString()));
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH) + 1;
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+                    String dayString, monthString;
+                    if (day < 10) {
+                        dayString = "0" + day;
+                    } else {
+                        dayString = day + "";
+                    }
+                    if (month < 10) {
+                        monthString = "0" + month;
+                    } else {
+                        monthString = month + "";
+                    }
+                    mDate.setText(dayString + "/" + monthString + "/" + year);
                 }
-                if (month < 10) {
-                    monthString = "0" + month;
-                } else {
-                    monthString = month + "";
-                }
-                mDate.setText(dayString + "/" + monthString + "/" + year);
-            }
-        });
+            });
+        }
     }
 
     private void showSnackbar(String string) {
         Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT)
                 .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
-                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.inverted_primary_text));
         TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
         tv.setTypeface(nunito);
         snackbar.show();

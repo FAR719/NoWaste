@@ -275,7 +275,8 @@
                         android:text="Domenica"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView30"
-                        app:layout_constraintTop_toBottomOf="@+id/textView30" />
+                        app:layout_constraintTop_toBottomOf="@+id/textView30"
+                        app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
                         android:id="@+id/marAzienda"
@@ -340,6 +341,41 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/nome_azienda"
                         app:srcCompat="@drawable/ic_phone" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/callBtn"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:stateListAnimator="@null"
+                        android:text="Chiama"
+                        android:textColor="@color/secondary_text"
+                        app:backgroundTint="@android:color/transparent"
+                        app:cornerRadius="30dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView31"
+                        app:strokeColor="@color/secondary_text"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/emailBtn"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="40dp"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:stateListAnimator="@null"
+                        android:text="Email"
+                        android:textColor="@color/secondary_text"
+                        app:backgroundTint="@android:color/transparent"
+                        app:cornerRadius="30dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/callBtn"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/callBtn"
+                        app:strokeColor="@color/secondary_text"
+                        app:strokeWidth="1dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
