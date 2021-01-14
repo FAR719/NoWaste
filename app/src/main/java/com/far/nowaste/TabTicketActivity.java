@@ -117,7 +117,7 @@ public class TabTicketActivity extends AppCompatActivity {
         errorBtn.setScaleX(0.7f);
         errorBtn.setScaleY(0.7f);
 
-        if(MainActivity.CURRENTUSER.isOperatore()){
+        if(MainActivity.CURRENT_USER.isOperatore()){
             newTicketBtn.setVisibility(View.GONE);
             checkBtn.setVisibility(View.GONE);
             errorBtn.setVisibility(View.GONE);

@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         clickCard(specialiCardView, "Speciali");
 
         // imposta i dati
-        if (MainActivity.CURRENTUSER == null && fAuth.getCurrentUser() != null) {
+        if (MainActivity.CURRENT_USER == null && fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
@@ -134,8 +134,8 @@ public class HomeFragment extends Fragment {
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
-        } else if (MainActivity.CURRENTUSER != null) {
-            if (MainActivity.CURRENTUSER.getCity().equals("")) {
+        } else if (MainActivity.CURRENT_USER != null) {
+            if (MainActivity.CURRENT_USER.getCity().equals("")) {
                 raccoltaCardView.setVisibility(View.GONE);
                 warningCardView.setVisibility(View.VISIBLE);
                 warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment {
                         ((MainActivity)getActivity()).goToSettings();
                     }
                 });
-            } else if (MainActivity.CURRENTUSER.getQuartiere().equals("")){
+            } else if (MainActivity.CURRENT_USER.getQuartiere().equals("")){
                 raccoltaCardView.setVisibility(View.GONE);
                 warningCardView.setVisibility(View.VISIBLE);
                 warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
             } else {
                 raccoltaCardView.setVisibility(View.VISIBLE);
                 warningCardView.setVisibility(View.GONE);
-                String userQuartiere = MainActivity.CURRENTUSER.getQuartiere();
+                String userQuartiere = MainActivity.CURRENT_USER.getQuartiere();
                 quartiere.setText("Quartiere " + userQuartiere);
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                 if (SETTIMANALE != null) {

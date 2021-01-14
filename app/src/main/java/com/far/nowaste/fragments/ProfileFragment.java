@@ -87,8 +87,8 @@ public class ProfileFragment extends Fragment {
         colors.add(ContextCompat.getColor(getContext(), R.color.speciali));
 
         // utente implementato con variabile static in MainActivity
-        if (MainActivity.CURRENTUSER != null) {
-            setData(MainActivity.CURRENTUSER);
+        if (MainActivity.CURRENT_USER != null) {
+            setData(MainActivity.CURRENT_USER);
         } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fAuth = FirebaseAuth.getInstance();

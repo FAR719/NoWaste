@@ -189,7 +189,7 @@ public class TicketChatActivity extends AppCompatActivity {
 
     private void saveAnswer(String risposta, String identificativo) {
         // variabili
-        boolean operatore = MainActivity.CURRENTUSER.isOperatore();
+        boolean operatore = MainActivity.CURRENT_USER.isOperatore();
 
         Date time = new Date();
         int hour = time.getHours();

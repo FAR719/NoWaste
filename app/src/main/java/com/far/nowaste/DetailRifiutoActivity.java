@@ -119,8 +119,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     }
 
     public void loadPunteggio() {
-        if (MainActivity.CURRENTUSER != null){
-            modifiedUser = MainActivity.CURRENTUSER;
+        if (MainActivity.CURRENT_USER != null){
+            modifiedUser = MainActivity.CURRENT_USER;
             // carica punteggio in firestore
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             int numero;
@@ -195,7 +195,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             fStore.collection("users").document(fUser.getUid()).update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    MainActivity.CURRENTUSER = modifiedUser;
+                    MainActivity.CURRENT_USER = modifiedUser;
                     modifiedUser = null;
                     showSnackbar("Rifiuto aggiunto!");
                 }

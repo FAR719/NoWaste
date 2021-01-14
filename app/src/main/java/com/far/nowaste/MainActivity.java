@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
-    static public Utente CURRENTUSER;
+    static public Utente CURRENT_USER;
 
     View header;
     TextView mFullName, mEmail;
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
 
-        CURRENTUSER = null;
+        CURRENT_USER = null;
         mFragmentToSet = null;
 
         // toolbar
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             @Override
                             public void onSuccess(Void aVoid) {
                                 showSnackbar("Email aggiornata!");
-                                CURRENTUSER.setEmail(email);
+                                CURRENT_USER.setEmail(email);
                                 updateHeader();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // logout from settings
     public void logout() {
         FirebaseAuth.getInstance().signOut();
-        CURRENTUSER = null;
+        CURRENT_USER = null;
         HomeFragment.SETTIMANALE = null;
         showSnackbar("Logout effettuato!");
         updateHeader();
@@ -444,10 +444,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "Account eliminato da FireStore.");
                         // se esiste, elimina la proPic da storage
-                        if (CURRENTUSER.getImage() != null) {
+                        if (CURRENT_USER.getImage() != null) {
                             storage = FirebaseStorage.getInstance();
                             storageReference = storage.getReference();
-                            final String key = CURRENTUSER.getEmail();
+                            final String key = CURRENT_USER.getEmail();
                             StorageReference picRef = storageReference.child("proPics/" + key);
                             picRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             showSnackbar("Account eliminato!");
-                                            CURRENTUSER = null;
+                                            CURRENT_USER = null;
                                             HomeFragment.SETTIMANALE = null;
                                             updateHeader();
                                             mToolbar.setTitle("NoWaste");
@@ -487,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     showSnackbar("Account eliminato!");
-                                    CURRENTUSER = null;
+                                    CURRENT_USER = null;
                                     updateHeader();
                                     mToolbar.setTitle("NoWaste");
                                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
@@ -525,12 +525,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void updateHeader(){
-        if (CURRENTUSER != null) {
-            mFullName.setText(CURRENTUSER.getFullName());
-            mEmail.setText(CURRENTUSER.getEmail());
+        if (CURRENT_USER != null) {
+            mFullName.setText(CURRENT_USER.getFullName());
+            mEmail.setText(CURRENT_USER.getEmail());
             mFullName.setVisibility(View.VISIBLE);
-            if (CURRENTUSER.getImage() != null) {
-                Glide.with(getApplicationContext()).load(CURRENTUSER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+            if (CURRENT_USER.getImage() != null) {
+                Glide.with(getApplicationContext()).load(CURRENT_USER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
             } else {
                 Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);
                 mImage.setImageDrawable(defaultImage);
@@ -560,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fStore.collection("users").document(fUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    CURRENTUSER = documentSnapshot.toObject(Utente.class);
+                    CURRENT_USER = documentSnapshot.toObject(Utente.class);
                     updateHeader();
                 }
             }).addOnFailureListener(new OnFailureListener() {

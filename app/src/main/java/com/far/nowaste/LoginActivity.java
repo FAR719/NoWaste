@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     Button mLoginBtn, mResendBtn;
     TextView mResetBtn, mRegisterBtn, mWarning;
     Button mGoogleBtn;
-    ProgressBar mProgressBar;
+    LinearProgressIndicator mProgressIndicator;
     View mDivider;
 
     RelativeLayout layout;
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginButton);
         mResetBtn = findViewById(R.id.resetPassTextView);
         mGoogleBtn = findViewById(R.id.googleButton);
-        mProgressBar = findViewById(R.id.progressBar);
+        mProgressIndicator = findViewById(R.id.login_progressIindicator);
         mDivider = findViewById(R.id.login_divider);
         mRegisterBtn = findViewById(R.id.lRegisterTextView);
         mWarning = findViewById(R.id.warningTextView);
@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                     mPasswordLayout.setErrorEnabled(false);
                 }
 
-                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressIndicator.show();
 
                 // authenticate the user
                 fAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                         }  else {
                             showSnackbar("Accesso fallito.");
                         }
-                        mProgressBar.setVisibility(View.GONE);
+                        mProgressIndicator.hide();
                     }
                 });
             }
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressIndicator.show();
                 signIn();
             }
         });
@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In failed, update UI appropriately
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 showSnackbar("Accesso con Google fallito.");
-                mProgressBar.setVisibility(View.GONE);
+                mProgressIndicator.hide();
             }
         } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             registerRequest = data.getBooleanExtra("com.far.nowaste.REGISTER_REQUEST", false);
@@ -306,7 +306,7 @@ public class LoginActivity extends AppCompatActivity {
                     // If sign in fails, display a message to the user.
                     showSnackbar("Accesso con Google fallito.");
                     Log.d("LOG", "Error! " + task.getException().getLocalizedMessage());
-                    mProgressBar.setVisibility(View.GONE);
+                    mProgressIndicator.hide();
                 }
             }
         });
@@ -326,7 +326,7 @@ public class LoginActivity extends AppCompatActivity {
                     fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            MainActivity.CURRENTUSER = utente;
+                            MainActivity.CURRENT_USER = utente;
                             verificaEmail();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -334,7 +334,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             showSnackbar("Accesso con Google non effettuato correttamente.");
                             Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                            mProgressBar.setVisibility(View.GONE);
+                            mProgressIndicator.hide();
                             fAuth.signOut();
                         }
                     });
@@ -347,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 showSnackbar("Accesso con Google non effettuato correttamente.");
                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                mProgressBar.setVisibility(View.GONE);
+                mProgressIndicator.hide();
                 fAuth.signOut();
             }
         });
@@ -368,7 +368,7 @@ public class LoginActivity extends AppCompatActivity {
             mLoginBtn.setVisibility(View.GONE);
             mResetBtn.setVisibility(View.GONE);
             mGoogleBtn.setVisibility(View.GONE);
-            mProgressBar.setVisibility(View.GONE);
+            mProgressIndicator.hide();
             mDivider.setVisibility(View.GONE);
             mRegisterBtn.setVisibility(View.GONE);
             mWarning.setVisibility(View.VISIBLE);

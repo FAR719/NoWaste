@@ -86,7 +86,7 @@ public class CalendarioFragment extends Fragment {
         month = currentDay.getMonth();
         day = currentDay.getDay();
 
-        if (MainActivity.CURRENTUSER == null) {
+        if (MainActivity.CURRENT_USER == null) {
             addEventListBtn.setVisibility(View.GONE);
             mTitleTextView.setText("Eventi");
             mDescTextView.setText("Accedi per visualizzare i tuoi eventi");
@@ -97,7 +97,7 @@ public class CalendarioFragment extends Fragment {
                 }
             });
         } else {
-            if (MainActivity.CURRENTUSER.isOperatore()){
+            if (MainActivity.CURRENT_USER.isOperatore()){
                 addEventListBtn.setVisibility(View.VISIBLE);
                 addEventListBtn.setOnClickListener(new View.OnClickListener() {
                     @Override

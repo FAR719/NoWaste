@@ -43,7 +43,7 @@ public class ReportFragment extends Fragment {
         if (fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             Query query;
-            if(MainActivity.CURRENTUSER.isOperatore()){
+            if(MainActivity.CURRENT_USER.isOperatore()){
                 // query per l'operatore
                 query = fStore.collection("reports")
                         .orderBy("year", Query.Direction.DESCENDING).orderBy("month", Query.Direction.DESCENDING)
@@ -85,7 +85,7 @@ public class ReportFragment extends Fragment {
                     }
                     holder.rData.setText(day + "/" + month + "/" + model.getYear());
 
-                    if (MainActivity.CURRENTUSER.isOperatore()) {
+                    if (MainActivity.CURRENT_USER.isOperatore()) {
                         holder.rSubtitle.setText(model.getEmail());
                     } else {
                         holder.rSubtitle.setText(model.getCassonetto());
@@ -95,7 +95,7 @@ public class ReportFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             Bundle bundle = new Bundle();
-                            bundle.putBoolean("isOperatore", MainActivity.CURRENTUSER.isOperatore());
+                            bundle.putBoolean("isOperatore", MainActivity.CURRENT_USER.isOperatore());
                             bundle.putString("titolo", model.getTipologia());
                             bundle.putString("cassonetto", model.getCassonetto());
                             bundle.putString("email", model.getEmail());

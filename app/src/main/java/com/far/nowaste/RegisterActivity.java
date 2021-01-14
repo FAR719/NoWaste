@@ -15,13 +15,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputEditText mFullName, mEmail, mPassword, mPasswordAgain;
     Button mRegisterButton;
     TextView mLoginBtn;
-    ProgressBar mProgressBar;
+    LinearProgressIndicator mProgressIndicator;
 
     FirebaseAuth fAuth;
     FirebaseUser fUser;
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginBtn = findViewById(R.id.rLogintextView);
-        mProgressBar = findViewById(R.id.registerProgressBar);
+        mProgressIndicator = findViewById(R.id.register_progressIndicator);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -139,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                     mPasswordAgainLayout.setErrorEnabled(false);
                 }
 
-                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressIndicator.show();
 
                 // register the user in firebase
                 register(fullName, email, password);
@@ -199,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     showSnackbar("Registrazione fallita.");
                 }
-                mProgressBar.setVisibility(View.GONE);
+                mProgressIndicator.hide();
             }
         });
     }
@@ -218,7 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                        MainActivity.CURRENTUSER = utente;
+                        MainActivity.CURRENT_USER = utente;
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
                         setResult(Activity.RESULT_OK, returnIntent);
@@ -228,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                        mProgressBar.setVisibility(View.GONE);
+                        mProgressIndicator.hide();
                         showSnackbar("Account non creato correttamente!");
                     }
                 });
@@ -237,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showSnackbar("Account non creato correttamente!");
-                mProgressBar.setVisibility(View.GONE);
+                mProgressIndicator.hide();
             }
         });
     }

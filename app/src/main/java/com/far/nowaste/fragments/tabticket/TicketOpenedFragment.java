@@ -45,7 +45,7 @@ public class TicketOpenedFragment extends Fragment {
         if (fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             Query query;
-            if(MainActivity.CURRENTUSER.isOperatore()) {
+            if(MainActivity.CURRENT_USER.isOperatore()) {
                 // query per l'operatore
                 query = fStore.collection("tickets")
                         .whereEqualTo("stato",true)
@@ -87,7 +87,7 @@ public class TicketOpenedFragment extends Fragment {
                         month = model.getMonth() + "";
                     }
                     holder.rData.setText(day + "/" + month + "/" + model.getYear());
-                    if (MainActivity.CURRENTUSER.isOperatore()) {
+                    if (MainActivity.CURRENT_USER.isOperatore()) {
                         holder.rEmail.setVisibility(View.VISIBLE);
                         holder.rEmail.setText(model.getEmail());
                     } else {
@@ -112,7 +112,7 @@ public class TicketOpenedFragment extends Fragment {
                         }
                     });
 
-                    if(MainActivity.CURRENTUSER.isOperatore()) {
+                    if(MainActivity.CURRENT_USER.isOperatore()) {
                         holder.itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
