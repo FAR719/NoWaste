@@ -99,10 +99,6 @@ public class LoginActivity extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
-        if (fAuth.getCurrentUser() != null) {
-            verificaEmail();
-        }
-
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,11 +235,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (fAuth.getCurrentUser() != null) {
+            verificaEmail();
+        }
+    }
+
     // ends this activity (back arrow)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
             fAuth.signOut();
+            MainActivity.CURRENT_USER = null;
         }
         this.finish();
         return super.onOptionsItemSelected(item);

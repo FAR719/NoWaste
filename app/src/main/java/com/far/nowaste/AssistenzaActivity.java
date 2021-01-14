@@ -22,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Funzionalita;
-import com.far.nowaste.objects.Rifiuto;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -141,18 +140,9 @@ public class AssistenzaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showSnackbar(String string) {
-        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT).setAnchorView(mNewBugBtn)
-                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
-                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
-        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
-        tv.setTypeface(nunito);
-        snackbar.show();
-    }
-
     private class FunzionalitaViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView rName;
+        TextView rName;
         ConstraintLayout itemLayout;
 
         public FunzionalitaViewHolder(@NonNull View itemView) {
@@ -173,5 +163,14 @@ public class AssistenzaActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public void showSnackbar(String string) {
+        Snackbar snackbar = Snackbar.make(layout, string, BaseTransientBottomBar.LENGTH_SHORT).setAnchorView(mNewBugBtn)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.snackbar))
+                .setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+        TextView tv = (snackbar.getView()).findViewById((R.id.snackbar_text));
+        tv.setTypeface(nunito);
+        snackbar.show();
     }
 }

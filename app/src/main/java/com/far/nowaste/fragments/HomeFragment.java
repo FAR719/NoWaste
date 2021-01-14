@@ -92,8 +92,16 @@ public class HomeFragment extends Fragment {
         clickCard(metalliCardView,"Metalli");
         clickCard(elettriciCardView, "Elettrici");
         clickCard(specialiCardView, "Speciali");
+        return view;
+    }
 
-        // imposta i dati
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateCardData();
+    }
+
+    private void updateCardData() {
         if (MainActivity.CURRENT_USER == null && fAuth.getCurrentUser() != null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -189,10 +197,9 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-        return view;
     }
 
-    public void loadSettimanale() {
+    private void loadSettimanale() {
         if (SETTIMANALE != null) {
             setDayViews(SETTIMANALE);
         } else {

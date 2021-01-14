@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fAuth = FirebaseAuth.getInstance();
 
+        updateCurrentUser();
+
         // header onclick
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-        setCurrentUser();
+        updateHeader();
     }
 
     @Override
@@ -266,18 +268,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean detailUserRequest = false;
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            detailUserRequest = data.getBooleanExtra("com.far.nowaste.detailUserRequest", false);
+            boolean detailUserRequest = data.getBooleanExtra("com.far.nowaste.detailUserRequest", false);
+            if (detailUserRequest) {
+                updateCurrentUser();
+                showSnackbar("Hai effettuato l'accesso come " + fAuth.getCurrentUser().getDisplayName());
+                mToolbar.setTitle("Profilo");
+                getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
+                fragment = 2;
+                navigationView.setCheckedItem(R.id.nav_invisible);
+            }
         }
-        if (detailUserRequest) {
-            showSnackbar("Hai effettuato l'accesso come " + fAuth.getCurrentUser().getDisplayName());
-            mToolbar.setTitle("Profilo");
-            getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.main_frameLayout, new ProfileFragment()).commit();
-            fragment = 2;
-            navigationView.setCheckedItem(R.id.nav_invisible);
-        }
+
     }
 
     // chiude la navigation quando premi back
@@ -551,8 +554,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = 7;
     }
 
-    private void setCurrentUser(){
-        // imposta CURRENTUSER
+    private void updateCurrentUser(){
+        // imposta CURRENT_USER
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
         if (fUser != null) {
