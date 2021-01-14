@@ -241,10 +241,7 @@ public class TabTicketActivity extends AppCompatActivity {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(TabTicketActivity.this, R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Chiudi ticket");
                 builder.setMessage("Vuoi chiudere questo ticket?");
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

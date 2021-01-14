@@ -182,10 +182,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Nome");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -255,10 +252,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Elimina profilo");
                 builder.setMessage("Vuoi rimuovere la foto del tuo profilo?");
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -333,10 +327,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Città");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -430,10 +421,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Quartiere");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -513,10 +501,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Email");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -557,10 +542,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Password");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -588,10 +570,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Logout");
                 builder.setMessage("Vuoi uscire dal tuo account?");
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -610,10 +589,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Reset dati");
                 builder.setMessage("Vuoi eliminare i dati del tuo account? Tale operazione è irreversibile!");
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -663,10 +639,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Elimina account");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -702,10 +675,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Operatore ecologico");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -785,10 +755,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
                 builder.setTitle("Tema");
                 builder.setView(mainLayout);
-                builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {}
-                });
+                builder.setNegativeButton("Annulla", null);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

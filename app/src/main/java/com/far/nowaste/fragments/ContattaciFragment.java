@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,12 +16,22 @@ import com.far.nowaste.NewBugActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.TabTicketActivity;
+import com.far.nowaste.objects.Azienda;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ContattaciFragment extends Fragment {
 
     MaterialCardView ticketCard, contattaciCard, assistenzaCard;
+    TextView nomeAzienda, indirizzoAzienda, telefonoAzienda, emailAzienda, lun, mar, mer, gio, ven, sab, dom;
+
+    final Azienda Barsa = new Azienda("Barsa SPA", "Via Callano, 61, 76121 Barletta BT",
+            "0883 304215", "info@barsa.it", "8.30-13, 15-18", "8.30-13, 15-18",
+            "8.30-13, 15-18", "8.30-13, 15-18", "8.30-13, 15-18", "8.30-13", "Chiuso");
+    final Azienda Amiu = new Azienda("Amu Puglia SPA", "Via Napoli, 349, 70123 Bari BA",
+            "800-011558", "segreteria.amiu@legalmail.it", "7.30-12", "7.30-12",
+            "7.30-12", "7.30-12", "7.30-12", "7.30-12", "Chiuso");
+
     FirebaseAuth fAuth;
 
     @Nullable
@@ -34,6 +45,19 @@ public class ContattaciFragment extends Fragment {
         contattaciCard = view.findViewById(R.id.contattaci_contattaciCard);
         assistenzaCard = view.findViewById(R.id.assistenza_MaterialCard);
 
+        // textViews azienda
+        nomeAzienda = view.findViewById(R.id.nome_azienda);
+        indirizzoAzienda = view.findViewById(R.id.indirizzo_azienda);
+        telefonoAzienda = view.findViewById(R.id.telefono_azienda);
+        emailAzienda = view.findViewById(R.id.email_azienda);
+        lun = view.findViewById(R.id.lunAzienda);
+        mar = view.findViewById(R.id.marAzienda);
+        mer = view.findViewById(R.id.merAzienda);
+        gio = view.findViewById(R.id.gioAzienda);
+        ven = view.findViewById(R.id.venAzienda);
+        sab = view.findViewById(R.id.sabAzienda);
+        dom = view.findViewById(R.id.domAzienda);
+
         ticketCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,10 +69,13 @@ public class ContattaciFragment extends Fragment {
             }
         });
 
-        contattaciCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        if (MainActivity.CURRENT_USER == null || MainActivity.CURRENT_USER.getCity().equals("")) {
+            contattaciCard.setVisibility(View.GONE);
+        } else if (MainActivity.CURRENT_USER.getCity().equals("Bari")) {
+            setContattaciCardData(Amiu);
+        } else if (MainActivity.CURRENT_USER.getCity().equals("Barletta")) {
+            setContattaciCardData(Barsa);
+        }
 
         assistenzaCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,5 +85,18 @@ public class ContattaciFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setContattaciCardData(Azienda azienda) {
+        nomeAzienda.setText(azienda.getNome());
+        telefonoAzienda.setText(azienda.getTelefono());
+        emailAzienda.setText(azienda.getEmail());
+        lun.setText(azienda.getLun());
+        mar.setText(azienda.getMar());
+        mer.setText(azienda.getMer());
+        gio.setText(azienda.getGio());
+        ven.setText(azienda.getVen());
+        sab.setText(azienda.getSab());
+        dom.setText(azienda.getDom());
     }
 }

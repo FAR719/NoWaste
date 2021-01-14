@@ -101,6 +101,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/card_background"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +115,7 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/nome_azienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -132,10 +134,10 @@
                         android:fontFamily="@font/nunito_bold"
                         android:text="Indirizzo:"
                         app:layout_constraintStart_toStartOf="@+id/imageView2"
-                        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                        app:layout_constraintTop_toBottomOf="@+id/nome_azienda" />
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/indirizzo_azienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -166,23 +168,23 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/telefono_azienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="0883 304215"
                         app:layout_constraintBottom_toBottomOf="@+id/textView13"
-                        app:layout_constraintStart_toStartOf="@+id/textView12"
+                        app:layout_constraintStart_toStartOf="@+id/indirizzo_azienda"
                         app:layout_constraintTop_toTopOf="@+id/textView13" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/email_azienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="info@barsa.it"
                         app:layout_constraintBottom_toBottomOf="@+id/textView14"
-                        app:layout_constraintStart_toStartOf="@+id/textView15"
+                        app:layout_constraintStart_toStartOf="@+id/telefono_azienda"
                         app:layout_constraintTop_toTopOf="@+id/textView14" />
 
                     <TextView
@@ -202,16 +204,16 @@
                         android:fontFamily="@font/nunito_semibold"
                         android:text="Lunedì"
                         app:layout_constraintBottom_toBottomOf="@+id/textView17"
-                        app:layout_constraintStart_toStartOf="@+id/textView16"
+                        app:layout_constraintStart_toStartOf="@+id/email_azienda"
                         app:layout_constraintTop_toTopOf="@+id/textView17" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/lunAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="8.30-13, 15-18"
-                        app:layout_constraintStart_toStartOf="@+id/textView32"
+                        app:layout_constraintStart_toStartOf="@+id/marAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView18" />
 
                     <TextView
@@ -276,16 +278,16 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
                     <TextView
-                        android:id="@+id/textView32"
+                        android:id="@+id/marAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="8.30-13, 15-18"
-                        app:layout_constraintStart_toStartOf="@+id/textView33"
+                        app:layout_constraintStart_toStartOf="@+id/merAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
                     <TextView
-                        android:id="@+id/textView33"
+                        android:id="@+id/merAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -295,48 +297,48 @@
                         app:layout_constraintTop_toTopOf="@+id/textView19" />
 
                     <TextView
-                        android:id="@+id/textView34"
+                        android:id="@+id/gioAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="8.30-13, 15-18"
-                        app:layout_constraintStart_toStartOf="@+id/textView33"
+                        app:layout_constraintStart_toStartOf="@+id/merAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView28" />
 
                     <TextView
-                        android:id="@+id/textView35"
+                        android:id="@+id/venAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="8.30-13, 15-18"
-                        app:layout_constraintStart_toStartOf="@+id/textView34"
+                        app:layout_constraintStart_toStartOf="@+id/gioAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView29" />
 
                     <TextView
-                        android:id="@+id/textView36"
+                        android:id="@+id/sabAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="8.30-13"
-                        app:layout_constraintStart_toStartOf="@+id/textView35"
+                        app:layout_constraintStart_toStartOf="@+id/venAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView30" />
 
                     <TextView
-                        android:id="@+id/textView37"
+                        android:id="@+id/domAzienda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:text="Chiuso"
-                        app:layout_constraintStart_toStartOf="@+id/textView36"
+                        app:layout_constraintStart_toStartOf="@+id/sabAzienda"
                         app:layout_constraintTop_toTopOf="@+id/textView31" />
 
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                        app:layout_constraintBottom_toBottomOf="@+id/nome_azienda"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView9"
+                        app:layout_constraintTop_toTopOf="@+id/nome_azienda"
                         app:srcCompat="@drawable/ic_phone" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

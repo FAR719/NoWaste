@@ -217,9 +217,7 @@ public class ListaEventiActivity extends AppCompatActivity {
                     MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ListaEventiActivity.this, R.style.ThemeOverlay_NoWaste_AlertDialog);
                     builder.setTitle("Elimina");
                     builder.setMessage("Vuoi eliminare l'evento selezionato?");
-                    builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {}
-                    });
+                    builder.setNegativeButton("Annulla", null);
                     builder.setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

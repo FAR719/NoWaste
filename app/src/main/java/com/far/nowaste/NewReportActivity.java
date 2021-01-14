@@ -111,7 +111,7 @@ public class NewReportActivity extends AppCompatActivity {
                 }
 
                 if(cassonetto.equals("Altro") && TextUtils.isEmpty(commento)){
-                    mCommento.setError("Specificare la tipologia del cassonetto.");
+                    mCommento.setError("Specificare qui la tipologia del cassonetto.");
                     return;
                 }
 
