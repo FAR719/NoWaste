@@ -6,17 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.far.nowaste.objects.Funzionalita;
-import com.far.nowaste.objects.Rifiuto;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class DetailFunzionalitaActivity extends AppCompatActivity {
 
@@ -28,7 +19,6 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
     String nome;
     String testo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +44,16 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         // cambia il titolo della toolbar
         mToolbar.setTitle(nome);
         testoTextView.setText(testo);
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

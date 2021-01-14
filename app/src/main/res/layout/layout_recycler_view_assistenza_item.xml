@@ -5,7 +5,10 @@
     android:id="@+id/recView_assItem_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20sp">
+    android:padding="20sp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
     <!-- Funzionalità -->
     <TextView
@@ -14,8 +17,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_semibold"
         android:text="Funzionalità"
-        android:textColor="@color/primary_text"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
