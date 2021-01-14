@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_chat"
+            android:background="@drawable/bg_date_picker"
             android:backgroundTint="@color/editText_bg"
             android:clickable="true"
             android:focusable="true"
@@ -49,8 +49,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="15dp"
-                android:background="?attr/selectableItemBackground">
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/newEvent_dateTextView"

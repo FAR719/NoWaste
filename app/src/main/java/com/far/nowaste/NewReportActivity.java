@@ -2,12 +2,14 @@ package com.far.nowaste;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Report;
@@ -44,15 +47,13 @@ public class NewReportActivity extends AppCompatActivity {
     RadioButton mVetroRdb, mCartaRdb, mIndifferenziataRdb, mPlasticaRdb, mIndumentiRdb, mAltroRdb;
     EditText mIndirizzo, mCommento;
     Button mSendBtn;
+    AppCompatSpinner mSpinner;
 
     RelativeLayout layout;
     Typeface nunito;
 
     // firebase
     FirebaseAuth fAuth;
-
-    TextInputLayout typoInputLayout;
-    MaterialAutoCompleteTextView typoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +73,7 @@ public class NewReportActivity extends AppCompatActivity {
         layout = findViewById(R.id.newTicket_layout);
 
         // collegamneti view
-        typoInputLayout = findViewById(R.id.typoInputLayout);
-        typoTextView = findViewById(R.id.typoTextView);
+        mSpinner = findViewById(R.id.newReport_spinner);
         mVetroRdb = findViewById(R.id.rdbVetro);
         mCartaRdb = findViewById(R.id.rdbCarta);
         mIndifferenziataRdb = findViewById(R.id.rdbIndifferenziata);
@@ -90,23 +90,18 @@ public class NewReportActivity extends AppCompatActivity {
         ArrayList<String> values = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.listReports)));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_spinner_dropdown, values);
 
-        typoTextView.setAdapter(adapter);
+        mSpinner.setAdapter(adapter);
 
         mSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tipologia = typoTextView.getText().toString();
+                String tipologia = mSpinner.getSelectedItem().toString();
                 String cassonetto = (mVetroRdb.isChecked())?"Vetro":(mCartaRdb.isChecked())?"Carta":(mIndifferenziataRdb.isChecked())?"Indifferenziata":
                         (mPlasticaRdb.isChecked())?"Plastica":(mIndumentiRdb.isChecked())?"Indumenti":(mAltroRdb.isChecked())?"Altro":"";
                 String indirizzo = mIndirizzo.getText().toString();
                 String commento = mCommento.getText().toString();
-                // controlla la info aggiunte
-                if (TextUtils.isEmpty(tipologia)) {
-                    typoInputLayout.setError("Selezionare una tipologia.");
-                } else {
-                    typoInputLayout.setErrorEnabled(false);
-                }
 
+                // controlla la info aggiunte
                 if(TextUtils.isEmpty(cassonetto)) {
                     mIndirizzo.setError("Selezionare un cassonetto.");
                     return;

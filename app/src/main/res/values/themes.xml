@@ -132,14 +132,11 @@
     </style>
     <style name="Widget.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox</item>
     </style>
     <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox" parent="">
         <item name="colorPrimary">@color/accent</item>
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
-    </style>
-    <style name="ThemeOverlay.NoWaste.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="">
-        <item name="colorPrimary">@color/accent</item>
         <item name="autoCompleteTextViewStyle">@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox</item>
     </style>
 
