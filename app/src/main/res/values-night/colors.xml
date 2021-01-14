@@ -27,6 +27,7 @@
     <color name="card_background_selected">#4E575E</color>
     <color name="ticket_item_background_selected">#404B51</color>
     <color name="operatore_answer">#074540</color>
+    <color name="editText_bg">#2C373D</color>
 
     <!--SearchView colors-->
     <color name="search_background">@color/primary</color>

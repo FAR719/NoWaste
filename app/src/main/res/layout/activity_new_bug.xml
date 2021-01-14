@@ -31,69 +31,22 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/newBug_appBarLayout">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bug_oggettoInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20dp"
-            android:hint="Oggetto"
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="@dimen/field_corner_radius"
-            app:boxCornerRadiusBottomStart="@dimen/field_corner_radius"
-            app:boxCornerRadiusTopEnd="@dimen/field_corner_radius"
-            app:boxCornerRadiusTopStart="@dimen/field_corner_radius"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginTextView">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bug_oggettoInputText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:inputType="text|textCapSentences" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/bug_commentoInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:hint="Scrivi..."
-            app:boxBackgroundMode="outline"
-            app:boxCornerRadiusBottomEnd="50dp"
-            app:boxCornerRadiusBottomStart="50dp"
-            app:boxCornerRadiusTopEnd="50dp"
-            app:boxCornerRadiusTopStart="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bug_oggettoInputLayout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bug_commentoInputText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:inputType="text|textCapSentences|textMultiLine" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <EditText
             android:id="@+id/oggettoBug_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito"
             android:hint="Oggetto"
             android:inputType="text|textCapSentences"
-            android:padding="18dp"
+            android:padding="15dp"
+            android:background="@drawable/bg_chat"
+            android:backgroundTint="@color/editText_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bug_commentoInputLayout" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/textBug_EditText"
@@ -102,9 +55,14 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/nunito"
-            android:hint="Scrivi..."
+            android:hint="Messaggio"
             android:inputType="text|textCapSentences|textMultiLine"
-            android:padding="18dp"
+            android:padding="15dp"
+            android:minLines="3"
+            android:gravity="top"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_chat"
+            android:backgroundTint="@color/editText_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/oggettoBug_EditText"/>
