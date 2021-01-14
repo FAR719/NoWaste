@@ -16,18 +16,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class DetailFunzionalitaActivity extends AppCompatActivity {
 
     // variabili
     Toolbar mToolbar;
-    Funzionalita funzionalita;
-
-    // nome funzionalità
-    String stringName;
 
     // view
     TextView testoTextView;
+
+    String nome;
+    String testo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,37 +43,16 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // to launch the activity
-        Intent in = getIntent();
-
-        // variabile passata
-        stringName = in.getStringExtra("com.far.nowaste.NOMEfunzionalita");
-
-        // cambia il titolo della toolbar
-        mToolbar.setTitle(stringName);
-
         // associazione view
         testoTextView = findViewById(R.id.detailFunzionalita_testoTextView);
 
+        // variabili passate
+        Intent in = getIntent();
+        nome = in.getStringExtra("com.far.nowaste.FUNZ_NOME");
+        testo = in.getStringExtra("com.far.nowaste.FUNZ_TESTO");
+
+        // cambia il titolo della toolbar
+        mToolbar.setTitle(nome);
+        testoTextView.setText(testo);
     }
-
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        // query per istanziare la funzionalità e impostare la view
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        fStore.collection("funzionalita").whereEqualTo("nome", stringName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                funzionalita = documentSnapshot.toObject(Funzionalita.class);
-
-                testoTextView.setText(funzionalita.getTesto());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
-            }
-        });
-    }*/
 }

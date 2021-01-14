@@ -72,7 +72,7 @@ public class AssistenzaActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         // query
-        Query query = fStore.collection("funzionalita").orderBy("nome", Query.Direction.DESCENDING);
+        Query query = fStore.collection("funzionalita").orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Funzionalita> options = new FirestoreRecyclerOptions.Builder<Funzionalita>().setQuery(query, Funzionalita.class).build();
@@ -92,7 +92,8 @@ public class AssistenzaActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent detailFunzionalitaActivity = new Intent(getApplicationContext(), DetailFunzionalitaActivity.class);
-                        detailFunzionalitaActivity.putExtra("com.far.nowaste.NOMEfunzionalita", model.getNome());
+                        detailFunzionalitaActivity.putExtra("com.far.nowaste.FUNZ_NOME", model.getNome());
+                        detailFunzionalitaActivity.putExtra("com.far.nowaste.FUNZ_TESTO", model.getTesto());
                         startActivity(detailFunzionalitaActivity);
                     }
                 });
