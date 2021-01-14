@@ -56,34 +56,24 @@
             android:padding="15dp"
             android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/send_layout"
+            app:layout_constraintEnd_toStartOf="@+id/chat_send_fab"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/send_layout"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/chat_send_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/bg_selector_current_day_checked"
-            android:padding="5dp"
+            app:backgroundTint="@color/accent"
+            app:elevation="0dp"
+            app:fabCustomSize="45dp"
             app:layout_constraintBottom_toBottomOf="@+id/rRispostaEditText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rRispostaEditText">
-
-            <ImageButton
-                android:id="@+id/rSentimageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_send" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@+id/rRispostaEditText"
+            app:maxImageSize="23dp"
+            app:srcCompat="@drawable/ic_send" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

@@ -24,6 +24,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,7 +40,7 @@ public class TicketChatActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     EditText mRisposta;
-    ImageButton mRispBtn;
+    FloatingActionButton mRispBtn;
 
     RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
@@ -138,7 +139,7 @@ public class TicketChatActivity extends AppCompatActivity {
         mFirestoreList.setAdapter(adapter);
 
         //  risposta
-        mRispBtn = findViewById(R.id.rSentimageButton);
+        mRispBtn = findViewById(R.id.chat_send_fab);
         mRispBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
