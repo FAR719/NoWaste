@@ -147,7 +147,6 @@ public class TicketOpenedFragment extends Fragment {
         TextView rEmail;
         ConstraintLayout itemLayout;
 
-
         public TicketsViewHolder(@NonNull View itemView) {
             super(itemView);
             itemLayout = itemView.findViewById(R.id.recView_ticketsItem_constraintLayout);
