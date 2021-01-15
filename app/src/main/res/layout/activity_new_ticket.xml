@@ -26,61 +26,71 @@
             app:titleTextAppearance="@style/TextAppearance.NoWaste.Toolbar.Title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:layout_below="@+id/nuovoTicket_appBarLayout">
 
-        <EditText
-            android:id="@+id/oggettoTicket_EditText"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
-            android:hint="Oggetto"
-            android:inputType="text|textCapSentences"
-            android:padding="15dp"
-            android:background="@drawable/bg_chat"
-            android:backgroundTint="@color/editText_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/textTicket_EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/nunito"
-            android:hint="Messaggio"
-            android:inputType="text|textCapSentences|textMultiLine"
-            android:padding="15dp"
-            android:minLines="3"
-            android:gravity="top"
-            android:background="@drawable/bg_chat"
-            android:backgroundTint="@color/editText_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/oggettoTicket_EditText"/>
+            <EditText
+                android:id="@+id/oggettoTicket_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito"
+                android:hint="Oggetto"
+                android:inputType="text|textCapSentences"
+                android:padding="15dp"
+                android:background="@drawable/bg_chat"
+                android:backgroundTint="@color/editText_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/sendTicketButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/accent"
-            android:fontFamily="@font/nunito_semibold"
-            android:text="INVIA"
-            android:textColor="@color/white"
-            app:cornerRadius="@dimen/field_corner_radius"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/textTicket_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/nunito"
+                android:hint="Messaggio"
+                android:inputType="text|textCapSentences|textMultiLine"
+                android:padding="15dp"
+                android:minLines="3"
+                android:gravity="top"
+                android:background="@drawable/bg_chat"
+                android:backgroundTint="@color/editText_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oggettoTicket_EditText"/>
 
+            <Button
+                android:id="@+id/sendTicketButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/accent"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="INVIA"
+                android:textColor="@color/white"
+                app:cornerRadius="@dimen/field_corner_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textTicket_EditText"
+                app:layout_constraintVertical_bias="1.0" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </RelativeLayout>
