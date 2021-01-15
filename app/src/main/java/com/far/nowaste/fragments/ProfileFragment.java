@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.objects.CarbonDioxide;
+import com.far.nowaste.objects.Energy;
+import com.far.nowaste.objects.Oil;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
@@ -50,6 +55,11 @@ public class ProfileFragment extends Fragment {
     // firebase
     FirebaseAuth fAuth;
     FirebaseUser fUser;
+
+    // dati dell'utente
+    static public ArrayList<CarbonDioxide> CARBON_DIOXIDE_ARRAY_LIST;
+    static public ArrayList<Energy> ENERGY_ARRAY_LIST;
+    static public ArrayList<Oil> OIL_ARRAY_LIST;
 
     @Nullable
     @Override
@@ -86,12 +96,29 @@ public class ProfileFragment extends Fragment {
         colors.add(ContextCompat.getColor(getContext(), R.color.elettrici));
         colors.add(ContextCompat.getColor(getContext(), R.color.speciali));
 
-        // utente implementato con variabile static in MainActivity
+        // inizializzazione liste
+        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+        ENERGY_ARRAY_LIST = new ArrayList<>();
+        OIL_ARRAY_LIST = new ArrayList<>();
+
+        fAuth = FirebaseAuth.getInstance();
+
+        retrieveCurrentUser();
+        retrieveUserData();
+
+        return view;
+    }
+
+    private void retrieveCurrentUser() {
         if (MainActivity.CURRENT_USER != null) {
-            setData(MainActivity.CURRENT_USER);
+            // imposta nome, cognome e immagine
+            mFullName.setText(MainActivity.CURRENT_USER.getFullName());
+            mEmail.setText(MainActivity.CURRENT_USER.getEmail());
+            if (MainActivity.CURRENT_USER.getImage() != null) {
+                Glide.with(getContext()).load(MainActivity.CURRENT_USER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+            }
         } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fAuth = FirebaseAuth.getInstance();
             fUser = fAuth.getCurrentUser();
 
             // imposta dati personali
@@ -99,7 +126,12 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     Utente utente = documentSnapshot.toObject(Utente.class);
-                    setData(utente);
+                    // imposta nome, cognome e immagine
+                    mFullName.setText(utente.getFullName());
+                    mEmail.setText(utente.getEmail());
+                    if (utente.getImage() != null) {
+                        Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -108,17 +140,87 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
-        return view;
     }
 
-    private void setData(Utente utente){
-        // imposta nome, cognome e immagine
-        mFullName.setText(utente.getFullName());
-        mEmail.setText(utente.getEmail());
-        if (utente.getImage() != null) {
-            Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
+    private void retrieveUserData() {
+        if (CARBON_DIOXIDE_ARRAY_LIST.isEmpty()) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fAuth.getCurrentUser().getUid())
+                    .collection("carbon_dioxide").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        CarbonDioxide item = document.toObject(CarbonDioxide.class);
+                        CARBON_DIOXIDE_ARRAY_LIST.add(item);
+                    }
+                    setCO2Data(CARBON_DIOXIDE_ARRAY_LIST);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                }
+            });
+        } else {
+            setCO2Data(CARBON_DIOXIDE_ARRAY_LIST);
+        }
+    }
+
+    private void setCO2Data(ArrayList<CarbonDioxide> arrayList){
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+        double punteggioPla = 0;
+        int quantitaPla = 0;
+
+        for (CarbonDioxide item : arrayList) {
+            if (item.getTipo().equals("Plastica")) {
+                punteggioPla += item.getPunteggio();
+                quantitaPla += item.getQuantita();
+            } else if (item.getTipo().equals("Organico")) {
+
+            }
         }
 
+        // imposta grafici e textView
+        tvPlastica.setText(punteggioPla + "g");
+        tvOrganico.setText(utente.getpOrganico() + "g");
+        tvSecco.setText(utente.getpSecco() + "g");
+        tvCarta.setText(utente.getpCarta() + "g");
+        tvVetro.setText(utente.getpVetro() + "g");
+        tvMetalli.setText(utente.getpMetalli() + "g");
+        tvElettrici.setText(utente.getpElettrici() + "g");
+        tvSpeciali.setText(utente.getpSpeciali() + "g");
+        setPieChartData(utente);
+        setBarChartData(utente);
+    }
+
+    private void setEnergyData(ArrayList<Energy> arrayList){
+        // imposta grafici e textView
+        tvPlastica.setText((utente.getpPlastica()) + "g");
+        tvOrganico.setText(utente.getpOrganico() + "g");
+        tvSecco.setText(utente.getpSecco() + "g");
+        tvCarta.setText(utente.getpCarta() + "g");
+        tvVetro.setText(utente.getpVetro() + "g");
+        tvMetalli.setText(utente.getpMetalli() + "g");
+        tvElettrici.setText(utente.getpElettrici() + "g");
+        tvSpeciali.setText(utente.getpSpeciali() + "g");
+        setPieChartData(utente);
+        setBarChartData(utente);
+    }
+
+    private void setOilData(ArrayList<Oil> arrayList){
         // imposta grafici e textView
         tvPlastica.setText((utente.getpPlastica()) + "g");
         tvOrganico.setText(utente.getpOrganico() + "g");
