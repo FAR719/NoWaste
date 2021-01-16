@@ -351,7 +351,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     MainActivity.CURRENT_USER.setCity(cityMap.get("city").toString());
                                     MainActivity.CURRENT_USER.setQuartiere("");
                                     mQuartierePreference.setVisible(true);
-                                    HomeFragment.SETTIMANALE = null;
+                                    MainActivity.SETTIMANALE = null;
                                     ((MainActivity)getActivity()).showSnackbar("Città impostata: " + cityMap.get("city"));
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -454,13 +454,13 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     fStore.collection("settimanale").document(MainActivity.CURRENT_USER.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            HomeFragment.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                                            MainActivity.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                                            HomeFragment.SETTIMANALE = null;
+                                            MainActivity.SETTIMANALE = null;
                                         }
                                     });
 
@@ -603,7 +603,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             public void onSuccess(Void aVoid) {
                                 dialog.dismiss();
                                 MainActivity.CURRENT_USER = utente;
-                                HomeFragment.SETTIMANALE = null;
+                                MainActivity.SETTIMANALE = null;
                                 ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
                             }
                         }).addOnFailureListener(new OnFailureListener() {

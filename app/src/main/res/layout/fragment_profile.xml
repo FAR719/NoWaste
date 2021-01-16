@@ -98,7 +98,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/c_o_tv"
+                    android:id="@+id/tvSaving"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     app:layout_constraintStart_toEndOf="@+id/piechart"
-                    app:layout_constraintTop_toBottomOf="@+id/c_o_tv">
+                    app:layout_constraintTop_toBottomOf="@+id/tvSaving">
 
 
                     <TextView

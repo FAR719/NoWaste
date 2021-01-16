@@ -85,7 +85,7 @@ public class ListaEventiActivity extends AppCompatActivity {
 
         // query (Firebase permette di utilizzare whereGreaterThan in un solo campo quindi filtro per anno
         Query query = fStore.collection("events").whereGreaterThanOrEqualTo("year", currentDay.getYear())
-                .orderBy("year",Query.Direction.ASCENDING).orderBy("month", Query.Direction.ASCENDING)
+                .orderBy("year", Query.Direction.ASCENDING).orderBy("month", Query.Direction.ASCENDING)
                 .orderBy("day", Query.Direction.ASCENDING);
 
         // recyclerOptions

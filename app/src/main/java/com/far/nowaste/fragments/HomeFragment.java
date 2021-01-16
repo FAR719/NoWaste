@@ -39,8 +39,6 @@ public class HomeFragment extends Fragment {
 
     Utente currentuser;
 
-    static public Settimanale SETTIMANALE;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -169,14 +167,14 @@ public class HomeFragment extends Fragment {
                 String userQuartiere = MainActivity.CURRENT_USER.getQuartiere();
                 quartiere.setText("Quartiere " + userQuartiere);
                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                if (SETTIMANALE != null) {
-                    setDayViews(SETTIMANALE);
+                if (MainActivity.SETTIMANALE != null) {
+                    setDayViews(MainActivity.SETTIMANALE);
                 } else {
                     fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
-                            setDayViews(SETTIMANALE);
+                            MainActivity.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                            setDayViews(MainActivity.SETTIMANALE);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -200,15 +198,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSettimanale() {
-        if (SETTIMANALE != null) {
-            setDayViews(SETTIMANALE);
+        if (MainActivity.SETTIMANALE != null) {
+            setDayViews(MainActivity.SETTIMANALE);
         } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("settimanale").document(currentuser.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
-                    setDayViews(SETTIMANALE);
+                    MainActivity.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
+                    setDayViews(MainActivity.SETTIMANALE);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

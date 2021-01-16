@@ -18,8 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.far.nowaste.fragments.ProfileFragment;
+import com.far.nowaste.objects.Saving;
 import com.far.nowaste.objects.Rifiuto;
-import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,8 +28,11 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +49,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     FirebaseUser fUser;
 
     Rifiuto rifiuto;
-    Utente modifiedUser;
 
     // view
     TextView nomeTextView;
@@ -120,90 +123,64 @@ public class DetailRifiutoActivity extends AppCompatActivity {
 
     public void loadPunteggio() {
         if (MainActivity.CURRENT_USER != null){
-            modifiedUser = MainActivity.CURRENT_USER;
-            // carica punteggio in firestore
+            CalendarDay currentDay = CalendarDay.today();
+
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            int numero;
-            double punteggio;
-            Map<String,Object> userMap = new HashMap<>();
-            switch (rifiuto.getSmaltimento()){
-                case "Plastica":
-                    numero = modifiedUser.getnPlastica() + 1;
-                    punteggio = modifiedUser.getpPlastica() + rifiuto.getPunteggio();
-                    userMap.put("nPlastica", numero);
-                    userMap.put("pPlastica", punteggio);
-                    modifiedUser.setnPlastica(numero);
-                    modifiedUser.setpPlastica(punteggio);
-                    break;
-                case "Organico":
-                    numero = modifiedUser.getnOrganico() + 1;
-                    punteggio = modifiedUser.getpOrganico() + rifiuto.getPunteggio();
-                    userMap.put("nOrganico", numero);
-                    userMap.put("pOrganico", punteggio);
-                    modifiedUser.setnOrganico(numero);
-                    modifiedUser.setpOrganico(punteggio);
-                    break;
-                case "Secco":
-                    numero = modifiedUser.getnSecco() + 1;
-                    punteggio = modifiedUser.getpSecco() + rifiuto.getPunteggio();
-                    userMap.put("nSecco", numero);
-                    userMap.put("pSecco", punteggio);
-                    modifiedUser.setnSecco(numero);
-                    modifiedUser.setpSecco(punteggio);
-                    break;
-                case "Carta":
-                    numero = modifiedUser.getnCarta() + 1;
-                    punteggio = modifiedUser.getpCarta() + rifiuto.getPunteggio();
-                    userMap.put("nCarta", numero);
-                    userMap.put("pCarta", punteggio);
-                    modifiedUser.setnCarta(numero);
-                    modifiedUser.setpCarta(punteggio);
-                    break;
-                case "Vetro":
-                    numero = modifiedUser.getnVetro() + 1;
-                    punteggio = modifiedUser.getpVetro() + rifiuto.getPunteggio();
-                    userMap.put("nVetro", numero);
-                    userMap.put("pVetro", punteggio);
-                    modifiedUser.setnVetro(numero);
-                    modifiedUser.setpVetro(punteggio);
-                    break;
-                case "Metalli":
-                    numero = modifiedUser.getnMetalli() + 1;
-                    punteggio = modifiedUser.getpMetalli() + rifiuto.getPunteggio();
-                    userMap.put("nMetalli", numero);
-                    userMap.put("pMetalli", punteggio);
-                    modifiedUser.setnMetalli(numero);
-                    modifiedUser.setpMetalli(punteggio);
-                    break;
-                case "Elettrici":
-                    numero = modifiedUser.getnElettrici() + 1;
-                    punteggio = modifiedUser.getpElettrici() + rifiuto.getPunteggio();
-                    userMap.put("nElettrici", numero);
-                    userMap.put("pElettrici", punteggio);
-                    modifiedUser.setnElettrici(numero);
-                    modifiedUser.setpElettrici(punteggio);
-                    break;
-                case "Speciali":
-                    numero = modifiedUser.getnSpeciali() + 1;
-                    punteggio = modifiedUser.getpSpeciali() + rifiuto.getPunteggio();
-                    userMap.put("nSpeciali", numero);
-                    userMap.put("pSpeciali", punteggio);
-                    modifiedUser.setnSpeciali(numero);
-                    modifiedUser.setpSpeciali(punteggio);
-                    break;
-            }
-            fStore.collection("users").document(fUser.getUid()).update(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            fStore.collection("users").document(fUser.getUid()).collection("carbon_dioxide")
+                    .whereEqualTo("ntipo", rifiuto.getNtipo()).whereEqualTo("year", currentDay.getYear())
+                    .whereEqualTo("month", currentDay.getMonth()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
-                public void onSuccess(Void aVoid) {
-                    MainActivity.CURRENT_USER = modifiedUser;
-                    modifiedUser = null;
-                    showSnackbar("Rifiuto aggiunto!");
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if (queryDocumentSnapshots.size() > 1) {
+                        Log.d("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
+                        showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                    } else if (queryDocumentSnapshots.isEmpty()){
+                        Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getPunteggio(),
+                                currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                        fStore.collection("users").document(fUser.getUid()).collection("carbon_dioxide")
+                                .add(carbonDioxide).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                showSnackbar("Rifiuto aggiunto!");
+                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(carbonDioxide.getNtipo()).add(carbonDioxide);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                            }
+                        });
+                    } else {
+                        if (queryDocumentSnapshots.size() == 1) {
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Saving carbonDioxide = document.toObject(Saving.class);
+                                Map<String, Object> newMap = new HashMap<>();
+                                newMap.put("punteggio", carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
+                                newMap.put("quantita", carbonDioxide.getQuantita() + 1);
+                                carbonDioxide.setPunteggio((double) newMap.get("punteggio"));
+                                carbonDioxide.setQuantita((int) newMap.get("quantita"));
+                                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                                fStore.collection("users").document(fUser.getUid())
+                                        .collection("carbon_dioxide").document(document.getId()).update(newMap)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                showSnackbar("Rifiuto aggiunto!");
+                                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                        .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size());
+                                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
+                                            }
+                                        });
+                            }
+                        }
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
-                    modifiedUser = null;
                     showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                 }
             });

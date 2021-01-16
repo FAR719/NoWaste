@@ -5,15 +5,17 @@ public class Rifiuto {
     // definizione campi
     public String nome, descrizione, materiale, smaltimento, immagine;
     public double punteggio;
+    public int ntipo;
 
     // costruttore
-    public Rifiuto(String nome, String descrizione, String materiale, String smaltimento, double punteggio, String immagine){
+    public Rifiuto(String nome, String descrizione, String materiale, String smaltimento, double punteggio, String immagine, int ntipo){
         this.nome = nome;
         this.descrizione = descrizione;
         this.materiale = materiale;
         this.smaltimento = smaltimento;
         this.punteggio = punteggio;
         this.immagine = immagine;
+        this.ntipo = ntipo;
     }
 
     // costruttore vuoto utile per FireBase
@@ -42,5 +44,9 @@ public class Rifiuto {
 
     public String getImmagine() {
         return immagine;
+    }
+
+    public int getNtipo() {
+        return ntipo;
     }
 }

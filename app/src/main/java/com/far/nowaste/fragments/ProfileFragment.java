@@ -17,9 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.far.nowaste.MainActivity;
-import com.far.nowaste.objects.CarbonDioxide;
-import com.far.nowaste.objects.Energy;
-import com.far.nowaste.objects.Oil;
+import com.far.nowaste.objects.Saving;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.eazegraph.lib.charts.BarChart;
@@ -46,7 +44,7 @@ public class ProfileFragment extends Fragment {
     TextView mFullName, mEmail;
 
     // grafici
-    TextView tvCO, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
+    TextView tvSaving, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
     BarChart barChart;
 
@@ -55,11 +53,6 @@ public class ProfileFragment extends Fragment {
     // firebase
     FirebaseAuth fAuth;
     FirebaseUser fUser;
-
-    // dati dell'utente
-    static public ArrayList<CarbonDioxide> CARBON_DIOXIDE_ARRAY_LIST;
-    static public ArrayList<Energy> ENERGY_ARRAY_LIST;
-    static public ArrayList<Oil> OIL_ARRAY_LIST;
 
     @Nullable
     @Override
@@ -82,9 +75,7 @@ public class ProfileFragment extends Fragment {
         tvMetalli = view.findViewById(R.id.tvMetalli);
         tvElettrici = view.findViewById(R.id.tvElettrici);
         tvSpeciali = view.findViewById(R.id.tvSpeciali);
-        tvCO = view.findViewById(R.id.c_o_tv);
-
-        tvCO.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+        tvSaving = view.findViewById(R.id.tvSaving);
 
         colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(getContext(), R.color.plastica));
@@ -95,11 +86,6 @@ public class ProfileFragment extends Fragment {
         colors.add(ContextCompat.getColor(getContext(), R.color.metalli));
         colors.add(ContextCompat.getColor(getContext(), R.color.elettrici));
         colors.add(ContextCompat.getColor(getContext(), R.color.speciali));
-
-        // inizializzazione liste
-        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-        ENERGY_ARRAY_LIST = new ArrayList<>();
-        OIL_ARRAY_LIST = new ArrayList<>();
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -143,17 +129,33 @@ public class ProfileFragment extends Fragment {
     }
 
     private void retrieveUserData() {
-        if (CARBON_DIOXIDE_ARRAY_LIST.isEmpty()) {
+        if (MainActivity.CARBON_DIOXIDE_ARRAY_LIST == null || MainActivity.QUANTITA == null) {
+            // inizializzazione liste
+            MainActivity.CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+            for (int i = 0; i < 8; i++) {
+                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+            }
+
+            MainActivity.ENERGY_ARRAY_LIST = new ArrayList<>();
+            MainActivity.OIL_ARRAY_LIST = new ArrayList<>();
+            MainActivity.QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid())
-                    .collection("carbon_dioxide").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
+                    .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        CarbonDioxide item = document.toObject(CarbonDioxide.class);
-                        CARBON_DIOXIDE_ARRAY_LIST.add(item);
+                        Saving item = document.toObject(Saving.class);
+                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+
+                        MainActivity.QUANTITA[item.getNtipo()] += item.getQuantita();
                     }
-                    setCO2Data(CARBON_DIOXIDE_ARRAY_LIST);
+                    setCO2Data(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+
+                    // imposta il BarChart
+                    setBarChartData(MainActivity.QUANTITA);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -162,103 +164,65 @@ public class ProfileFragment extends Fragment {
                 }
             });
         } else {
-            setCO2Data(CARBON_DIOXIDE_ARRAY_LIST);
+            setCO2Data(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+            setBarChartData(MainActivity.QUANTITA);
         }
     }
 
-    private void setCO2Data(ArrayList<CarbonDioxide> arrayList){
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
-        double punteggioPla = 0;
-        int quantitaPla = 0;
+    private void setCO2Data(ArrayList<ArrayList<Saving>> arrayOfArray){
+        // aggiorna la descrizione
+        tvSaving.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
 
-        for (CarbonDioxide item : arrayList) {
-            if (item.getTipo().equals("Plastica")) {
-                punteggioPla += item.getPunteggio();
-                quantitaPla += item.getQuantita();
-            } else if (item.getTipo().equals("Organico")) {
+        for (int i = 0; i < 8; i++) {
+            ArrayList<Saving> arrayList = arrayOfArray.get(i);
+            double punteggio = 0;
 
+            if (!arrayList.isEmpty()) {
+                for (Saving item : arrayList) {
+                    punteggio += item.getPunteggio();
+                }
+            }
+
+            // aggiungi una slice alla PieChart
+            pieChart.addPieSlice(new PieModel(Integer.parseInt(((int) punteggio) + ""), colors.get(i)));
+
+            // aggiorna le TextView
+            switch (i) {
+                case 0:
+                    tvPlastica.setText(punteggio + "g");
+                    break;
+                case 1:
+                    tvOrganico.setText(punteggio + "g");
+                    break;
+                case 2:
+                    tvSecco.setText(punteggio + "g");
+                    break;
+                case 3:
+                    tvCarta.setText(punteggio + "g");
+                    break;
+                case 4:
+                    tvVetro.setText(punteggio + "g");
+                    break;
+                case 5:
+                    tvMetalli.setText(punteggio + "g");
+                    break;
+                case 6:
+                    tvElettrici.setText(punteggio + "g");
+                    break;
+                case 7:
+                    tvSpeciali.setText(punteggio + "g");
+                    break;
             }
         }
 
-        // imposta grafici e textView
-        tvPlastica.setText(punteggioPla + "g");
-        tvOrganico.setText(utente.getpOrganico() + "g");
-        tvSecco.setText(utente.getpSecco() + "g");
-        tvCarta.setText(utente.getpCarta() + "g");
-        tvVetro.setText(utente.getpVetro() + "g");
-        tvMetalli.setText(utente.getpMetalli() + "g");
-        tvElettrici.setText(utente.getpElettrici() + "g");
-        tvSpeciali.setText(utente.getpSpeciali() + "g");
-        setPieChartData(utente);
-        setBarChartData(utente);
-    }
-
-    private void setEnergyData(ArrayList<Energy> arrayList){
-        // imposta grafici e textView
-        tvPlastica.setText((utente.getpPlastica()) + "g");
-        tvOrganico.setText(utente.getpOrganico() + "g");
-        tvSecco.setText(utente.getpSecco() + "g");
-        tvCarta.setText(utente.getpCarta() + "g");
-        tvVetro.setText(utente.getpVetro() + "g");
-        tvMetalli.setText(utente.getpMetalli() + "g");
-        tvElettrici.setText(utente.getpElettrici() + "g");
-        tvSpeciali.setText(utente.getpSpeciali() + "g");
-        setPieChartData(utente);
-        setBarChartData(utente);
-    }
-
-    private void setOilData(ArrayList<Oil> arrayList){
-        // imposta grafici e textView
-        tvPlastica.setText((utente.getpPlastica()) + "g");
-        tvOrganico.setText(utente.getpOrganico() + "g");
-        tvSecco.setText(utente.getpSecco() + "g");
-        tvCarta.setText(utente.getpCarta() + "g");
-        tvVetro.setText(utente.getpVetro() + "g");
-        tvMetalli.setText(utente.getpMetalli() + "g");
-        tvElettrici.setText(utente.getpElettrici() + "g");
-        tvSpeciali.setText(utente.getpSpeciali() + "g");
-        setPieChartData(utente);
-        setBarChartData(utente);
-    }
-
-    private void setPieChartData(Utente utente) {
-        // Set the data and color to the pie chart
-        pieChart.addPieSlice(new PieModel("Plastica", Integer.parseInt(((int) utente.getpPlastica()) + ""), colors.get(0)));
-        pieChart.addPieSlice(new PieModel("Organico", Integer.parseInt(((int) utente.getpOrganico()) + ""), colors.get(1)));
-        pieChart.addPieSlice(new PieModel("Secco", Integer.parseInt(((int) utente.getpSecco()) + ""), colors.get(2)));
-        pieChart.addPieSlice(new PieModel("Carta", Integer.parseInt(((int) utente.getpCarta()) + ""), colors.get(3)));
-        pieChart.addPieSlice(new PieModel("Vetro", Integer.parseInt(((int) utente.getpVetro()) + ""), colors.get(4)));
-        pieChart.addPieSlice(new PieModel("Metalli", Integer.parseInt(((int) utente.getpMetalli()) + ""), colors.get(5)));
-        pieChart.addPieSlice(new PieModel("Elettrici", Integer.parseInt(((int) utente.getpElettrici()) + ""), colors.get(6)));
-        pieChart.addPieSlice(new PieModel("Speciali", Integer.parseInt(((int) utente.getpSpeciali()) + ""), colors.get(7)));
-
-        // To animate the pie chart
+        // animate the PieChart
         pieChart.startAnimation();
     }
 
-    private void setBarChartData(Utente utente) {
-        barChart.addBar(new BarModel(utente.getnPlastica() + "", (float)utente.getnPlastica(), colors.get(0)));
-        barChart.addBar(new BarModel(utente.getnOrganico() + "", (float)utente.getnOrganico(), colors.get(1)));
-        barChart.addBar(new BarModel(utente.getnSecco() + "", (float)utente.getnSecco(), colors.get(2)));
-        barChart.addBar(new BarModel(utente.getnCarta() + "", (float)utente.getnCarta(), colors.get(3)));
-        barChart.addBar(new BarModel(utente.getnVetro() + "", (float)utente.getnVetro(), colors.get(4)));
-        barChart.addBar(new BarModel(utente.getnMetalli() + "", (float)utente.getnMetalli(), colors.get(5)));
-        barChart.addBar(new BarModel(utente.getnElettrici() + "", (float)utente.getnElettrici(), colors.get(6)));
-        barChart.addBar(new BarModel(utente.getnSpeciali() + "", (float)utente.getnSpeciali(), colors.get(7)));
-
+    private void setBarChartData(int[] quantita) {
+        for (int i = 0; i < 8; i++) {
+            barChart.addBar(new BarModel(quantita[i] + "", (float) quantita[i], colors.get(i)));
+        }
         barChart.startAnimation();
     }
 }

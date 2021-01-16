@@ -38,6 +38,8 @@ import com.far.nowaste.fragments.ProfileFragment;
 import com.far.nowaste.fragments.HomeFragment;
 import com.far.nowaste.fragments.ImpostazioniFragment;
 import com.far.nowaste.fragments.LuoghiFragment;
+import com.far.nowaste.objects.Saving;
+import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.ui.main.SearchToolbarAnimation;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,9 +56,12 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle actionBarDrawerToggle;
 
     static public Utente CURRENT_USER;
+    static public Settimanale SETTIMANALE;
+    static public ArrayList<ArrayList<Saving>> CARBON_DIOXIDE_ARRAY_LIST;
+    static public ArrayList<ArrayList<Saving>> ENERGY_ARRAY_LIST;
+    static public ArrayList<ArrayList<Saving>> OIL_ARRAY_LIST;
+    static public int[] QUANTITA;
 
     View header;
     TextView mFullName, mEmail;
@@ -419,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         CURRENT_USER = null;
-        HomeFragment.SETTIMANALE = null;
+        SETTIMANALE = null;
         showSnackbar("Logout effettuato!");
         updateHeader();
         mToolbar.setTitle("NoWaste");
@@ -462,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         public void onSuccess(Void aVoid) {
                                             showSnackbar("Account eliminato!");
                                             CURRENT_USER = null;
-                                            HomeFragment.SETTIMANALE = null;
+                                            SETTIMANALE = null;
                                             updateHeader();
                                             mToolbar.setTitle("NoWaste");
                                             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
@@ -572,9 +582,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
+            retrieveUserSavings();
         } else {
             updateHeader();
         }
+    }
+
+    public void retrieveUserSavings() {
+        // inizializzazione liste
+        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+        }
+
+        ENERGY_ARRAY_LIST = new ArrayList<>();
+        OIL_ARRAY_LIST = new ArrayList<>();
+        QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").document(fAuth.getCurrentUser().getUid())
+                .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
+                .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                    Saving item = document.toObject(Saving.class);
+                    CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+
+                    QUANTITA[item.getNtipo()] += item.getQuantita();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+            }
+        });
     }
 
     public void showSnackbar(String string) {
