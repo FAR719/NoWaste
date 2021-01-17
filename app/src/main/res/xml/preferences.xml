@@ -74,13 +74,6 @@
             app:layout="@layout/layout_preference_item" />
 
         <Preference
-            app:key="reset_preference"
-            app:icon="@drawable/ic_data_usage"
-            app:title="Reset dati"
-            app:summary="Cancella i dati del tuo account"
-            app:layout="@layout/layout_preference_item" />
-
-        <Preference
             app:key="delete_preference"
             app:icon="@drawable/ic_delete"
             app:title="Elimina account"

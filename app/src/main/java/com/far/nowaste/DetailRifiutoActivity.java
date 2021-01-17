@@ -139,6 +139,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     if (queryDocumentSnapshots.isEmpty()){
                         Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getPunteggio(),
                                 currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
+
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         fStore.collection("users").document(fUser.getUid()).collection("carbon_dioxide")
                                 .add(carbonDioxide).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -160,14 +161,13 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     } else if (queryDocumentSnapshots.size() == 1) {
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
                             Saving carbonDioxide = document.toObject(Saving.class);
-                            Map<String, Object> newMap = new HashMap<>();
-                            newMap.put("punteggio", carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
-                            newMap.put("quantita", carbonDioxide.getQuantita() + 1);
-                            carbonDioxide.setPunteggio((double) newMap.get("punteggio"));
-                            carbonDioxide.setQuantita((int) newMap.get("quantita"));
+
+                            carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
+                            carbonDioxide.setQuantita(carbonDioxide.getQuantita() + 1);
+
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             fStore.collection("users").document(fUser.getUid())
-                                    .collection("carbon_dioxide").document(document.getId()).update(newMap)
+                                    .collection("carbon_dioxide").document(document.getId()).set(carbonDioxide)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {

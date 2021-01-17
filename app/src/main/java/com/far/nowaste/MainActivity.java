@@ -589,22 +589,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void retrieveUserSavings() {
-        // inizializzazione liste
-        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
-        }
-
-        ENERGY_ARRAY_LIST = new ArrayList<>();
-        OIL_ARRAY_LIST = new ArrayList<>();
-        QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("users").document(fAuth.getCurrentUser().getUid())
                 .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
                 .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                // inizializzazione liste
+                CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+                for (int i = 0; i < 8; i++) {
+                    CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                }
+
+                ENERGY_ARRAY_LIST = new ArrayList<>();
+                OIL_ARRAY_LIST = new ArrayList<>();
+                QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+
                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                     Saving item = document.toObject(Saving.class);
                     CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);

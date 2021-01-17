@@ -35,6 +35,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -50,7 +51,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
     // dichiarazione view
     Preference mLoginPreference, mFullNamePreference, mNewPicturePreference, mDeletePicturePreference,
             mCityPreference, mQuartierePreference, mEmailPreference, mPasswordPreference,
-            mLogOutPreference, mResetPreference, mDeletePreference, mOperatorePreference,
+            mLogOutPreference, mDeletePreference, mOperatorePreference,
             mThemePreference, mVersionePreference;
 
     // firebase
@@ -91,7 +92,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mEmailPreference = findPreference("email_preference");
         mPasswordPreference = findPreference("password_preference");
         mLogOutPreference = findPreference("logout_preference");
-        mResetPreference = findPreference("reset_preference");
         mDeletePreference = findPreference("delete_preference");
         mOperatorePreference = findPreference("operatore_preference");
         mThemePreference = findPreference("theme_preference");
@@ -115,7 +115,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(false);
-            mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(false);
         } else if (MainActivity.CURRENT_USER.isGoogle()) {
@@ -128,7 +127,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mEmailPreference.setVisible(false);
             mPasswordPreference.setVisible(false);
             mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(!MainActivity.CURRENT_USER.isOperatore());
         } else {
@@ -141,7 +139,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mEmailPreference.setVisible(true);
             mPasswordPreference.setVisible(true);
             mLogOutPreference.setVisible(true);
-            mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
             mOperatorePreference.setVisible(!MainActivity.CURRENT_USER.isOperatore());
         }
@@ -570,44 +567,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ((MainActivity)getActivity()).logout();
-                    }
-                });
-                builder.show();
-                return true;
-            }
-        });
-
-        // reset data
-        mResetPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.ThemeOverlay_NoWaste_AlertDialog);
-                builder.setTitle("Reset dati");
-                builder.setMessage("Vuoi eliminare i dati del tuo account? Tale operazione è irreversibile!");
-                builder.setNegativeButton("Annulla", null);
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        Utente utente = new Utente(MainActivity.CURRENT_USER.getFullName(),
-                                MainActivity.CURRENT_USER.getEmail(), MainActivity.CURRENT_USER.getImage(),
-                                MainActivity.CURRENT_USER.isGoogle(), MainActivity.CURRENT_USER.isOperatore(),
-                                MainActivity.CURRENT_USER.getCity(), MainActivity.CURRENT_USER.getQuartiere());
-                        fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                dialog.dismiss();
-                                MainActivity.CURRENT_USER = utente;
-                                MainActivity.SETTIMANALE = null;
-                                ((MainActivity)getActivity()).showSnackbar("Reset dei dati eseguito!");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                                ((MainActivity)getActivity()).showSnackbar("Reset dei dati non eseguito correttamente.");
-                            }
-                        });
                     }
                 });
                 builder.show();
