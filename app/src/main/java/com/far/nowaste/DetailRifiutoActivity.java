@@ -24,6 +24,7 @@ import com.far.nowaste.objects.Rifiuto;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,6 +58,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     ImageView immagineImageView;
     FloatingActionButton addBtn;
     FloatingActionButton checkBtn;
+    LinearProgressIndicator mProgressIndicator;
 
     // nome rifiuto
     String stringName;
@@ -93,13 +95,16 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
         descrizioneTextView = findViewById(R.id.detailRifiuto_descrizioneTextView);
         immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
+        mProgressIndicator = findViewById(R.id.rifiuto_progressIindicator);
 
-        // imposta l'animazione del floating button
-        initFloatingMenu();
+
 
         // associazione firebase
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
+
+        // imposta l'animazione del floating button
+        initFloatingMenu();
 
         // query per istanziare il rifiuto e impostare le view
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
@@ -139,15 +144,17 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                 .add(carbonDioxide).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                showSnackbar("Rifiuto aggiunto!");
                                 MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(carbonDioxide.getNtipo()).add(carbonDioxide);
                                 MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
+                                showSnackbar("Rifiuto aggiunto!");
+                                mProgressIndicator.hide();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("LOG", "Error! " + e.getLocalizedMessage());
                                 showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                                mProgressIndicator.hide();
                             }
                         });
                     } else if (queryDocumentSnapshots.size() == 1) {
@@ -169,12 +176,14 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                             MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
                                             MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
                                             showSnackbar("Rifiuto aggiunto!");
+                                            mProgressIndicator.hide();
                                         }
                                     });
                         }
                     } else {
                         Log.d("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
                         showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                        mProgressIndicator.hide();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -182,10 +191,9 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Exception e) {
                     Log.d("LOG", "Error! " + e.getLocalizedMessage());
                     showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                    mProgressIndicator.hide();
                 }
             });
-        } else {
-            showSnackbar("Accedi per memorizzare i tuoi progressi!");
         }
     }
 
@@ -215,8 +223,13 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         checkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadPunteggio();
-                animateFloatingMenu();
+                if (fUser != null) {
+                    mProgressIndicator.show();
+                    loadPunteggio();
+                    animateFloatingMenu();
+                } else {
+                    showSnackbar("Accedi per memorizzare i tuoi progressi!");
+                }
             }
         });
     }

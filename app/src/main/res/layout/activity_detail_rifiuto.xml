@@ -28,12 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_below="@+id/detailRifiuto_appBarLayout">
+        android:layout_below="@id/detailRifiuto_appBarLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailRifiuto_infoLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
             <ImageView
                 android:id="@+id/detailRifiuto_rifiutoImageView"
@@ -43,6 +44,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/rifiuto_progressIindicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                app:showAnimationBehavior="inward"
+                app:hideAnimationBehavior="outward"
+                app:indicatorColor="@color/accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailRifiuto_rifiutoImageView" />
 
             <TextView
                 android:id="@+id/detailRifiuto_nomeTextView"
@@ -56,7 +70,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_rifiutoImageView" />
+                app:layout_constraintTop_toBottomOf="@id/detailRifiuto_rifiutoImageView" />
 
             <TextView
                 android:id="@+id/detailRifiuto_materialeTextView"
@@ -65,8 +79,8 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:text="Materiale"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/detailRifiuto_nomeTextView"
-                app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_nomeTextView" />
+                app:layout_constraintStart_toStartOf="@id/detailRifiuto_nomeTextView"
+                app:layout_constraintTop_toBottomOf="@id/detailRifiuto_nomeTextView" />
 
             <TextView
                 android:id="@+id/detailRifiuto_descrizioneTextView"
@@ -83,7 +97,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detailRifiuto_materialeTextView"
+                app:layout_constraintTop_toBottomOf="@id/detailRifiuto_materialeTextView"
                 app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -101,7 +115,7 @@
         app:backgroundTint="@color/accent"
         app:elevation="2dp"
         app:srcCompat="@drawable/ic_check"
-        android:layout_above="@+id/detailRifiuto_addFloatingActionButton"
+        android:layout_above="@id/detailRifiuto_addFloatingActionButton"
         android:layout_alignParentEnd="true"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
