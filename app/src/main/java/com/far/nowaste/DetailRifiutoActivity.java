@@ -131,10 +131,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                     .whereEqualTo("month", currentDay.getMonth()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    if (queryDocumentSnapshots.size() > 1) {
-                        Log.d("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
-                        showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
-                    } else if (queryDocumentSnapshots.isEmpty()){
+                    if (queryDocumentSnapshots.isEmpty()){
                         Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getPunteggio(),
                                 currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
@@ -144,6 +141,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                             public void onSuccess(DocumentReference documentReference) {
                                 showSnackbar("Rifiuto aggiunto!");
                                 MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(carbonDioxide.getNtipo()).add(carbonDioxide);
+                                MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -152,29 +150,31 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                 showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                             }
                         });
-                    } else {
-                        if (queryDocumentSnapshots.size() == 1) {
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                Saving carbonDioxide = document.toObject(Saving.class);
-                                Map<String, Object> newMap = new HashMap<>();
-                                newMap.put("punteggio", carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
-                                newMap.put("quantita", carbonDioxide.getQuantita() + 1);
-                                carbonDioxide.setPunteggio((double) newMap.get("punteggio"));
-                                carbonDioxide.setQuantita((int) newMap.get("quantita"));
-                                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                                fStore.collection("users").document(fUser.getUid())
-                                        .collection("carbon_dioxide").document(document.getId()).update(newMap)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                showSnackbar("Rifiuto aggiunto!");
-                                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
-                                                        .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size());
-                                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
-                                            }
-                                        });
-                            }
+                    } else if (queryDocumentSnapshots.size() == 1) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving carbonDioxide = document.toObject(Saving.class);
+                            Map<String, Object> newMap = new HashMap<>();
+                            newMap.put("punteggio", carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
+                            newMap.put("quantita", carbonDioxide.getQuantita() + 1);
+                            carbonDioxide.setPunteggio((double) newMap.get("punteggio"));
+                            carbonDioxide.setQuantita((int) newMap.get("quantita"));
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                            fStore.collection("users").document(fUser.getUid())
+                                    .collection("carbon_dioxide").document(document.getId()).update(newMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                    .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
+                                            MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
+                                            showSnackbar("Rifiuto aggiunto!");
+                                        }
+                                    });
                         }
+                    } else {
+                        Log.d("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
+                        showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -187,6 +187,12 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         } else {
             showSnackbar("Accedi per memorizzare i tuoi progressi!");
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
     }
 
     private void initFloatingMenu() {
