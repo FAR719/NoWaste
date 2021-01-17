@@ -101,13 +101,6 @@
         app:title="Altro"
         app:layout="@layout/layout_preference_category_item">
 
-        <SwitchPreferenceCompat
-            app:key="notification_preference"
-            app:icon="@drawable/ic_notifications"
-            app:summary="Ricevi le notifiche"
-            app:title="Notifiche"
-            app:layout="@layout/layout_preference_switch_item" />
-
         <Preference
             app:key="theme_preference"
             app:icon="@drawable/ic_palette"

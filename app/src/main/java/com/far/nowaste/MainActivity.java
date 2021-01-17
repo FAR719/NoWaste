@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                 showSnackbar("Errore! Email non aggiornata correttamente.");
                             }
                         });
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             showSnackbar("L'email inserita non è ben formata.");
                         } else if (e instanceof FirebaseAuthUserCollisionException) {
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La password inserita non è corretta.");
                 } else {
@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
                             if (e instanceof FirebaseAuthWeakPasswordException) {
                                 showSnackbar("La password inserita non è abbastanza sicura.");
                             } else {
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La vecchia password inserita non è corretta.");
                 } else {
@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                             showSnackbar("Account non eliminato correttamente.");
                                         }
                                     });
@@ -490,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                     showSnackbar("Account non eliminato correttamente.");
                                 }
                             });
@@ -510,7 +510,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                     showSnackbar("Account non eliminato correttamente.");
                                 }
                             });
@@ -519,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         showSnackbar("Account non eliminato correttamente!");
                     }
                 });
@@ -527,7 +527,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     showSnackbar("La password inserita non è corretta.");
                 } else {
@@ -579,7 +579,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
             retrieveUserSavings();
@@ -615,7 +615,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }

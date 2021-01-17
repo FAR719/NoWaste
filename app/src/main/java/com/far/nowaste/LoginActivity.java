@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             String errorCode = ((FirebaseAuthInvalidCredentialsException) e).getErrorCode();
 
@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseTooManyRequestsException) {
                             showSnackbar("Email non inviata! Sono state effettuate troppe richieste.");
                         } else {
@@ -224,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         if (e instanceof FirebaseTooManyRequestsException) {
                             showSnackbar("Email non inviata! Sono state effettuate troppe richieste.");
                         } else {
@@ -286,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 showSnackbar("Accesso con Google fallito.");
                 mProgressIndicator.hide();
             }
@@ -310,7 +311,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // If sign in fails, display a message to the user.
                     showSnackbar("Accesso con Google fallito.");
-                    Log.d("LOG", "Error! " + task.getException().getLocalizedMessage());
+                    Log.e("LOG", "Error! " + task.getException().getLocalizedMessage());
                     mProgressIndicator.hide();
                 }
             }
@@ -338,7 +339,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             showSnackbar("Accesso con Google non effettuato correttamente.");
-                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
                             mProgressIndicator.hide();
                             fAuth.signOut();
                         }
@@ -351,7 +352,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showSnackbar("Accesso con Google non effettuato correttamente.");
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 mProgressIndicator.hide();
                 fAuth.signOut();
             }

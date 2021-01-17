@@ -120,7 +120,7 @@ public class NewBugActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 showSnackbar("Segnalazione non inviata correttamente!");
             }
         });

@@ -121,7 +121,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
@@ -152,7 +152,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                 showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                                 mProgressIndicator.hide();
                             }
@@ -181,7 +181,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                     });
                         }
                     } else {
-                        Log.d("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
+                        Log.e("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
                         showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                         mProgressIndicator.hide();
                     }
@@ -189,18 +189,12 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                     showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
                     mProgressIndicator.hide();
                 }
             });
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
     }
 
     private void initFloatingMenu() {

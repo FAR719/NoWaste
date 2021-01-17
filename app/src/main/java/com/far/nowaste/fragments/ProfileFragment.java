@@ -122,7 +122,7 @@ public class ProfileFragment extends Fragment {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         }
@@ -160,7 +160,7 @@ public class ProfileFragment extends Fragment {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
         } else {

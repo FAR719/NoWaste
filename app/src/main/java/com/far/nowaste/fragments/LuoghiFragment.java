@@ -224,7 +224,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                                 enableLocation();
                             }
                         } else {
-                            Log.d("TAG", "Current location is null.");
+                            Log.e("TAG", "Current location is null.");
                             Log.e("TAG", "Exception: %s", task.getException());
                         }
                     }
@@ -265,7 +265,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
@@ -317,12 +317,12 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                                 // Show the dialog by calling startResolutionForResult() and check the result in onActivityResult().
                                 resolvable.startResolutionForResult(getActivity(), 10);
                             } catch (IntentSender.SendIntentException | ClassCastException e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                 ((MainActivity)getActivity()).showSnackbar("Errore! Il gps non è disponibile!");
                             }
                             break;
                         case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            Log.d("LOG", "Error! " + exception.getLocalizedMessage());
+                            Log.e("LOG", "Error! " + exception.getLocalizedMessage());
                             ((MainActivity)getActivity()).showSnackbar("Errore! Il gps non è disponibile!");
                             break;
                     }

@@ -180,7 +180,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                     }
                 });
                 // store data in firestore
@@ -189,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 if (e instanceof FirebaseAuthWeakPasswordException) {
                     mPasswordLayout.setError("La password inserita non è abbastanza sicura.");
                 } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
@@ -227,7 +227,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         mProgressIndicator.hide();
                         showSnackbar("Account non creato correttamente!");
                     }

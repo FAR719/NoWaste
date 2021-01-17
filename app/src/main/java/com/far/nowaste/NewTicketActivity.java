@@ -130,7 +130,7 @@ public class NewTicketActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
@@ -157,7 +157,7 @@ public class NewTicketActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 showSnackbar("Ticket non inviato!");
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }

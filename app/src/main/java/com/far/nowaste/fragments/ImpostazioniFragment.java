@@ -52,7 +52,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mCityPreference, mQuartierePreference, mEmailPreference, mPasswordPreference,
             mLogOutPreference, mResetPreference, mDeletePreference, mOperatorePreference,
             mThemePreference, mVersionePreference;
-    SwitchPreferenceCompat mNotificationPreference;
 
     // firebase
     FirebaseAuth fAuth;
@@ -95,7 +94,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
         mResetPreference = findPreference("reset_preference");
         mDeletePreference = findPreference("delete_preference");
         mOperatorePreference = findPreference("operatore_preference");
-        mNotificationPreference = findPreference("notification_preference");
         mThemePreference = findPreference("theme_preference");
         mVersionePreference = findPreference("version_preference");
 
@@ -120,7 +118,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(false);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(false);
-            mNotificationPreference.setVisible(false);
         } else if (MainActivity.CURRENT_USER.isGoogle()) {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -134,7 +131,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(false);
             mOperatorePreference.setVisible(!MainActivity.CURRENT_USER.isOperatore());
-            mNotificationPreference.setVisible(true);
         } else {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
@@ -148,7 +144,6 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mResetPreference.setVisible(true);
             mDeletePreference.setVisible(true);
             mOperatorePreference.setVisible(!MainActivity.CURRENT_USER.isOperatore());
-            mNotificationPreference.setVisible(true);
         }
     }
 
@@ -209,7 +204,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                             ((MainActivity)getActivity()).showSnackbar("Il nome non è stato aggiornato correttamente!");
                                         }
                                     });
@@ -217,7 +212,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                     ((MainActivity)getActivity()).showSnackbar("Il nome non è stato aggiornato correttamente!");
                                 }
                             });
@@ -276,7 +271,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                                 ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
                                             }
                                         });
@@ -284,7 +279,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                 ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo non è stata rimossa correttamante.");
                             }
                         });
@@ -357,7 +352,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                     ((MainActivity)getActivity()).showSnackbar("La città non è stata impostata correttamente.");
                                 }
                             });
@@ -469,7 +464,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                     ((MainActivity)getActivity()).showSnackbar("Il quartiere non è stato impostato correttamente.");
                                 }
                             });
@@ -609,7 +604,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                 ((MainActivity)getActivity()).showSnackbar("Reset dei dati non eseguito correttamente.");
                             }
                         });
@@ -704,7 +699,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
                                             ((MainActivity)getActivity()).showSnackbar("Il tuo account aziendale non è stato attivato correttamente.");
                                         }
                                     });
@@ -831,7 +826,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
                     }
                 });
@@ -840,7 +835,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -874,7 +869,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                         ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
                     }
                 });
@@ -883,7 +878,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 ((MainActivity)getActivity()).showSnackbar("La foto non è stata caricata correttamente!");
             }
         });

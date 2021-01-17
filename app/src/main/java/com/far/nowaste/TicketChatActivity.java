@@ -160,7 +160,7 @@ public class TicketChatActivity extends AppCompatActivity {
                 fStore.collection("tickets").document(identificativo).update(statoTickets).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                        Log.e("LOG", "Error! " + e.getLocalizedMessage());
                     }
                 });
             }
@@ -216,7 +216,7 @@ public class TicketChatActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("LOG", "Error! " + e.getLocalizedMessage());
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
     }
