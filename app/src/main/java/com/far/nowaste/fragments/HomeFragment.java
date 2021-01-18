@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.far.nowaste.CategoriaActivity;
 import com.far.nowaste.ListaCardActivity;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.objects.Settimanale;
@@ -82,14 +83,14 @@ public class HomeFragment extends Fragment {
         domenica = view.findViewById(R.id.dom_conferimento);
 
         // definizione onClick cardView
-        clickCard(plasticaCardView, "Plastica");
-        clickCard(organicoCardView, "Organico");
-        clickCard(seccoCardView,"Secco");
-        clickCard(cartaCardView, "Carta");
-        clickCard(vetroCardView, "Vetro");
-        clickCard(metalliCardView,"Metalli");
-        clickCard(elettriciCardView, "Elettrici");
-        clickCard(specialiCardView, "Speciali");
+        clickCard(plasticaCardView, "Plastica", 0);
+        clickCard(organicoCardView, "Organico", 1);
+        clickCard(seccoCardView,"Secco", 2);
+        clickCard(cartaCardView, "Carta", 3);
+        clickCard(vetroCardView, "Vetro", 4);
+        clickCard(metalliCardView,"Metalli", 5);
+        clickCard(elettriciCardView, "Elettrici", 6);
+        clickCard(specialiCardView, "Speciali", 7);
         return view;
     }
 
@@ -218,12 +219,13 @@ public class HomeFragment extends Fragment {
     }
 
     // definizione metodo per onClickCardView (valido per ogni carta)
-    private void clickCard(View view, String string) {
+    private void clickCard(View view, String string, int ntipo) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent listaCardActivity = new Intent(getContext(), ListaCardActivity.class);
-                listaCardActivity.putExtra("com.far.nowaste.CARD_TYPE", string);
+                Intent listaCardActivity = new Intent(getContext(), CategoriaActivity.class);
+                listaCardActivity.putExtra("com.far.nowaste.CATEGORIA", string);
+                listaCardActivity.putExtra("com.far.nowaste.NCATEGORIA", ntipo);
                 startActivity(listaCardActivity);
             }
         });

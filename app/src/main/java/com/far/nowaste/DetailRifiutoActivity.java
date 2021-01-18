@@ -84,10 +84,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // to launch the activity
-        Intent in = getIntent();
-
         // variabile passata
+        Intent in = getIntent();
         stringName = in.getStringExtra("com.far.nowaste.NAME");
 
         // associazione view

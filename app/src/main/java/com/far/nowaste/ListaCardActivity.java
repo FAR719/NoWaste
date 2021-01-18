@@ -45,10 +45,8 @@ public class ListaCardActivity extends AppCompatActivity {
         // recyclerView
         mFirestoreList = findViewById(R.id.tickets_listaCard_recyclerView);
 
-        // to launch the activity
-        Intent in = getIntent();
-
         // variabile passata
+        Intent in = getIntent();
         String stringCardType = in.getStringExtra("com.far.nowaste.CARD_TYPE");
 
         // cambia il titolo della toolbar

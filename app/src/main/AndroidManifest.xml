@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NoWaste">
-        <activity android:name=".DetailFunzionalitaActivity"></activity>
+        <activity android:name=".CategoriaActivity"></activity>
+        <activity android:name=".DetailFunzionalitaActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
