@@ -97,7 +97,7 @@
                         android:text="Curiosità"
                         android:textColor="@color/primary_text"
                         android:fontFamily="@font/nunito_semibold"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="15dp"
                         app:layout_constraintTop_toTopOf="parent"
