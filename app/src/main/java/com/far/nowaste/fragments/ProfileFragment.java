@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.communication.IOnItemFocusChangedListener;
 import org.eazegraph.lib.models.BarModel;
 import org.eazegraph.lib.models.PieModel;
 
@@ -215,6 +216,7 @@ public class ProfileFragment extends Fragment {
             }
         }
 
+        pieChart.setUsePieRotation(false);
         // animate the PieChart
         pieChart.startAnimation();
     }

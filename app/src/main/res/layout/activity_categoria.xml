@@ -17,8 +17,9 @@
             android:id="@+id/categoria_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             android:background="?attr/colorPrimary"
+            app:title="Categoria"
+            app:theme="@style/ThemeOverlay.NoWaste.ActionBar"
             app:titleTextAppearance="@style/TextAppearance.NoWaste.Toolbar.Title"/>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,20 +33,94 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <org.eazegraph.lib.charts.ValueLineChart
-                android:id="@+id/categoria_lineChart"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/grafico_card"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                app:egCurveSmoothness="0.4"
-                app:egLegendHeight="40dp"
-                app:egUseCubic="true"
-                app:egUseOverlapFill="true"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                app:cardBackgroundColor="@color/card_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="15dp">
+
+                    <org.eazegraph.lib.charts.ValueLineChart
+                        android:id="@+id/categoria_lineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:egCurveSmoothness="0.4"
+                        app:egLegendHeight="35dp"
+                        app:egUseCubic="true"
+                        app:egUseOverlapFill="true"
+                        app:egShowValueIndicator="true"
+                        app:egShowLegendBeneathIndicator="true"
+                        app:egXAxisStroke="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/categoria_curiosita_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                app:cardBackgroundColor="@color/card_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/grafico_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/curiosita_title_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Curiosità"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:textSize="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/categoria_curiosita_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:fontFamily="@font/nunito"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:text="Curiosità"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@id/curiosita_title_TV"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <Button
                 android:id="@+id/categoria_button"

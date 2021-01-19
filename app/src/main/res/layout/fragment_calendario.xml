@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/custom_calendar"
-    android:background="@color/background">
+    android:id="@+id/custom_calendar">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/calendar_eventListActionButton"

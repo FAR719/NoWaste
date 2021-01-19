@@ -48,14 +48,12 @@ public class ListaSearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // to launch the activity
-        Intent in = getIntent();
-
         // recyclerView + noResultTextView
         mFirestoreList = findViewById(R.id.listaSearch_recyclerView);
         noResult = findViewById(R.id.noResultTextView);
 
         // variabile passata
+        Intent in = getIntent();
         String stringName = in.getStringExtra("com.far.nowaste.SEARCH_QUERY");
 
         // cambia il titolo della toolbar

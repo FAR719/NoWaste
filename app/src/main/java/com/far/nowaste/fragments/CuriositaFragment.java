@@ -44,7 +44,7 @@ public class CuriositaFragment extends Fragment {
         return view;
     }
 
-    public void loadCuriosita() {
+    private void loadCuriosita() {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("curiosity").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override

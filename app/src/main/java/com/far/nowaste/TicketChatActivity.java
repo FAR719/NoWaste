@@ -59,6 +59,7 @@ public class TicketChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // variabile passata
         Intent intent = getIntent();
         String identificativo = intent.getStringExtra("com.far.nowaste.identificativo");
         String oggetto = intent.getStringExtra("com.far.nowaste.oggetto");

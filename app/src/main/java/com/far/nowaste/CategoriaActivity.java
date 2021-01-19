@@ -1,30 +1,50 @@
 package com.far.nowaste;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.far.nowaste.objects.Curiosity;
 import com.far.nowaste.objects.Saving;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.eazegraph.lib.charts.ValueLineChart;
 import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class CategoriaActivity extends AppCompatActivity {
 
     // definizione variabili
     Toolbar mToolbar;
 
+    MaterialCardView mCuriositaCard;
     ValueLineChart mLineChart;
+    TextView mCuriositaTV;
     Button mBtn;
+
     String categoria;
     int nCategoria;
+
+    Curiosity curiosity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +67,9 @@ public class CategoriaActivity extends AppCompatActivity {
         // cambia il titolo della toolbar
         mToolbar.setTitle(categoria);
 
+        mCuriositaCard = findViewById(R.id.categoria_curiosita_card);
         mLineChart = findViewById(R.id.categoria_lineChart);
+        mCuriositaTV = findViewById(R.id.categoria_curiosita_TV);
         mBtn = findViewById(R.id.categoria_button);
 
         mBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,18 +81,76 @@ public class CategoriaActivity extends AppCompatActivity {
             }
         });
 
-        setLineChartData();
+        setLineChartData(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+        loadCuriosita();
     }
 
-    private void  setLineChartData() {
+    private void  setLineChartData(ArrayList<ArrayList<Saving>> arrayOfArray) {
         ValueLineSeries series = new ValueLineSeries();
-        series.setColor(0xFF56B7F1);
 
-        for (Saving item : MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(nCategoria)) {
-            series.addPoint(new ValueLinePoint(item.getMonth() + "", (float)item.getPunteggio()));
+        // assegna il colore corrispondente
+        switch (nCategoria) {
+            case 0:
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.plastica), 150));
+                break;
+            case 1:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.organico));
+                break;
+            case 2:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.secco));
+                break;
+            case 3:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.carta));
+                break;
+            case 4:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.vetro));
+                break;
+            case 5:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.metalli));
+                break;
+            case 6:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.elettrici));
+                break;
+            case 7:
+                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.speciali));
+                break;
+        }
+
+        for (Saving item : arrayOfArray.get(nCategoria)) {
+            series.addPoint(new ValueLinePoint(item.getMonth() + "/" + item.getYear(), (float)item.getPunteggio()));
         }
 
         mLineChart.addSeries(series);
         mLineChart.startAnimation();
+    }
+
+    private void loadCuriosita() {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("curiosity").whereEqualTo("etichetta", categoria).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    mCuriositaCard.setVisibility(View.VISIBLE);
+                    List<Curiosity> curiosityList = new ArrayList<>();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        Curiosity curiosity = document.toObject(Curiosity.class);
+                        curiosityList.add(curiosity);
+                    }
+                    int curiosityCount = curiosityList.size();
+                    int randomNumber= new Random().nextInt(curiosityCount);
+
+                    curiosity = curiosityList.get(randomNumber);
+                    mCuriositaTV.setText(curiosity.getDescrizione());
+                } else {
+                    mCuriositaCard.setVisibility(View.GONE);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+            }
+        });
     }
 }
