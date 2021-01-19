@@ -22,6 +22,7 @@ import com.far.nowaste.ui.main.EventDecorator;
 import com.far.nowaste.objects.Evento;
 import com.far.nowaste.R;
 import com.far.nowaste.ui.main.NotSelectedCurrentDayDecorator;
+import com.far.nowaste.ui.main.SelectedCurrentDayDecorator;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
@@ -121,7 +122,7 @@ public class CalendarioFragment extends Fragment {
                     if (!date.equals(currentDay)) {
                         mCalendarView.addDecorator(new NotSelectedCurrentDayDecorator(getContext()));
                     } else {
-                        mCalendarView.addDecorator(new CurrentDayDecorator(getContext()));
+                        mCalendarView.addDecorator(new SelectedCurrentDayDecorator(getContext()));
                     }
                     if (fAuth.getCurrentUser() != null) {
                         mTitleTextView.setText("Nessun evento");
