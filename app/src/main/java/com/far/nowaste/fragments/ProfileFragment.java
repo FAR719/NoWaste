@@ -190,28 +190,28 @@ public class ProfileFragment extends Fragment {
             // aggiorna le TextView
             switch (i) {
                 case 0:
-                    tvPlastica.setText(punteggio + "g");
+                    tvPlastica.setText(punteggio + " g");
                     break;
                 case 1:
-                    tvOrganico.setText(punteggio + "g");
+                    tvOrganico.setText(punteggio + " g");
                     break;
                 case 2:
-                    tvSecco.setText(punteggio + "g");
+                    tvSecco.setText(punteggio + " g");
                     break;
                 case 3:
-                    tvCarta.setText(punteggio + "g");
+                    tvCarta.setText(punteggio + " g");
                     break;
                 case 4:
-                    tvVetro.setText(punteggio + "g");
+                    tvVetro.setText(punteggio + " g");
                     break;
                 case 5:
-                    tvMetalli.setText(punteggio + "g");
+                    tvMetalli.setText(punteggio + " g");
                     break;
                 case 6:
-                    tvElettrici.setText(punteggio + "g");
+                    tvElettrici.setText(punteggio + " g");
                     break;
                 case 7:
-                    tvSpeciali.setText(punteggio + "g");
+                    tvSpeciali.setText(punteggio + " g");
                     break;
             }
         }
