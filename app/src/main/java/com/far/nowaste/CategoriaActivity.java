@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -94,30 +95,36 @@ public class CategoriaActivity extends AppCompatActivity {
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.plastica), 150));
                 break;
             case 1:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.organico));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.organico), 150));
                 break;
             case 2:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.secco));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.secco), 150));
                 break;
             case 3:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.carta));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.carta), 150));
                 break;
             case 4:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.vetro));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.vetro), 150));
                 break;
             case 5:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.metalli));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.metalli), 150));
                 break;
             case 6:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.elettrici));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.elettrici), 150));
                 break;
             case 7:
-                series.setColor(ContextCompat.getColor(getApplicationContext(), R.color.speciali));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.speciali), 150));
                 break;
         }
 
         for (Saving item : arrayOfArray.get(nCategoria)) {
-            series.addPoint(new ValueLinePoint(item.getMonth() + "/" + item.getYear(), (float)item.getPunteggio()));
+            String month;
+            if (item.getMonth() < 10) {
+                month = "0" + item.getMonth();
+            } else {
+                month = item.getMonth() + "";
+            }
+            series.addPoint(new ValueLinePoint(month + "/" + item.getYear(), (float)item.getPunteggio()));
         }
 
         mLineChart.addSeries(series);
@@ -152,5 +159,16 @@ public class CategoriaActivity extends AppCompatActivity {
                 Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
+    }
+
+    // ends this activity (back arrow)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

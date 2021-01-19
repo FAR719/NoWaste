@@ -157,27 +157,26 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                             }
                         });
                     } else if (queryDocumentSnapshots.size() == 1) {
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Saving carbonDioxide = document.toObject(Saving.class);
+                        DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                        Saving carbonDioxide = document.toObject(Saving.class);
 
-                            carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
-                            carbonDioxide.setQuantita(carbonDioxide.getQuantita() + 1);
+                        carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
+                        carbonDioxide.setQuantita(carbonDioxide.getQuantita() + 1);
 
-                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                            fStore.collection("users").document(fUser.getUid())
-                                    .collection("carbon_dioxide").document(document.getId()).set(carbonDioxide)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
-                                                    .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
-                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
-                                            MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
-                                            showSnackbar("Rifiuto aggiunto!");
-                                            mProgressIndicator.hide();
-                                        }
-                                    });
-                        }
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                        fStore.collection("users").document(fUser.getUid())
+                                .collection("carbon_dioxide").document(document.getId()).set(carbonDioxide)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
+                                        MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
+                                        showSnackbar("Rifiuto aggiunto!");
+                                        mProgressIndicator.hide();
+                                    }
+                                });
                     } else {
                         Log.e("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
                         showSnackbar("Il rifiuto non è stato aggiunto correttamente!");

@@ -10,12 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.far.nowaste.CategoriaActivity;
-import com.far.nowaste.ListaCardActivity;
 import com.far.nowaste.MainActivity;
+import com.far.nowaste.objects.Evento;
 import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
@@ -25,20 +26,20 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 public class HomeFragment extends Fragment {
 
-    // cardView
     MaterialCardView seccoCardView, plasticaCardView, cartaCardView, organicoCardView, vetroCardView,
-            metalliCardView, elettriciCardView, specialiCardView, raccoltaCardView, warningCardView;
-    TextView quartiere, lunedi1, lunedi2, lunediE, martedi1, martedi2, martediE,
-            mercoledi1, mercoledi2, mercolediE, giovedi1, giovedi2, giovediE,
-            venerdi1, venerdi2, venerdiE, sabato, domenica, warningTextView;
+            metalliCardView, elettriciCardView, specialiCardView, raccoltaCardView, eventCardView;
+    ConstraintLayout quartiereLayout;
+    TextView quartiere, lunedi1, lunedi2, lunediE, martedi1, martedi2, martediE, mercoledi1, mercoledi2,
+            mercolediE, giovedi1, giovedi2, giovediE, venerdi1, venerdi2, venerdiE, sabato, domenica,
+            warningTextView, eventoTitle, eventoBody;
 
     // firebase
     FirebaseAuth fAuth;
-
-    Utente currentuser;
 
     @Nullable
     @Override
@@ -58,10 +59,13 @@ public class HomeFragment extends Fragment {
         specialiCardView = view.findViewById(R.id.specialiCardView);
 
         raccoltaCardView = view.findViewById(R.id.raccoltaCardView);
-        warningCardView = view.findViewById(R.id.warningCardView);
-        warningTextView = view.findViewById(R.id.home_warningTextView);
-        raccoltaCardView.setVisibility(View.GONE);
-        warningCardView.setVisibility(View.GONE);
+        eventCardView = view.findViewById(R.id.home_eventCardView);
+        warningTextView = view.findViewById(R.id.home_warning);
+
+        quartiereLayout = view.findViewById(R.id.quartiere_layout);
+
+        eventoTitle = view.findViewById(R.id.home_eventTitle);
+        eventoBody = view.findViewById(R.id.home_eventBody);
 
         quartiere = view.findViewById(R.id.quartiere_conferimento);
         lunedi1 = view.findViewById(R.id.lun_1conferimento);
@@ -81,6 +85,10 @@ public class HomeFragment extends Fragment {
         venerdiE = view.findViewById(R.id.ven_e);
         sabato = view.findViewById(R.id.sab_conferimento);
         domenica = view.findViewById(R.id.dom_conferimento);
+
+        raccoltaCardView.setVisibility(View.GONE);
+        quartiereLayout.setVisibility(View.GONE);
+        eventCardView.setVisibility(View.GONE);
 
         // definizione onClick cardView
         clickCard(plasticaCardView, "Plastica", 0);
@@ -106,34 +114,9 @@ public class HomeFragment extends Fragment {
             fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    currentuser = documentSnapshot.toObject(Utente.class);
-                    if (currentuser.getCity().equals("")) {
-                        raccoltaCardView.setVisibility(View.GONE);
-                        warningCardView.setVisibility(View.VISIBLE);
-                        warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
-                        warningCardView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                ((MainActivity)getActivity()).goToSettings();
-                            }
-                        });
-                    } else if (currentuser.getQuartiere().equals("")){
-                        raccoltaCardView.setVisibility(View.GONE);
-                        warningCardView.setVisibility(View.VISIBLE);
-                        warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
-                        warningCardView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                ((MainActivity)getActivity()).goToSettings();
-                            }
-                        });
-                    } else {
-                        raccoltaCardView.setVisibility(View.VISIBLE);
-                        warningCardView.setVisibility(View.GONE);
-                        String userQuartiere = currentuser.getQuartiere();
-                        quartiere.setText("Quartiere " + userQuartiere);
-                        loadSettimanale();
-                    }
+                    Utente currentuser = documentSnapshot.toObject(Utente.class);
+                    setQuartiereCard(currentuser);
+                    setEventCard(currentuser);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -142,54 +125,15 @@ public class HomeFragment extends Fragment {
                 }
             });
         } else if (MainActivity.CURRENT_USER != null) {
-            if (MainActivity.CURRENT_USER.getCity().equals("")) {
-                raccoltaCardView.setVisibility(View.GONE);
-                warningCardView.setVisibility(View.VISIBLE);
-                warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
-                warningCardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((MainActivity)getActivity()).goToSettings();
-                    }
-                });
-            } else if (MainActivity.CURRENT_USER.getQuartiere().equals("")){
-                raccoltaCardView.setVisibility(View.GONE);
-                warningCardView.setVisibility(View.VISIBLE);
-                warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
-                warningCardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ((MainActivity)getActivity()).goToSettings();
-                    }
-                });
-            } else {
-                raccoltaCardView.setVisibility(View.VISIBLE);
-                warningCardView.setVisibility(View.GONE);
-                String userQuartiere = MainActivity.CURRENT_USER.getQuartiere();
-                quartiere.setText("Quartiere " + userQuartiere);
-                FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                if (MainActivity.SETTIMANALE != null) {
-                    setDayViews(MainActivity.SETTIMANALE);
-                } else {
-                    fStore.collection("settimanale").document(userQuartiere).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            MainActivity.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
-                            setDayViews(MainActivity.SETTIMANALE);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                        }
-                    });
-                }
-            }
+            setQuartiereCard(MainActivity.CURRENT_USER);
+            setEventCard(MainActivity.CURRENT_USER);
         } else {
-            raccoltaCardView.setVisibility(View.GONE);
-            warningCardView.setVisibility(View.VISIBLE);
+            raccoltaCardView.setVisibility(View.VISIBLE);
+            quartiereLayout.setVisibility(View.GONE);
+            warningTextView.setVisibility(View.VISIBLE);
+            eventCardView.setVisibility(View.GONE);
             warningTextView.setText("Accedi per visualizzare il calendario della raccolta settimanale");
-            warningCardView.setOnClickListener(new View.OnClickListener() {
+            raccoltaCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ((MainActivity)getActivity()).goToLogin();
@@ -198,12 +142,45 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void loadSettimanale() {
+    private void setQuartiereCard(Utente user) {
+        if (user.getCity().equals("")) {
+            raccoltaCardView.setVisibility(View.VISIBLE);
+            quartiereLayout.setVisibility(View.GONE);
+            warningTextView.setVisibility(View.VISIBLE);
+            warningTextView.setText("Imposta la tua città ed il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
+            raccoltaCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity)getActivity()).goToSettings();
+                }
+            });
+        } else if (user.getQuartiere().equals("")){
+            raccoltaCardView.setVisibility(View.VISIBLE);
+            quartiereLayout.setVisibility(View.GONE);
+            warningTextView.setVisibility(View.VISIBLE);
+            warningTextView.setText("Imposta il tuo quartiere dalle impostazioni per visualizzare il calendario della raccolta settimanale");
+            raccoltaCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity)getActivity()).goToSettings();
+                }
+            });
+        } else {
+            raccoltaCardView.setVisibility(View.VISIBLE);
+            quartiereLayout.setVisibility(View.VISIBLE);
+            warningTextView.setVisibility(View.GONE);
+            String userQuartiere = user.getQuartiere();
+            quartiere.setText("Quartiere " + userQuartiere);
+            loadSettimanale(user);
+        }
+    }
+
+    private void loadSettimanale(Utente user) {
         if (MainActivity.SETTIMANALE != null) {
             setDayViews(MainActivity.SETTIMANALE);
         } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("settimanale").document(currentuser.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            fStore.collection("settimanale").document(user.getQuartiere()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     MainActivity.SETTIMANALE = documentSnapshot.toObject(Settimanale.class);
@@ -216,6 +193,33 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private void setEventCard(Utente user) {
+        CalendarDay currentDay = CalendarDay.today();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("events").whereEqualTo("email", user.getEmail())
+                .whereEqualTo("year", currentDay.getYear()).whereEqualTo("month", currentDay.getMonth())
+                .whereEqualTo("day", currentDay.getDay()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()) {
+                    eventCardView.setVisibility(View.GONE);
+                } else {
+                    Evento evento = queryDocumentSnapshots.getDocuments().get(0).toObject(Evento.class);
+                    eventCardView.setVisibility(View.VISIBLE);
+                    eventoTitle.setText(evento.getTitle());
+                    eventoBody.setText(evento.getDescription());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                eventCardView.setVisibility(View.GONE);
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+            }
+        });
     }
 
     // definizione metodo per onClickCardView (valido per ogni carta)
