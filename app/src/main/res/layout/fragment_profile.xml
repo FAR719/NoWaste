@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
                     android:paddingBottom="2dp"
-                    android:text="Hai risparmiato (in CO2):"
+                    android:text="Hai risparmiato (in carbon_dioxide):"
                     app:layout_constraintStart_toStartOf="@+id/constraintLayout"
                     app:layout_constraintTop_toTopOf="parent" />
 

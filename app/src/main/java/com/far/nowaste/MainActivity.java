@@ -555,7 +555,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mFullName.setText(CURRENT_USER.getFullName());
             mEmail.setText(CURRENT_USER.getEmail());
             mFullName.setVisibility(View.VISIBLE);
-            if (CURRENT_USER.getImage() != null) {
+            if (!CURRENT_USER.getImage().equals("")) {
                 Glide.with(getApplicationContext()).load(CURRENT_USER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
             } else {
                 Drawable defaultImage = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_user);

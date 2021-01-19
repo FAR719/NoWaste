@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
             // imposta nome, cognome e immagine
             mFullName.setText(MainActivity.CURRENT_USER.getFullName());
             mEmail.setText(MainActivity.CURRENT_USER.getEmail());
-            if (MainActivity.CURRENT_USER.getImage() != null) {
+            if (!MainActivity.CURRENT_USER.getImage().equals("")) {
                 Glide.with(getContext()).load(MainActivity.CURRENT_USER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
             }
         } else {

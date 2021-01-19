@@ -121,7 +121,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
-            mDeletePicturePreference.setVisible(true);
+            mDeletePicturePreference.setVisible(!MainActivity.CURRENT_USER.getImage().equals(""));
             mCityPreference.setVisible(true);
             mQuartierePreference.setVisible(!MainActivity.CURRENT_USER.getCity().equals(""));
             mEmailPreference.setVisible(false);
@@ -133,7 +133,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
             mLoginPreference.setVisible(false);
             mFullNamePreference.setVisible(true);
             mNewPicturePreference.setVisible(true);
-            mDeletePicturePreference.setVisible(true);
+            mDeletePicturePreference.setVisible(!MainActivity.CURRENT_USER.getImage().equals(""));
             mCityPreference.setVisible(true);
             mQuartierePreference.setVisible(!MainActivity.CURRENT_USER.getCity().equals(""));
             mEmailPreference.setVisible(true);
@@ -256,7 +256,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                             public void onSuccess(Void aVoid) {
                                 FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                                 Map<String, Object> imageMap = new HashMap<>();
-                                imageMap.put("image", null);
+                                imageMap.put("image", "");
                                 fStore.collection("users").document(fUser.getUid()).update(imageMap)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override

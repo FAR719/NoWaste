@@ -213,7 +213,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 // store data in firestore
-                Utente utente = new Utente(fullName, fUser.getEmail(), null, false, false, "", "");
+                Utente utente = new Utente(fullName, fUser.getEmail(), "", false, false, "", "");
                 fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

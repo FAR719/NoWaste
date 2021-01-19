@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.far.nowaste.fragments.ProfileFragment;
 import com.far.nowaste.objects.Saving;
 import com.far.nowaste.objects.Rifiuto;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,9 +33,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class DetailRifiutoActivity extends AppCompatActivity {
 
@@ -135,7 +131,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     if (queryDocumentSnapshots.isEmpty()){
-                        Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getPunteggio(),
+                        Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getCarbon_dioxide(),
                                 currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
 
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
@@ -160,7 +156,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                         DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
                         Saving carbonDioxide = document.toObject(Saving.class);
 
-                        carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getPunteggio());
+                        carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getCarbon_dioxide());
                         carbonDioxide.setQuantita(carbonDioxide.getQuantita() + 1);
 
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
