@@ -82,6 +82,7 @@
     <style name="TextAppearance.NoWaste.Calendar.Date" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/mcv_text_date_light</item>
         <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!--Navigation View theme. -->

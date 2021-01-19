@@ -430,6 +430,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseAuth.getInstance().signOut();
         CURRENT_USER = null;
         SETTIMANALE = null;
+        CARBON_DIOXIDE_ARRAY_LIST = null;
+        ENERGY_ARRAY_LIST = null;
+        OIL_ARRAY_LIST = null;
+        QUANTITA = null;
         showSnackbar("Logout effettuato!");
         updateHeader();
         mToolbar.setTitle("NoWaste");
@@ -473,6 +477,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             showSnackbar("Account eliminato!");
                                             CURRENT_USER = null;
                                             SETTIMANALE = null;
+                                            CARBON_DIOXIDE_ARRAY_LIST = null;
+                                            ENERGY_ARRAY_LIST = null;
+                                            OIL_ARRAY_LIST = null;
+                                            QUANTITA = null;
                                             updateHeader();
                                             mToolbar.setTitle("NoWaste");
                                             getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
@@ -501,6 +509,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 public void onSuccess(Void aVoid) {
                                     showSnackbar("Account eliminato!");
                                     CURRENT_USER = null;
+                                    SETTIMANALE = null;
+                                    CARBON_DIOXIDE_ARRAY_LIST = null;
+                                    ENERGY_ARRAY_LIST = null;
+                                    OIL_ARRAY_LIST = null;
+                                    QUANTITA = null;
                                     updateHeader();
                                     mToolbar.setTitle("NoWaste");
                                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frameLayout, new HomeFragment()).commit();
