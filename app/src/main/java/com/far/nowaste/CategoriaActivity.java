@@ -9,12 +9,11 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.transition.AutoTransition;
-import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Html;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Curiosity;
@@ -53,7 +51,7 @@ public class CategoriaActivity extends AppCompatActivity {
     // definizione variabili
     Toolbar mToolbar;
 
-    ConstraintLayout mCardLayout, mListLayout;
+    ConstraintLayout mCardLayout, mListLayout, mExpandLayout;
     MaterialCardView mCuriositaCard;
     ValueLineChart mLineChart;
     TextView mCategoriaTitle, mCuriositaTV, mWarning;
@@ -94,6 +92,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
         mCardLayout = findViewById(R.id.cards_layout);
         mListLayout = findViewById(R.id.listaCategoria_layout);
+        mExpandLayout = findViewById(R.id.categoria_expand);
 
         mCuriositaCard = findViewById(R.id.categoria_curiosita_card);
         mCategoriaTitle = findViewById(R.id.categoria_titolo);
@@ -213,7 +212,7 @@ public class CategoriaActivity extends AppCompatActivity {
     }
 
     private void initArrowBtn() {
-        mArrowBtn.setOnClickListener(new View.OnClickListener() {
+        mExpandLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -238,11 +237,15 @@ public class CategoriaActivity extends AppCompatActivity {
                 transition.setDuration(2000);
                 TransitionManager.beginDelayedTransition(root, transition);
 
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mArrowBtn.setImageDrawable(arrow);
+                    }
+                }, 400);
 
                 mListLayout.requestLayout();
                 mCardLayout.requestLayout();
-                mArrowBtn.setImageDrawable(arrow);
                 isExpanded = !isExpanded;
             }
         });
