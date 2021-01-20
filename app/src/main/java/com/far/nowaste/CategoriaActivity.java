@@ -106,11 +106,24 @@ public class CategoriaActivity extends AppCompatActivity {
         initArrowBtn();
 
         mCategoriaTitle.setText(Html.fromHtml("Andamento risparmio di CO<sub><small><small>2</small></small></sub>"));
+
         setLineChartData(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
 
         loadCuriosita();
 
         loadRecyclerView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     private void  setLineChartData(ArrayList<ArrayList<Saving>> arrayOfArray) {
@@ -157,9 +170,12 @@ public class CategoriaActivity extends AppCompatActivity {
         if (series.getSeries().size() < 2) {
             mLineChart.setShowIndicator(false);
             mWarning.setVisibility(View.VISIBLE);
+        } else {
+            mWarning.setVisibility(View.GONE);
+            mLineChart.setShowIndicator(true);
+            mLineChart.addSeries(series);
+            mLineChart.startAnimation();
         }
-        mLineChart.addSeries(series);
-        mLineChart.startAnimation();
     }
 
     private void loadCuriosita() {
@@ -273,19 +289,6 @@ public class CategoriaActivity extends AppCompatActivity {
             rName = itemView.findViewById(R.id.recView_listaItemCategoria_nameTextView);
             rMateriale = itemView.findViewById(R.id.recView_listaItemCategoria_materialeTextView);
         }
-    }
-
-    //start&stop listening
-    @Override
-    protected void onStart() {
-        super.onStart();
-        adapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        adapter.stopListening();
     }
 
     // ends this activity (back arrow)
