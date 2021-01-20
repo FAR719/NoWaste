@@ -3,11 +3,17 @@ package com.far.nowaste;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class DetailFunzionalitaActivity extends AppCompatActivity {
 
@@ -15,7 +21,10 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     // view
-    TextView testoTextView;
+    TextView testoTextView, domandaTextView, rispTextView;
+    ImageView mArrowBtn;
+    RecyclerView mFAQList;
+    FirestoreRecyclerAdapter adapter;
 
     String nome;
     String testo;
@@ -35,6 +44,8 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
         // associazione view
         testoTextView = findViewById(R.id.detailFunzionalita_testoTextView);
+        mFAQList = findViewById(R.id.FAQ_recyclerView);
+        mArrowBtn = findViewById(R.id.recView_faq_ImageBtn);
 
         // variabili passate
         Intent in = getIntent();
@@ -44,6 +55,10 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         // cambia il titolo della toolbar
         mToolbar.setTitle(nome);
         testoTextView.setText(testo);
+
+        // query
+        FirebaseFirestore fstore = FirebaseFirestore.getInstance();
+        Query query = fstore.collection("funzionalita").document(nome).collection("faq")
     }
 
     // ends this activity (back arrow)
