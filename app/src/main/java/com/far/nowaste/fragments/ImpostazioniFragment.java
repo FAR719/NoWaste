@@ -261,8 +261,9 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                MainActivity.CURRENT_USER.setImage(null);
+                                                MainActivity.CURRENT_USER.setImage("");
                                                 ((MainActivity)getActivity()).updateHeader();
+                                                mDeletePicturePreference.setVisible(false);
                                                 ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata rimossa!");
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
@@ -821,6 +822,7 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                     public void onSuccess(Void aVoid) {
                         pd.dismiss();
                         MainActivity.CURRENT_USER.setImage(picUrl);
+                        mDeletePicturePreference.setVisible(true);
                         ((MainActivity)getActivity()).updateHeader();
                         ((MainActivity)getActivity()).showSnackbar("La foto del tuo profilo è stata cambiata correttamente!");
                     }

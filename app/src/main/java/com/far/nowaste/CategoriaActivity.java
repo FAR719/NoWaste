@@ -55,7 +55,7 @@ public class CategoriaActivity extends AppCompatActivity {
     ConstraintLayout mCardLayout, mListLayout;
     MaterialCardView mCuriositaCard;
     ValueLineChart mLineChart;
-    TextView mCategoriaTitle, mCuriositaTV;
+    TextView mCategoriaTitle, mCuriositaTV, mWarning;
     ImageButton mArrowBtn;
 
     RecyclerView mFirestoreList;
@@ -97,6 +97,7 @@ public class CategoriaActivity extends AppCompatActivity {
         mLineChart = findViewById(R.id.categoria_lineChart);
         mCuriositaTV = findViewById(R.id.categoria_curiosita_TV);
         mArrowBtn = findViewById(R.id.categoria_arrow);
+        mWarning = findViewById(R.id.categoria_warning);
 
         mFirestoreList = findViewById(R.id.categoria_recyclerView);
 
@@ -104,7 +105,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
         initArrowBtn();
 
-        mCategoriaTitle.setText(Html.fromHtml("Andamento risparmio CO<sub><small><small>2</small></small></sub>"));
+        mCategoriaTitle.setText(Html.fromHtml("Andamento risparmio di CO<sub><small><small>2</small></small></sub>"));
         setLineChartData(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
 
         loadCuriosita();
@@ -153,6 +154,10 @@ public class CategoriaActivity extends AppCompatActivity {
             series.addPoint(new ValueLinePoint(month + "/" + item.getYear(), (float)item.getPunteggio()));
         }
 
+        if (series.getSeries().size() < 2) {
+            mLineChart.setShowIndicator(false);
+            mWarning.setVisibility(View.VISIBLE);
+        }
         mLineChart.addSeries(series);
         mLineChart.startAnimation();
     }

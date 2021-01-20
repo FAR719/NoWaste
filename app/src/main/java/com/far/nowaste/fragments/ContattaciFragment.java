@@ -31,7 +31,7 @@ public class ContattaciFragment extends Fragment {
     final Azienda Barsa = new Azienda("Barsa SPA", "Via Callano, 61, 76121 Barletta BT",
             "0883 304215", "info@barsa.it", "8.30-13, 15-18", "8.30-13, 15-18",
             "8.30-13, 15-18", "8.30-13, 15-18", "8.30-13, 15-18", "8.30-13", "Chiuso");
-    final Azienda Amiu = new Azienda("Amu Puglia SPA", "Via Napoli, 349, 70123 Bari BA",
+    final Azienda Amiu = new Azienda("Amiu Puglia SPA", "Via Napoli, 349, 70123 Bari BA",
             "800-011558", "segreteria.amiu@legalmail.it", "7.30-12", "7.30-12",
             "7.30-12", "7.30-12", "7.30-12", "7.30-12", "Chiuso");
 
@@ -97,6 +97,7 @@ public class ContattaciFragment extends Fragment {
         nomeAzienda.setText(azienda.getNome());
         telefonoAzienda.setText(azienda.getTelefono());
         emailAzienda.setText(azienda.getEmail());
+        indirizzoAzienda.setText(azienda.getIndirizzo());
         lun.setText(azienda.getLun());
         mar.setText(azienda.getMar());
         mer.setText(azienda.getMer());
