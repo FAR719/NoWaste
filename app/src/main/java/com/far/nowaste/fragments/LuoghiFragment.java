@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.transition.AutoTransition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -286,6 +287,12 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             fullScreenBtn.setImageDrawable(fsIcon);
             gpsBtn.setCustomSize(miniFAB);
         }
+        ViewGroup root = (ViewGroup) parent;
+        android.transition.TransitionManager.beginDelayedTransition(root);
+        AutoTransition transition = new AutoTransition();
+        transition.setDuration(2000);
+        android.transition.TransitionManager.beginDelayedTransition(root, transition);
+
         mapContainer.requestLayout();
         ISEXPANDED = !ISEXPANDED;
     }
