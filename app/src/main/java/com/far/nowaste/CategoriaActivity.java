@@ -9,10 +9,8 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.transition.AutoTransition;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.transition.TransitionManager;
@@ -22,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.far.nowaste.objects.Curiosity;
@@ -55,7 +53,7 @@ public class CategoriaActivity extends AppCompatActivity {
     MaterialCardView mCuriositaCard;
     ValueLineChart mLineChart;
     TextView mCategoriaTitle, mCuriositaTV, mWarning;
-    ImageButton mArrowBtn;
+    ImageView mArrowBtn;
 
     RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
@@ -106,7 +104,12 @@ public class CategoriaActivity extends AppCompatActivity {
         interpolator = new OvershootInterpolator();
         isExpanded = false;
 
-        initArrowBtn();
+        mExpandLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                animateList();
+            }
+        });
 
         mCategoriaTitle.setText(Html.fromHtml("Andamento risparmio di CO<sub><small><small>2</small></small></sub>"));
 
@@ -211,44 +214,30 @@ public class CategoriaActivity extends AppCompatActivity {
         });
     }
 
-    private void initArrowBtn() {
-        mExpandLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    private void animateList() {
+        ViewGroup.LayoutParams cardParams = mCardLayout.getLayoutParams();
+        ViewGroup.LayoutParams listParams = mListLayout.getLayoutParams();
+        if (isExpanded) {
+            cardParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            listParams.height = 0;
+            mCardLayout.animate().alpha(1f).setInterpolator(interpolator).setDuration(1000).start();
+            mArrowBtn.animate().rotation(0f).setDuration(400).start();
+        } else {
+            cardParams.height = 0;
+            listParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            mCardLayout.animate().alpha(0f).setInterpolator(interpolator).setDuration(1000).start();
+            mArrowBtn.animate().rotation(180f).setDuration(400).start();
+        }
 
-                Drawable arrow;
-                ViewGroup.LayoutParams cardParams = mCardLayout.getLayoutParams();
-                ViewGroup.LayoutParams listParams = mListLayout.getLayoutParams();
-                if (isExpanded) {
-                    cardParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    listParams.height = 0;
-                    arrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_up);
-                    mCardLayout.animate().alpha(1f).setInterpolator(interpolator).setDuration(1000).start();
-                } else {
-                    cardParams.height = 0;
-                    listParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    arrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_down);
-                    mCardLayout.animate().alpha(0f).setInterpolator(interpolator).setDuration(1000).start();
-                }
+        ViewGroup root = findViewById(R.id.categoria_layout);
+        TransitionManager.beginDelayedTransition(root);
+        AutoTransition transition = new AutoTransition();
+        transition.setDuration(2000);
+        TransitionManager.beginDelayedTransition(root, transition);
 
-                ViewGroup root = findViewById(R.id.categoria_layout);
-                TransitionManager.beginDelayedTransition(root);
-                AutoTransition transition = new AutoTransition();
-                transition.setDuration(2000);
-                TransitionManager.beginDelayedTransition(root, transition);
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mArrowBtn.setImageDrawable(arrow);
-                    }
-                }, 400);
-
-                mListLayout.requestLayout();
-                mCardLayout.requestLayout();
-                isExpanded = !isExpanded;
-            }
-        });
+        mListLayout.requestLayout();
+        mCardLayout.requestLayout();
+        isExpanded = !isExpanded;
     }
 
     private void loadRecyclerView() {
@@ -311,5 +300,14 @@ public class CategoriaActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isExpanded) {
+            animateList();
+        } else {
+            this.finish();
+        }
     }
 }
