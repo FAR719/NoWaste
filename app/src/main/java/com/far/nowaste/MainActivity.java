@@ -588,6 +588,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     CURRENT_USER = documentSnapshot.toObject(Utente.class);
                     updateHeader();
+                    retrieveUserSavings();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -595,7 +596,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
-            retrieveUserSavings();
         } else {
             updateHeader();
         }
