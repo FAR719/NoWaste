@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,6 +69,8 @@ public class CategoriaActivity extends AppCompatActivity {
 
     Curiosity curiosity;
 
+    OvershootInterpolator interpolator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +104,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
         mFirestoreList = findViewById(R.id.categoria_recyclerView);
 
+        interpolator = new OvershootInterpolator();
         isExpanded = false;
 
         initArrowBtn();
@@ -220,10 +224,12 @@ public class CategoriaActivity extends AppCompatActivity {
                     cardParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                     listParams.height = 0;
                     arrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_up);
+                    mCardLayout.animate().alpha(1f).setInterpolator(interpolator).setDuration(1000).start();
                 } else {
                     cardParams.height = 0;
                     listParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
                     arrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_keyboard_arrow_down);
+                    mCardLayout.animate().alpha(0f).setInterpolator(interpolator).setDuration(1000).start();
                 }
 
                 ViewGroup root = findViewById(R.id.categoria_layout);
@@ -231,6 +237,8 @@ public class CategoriaActivity extends AppCompatActivity {
                 AutoTransition transition = new AutoTransition();
                 transition.setDuration(2000);
                 TransitionManager.beginDelayedTransition(root, transition);
+
+
 
                 mListLayout.requestLayout();
                 mCardLayout.requestLayout();

@@ -61,7 +61,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
 
     // animazioni
     boolean isMenuOpen;
-    OvershootInterpolator interpolator = new OvershootInterpolator();
+    OvershootInterpolator interpolator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         layout = findViewById(R.id.detailRifiuto_layout);
 
         nunito = ResourcesCompat.getFont(getApplicationContext(), R.font.nunito);
+        interpolator = new OvershootInterpolator();
 
         // toolbar
         mToolbar = findViewById(R.id.detailRifiuto_toolbar);

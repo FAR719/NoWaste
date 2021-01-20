@@ -60,7 +60,7 @@ import java.util.List;
 public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
     // variabili
-    ConstraintLayout parent, mapContainer;
+    ConstraintLayout parent, mapContainer, listaLayout;
     SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
     FloatingActionButton gpsBtn, fullScreenBtn;
@@ -72,7 +72,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     RecyclerView mListaLuoghi;
     List<Luogo> luoghi;
 
-    OvershootInterpolator interpolator = new OvershootInterpolator();
+    OvershootInterpolator interpolator;
 
     static public boolean ISEXPANDED;
     int collapsedheight, expandedHeight, miniFAB, normalFAB;
@@ -86,12 +86,15 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         // assegnazione variabile
         parent = view.findViewById(R.id.luoghiLayout);
         mapContainer = view.findViewById(R.id.mapContainer);
+        listaLayout = view.findViewById(R.id.listaLuoghi_layout);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         gpsBtn = view.findViewById(R.id.gpsButton);
         fullScreenBtn = view.findViewById(R.id.fullScreenButton);
         mListaLuoghi = view.findViewById(R.id.luoghi_recyclerView);
 
         locationPermissionGranted = false;
+
+        interpolator = new OvershootInterpolator();
 
         // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
@@ -281,11 +284,13 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             fullScreenBtn.setCustomSize(normalFAB);
             fullScreenBtn.setImageDrawable(fsExitIcon);
             gpsBtn.setCustomSize(normalFAB);
+            listaLayout.animate().alpha(0f).setInterpolator(interpolator).setDuration(1000).start();
         } else {
             layoutParams.height = collapsedheight;
             fullScreenBtn.setCustomSize(miniFAB);
             fullScreenBtn.setImageDrawable(fsIcon);
             gpsBtn.setCustomSize(miniFAB);
+            listaLayout.animate().alpha(1f).setInterpolator(interpolator).setDuration(1000).start();
         }
         ViewGroup root = (ViewGroup) parent;
         android.transition.TransitionManager.beginDelayedTransition(root);
