@@ -86,7 +86,7 @@
                             app:egIndicatorLineColor="#fe6da8"
                             app:egIndicatorTextColor="#fe6da8"
                             app:egIndicatorTextUnit="g"
-                            app:egLegendHeight="35dp"
+                            app:egLegendHeight="0dp"
                             app:egShowLegendBeneathIndicator="true"
                             app:egShowValueIndicator="true"
                             app:egUseCubic="true"
@@ -216,7 +216,6 @@
                         app:tint="@color/secondary_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoria_recyclerView"
