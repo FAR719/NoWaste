@@ -594,11 +594,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     CURRENT_USER = documentSnapshot.toObject(Utente.class);
                     updateHeader();
-                    retrieveUserSavings("carbon_dioxide");
-                    retrieveUserSavings("oil");
-                    retrieveUserSavings("water");
-                    retrieveUserSavings("fertilizer");
-                    retrieveUserSavings("sand");
+                    retrieveUserSavings();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -611,71 +607,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void retrieveUserSavings(String type) {
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        fStore.collection("users").document(fAuth.getCurrentUser().getUid())
-                .collection(type).orderBy("year", Query.Direction.ASCENDING)
-                .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                // inizializzazione liste
-                switch (type) {
-                    case "carbon_dioxide":
-                        // inizializza la lista
-                        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-                        for (int i = 0; i < 8; i++) {
-                            CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                        }
+    public void retrieveUserSavings() {
+        String[] typeList = new String[] {"carbon_dioxide", "oil", "energy", "water", "fertilizer", "sand"};
+        for (String type : typeList) {
+            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fAuth.getCurrentUser().getUid())
+                    .collection(type).orderBy("year", Query.Direction.ASCENDING)
+                    .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    // inizializzazione liste
+                    switch (type) {
+                        case "carbon_dioxide":
+                            // inizializza la lista
+                            CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+                            for (int i = 0; i < 8; i++) {
+                                CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                            }
 
-                        // carica la lista
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Saving item = document.toObject(Saving.class);
-                            CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
-                        }
-                        break;
-                    case "oil":
-                        OIL_ARRAY_LIST = new ArrayList<>();
-                        for (int i = 0; i < 8; i++) {
-                            OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                        }
+                            // carica la lista
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Saving item = document.toObject(Saving.class);
+                                CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            }
+                            break;
+                        case "oil":
+                            OIL_ARRAY_LIST = new ArrayList<>();
+                            for (int i = 0; i < 8; i++) {
+                                OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                            }
 
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Saving item = document.toObject(Saving.class);
-                            OIL_ARRAY_LIST.get(item.getNtipo()).add(item);
-                        }
-                        break;
-                    case "energy":
-                        ENERGY_ARRAY_LIST = new ArrayList<>();
-                        for (int i = 0; i < 8; i++) {
-                            ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                        }
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Saving item = document.toObject(Saving.class);
+                                OIL_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            }
+                            break;
+                        case "energy":
+                            ENERGY_ARRAY_LIST = new ArrayList<>();
+                            for (int i = 0; i < 8; i++) {
+                                ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                            }
 
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Saving item = document.toObject(Saving.class);
-                            ENERGY_ARRAY_LIST.get(item.getNtipo()).add(item);
-                        }
-                        break;
-                    default:
-                        OTHER_ARRAY_LIST = new ArrayList<>();
-                        for (int i = 0; i < 8; i++) {
-                            OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                        }
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Saving item = document.toObject(Saving.class);
+                                ENERGY_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            }
+                            break;
+                        default:
+                            // la prima volta inizializza l'array
+                            if (type.equals("water")) {
+                                OTHER_ARRAY_LIST = new ArrayList<>();
+                                for (int i = 0; i < 8; i++) {
+                                    OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                                }
+                            }
 
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Saving item = document.toObject(Saving.class);
-                            OTHER_ARRAY_LIST.get(item.getNtipo()).add(item);
-                        }
+                            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                Saving item = document.toObject(Saving.class);
+                                OTHER_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            }
+                    }
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("LOG", "Error! " + e.getLocalizedMessage());
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                }
+            });
+        }
 
         // retrieve QUANTITA
-        fStore = FirebaseFirestore.getInstance();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

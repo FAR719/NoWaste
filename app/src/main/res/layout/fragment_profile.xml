@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/nunito_bold"
-                android:text="Le tue statistiche"
+                android:text="Il tuo impatto ambientale"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
                     android:paddingBottom="2dp"
-                    android:text="Hai risparmiato (in carbon_dioxide):"
+                    android:text="Hai risparmiato (in ):"
                     app:layout_constraintStart_toStartOf="@+id/constraintLayout"
                     app:layout_constraintTop_toTopOf="parent" />
 

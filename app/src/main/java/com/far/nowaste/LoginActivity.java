@@ -336,9 +336,8 @@ public class LoginActivity extends AppCompatActivity {
                     fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            int[] quantita = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
                             Map<String, Object> quantitaMap = new HashMap<>();
-                            quantitaMap.put("quantita", Arrays.asList(quantita));
+                            quantitaMap.put("quantita", Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0));
                             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                             fStore.collection("users").document(fUser.getUid()).update(quantitaMap)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -59,7 +59,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
     ImageView immagineImageView;
     FloatingActionButton addBtn;
     FloatingActionButton checkBtn;
-    LinearProgressIndicator mProgressIndicator;
 
     // nome rifiuto
     String stringName;
@@ -95,7 +94,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         materialeTextView = findViewById(R.id.detailRifiuto_materialeTextView);
         descrizioneTextView = findViewById(R.id.detailRifiuto_descrizioneTextView);
         immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
-        mProgressIndicator = findViewById(R.id.rifiuto_progressIindicator);
 
         // associazione firebase
         fAuth = FirebaseAuth.getInstance();
@@ -179,8 +177,8 @@ public class DetailRifiutoActivity extends AppCompatActivity {
 
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("users").document(fUser.getUid()).collection(type)
-                .whereEqualTo("ntipo", rifiuto.getNtipo()).whereEqualTo("year", currentDay.getYear())
-                .whereEqualTo("month", currentDay.getMonth()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .whereEqualTo("year", currentDay.getYear()).whereEqualTo("month", currentDay.getMonth())
+                .whereEqualTo("ntipo", rifiuto.getNtipo()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 if (queryDocumentSnapshots.isEmpty()){
@@ -197,8 +195,10 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                             break;
                         case "water":
                             punteggio = rifiuto.getWater();
+                            break;
                         case "fertilizer":
                             punteggio = rifiuto.getFertilizer();
+                            break;
                         case "sand":
                             punteggio = rifiuto.getSand();
                     }
@@ -223,13 +223,11 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                 default:
                                     MainActivity.OTHER_ARRAY_LIST.get(saving.getNtipo()).add(saving);
                             }
-                            mProgressIndicator.hide();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                            mProgressIndicator.hide();
                         }
                     });
                 } else if (queryDocumentSnapshots.size() == 1) {
@@ -249,8 +247,10 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                             break;
                         case "water":
                             punteggio = rifiuto.getWater();
+                            break;
                         case "fertilizer":
                             punteggio = rifiuto.getFertilizer();
+                            break;
                         case "sand":
                             punteggio = rifiuto.getSand();
                     }
@@ -284,19 +284,16 @@ public class DetailRifiutoActivity extends AppCompatActivity {
                                                     .remove(MainActivity.OTHER_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
                                             MainActivity.OTHER_ARRAY_LIST.get(rifiuto.getNtipo()).add(saving);
                                     }
-                                    mProgressIndicator.hide();
                                 }
                             });
                 } else {
                     Log.e("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
-                    mProgressIndicator.hide();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                mProgressIndicator.hide();
             }
         });
     }
@@ -322,7 +319,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (fUser != null) {
-                    mProgressIndicator.show();
                     loadPunteggio();
                     animateFloatingMenu();
                 } else {

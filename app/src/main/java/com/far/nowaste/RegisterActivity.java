@@ -222,9 +222,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                        int[] quantita = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
                         Map<String, Object> quantitaMap = new HashMap<>();
-                        quantitaMap.put("quantita", Arrays.asList(quantita));
+                        quantitaMap.put("quantita", Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0));
                         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
                         fStore.collection("users").document(fUser.getUid()).update(quantitaMap)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

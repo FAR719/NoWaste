@@ -45,19 +45,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/rifiuto_progressIindicator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                app:showAnimationBehavior="inward"
-                app:hideAnimationBehavior="outward"
-                app:indicatorColor="@color/accent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detailRifiuto_rifiutoImageView" />
-
             <TextView
                 android:id="@+id/detailRifiuto_nomeTextView"
                 android:layout_width="wrap_content"
