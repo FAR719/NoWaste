@@ -66,7 +66,7 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
         // query
         FirebaseFirestore fstore = FirebaseFirestore.getInstance();
-        Query query = fstore.collection("funzionalita").document(nome).collection("faq").orderBy("nome", Query.Direction.ASCENDING);
+        Query query = fstore.collection("funzionalita").document(nome).collection("questions");
 
         // recyclerOptions
         FirestoreRecyclerOptions<Faq> options = new FirestoreRecyclerOptions.Builder<Faq>().setQuery(query, Faq.class).build();
