@@ -65,7 +65,7 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
         // query
         FirebaseFirestore fstore = FirebaseFirestore.getInstance();
-        Query query = fstore.collection("funzionalita").document(nome).collection("faq");
+        Query query = fstore.collection("funzionalita").document(nome).collection("faq").orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
         FirestoreRecyclerOptions<Funzionalita> options = new FirestoreRecyclerOptions.Builder<Funzionalita>().setQuery(query, Funzionalita.class).build();
@@ -74,8 +74,8 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
             @NonNull
             @Override
             public DetailFunzionalitaActivity.FAQViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_faq_item parent, false);
-                return new DetailFunzionalitaActivity().FAQViewHolder(view);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_faq_item ,parent, false);
+                return new DetailFunzionalitaActivity.FAQViewHolder(view);
             }
 
             @Override
