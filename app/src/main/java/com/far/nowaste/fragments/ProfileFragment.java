@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!tipo.equals("co2")) {
-                    setPieChartData("co2", MainActivity.ENERGY_ARRAY_LIST);
+                    setPieChartData("co2", MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
                     mCO2Btn.setStrokeColorResource(R.color.accent);
                     mCO2Btn.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
                     mCO2Btn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.nav_item_bg));
