@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
                     android:paddingBottom="2dp"
-                    android:text="Hai risparmiato (in ):"
+                    android:text="Hai risparmiato:"
                     app:layout_constraintStart_toStartOf="@+id/constraintLayout"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -295,29 +295,64 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/savingButton"
-                    android:layout_width="111dp"
+                    android:id="@+id/co2SavingButton"
+                    android:layout_width="110.3dp"
                     android:layout_height="wrap_content"
-                    android:text="CO2"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/nunito_semibold"
                     android:stateListAnimator="@null"
+                    android:text="CO"
                     android:textColor="@color/secondary_text"
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/oilSavingButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                     app:strokeColor="@color/secondary_text"
-                    app:strokeWidth="1dp"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/oilSavingButton"
+                    android:layout_width="110.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:stateListAnimator="@null"
+                    android:text="Petrolio"
+                    android:textColor="@color/secondary_text"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    app:strokeColor="@color/secondary_text"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/energySavingButton"
+                    android:layout_width="110.3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:stateListAnimator="@null"
+                    android:text="Energia"
+                    android:textColor="@color/secondary_text"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/oilSavingButton"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    app:strokeColor="@color/secondary_text"
+                    app:strokeWidth="1dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -329,7 +364,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                    android:text="Hai smaltito (in quantità):"
+                    android:text="Quantità di rifiuti smaltiti:"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -342,8 +377,8 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="5dp"
-                    app:egShowValues="false"
                     app:egLegendHeight="35dp"
+                    app:egShowValues="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

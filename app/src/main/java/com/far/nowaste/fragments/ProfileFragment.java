@@ -46,14 +46,14 @@ public class ProfileFragment extends Fragment {
     TextView mFullName, mEmail;
 
     // grafici
-    TextView tvSaving, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
+    TextView tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
     BarChart barChart;
-    MaterialButton mSavingBtn;
-
-    List<Integer> colors;
+    MaterialButton mCO2Btn, mOilBtn, mEnergyBtn;
 
     String tipo;
+
+    List<Integer> colors;
 
     // firebase
     FirebaseAuth fAuth;
@@ -80,8 +80,9 @@ public class ProfileFragment extends Fragment {
         tvMetalli = view.findViewById(R.id.tvMetalli);
         tvElettrici = view.findViewById(R.id.tvElettrici);
         tvSpeciali = view.findViewById(R.id.tvSpeciali);
-        tvSaving = view.findViewById(R.id.tvSaving);
-        mSavingBtn = view.findViewById(R.id.savingButton);
+        mCO2Btn = view.findViewById(R.id.co2SavingButton);
+        mOilBtn = view.findViewById(R.id.oilSavingButton);
+        mEnergyBtn = view.findViewById(R.id.energySavingButton);
 
         colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(getContext(), R.color.plastica));
@@ -99,26 +100,73 @@ public class ProfileFragment extends Fragment {
         retrieveUserData();
 
         tipo = "co2";
-        mSavingBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
-        mSavingBtn.setOnClickListener(new View.OnClickListener() {
+        mCO2Btn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+        mCO2Btn.setStrokeColorResource(R.color.accent);
+        mCO2Btn.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
+        mCO2Btn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.nav_item_bg));
+
+        mCO2Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (tipo) {
-                    case "co2":
-                        tipo = "petrolio";
-                        setPieChartData(tipo, MainActivity.OIL_ARRAY_LIST);
-                        mSavingBtn.setText("Petrolio");
-                        break;
-                    case "petrolio":
-                        tipo = "energia";
-                        setPieChartData(tipo, MainActivity.ENERGY_ARRAY_LIST);
-                        mSavingBtn.setText("Energia");
-                        break;
-                    case "energia":
-                        tipo = "co2";
-                        setPieChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-                        mSavingBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
-                        break;
+                if (!tipo.equals("co2")) {
+                    setPieChartData("co2", MainActivity.ENERGY_ARRAY_LIST);
+                    mCO2Btn.setStrokeColorResource(R.color.accent);
+                    mCO2Btn.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
+                    mCO2Btn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.nav_item_bg));
+                    if (tipo.equals("petrolio")) {
+                        mOilBtn.setStrokeColorResource(R.color.secondary_text);
+                        mOilBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mOilBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    } else {
+                        mEnergyBtn.setStrokeColorResource(R.color.secondary_text);
+                        mEnergyBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mEnergyBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    }
+                    tipo = "co2";
+                }
+            }
+        });
+
+        mOilBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!tipo.equals("petrolio")) {
+                    setPieChartData("petrolio", MainActivity.OIL_ARRAY_LIST);
+                    mOilBtn.setStrokeColorResource(R.color.accent);
+                    mOilBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
+                    mOilBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.nav_item_bg));
+                    if (tipo.equals("co2")) {
+                        mCO2Btn.setStrokeColorResource(R.color.secondary_text);
+                        mCO2Btn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mCO2Btn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    } else {
+                        mEnergyBtn.setStrokeColorResource(R.color.secondary_text);
+                        mEnergyBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mEnergyBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    }
+                    tipo = "petrolio";
+                }
+            }
+        });
+
+        mEnergyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!tipo.equals("energia")) {
+                    setPieChartData("energia", MainActivity.ENERGY_ARRAY_LIST);
+                    mEnergyBtn.setStrokeColorResource(R.color.accent);
+                    mEnergyBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.accent));
+                    mEnergyBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.nav_item_bg));
+                    if (tipo.equals("co2")) {
+                        mCO2Btn.setStrokeColorResource(R.color.secondary_text);
+                        mCO2Btn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mCO2Btn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    } else {
+                        mOilBtn.setStrokeColorResource(R.color.secondary_text);
+                        mOilBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_text));
+                        mOilBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
+                    }
+                    tipo = "energia";
                 }
             }
         });
@@ -218,7 +266,6 @@ public class ProfileFragment extends Fragment {
         String unit;
         // aggiorna la descrizione
         if (type.equals("co2")) {
-            tvSaving.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
             unit = " g";
         } else {
             if (type.equals("petrolio")) {
@@ -226,7 +273,6 @@ public class ProfileFragment extends Fragment {
             } else {
                 unit = " Wh";
             }
-            tvSaving.setText("Hai risparmiato (in " + type +"):");
         }
 
         for (int i = 0; i < 8; i++) {
