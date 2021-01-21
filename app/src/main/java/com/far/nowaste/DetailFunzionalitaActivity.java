@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.far.nowaste.objects.Faq;
 import com.far.nowaste.objects.Funzionalita;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -68,9 +69,9 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         Query query = fstore.collection("funzionalita").document(nome).collection("faq").orderBy("nome", Query.Direction.ASCENDING);
 
         // recyclerOptions
-        FirestoreRecyclerOptions<Funzionalita> options = new FirestoreRecyclerOptions.Builder<Funzionalita>().setQuery(query, Funzionalita.class).build();
+        FirestoreRecyclerOptions<Faq> options = new FirestoreRecyclerOptions.Builder<Faq>().setQuery(query, Faq.class).build();
 
-        adapter = new FirestoreRecyclerAdapter<Funzionalita, DetailFunzionalitaActivity.FAQViewHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<Faq, DetailFunzionalitaActivity.FAQViewHolder>(options) {
             @NonNull
             @Override
             public DetailFunzionalitaActivity.FAQViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,9 +80,9 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull DetailFunzionalitaActivity.FAQViewHolder holder, int position, @NonNull Funzionalita model) {
-                holder.rDomanda.setText(model.getNome());
-                holder.rRisposta.setText(model.getTesto());
+            protected void onBindViewHolder(@NonNull DetailFunzionalitaActivity.FAQViewHolder holder, int position, @NonNull Faq model) {
+                holder.rDomanda.setText(model.getDomanda());
+                holder.rRisposta.setText(model.getRisposta());
             }
         };
 
