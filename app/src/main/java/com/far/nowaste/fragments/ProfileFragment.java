@@ -225,9 +225,11 @@ public class ProfileFragment extends Fragment {
                     }
 
                     // carica la lista
-                    for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        Saving item = document.toObject(Saving.class);
-                        carbonDioxideArrayList.get(item.getNtipo()).add(item);
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving item = document.toObject(Saving.class);
+                            carbonDioxideArrayList.get(item.getNtipo()).add(item);
+                        }
                     }
                     setPieChartData("co2", carbonDioxideArrayList);
                 }
