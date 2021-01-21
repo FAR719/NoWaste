@@ -626,10 +626,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
 
                             // carica la lista
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                Saving item = document.toObject(Saving.class);
-                                CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                    Saving item = document.toObject(Saving.class);
+                                    CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+                                }
                             }
+
                             break;
                         case "oil":
                             OIL_ARRAY_LIST = new ArrayList<>();
@@ -637,9 +640,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
                             }
 
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                Saving item = document.toObject(Saving.class);
-                                OIL_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                    Saving item = document.toObject(Saving.class);
+                                    OIL_ARRAY_LIST.get(item.getNtipo()).add(item);
+                                }
                             }
                             break;
                         case "energy":
@@ -648,9 +653,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
                             }
 
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                Saving item = document.toObject(Saving.class);
-                                ENERGY_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                    Saving item = document.toObject(Saving.class);
+                                    ENERGY_ARRAY_LIST.get(item.getNtipo()).add(item);
+                                }
                             }
                             break;
                         default:
@@ -662,9 +669,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                             }
 
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                Saving item = document.toObject(Saving.class);
-                                OTHER_ARRAY_LIST.get(item.getNtipo()).add(item);
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                    Saving item = document.toObject(Saving.class);
+                                    OTHER_ARRAY_LIST.get(item.getNtipo()).add(item);
+                                }
                             }
                     }
                 }
