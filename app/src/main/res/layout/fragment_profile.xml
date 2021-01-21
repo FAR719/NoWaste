@@ -91,12 +91,12 @@
                     android:id="@+id/piechart"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
-                    app:egLegendHeight="0dp"
-                    app:egUseCustomInnerValue="true"
+                    app:egDrawValueInPie="false"
                     app:egInnerPaddingColor="@color/piechart_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:egLegendHeight="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/tvSaving" />
 
                 <TextView
                     android:id="@+id/tvSaving"
@@ -291,7 +291,27 @@
                         android:text="0"
                         app:layout_constraintEnd_toEndOf="@+id/tvElettrici"
                         app:layout_constraintTop_toBottomOf="@+id/tvElettrici" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/savingButton"
+                    android:layout_width="111dp"
+                    android:layout_height="wrap_content"
+                    android:text="CO2"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:stateListAnimator="@null"
+                    android:textColor="@color/secondary_text"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="30dp"
+                    app:strokeColor="@color/secondary_text"
+                    app:strokeWidth="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

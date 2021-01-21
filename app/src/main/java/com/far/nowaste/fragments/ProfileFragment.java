@@ -22,6 +22,7 @@ import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.common.primitives.Ints;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,8 +49,11 @@ public class ProfileFragment extends Fragment {
     TextView tvSaving, tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
     PieChart pieChart;
     BarChart barChart;
+    MaterialButton mSavingBtn;
 
     List<Integer> colors;
+
+    String tipo;
 
     // firebase
     FirebaseAuth fAuth;
@@ -77,6 +81,7 @@ public class ProfileFragment extends Fragment {
         tvElettrici = view.findViewById(R.id.tvElettrici);
         tvSpeciali = view.findViewById(R.id.tvSpeciali);
         tvSaving = view.findViewById(R.id.tvSaving);
+        mSavingBtn = view.findViewById(R.id.savingButton);
 
         colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(getContext(), R.color.plastica));
@@ -92,6 +97,31 @@ public class ProfileFragment extends Fragment {
 
         retrieveCurrentUser();
         retrieveUserData();
+
+        tipo = "co2";
+        mSavingBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+        mSavingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (tipo) {
+                    case "co2":
+                        tipo = "petrolio";
+                        setPieChartData(tipo, MainActivity.OIL_ARRAY_LIST);
+                        mSavingBtn.setText("Petrolio");
+                        break;
+                    case "petrolio":
+                        tipo = "energia";
+                        setPieChartData(tipo, MainActivity.ENERGY_ARRAY_LIST);
+                        mSavingBtn.setText("Energia");
+                        break;
+                    case "energia":
+                        tipo = "co2";
+                        setPieChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                        mSavingBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                        break;
+                }
+            }
+        });
 
         return view;
     }
@@ -184,16 +214,24 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setPieChartData(String type, ArrayList<ArrayList<Saving>> arrayOfArray){
+        pieChart.clearChart();
+        String unit;
         // aggiorna la descrizione
         if (type.equals("co2")) {
             tvSaving.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+            unit = " g";
         } else {
+            if (type.equals("petrolio")) {
+                unit = " g";
+            } else {
+                unit = " Wh";
+            }
             tvSaving.setText("Hai risparmiato (in " + type +"):");
         }
 
         for (int i = 0; i < 8; i++) {
             ArrayList<Saving> arrayList = arrayOfArray.get(i);
-            double punteggio = 0;
+            int punteggio = 0;
 
             if (!arrayList.isEmpty()) {
                 for (Saving item : arrayList) {
@@ -202,33 +240,33 @@ public class ProfileFragment extends Fragment {
             }
 
             // aggiungi una slice alla PieChart
-            pieChart.addPieSlice(new PieModel(Integer.parseInt(((int) punteggio) + ""), colors.get(i)));
+            pieChart.addPieSlice(new PieModel(Integer.parseInt((punteggio) + ""), colors.get(i)));
 
             // aggiorna le TextView
             switch (i) {
                 case 0:
-                    tvPlastica.setText(punteggio + " g");
+                    tvPlastica.setText(punteggio + unit);
                     break;
                 case 1:
-                    tvOrganico.setText(punteggio + " g");
+                    tvOrganico.setText(punteggio + unit);
                     break;
                 case 2:
-                    tvSecco.setText(punteggio + " g");
+                    tvSecco.setText(punteggio + unit);
                     break;
                 case 3:
-                    tvCarta.setText(punteggio + " g");
+                    tvCarta.setText(punteggio + unit);
                     break;
                 case 4:
-                    tvVetro.setText(punteggio + " g");
+                    tvVetro.setText(punteggio + unit);
                     break;
                 case 5:
-                    tvMetalli.setText(punteggio + " g");
+                    tvMetalli.setText(punteggio + unit);
                     break;
                 case 6:
-                    tvElettrici.setText(punteggio + " g");
+                    tvElettrici.setText(punteggio + unit);
                     break;
                 case 7:
-                    tvSpeciali.setText(punteggio + " g");
+                    tvSpeciali.setText(punteggio + unit);
                     break;
             }
         }
