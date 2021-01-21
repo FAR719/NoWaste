@@ -35,6 +35,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RegisterActivity extends AppCompatActivity {
 
     // definizione variabili
@@ -218,11 +222,28 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "onSuccess: user Profile is created for " + fUser.getUid());
-                        MainActivity.CURRENT_USER = utente;
-                        Intent returnIntent = new Intent();
-                        returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
+                        int[] quantita = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+                        Map<String, Object> quantitaMap = new HashMap<>();
+                        quantitaMap.put("quantita", Arrays.asList(quantita));
+                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                        fStore.collection("users").document(fUser.getUid()).update(quantitaMap)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        MainActivity.CURRENT_USER = utente;
+                                        Intent returnIntent = new Intent();
+                                        returnIntent.putExtra("com.far.nowaste.REGISTER_REQUEST", true);
+                                        setResult(Activity.RESULT_OK, returnIntent);
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                mProgressIndicator.hide();
+                                showSnackbar("Account non creato correttamente!");
+                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

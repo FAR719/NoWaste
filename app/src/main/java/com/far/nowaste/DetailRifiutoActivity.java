@@ -34,6 +34,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DetailRifiutoActivity extends AppCompatActivity {
 
     RelativeLayout layout;
@@ -92,8 +97,6 @@ public class DetailRifiutoActivity extends AppCompatActivity {
         immagineImageView = findViewById(R.id.detailRifiuto_rifiutoImageView);
         mProgressIndicator = findViewById(R.id.rifiuto_progressIindicator);
 
-
-
         // associazione firebase
         fAuth = FirebaseAuth.getInstance();
         fUser = fAuth.getCurrentUser();
@@ -123,72 +126,179 @@ public class DetailRifiutoActivity extends AppCompatActivity {
 
     public void loadPunteggio() {
         if (MainActivity.CURRENT_USER != null){
-            CalendarDay currentDay = CalendarDay.today();
+            // carica il risparmio, se c'è
+            if (rifiuto.getNtipo() == 0 || rifiuto.getNtipo() == 1 || rifiuto.getNtipo() == 3 || rifiuto.getNtipo() == 4
+                    || rifiuto.getNtipo() == 5 || rifiuto.getNtipo() == 6) {
+                loadSaving("carbon_dioxide");
+            }
+            if (rifiuto.getNtipo() == 0 || rifiuto.getNtipo() == 3 || rifiuto.getNtipo() == 4 || rifiuto.getNtipo() == 5) {
+                loadSaving("oil");
+            }
+            if (rifiuto.getNtipo() == 0 || rifiuto.getNtipo() == 3 || rifiuto.getNtipo() == 4 || rifiuto.getNtipo() == 5
+                    || rifiuto.getNtipo() == 6) {
+                loadSaving("energy");
+            }
+            if (rifiuto.getNtipo() == 0 || rifiuto.getNtipo() == 3) {
+                loadSaving("water");
+            } else if (rifiuto.getNtipo() == 1) {
+                loadSaving("fertilizer");
+            } else if (rifiuto.getNtipo() == 4) {
+                loadSaving("sand");
+            }
 
-            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fUser.getUid()).collection("carbon_dioxide")
-                    .whereEqualTo("ntipo", rifiuto.getNtipo()).whereEqualTo("year", currentDay.getYear())
-                    .whereEqualTo("month", currentDay.getMonth()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    if (queryDocumentSnapshots.isEmpty()){
-                        Saving carbonDioxide = new Saving(rifiuto.getSmaltimento(), rifiuto.getCarbon_dioxide(),
-                                currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
+            // aggiorna la quantità di rifiuti totali
+            loadTotale();
+        }
+    }
 
-                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        fStore.collection("users").document(fUser.getUid()).collection("carbon_dioxide")
-                                .add(carbonDioxide).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(carbonDioxide.getNtipo()).add(carbonDioxide);
-                                MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
-                                showSnackbar("Rifiuto aggiunto!");
-                                mProgressIndicator.hide();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                                showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
-                                mProgressIndicator.hide();
-                            }
-                        });
-                    } else if (queryDocumentSnapshots.size() == 1) {
-                        DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
-                        Saving carbonDioxide = document.toObject(Saving.class);
+    private void loadTotale() {
+        MainActivity.QUANTITA[rifiuto.getNtipo()]++;
+        Map<String, Object> quantita = new HashMap<>();
+        quantita.put("quantita", Arrays.asList(MainActivity.QUANTITA[0], MainActivity.QUANTITA[1], MainActivity.QUANTITA[2],
+                MainActivity.QUANTITA[3], MainActivity.QUANTITA[4], MainActivity.QUANTITA[5],
+                MainActivity.QUANTITA[6], MainActivity.QUANTITA[7]));
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").document(fUser.getUid()).update(quantita)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                showSnackbar("Rifiuto aggiunto!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+            }
+        });
+    }
 
-                        carbonDioxide.setPunteggio(carbonDioxide.getPunteggio() + rifiuto.getCarbon_dioxide());
-                        carbonDioxide.setQuantita(carbonDioxide.getQuantita() + 1);
+    private void loadSaving(String type) {
+        CalendarDay currentDay = CalendarDay.today();
+        ArrayList<ArrayList<Saving>> arrayLists = MainActivity.ENERGY_ARRAY_LIST;
 
-                        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-                        fStore.collection("users").document(fUser.getUid())
-                                .collection("carbon_dioxide").document(document.getId()).set(carbonDioxide)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
-                                                .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
-                                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(carbonDioxide);
-                                        MainActivity.QUANTITA[carbonDioxide.getNtipo()]++;
-                                        showSnackbar("Rifiuto aggiunto!");
-                                        mProgressIndicator.hide();
-                                    }
-                                });
-                    } else {
-                        Log.e("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
-                        showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
-                        mProgressIndicator.hide();
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").document(fUser.getUid()).collection(type)
+                .whereEqualTo("ntipo", rifiuto.getNtipo()).whereEqualTo("year", currentDay.getYear())
+                .whereEqualTo("month", currentDay.getMonth()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.isEmpty()){
+                    double punteggio = 0;
+                    switch (type) {
+                        case "carbon_dioxide":
+                            punteggio = rifiuto.getCarbon_dioxide();
+                            break;
+                        case "oil":
+                            punteggio = rifiuto.getOil();
+                            break;
+                        case "energy":
+                            punteggio = rifiuto.getEnergy();
+                            break;
+                        case "water":
+                            punteggio = rifiuto.getWater();
+                        case "fertilizer":
+                            punteggio = rifiuto.getFertilizer();
+                        case "sand":
+                            punteggio = rifiuto.getSand();
                     }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                    showSnackbar("Il rifiuto non è stato aggiunto correttamente!");
+                    Saving saving = new Saving(rifiuto.getSmaltimento(), punteggio,
+                            currentDay.getYear(), currentDay.getMonth(), rifiuto.getNtipo());
+
+                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                    fStore.collection("users").document(fUser.getUid()).collection(type)
+                            .add(saving).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            switch (type) {
+                                case "carbon_dioxide":
+                                    MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(saving.getNtipo()).add(saving);
+                                    break;
+                                case "oil":
+                                    MainActivity.OIL_ARRAY_LIST.get(saving.getNtipo()).add(saving);
+                                    break;
+                                case "energy":
+                                    MainActivity.ENERGY_ARRAY_LIST.get(saving.getNtipo()).add(saving);
+                                    break;
+                                default:
+                                    MainActivity.OTHER_ARRAY_LIST.get(saving.getNtipo()).add(saving);
+                            }
+                            mProgressIndicator.hide();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                            mProgressIndicator.hide();
+                        }
+                    });
+                } else if (queryDocumentSnapshots.size() == 1) {
+                    DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                    Saving saving = document.toObject(Saving.class);
+
+                    double punteggio = 0;
+                    switch (type) {
+                        case "carbon_dioxide":
+                            punteggio = rifiuto.getCarbon_dioxide();
+                            break;
+                        case "oil":
+                            punteggio = rifiuto.getOil();
+                            break;
+                        case "energy":
+                            punteggio = rifiuto.getEnergy();
+                            break;
+                        case "water":
+                            punteggio = rifiuto.getWater();
+                        case "fertilizer":
+                            punteggio = rifiuto.getFertilizer();
+                        case "sand":
+                            punteggio = rifiuto.getSand();
+                    }
+
+                    saving.setPunteggio(saving.getPunteggio() + punteggio);
+
+                    FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                    fStore.collection("users").document(fUser.getUid())
+                            .collection(type).document(document.getId()).set(saving)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    switch (type) {
+                                        case "carbon_dioxide":
+                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                    .remove(MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                            MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(rifiuto.getNtipo()).add(saving);
+                                            break;
+                                        case "oil":
+                                            MainActivity.OIL_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                    .remove(MainActivity.OIL_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                            MainActivity.OIL_ARRAY_LIST.get(rifiuto.getNtipo()).add(saving);
+                                            break;
+                                        case "energy":
+                                            MainActivity.ENERGY_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                    .remove(MainActivity.ENERGY_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                            MainActivity.ENERGY_ARRAY_LIST.get(rifiuto.getNtipo()).add(saving);
+                                            break;
+                                        default:
+                                            MainActivity.OTHER_ARRAY_LIST.get(rifiuto.getNtipo())
+                                                    .remove(MainActivity.OTHER_ARRAY_LIST.get(rifiuto.getNtipo()).size() - 1);
+                                            MainActivity.OTHER_ARRAY_LIST.get(rifiuto.getNtipo()).add(saving);
+                                    }
+                                    mProgressIndicator.hide();
+                                }
+                            });
+                } else {
+                    Log.e("LOG", "Errore! Ci sono più istanze dello stesso mese nel database.");
                     mProgressIndicator.hide();
                 }
-            });
-        }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                mProgressIndicator.hide();
+            }
+        });
     }
 
     private void initFloatingMenu() {

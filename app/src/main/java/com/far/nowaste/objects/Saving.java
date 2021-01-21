@@ -4,7 +4,7 @@ public class Saving {
 
     String tipo;
     double punteggio;
-    int quantita, year, month;
+    int year, month;
     int ntipo;
 
     public Saving(String tipo, double punteggio, int year, int month, int ntipo) {
@@ -13,7 +13,6 @@ public class Saving {
         this.year = year;
         this.month = month;
         this.ntipo = ntipo;
-        this.quantita = 1;
     }
 
     //costruttore vuoto utile per FireBase
@@ -29,14 +28,6 @@ public class Saving {
 
     public void setPunteggio(double punteggio) {
         this.punteggio = punteggio;
-    }
-
-    public int getQuantita() {
-        return quantita;
-    }
-
-    public void setQuantita(int quantita) {
-        this.quantita = quantita;
     }
 
     public int getYear() {

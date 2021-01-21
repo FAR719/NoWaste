@@ -22,6 +22,7 @@ import com.far.nowaste.objects.Utente;
 import com.far.nowaste.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.primitives.Ints;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,7 +32,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.eazegraph.lib.charts.BarChart;
 import org.eazegraph.lib.charts.PieChart;
-import org.eazegraph.lib.communication.IOnItemFocusChangedListener;
 import org.eazegraph.lib.models.BarModel;
 import org.eazegraph.lib.models.PieModel;
 
@@ -131,32 +131,27 @@ public class ProfileFragment extends Fragment {
 
     private void retrieveUserData() {
         if (MainActivity.CARBON_DIOXIDE_ARRAY_LIST == null || MainActivity.QUANTITA == null) {
-            // inizializzazione liste
-            MainActivity.CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-            for (int i = 0; i < 8; i++) {
-                MainActivity.CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
-            }
-
-            MainActivity.ENERGY_ARRAY_LIST = new ArrayList<>();
-            MainActivity.OIL_ARRAY_LIST = new ArrayList<>();
-            MainActivity.QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid())
                     .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
                     .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    // dichiarazione array
+                    ArrayList<ArrayList<Saving>> carbonDioxideArrayList;
+
+                    // inizializza la lista
+                    carbonDioxideArrayList = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        carbonDioxideArrayList.add(i, new ArrayList<Saving>());
+                    }
+
+                    // carica la lista
                     for (DocumentSnapshot document : queryDocumentSnapshots) {
                         Saving item = document.toObject(Saving.class);
-                        MainActivity.CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
-
-                        MainActivity.QUANTITA[item.getNtipo()] += item.getQuantita();
+                        carbonDioxideArrayList.get(item.getNtipo()).add(item);
                     }
-                    setCO2Data(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-
-                    // imposta il BarChart
-                    setBarChartData(MainActivity.QUANTITA);
+                    setPieChartData("co2", carbonDioxideArrayList);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -164,15 +159,37 @@ public class ProfileFragment extends Fragment {
                     Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
+
+            // retrieve QUANTITA
+            fStore = FirebaseFirestore.getInstance();
+            fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            List<Integer> quantitaList = (List<Integer>) documentSnapshot.get("quantita");
+                            int [] quantita = new int[7];
+                            quantita = Ints.toArray(quantitaList);
+                            setBarChartData(quantita);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                }
+            });
         } else {
-            setCO2Data(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+            setPieChartData("co2", MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
             setBarChartData(MainActivity.QUANTITA);
         }
     }
 
-    private void setCO2Data(ArrayList<ArrayList<Saving>> arrayOfArray){
+    private void setPieChartData(String type, ArrayList<ArrayList<Saving>> arrayOfArray){
         // aggiorna la descrizione
-        tvSaving.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+        if (type.equals("co2")) {
+            tvSaving.setText(Html.fromHtml("Hai risparmiato (in CO<sub><small><small>2</small></small></sub>):"));
+        } else {
+            tvSaving.setText("Hai risparmiato (in " + type +"):");
+        }
 
         for (int i = 0; i < 8; i++) {
             ArrayList<Saving> arrayList = arrayOfArray.get(i);

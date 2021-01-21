@@ -44,6 +44,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     // definizione variabili
@@ -332,8 +336,26 @@ public class LoginActivity extends AppCompatActivity {
                     fStore.collection("users").document(fUser.getUid()).set(utente).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            MainActivity.CURRENT_USER = utente;
-                            verificaEmail();
+                            int[] quantita = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+                            Map<String, Object> quantitaMap = new HashMap<>();
+                            quantitaMap.put("quantita", Arrays.asList(quantita));
+                            FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+                            fStore.collection("users").document(fUser.getUid()).update(quantitaMap)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            MainActivity.CURRENT_USER = utente;
+                                            verificaEmail();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    showSnackbar("Accesso con Google non effettuato correttamente.");
+                                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                                    mProgressIndicator.hide();
+                                    fAuth.signOut();
+                                }
+                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

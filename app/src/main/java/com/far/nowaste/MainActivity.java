@@ -42,11 +42,13 @@ import com.far.nowaste.objects.Saving;
 import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.ui.main.SearchToolbarAnimation;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.common.primitives.Ints;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +65,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static public ArrayList<ArrayList<Saving>> CARBON_DIOXIDE_ARRAY_LIST;
     static public ArrayList<ArrayList<Saving>> ENERGY_ARRAY_LIST;
     static public ArrayList<ArrayList<Saving>> OIL_ARRAY_LIST;
+    static public ArrayList<ArrayList<Saving>> OTHER_ARRAY_LIST;
     static public int[] QUANTITA;
 
     View header;
@@ -140,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mImage = header.findViewById(R.id.navHeader_userImageView);
 
         fAuth = FirebaseAuth.getInstance();
+
+        QUANTITA = new int[7];
 
         updateCurrentUser();
 
@@ -588,7 +594,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     CURRENT_USER = documentSnapshot.toObject(Utente.class);
                     updateHeader();
-                    retrieveUserSavings();
+                    retrieveUserSavings("carbon_dioxide");
+                    retrieveUserSavings("oil");
+                    retrieveUserSavings("water");
+                    retrieveUserSavings("fertilizer");
+                    retrieveUserSavings("sand");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -601,29 +611,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void retrieveUserSavings() {
+    public void retrieveUserSavings(String type) {
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("users").document(fAuth.getCurrentUser().getUid())
-                .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
+                .collection(type).orderBy("year", Query.Direction.ASCENDING)
                 .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 // inizializzazione liste
-                CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-                for (int i = 0; i < 8; i++) {
-                    CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                switch (type) {
+                    case "carbon_dioxide":
+                        // inizializza la lista
+                        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                        }
+
+                        // carica la lista
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving item = document.toObject(Saving.class);
+                            CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
+                        }
+                        break;
+                    case "oil":
+                        OIL_ARRAY_LIST = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                        }
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving item = document.toObject(Saving.class);
+                            OIL_ARRAY_LIST.get(item.getNtipo()).add(item);
+                        }
+                        break;
+                    case "energy":
+                        ENERGY_ARRAY_LIST = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                        }
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving item = document.toObject(Saving.class);
+                            ENERGY_ARRAY_LIST.get(item.getNtipo()).add(item);
+                        }
+                        break;
+                    default:
+                        OTHER_ARRAY_LIST = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                        }
+
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Saving item = document.toObject(Saving.class);
+                            OTHER_ARRAY_LIST.get(item.getNtipo()).add(item);
+                        }
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("LOG", "Error! " + e.getLocalizedMessage());
+            }
+        });
 
-                ENERGY_ARRAY_LIST = new ArrayList<>();
-                OIL_ARRAY_LIST = new ArrayList<>();
-                QUANTITA = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-
-                for (DocumentSnapshot document : queryDocumentSnapshots) {
-                    Saving item = document.toObject(Saving.class);
-                    CARBON_DIOXIDE_ARRAY_LIST.get(item.getNtipo()).add(item);
-
-                    QUANTITA[item.getNtipo()] += item.getQuantita();
-                }
+        // retrieve QUANTITA
+        fStore = FirebaseFirestore.getInstance();
+        fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                List<Integer> quantita = (List<Integer>) documentSnapshot.get("quantita");
+                QUANTITA = Ints.toArray(quantita);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
