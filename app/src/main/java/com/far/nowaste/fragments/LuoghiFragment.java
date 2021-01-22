@@ -42,6 +42,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -53,6 +54,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,9 +252,10 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                     Luogo luogo = document.toObject(Luogo.class);
                     luoghi.add(luogo);
                     LatLng latLng = new LatLng(luogo.getLat(), luogo.getLng());
-                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome())
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome()).visible(false)
                             .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
@@ -272,6 +275,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                 Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
+
     }
 
     // imposta il fullscreen

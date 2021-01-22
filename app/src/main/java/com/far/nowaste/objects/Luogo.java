@@ -4,13 +4,15 @@ public class Luogo {
 
     String nome, categoria;
     double lat, lng;
+    boolean visible;
 
     // costruttore
-    public Luogo(String nome, String categoria, double lat, double lng){
+    public Luogo(String nome, String categoria, double lat, double lng, boolean visible){
         this.nome = nome;
         this.categoria = categoria;
         this.lat = lat;
         this.lng = lng;
+        this.visible = visible;
     }
 
     //costruttore vuoto utile per Firebase
@@ -32,4 +34,9 @@ public class Luogo {
     public double getLng() {
         return lng;
     }
+
+    public boolean isVisible() { return visible; }
+
+    // setter
+    public void setVisible(boolean visible) { this.visible = visible; }
 }
