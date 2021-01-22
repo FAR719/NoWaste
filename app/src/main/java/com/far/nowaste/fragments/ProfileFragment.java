@@ -97,10 +97,11 @@ public class ProfileFragment extends Fragment {
 
         fAuth = FirebaseAuth.getInstance();
 
+        tvWarning.setVisibility(View.GONE);
+
         retrieveCurrentUser();
         retrieveUserData();
 
-        tvWarning.setVisibility(View.GONE);
 
         tipo = "co2";
         mCO2Btn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));

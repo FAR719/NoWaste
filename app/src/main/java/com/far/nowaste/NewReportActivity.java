@@ -44,6 +44,7 @@ public class NewReportActivity extends AppCompatActivity {
     EditText mIndirizzo, mCommento;
     Button mSendBtn;
     AppCompatSpinner mSpinner;
+    TextView mRadioTitle;
 
     RelativeLayout layout;
     Typeface nunito;
@@ -79,6 +80,7 @@ public class NewReportActivity extends AppCompatActivity {
         mIndirizzo = findViewById(R.id.indirizzoEditText);
         mCommento = findViewById(R.id.commentoEditText);
         mSendBtn = findViewById(R.id.sendButton);
+        mRadioTitle = findViewById(R.id.chooseTextView);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -98,18 +100,21 @@ public class NewReportActivity extends AppCompatActivity {
                 String commento = mCommento.getText().toString();
 
                 // controlla la info aggiunte
+                if(!TextUtils.isEmpty(cassonetto)) {
+                    mRadioTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+                }
+
                 if(TextUtils.isEmpty(cassonetto)) {
-                    mIndirizzo.setError("Selezionare un cassonetto.");
+                    mRadioTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
                     return;
                 } else if(TextUtils.isEmpty(indirizzo)){
                     mIndirizzo.setError("Inserisci l'indirizzo.");
                     return;
-                }
-
-                if(cassonetto.equals("Altro") && TextUtils.isEmpty(commento)){
+                } else if(cassonetto.equals("Altro") && TextUtils.isEmpty(commento)){
                     mCommento.setError("Specificare qui la tipologia del cassonetto.");
                     return;
                 }
+
 
                 // inserisce il ticket in firebase
                 loadReport(tipologia,cassonetto,indirizzo,commento);
