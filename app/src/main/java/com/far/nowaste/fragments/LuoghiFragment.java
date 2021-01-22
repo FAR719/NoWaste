@@ -53,8 +53,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
@@ -70,13 +72,16 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     Location lastKnownLocation;
 
     RecyclerView mListaLuoghi;
-    List<Luogo> luoghi;
+    LuogoAdapter luogoAdapter;
+    List<Marker> markerList;
 
     OvershootInterpolator interpolator;
 
     static public boolean ISEXPANDED;
     int collapsedheight, expandedHeight, miniFAB, normalFAB;
     Drawable fsIcon, fsExitIcon;
+
+    boolean firstOpen = true;
 
     @Nullable
     @Override
@@ -93,6 +98,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         mListaLuoghi = view.findViewById(R.id.luoghi_recyclerView);
 
         locationPermissionGranted = false;
+        firstOpen = true;
 
         interpolator = new OvershootInterpolator();
 
@@ -109,6 +115,8 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
         // inizializzazione FusedLocation
         client = LocationServices.getFusedLocationProviderClient(getContext());
+
+        markerList = new LinkedList<>();
 
         // ask for permission
         getLocationPermission();
@@ -155,12 +163,34 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
+
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 gpsBtn.animate().translationY(0f).setInterpolator(interpolator).setDuration(400).start();
             }
         });
+
+        googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                LatLng myPosition = new LatLng(location.getLatitude(), location.getLongitude());
+                setVisibleMarkers(myPosition);
+                if (firstOpen) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(location.getLatitude(),
+                                    location.getLongitude()), 16));
+                    firstOpen = false;
+                }
+            }
+        });
+    }
+
+    private void setVisibleMarkers(LatLng myPosition) {
+        for (Marker item : markerList) {
+            item.setVisible(SphericalUtil.computeDistanceBetween(myPosition, item.getPosition()) < 10000);
+            luogoAdapter.notifyDataSetChanged();
+        }
     }
 
     private void getLocationPermission() {
@@ -223,6 +253,9 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), 16));
+                                firstOpen = false;
+                                LatLng myPosition = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+                                setVisibleMarkers(myPosition);
                             } else {
                                 // controlla se il gps è acceso
                                 enableLocation();
@@ -244,25 +277,24 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         fStore.collection("luoghi").orderBy("nome").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                luoghi = new ArrayList<>();
                 // aggiungi i marker
                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                     Luogo luogo = document.toObject(Luogo.class);
-                    luoghi.add(luogo);
                     LatLng latLng = new LatLng(luogo.getLat(), luogo.getLng());
-                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome())
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome()).visible(false)
                             .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
-                            googleMap.addMarker(markerOptions);
+                            markerList.add(googleMap.addMarker(markerOptions));
                         }
                     });
                 }
 
                 // imposta lista luoghi
-                LuogoAdapter luogoAdapter = new LuogoAdapter(getContext(), luoghi);
+                luogoAdapter = new LuogoAdapter(getContext(), markerList);
                 mListaLuoghi.setAdapter(luogoAdapter);
                 mListaLuoghi.setLayoutManager(new LinearLayoutManager(getContext()));
             }
@@ -272,6 +304,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                 Log.e("LOG", "Error! " + e.getLocalizedMessage());
             }
         });
+
     }
 
     // imposta il fullscreen
@@ -347,11 +380,11 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     class LuogoAdapter extends RecyclerView.Adapter<LuogoAdapter.LuogoViewHolder> {
 
         Context context;
-        List<Luogo> luoghiList;
+        List<Marker> markerList;
 
-        public LuogoAdapter(Context c, List<Luogo> luogList) {
+        public LuogoAdapter(Context c, List<Marker> markList) {
             context = c;
-            luoghiList = luogList;
+            markerList = markList;
         }
 
         @NonNull
@@ -365,28 +398,33 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onBindViewHolder(@NonNull LuogoViewHolder holder, int position) {
-            holder.mNome.setText(luoghiList.get(position).getNome());
-            holder.mCategoria.setText(luoghiList.get(position).getCategoria());
-            Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_place);
-            holder.mIcona.setImageDrawable(icon);
-            holder.itemLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mapFragment.getMapAsync(new OnMapReadyCallback() {
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-                            // Zoom Mappa
-                            LatLng latLng = new LatLng(luoghiList.get(position).getLat(), luoghiList.get(position).getLng());
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                        }
-                    });
-                }
-            });
+            if (!markerList.get(position).isVisible()) {
+                holder.itemLayout.setVisibility(View.GONE);
+            } else {
+                holder.mNome.setText(markerList.get(position).getTitle());
+                holder.mCategoria.setText(markerList.get(position).getSnippet());
+                Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_place);
+                holder.mIcona.setImageDrawable(icon);
+                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mapFragment.getMapAsync(new OnMapReadyCallback() {
+                            @Override
+                            public void onMapReady(GoogleMap googleMap) {
+                                // Zoom Mappa
+                                LatLng latLng = new LatLng(markerList.get(position).getPosition().latitude,
+                                        markerList.get(position).getPosition().longitude);
+                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                            }
+                        });
+                    }
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
-            return luoghiList.size();
+            return markerList.size();
         }
 
         public class LuogoViewHolder extends RecyclerView.ViewHolder {
