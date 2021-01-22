@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:textSize="18sp"
-            android:text="Quartiere 1" />
+            android:text="Santa Maria" />
 
         <RadioButton
             android:id="@+id/q2RadioButton"
@@ -29,6 +29,30 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:textSize="18sp"
-            android:text="Quartiere 2" />
+            android:text="Borgovilla" />
+
+        <RadioButton
+            android:id="@+id/q3RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:text="Patalini" />
+        <RadioButton
+            android:id="@+id/q4RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:text="Settefrati" />
+        <RadioButton
+            android:id="@+id/q5RadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:text="San Giacomo" />
+
     </RadioGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

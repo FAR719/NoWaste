@@ -20,13 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreferenceCompat;
 
 import com.far.nowaste.BuildConfig;
 import com.far.nowaste.MainActivity;
 import com.far.nowaste.R;
 import com.far.nowaste.objects.Settimanale;
-import com.far.nowaste.objects.Utente;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +33,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -377,32 +374,61 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                 RadioGroup mRadioGroup = layout2.findViewById(R.id.quartiereRadioGroup);
                 RadioButton mQ1RadioBtn = layout2.findViewById(R.id.q1RadioButton);
                 RadioButton mQ2RadioBtn = layout2.findViewById(R.id.q2RadioButton);
+                RadioButton mQ3RadioBtn = layout2.findViewById(R.id.q3RadioButton);
+                RadioButton mQ4RadioBtn = layout2.findViewById(R.id.q4RadioButton);
+                RadioButton mQ5RadioBtn = layout2.findViewById(R.id.q5RadioButton);
 
                 switch (MainActivity.CURRENT_USER.getCity()){
                     case "Barletta":
-                        mQ1RadioBtn.setText("Borgovilla");
-                        mQ2RadioBtn.setText("Patalini");
+                        mQ1RadioBtn.setText("Santa Maria");
+                        mQ2RadioBtn.setText("Borgovilla");
+                        mQ3RadioBtn.setText("Patalini");
+                        mQ4RadioBtn.setText("Settafrati");
+                        mQ5RadioBtn.setText("San Giacomo");
+
                         if (MainActivity.CURRENT_USER.getQuartiere() != null) {
                             switch (MainActivity.CURRENT_USER.getQuartiere()){
-                                case "Borgovilla":
+                                case "Santa Maria":
                                     mRadioGroup.check(R.id.q1RadioButton);
                                     break;
-                                case "Patalini":
+                                case "Borgovilla":
                                     mRadioGroup.check(R.id.q2RadioButton);
+                                    break;
+                                case "Patalini":
+                                    mRadioGroup.check(R.id.q3RadioButton);
+                                    break;
+                                case "Settefrati":
+                                    mRadioGroup.check(R.id.q4RadioButton);
+                                    break;
+                                case "San Giacomo":
+                                    mRadioGroup.check(R.id.q5RadioButton);
                                     break;
                             }
                         }
                         break;
                     case "Bari":
-                        mQ1RadioBtn.setText("Santo Spirito");
-                        mQ2RadioBtn.setText("Zona industriale");
+                        mQ1RadioBtn.setText("San Nicola");
+                        mQ2RadioBtn.setText("Murat");
+                        mQ3RadioBtn.setText("Libertà");
+                        mQ4RadioBtn.setText("Poggio Franco");
+                        mQ5RadioBtn.setText("Picone");
+
                         if (MainActivity.CURRENT_USER.getQuartiere() != null) {
                             switch (MainActivity.CURRENT_USER.getQuartiere()){
-                                case "Santo Spirito":
+                                case "San Nicola":
                                     mRadioGroup.check(R.id.q1RadioButton);
                                     break;
-                                case "Zona Industriale":
+                                case "Murat":
                                     mRadioGroup.check(R.id.q2RadioButton);
+                                    break;
+                                case "Libertà":
+                                    mRadioGroup.check(R.id.q3RadioButton);
+                                    break;
+                                case "Poggio Franco":
+                                    mRadioGroup.check(R.id.q4RadioButton);
+                                    break;
+                                case "Picone":
+                                    mRadioGroup.check(R.id.q5RadioButton);
                                     break;
                             }
                         }
@@ -422,16 +448,28 @@ public class ImpostazioniFragment extends PreferenceFragmentCompat {
                         switch (MainActivity.CURRENT_USER.getCity()){
                             case "Barletta":
                                 if (mQ1RadioBtn.isChecked()) {
-                                    quartMap.put("quartiere", "Borgovilla");
+                                    quartMap.put("quartiere", "Santa Maria");
                                 } else if (mQ2RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Borgovilla");
+                                } else if (mQ3RadioBtn.isChecked()) {
                                     quartMap.put("quartiere", "Patalini");
+                                } else if (mQ4RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Settefrati");
+                                } else if (mQ5RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "San Giacomo");
                                 }
                                 break;
                             case "Bari":
                                 if (mQ1RadioBtn.isChecked()) {
-                                    quartMap.put("quartiere", "Santo Spirito");
+                                    quartMap.put("quartiere", "San Nicola");
                                 } else if (mQ2RadioBtn.isChecked()) {
-                                    quartMap.put("quartiere", "Zona industriale");
+                                    quartMap.put("quartiere", "Murat");
+                                } else if (mQ3RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Libertà");
+                                } else if (mQ4RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Poggio Franco");
+                                } else if (mQ5RadioBtn.isChecked()) {
+                                    quartMap.put("quartiere", "Picone");
                                 }
                                 break;
                         }

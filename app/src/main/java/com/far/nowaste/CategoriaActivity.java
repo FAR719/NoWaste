@@ -53,7 +53,7 @@ public class CategoriaActivity extends AppCompatActivity {
     ConstraintLayout mCardLayout, mListLayout, mExpandLayout;
     MaterialCardView mGraficoCard, mCuriositaCard, mHintCard;
     ValueLineChart mLineChart;
-    TextView mCuriositaTV, mWarning;
+    TextView mCuriositaTV, mWarning, mHintBody;
     ImageView mArrowBtn;
     MaterialButton mSavngBtn;
 
@@ -104,6 +104,7 @@ public class CategoriaActivity extends AppCompatActivity {
         mArrowBtn = findViewById(R.id.categoria_arrow);
         mWarning = findViewById(R.id.categoria_warning);
         mSavngBtn = findViewById(R.id.categoria_savingButton);
+        mHintBody = findViewById(R.id.hint_body);
 
         mFirestoreList = findViewById(R.id.categoria_recyclerView);
 
@@ -130,7 +131,7 @@ public class CategoriaActivity extends AppCompatActivity {
                     switch (tipo) {
                         case "co2":
                             if (nCategoria == 1) {
-                                mSavngBtn.setText("Fertilizzante");
+                                mSavngBtn.setText("Fertiliz.");
                                 tipo = "fertilizzante";
                                 setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
                             } else {
@@ -175,6 +176,16 @@ public class CategoriaActivity extends AppCompatActivity {
         } else {
             mGraficoCard.setVisibility(View.GONE);
             mHintCard.setVisibility(View.VISIBLE);
+            if (nCategoria == 2) {
+                mHintBody.setText("Ricordati di gettare i rifiuti non riciclabili nel bidone del secco residuo! " +
+                        "I rifiuti non smaltiti correttamente possono restare nell'ambiente anche per migliaia di anni, " +
+                        "basti pensare che un semplice pannolino impiega 500 anni per decomporsi naturalmente.");
+            } else {
+                mHintBody.setText("I rifiuti speciali sono generalmente riciclati dall'azienda che svolge il servizio " +
+                        "ambientale locale. Contatta un operatore ecologico o porta il tuo rifiuto ad un'isola ecologica, " +
+                        "qui i vari materiali di cui è composto verranno smaltiti separatamente ed eventualmente recuperati.");
+            }
+
         }
 
         loadCuriosita();
