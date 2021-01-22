@@ -9,40 +9,28 @@
     <!-- Domanda -->
     <TextView
         android:id="@+id/recView_faq_domandaTextView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:fontFamily="@font/nunito_semibold"
         android:text="Domanda"
         android:textAlignment="textStart"
+        android:textColor="@color/primary_text"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/recView_faq_ImageBtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/recView_faq_rispostaTextView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/nunito_semibold"
+        android:fontFamily="@font/nunito"
         android:text="Risposta"
         android:textAlignment="textStart"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/recView_faq_ImageBtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recView_faq_domandaTextView" />
-
-    <ImageView
-        android:id="@+id/recView_faq_ImageBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/recView_faq_domandaTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recView_faq_domandaTextView"
-        app:srcCompat="@drawable/ic_keyboard_arrow_down"
-        app:tint="@color/secondary_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

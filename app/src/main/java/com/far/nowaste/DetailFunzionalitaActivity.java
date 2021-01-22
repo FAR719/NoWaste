@@ -30,7 +30,6 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
     // view
     TextView testoTextView;
-    ImageView mArrowBtn;
     RecyclerView mFAQList;
     FirestoreRecyclerAdapter adapter;
 
@@ -53,7 +52,6 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         // associazione view
         testoTextView = findViewById(R.id.detailFunzionalita_testoTextView);
         mFAQList = findViewById(R.id.FAQ_recyclerView);
-        mArrowBtn = findViewById(R.id.recView_faq_ImageBtn);
 
         // variabili passate
         Intent in = getIntent();
@@ -66,7 +64,8 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
 
         // query
         FirebaseFirestore fstore = FirebaseFirestore.getInstance();
-        Query query = fstore.collection("funzionalita").document(nome).collection("questions");
+        Query query = fstore.collection("funzionalita").document(nome)
+                .collection("questions");
 
         // recyclerOptions
         FirestoreRecyclerOptions<Faq> options = new FirestoreRecyclerOptions.Builder<Faq>().setQuery(query, Faq.class).build();
@@ -103,17 +102,28 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //start&stop listening
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
     private class FAQViewHolder extends RecyclerView.ViewHolder{
 
         TextView rDomanda, rRisposta;
-        ImageView rArrowBtn;
         ConstraintLayout itemLayout;
 
         public FAQViewHolder(@NonNull View itemView) {
             super(itemView);
             rDomanda = itemView.findViewById(R.id.recView_faq_domandaTextView);
             rRisposta = itemView.findViewById(R.id.recView_faq_rispostaTextView);
-            rArrowBtn = itemView.findViewById(R.id.recView_faq_ImageBtn);
             itemLayout = itemView.findViewById(R.id.recView_assItem_constraintLayout);
         }
     }

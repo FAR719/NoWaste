@@ -29,25 +29,45 @@
         android:id="@+id/detailFunzionalita_infoLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/detailFunzionalita_appBarLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="-3dp">
+        android:layout_below="@+id/detailFunzionalita_appBarLayout">
 
         <!--Descrizione Funzionalità-->
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scopri la funzionalità:"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/nunito_bold"
+            android:layout_marginTop="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/primary_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/detailFunzionalita_testoTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="15dp"
             android:fontFamily="@font/nunito"
             android:text="Testo"
-            android:textColor="@color/primary_text"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+        <View
+            android:id="@+id/login_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="15dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/FAQTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailFunzionalita_testoTextView" />
 
         <!-- FAQ -->
         <TextView
@@ -55,12 +75,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginStart="10dp"
-            android:fontFamily="@font/nunito_semibold"
+            android:fontFamily="@font/nunito_bold"
             android:text="Domande più frequenti"
             android:textColor="@color/primary_text"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detailFunzionalita_testoTextView" />
 
