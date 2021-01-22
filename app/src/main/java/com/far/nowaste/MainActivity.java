@@ -621,15 +621,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                     // inizializzazione liste
+                    CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                    }
+
+                    OIL_ARRAY_LIST = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                    }
+
+                    ENERGY_ARRAY_LIST = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                    }
+
+                    OTHER_ARRAY_LIST = new ArrayList<>();
+                    for (int i = 0; i < 8; i++) {
+                        OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
+                    }
+
                     switch (type) {
                         case "carbon_dioxide":
-                            // inizializza la lista
-                            CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-                            for (int i = 0; i < 8; i++) {
-                                CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                            }
-
-                            // carica la lista
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                                     Saving item = document.toObject(Saving.class);
@@ -639,11 +652,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             break;
                         case "oil":
-                            OIL_ARRAY_LIST = new ArrayList<>();
-                            for (int i = 0; i < 8; i++) {
-                                OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                            }
-
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                                     Saving item = document.toObject(Saving.class);
@@ -652,11 +660,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             break;
                         case "energy":
-                            ENERGY_ARRAY_LIST = new ArrayList<>();
-                            for (int i = 0; i < 8; i++) {
-                                ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                            }
-
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                                     Saving item = document.toObject(Saving.class);
@@ -665,14 +668,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             break;
                         default:
-                            // la prima volta inizializza l'array
-                            if (type.equals("water")) {
-                                OTHER_ARRAY_LIST = new ArrayList<>();
-                                for (int i = 0; i < 8; i++) {
-                                    OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                                }
-                            }
-
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 for (DocumentSnapshot document : queryDocumentSnapshots) {
                                     Saving item = document.toObject(Saving.class);

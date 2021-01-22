@@ -205,8 +205,7 @@ public class ProfileFragment extends Fragment {
 
                     // retrieve quantita
                     List<Integer> quantitaList = (List<Integer>) documentSnapshot.get("quantita");
-                    int [] quantita = new int[7];
-                    quantita = Ints.toArray(quantitaList);
+                    int [] quantita = Ints.toArray(quantitaList);
                     setBarChartData(quantita);
                 }
             }).addOnFailureListener(new OnFailureListener() {
