@@ -201,15 +201,15 @@ public class CategoriaActivity extends AppCompatActivity {
         // assegna il colore corrispondente
         switch (tipo) {
             case "co2":
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.plastica), 150));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.vetro), 150));
                 mLineChart.setIndicatorTextUnit("g");
                 break;
             case "energia":
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.organico), 150));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.carmine), 150));
                 mLineChart.setIndicatorTextUnit("Wh");
                 break;
             case "petrolio":
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.secco), 150));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.secco_home), 150));
                 mLineChart.setIndicatorTextUnit("g");
                 break;
             case "acqua":
@@ -217,11 +217,11 @@ public class CategoriaActivity extends AppCompatActivity {
                 mLineChart.setIndicatorTextUnit("mL");
                 break;
             case "sabbia":
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.vetro), 150));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.plastica), 150));
                 mLineChart.setIndicatorTextUnit("g");
                 break;
             case "fertilizzante":
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.metalli), 150));
+                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.organico_home), 150));
                 mLineChart.setIndicatorTextUnit("g");
                 break;
         }
