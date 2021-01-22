@@ -4,7 +4,6 @@ public class Luogo {
 
     String nome, categoria;
     double lat, lng;
-    boolean visible;
 
     //costruttore vuoto utile per Firebase
     private Luogo() {}
@@ -25,9 +24,4 @@ public class Luogo {
     public double getLng() {
         return lng;
     }
-
-    public boolean isVisible() { return visible; }
-
-    // setter
-    public void setVisible(boolean visible) { this.visible = visible; }
 }
