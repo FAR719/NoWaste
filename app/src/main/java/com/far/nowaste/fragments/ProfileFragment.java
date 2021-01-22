@@ -179,7 +179,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void retrieveCurrentUser() {
-        if (MainActivity.CURRENT_USER != null || MainActivity.QUANTITA != null) {
+        if (MainActivity.CURRENT_USER != null && MainActivity.QUANTITA != null) {
             // imposta nome, cognome e immagine
             mFullName.setText(MainActivity.CURRENT_USER.getFullName());
             mEmail.setText(MainActivity.CURRENT_USER.getEmail());

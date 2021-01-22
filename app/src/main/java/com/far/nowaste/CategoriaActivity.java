@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -59,6 +60,8 @@ public class CategoriaActivity extends AppCompatActivity {
 
     RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
+
+    FirebaseAuth fAuth;
 
     String tipo;
 
@@ -108,6 +111,8 @@ public class CategoriaActivity extends AppCompatActivity {
 
         mFirestoreList = findViewById(R.id.categoria_recyclerView);
 
+        fAuth = FirebaseAuth.getInstance();
+
         interpolator = new OvershootInterpolator();
         isExpanded = false;
 
@@ -118,74 +123,78 @@ public class CategoriaActivity extends AppCompatActivity {
             }
         });
 
-        if (nCategoria != 2 && nCategoria != 7) {
-            mGraficoCard.setVisibility(View.VISIBLE);
-            mHintCard.setVisibility(View.GONE);
-            tipo = "co2";
-            setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-            mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+        if (fAuth.getCurrentUser() != null) {
+            if (nCategoria != 2 && nCategoria != 7) {
+                mGraficoCard.setVisibility(View.VISIBLE);
+                mHintCard.setVisibility(View.GONE);
+                tipo = "co2";
+                setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
 
-            mSavngBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (tipo) {
-                        case "co2":
-                            if (nCategoria == 1) {
-                                mSavngBtn.setText("Fertiliz.");
-                                tipo = "fertilizzante";
-                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
-                            } else {
-                                mSavngBtn.setText("Energia");
-                                tipo = "energia";
-                                setLineChartData(tipo, MainActivity.ENERGY_ARRAY_LIST);
-                            }
-                            break;
-                        case "energia":
-                            if (nCategoria == 6) {
+                mSavngBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (tipo) {
+                            case "co2":
+                                if (nCategoria == 1) {
+                                    mSavngBtn.setText("Fertiliz.");
+                                    tipo = "fertilizzante";
+                                    setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                                } else {
+                                    mSavngBtn.setText("Energia");
+                                    tipo = "energia";
+                                    setLineChartData(tipo, MainActivity.ENERGY_ARRAY_LIST);
+                                }
+                                break;
+                            case "energia":
+                                if (nCategoria == 6) {
+                                    mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                                    tipo = "co2";
+                                    setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                                } else {
+                                    mSavngBtn.setText("Petrolio");
+                                    tipo = "petrolio";
+                                    setLineChartData(tipo, MainActivity.OIL_ARRAY_LIST);
+                                }
+                                break;
+                            case "petrolio":
+                                if (nCategoria == 4) {
+                                    mSavngBtn.setText("Sabbia");
+                                    tipo = "sabbia";
+                                    setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                                } else if ( nCategoria == 5) {
+                                    mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                                    tipo = "co2";
+                                    setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                                } else {
+                                    mSavngBtn.setText("Acqua");
+                                    tipo = "acqua";
+                                    setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                                }
+                                break;
+                            default:
                                 mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
                                 tipo = "co2";
                                 setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-                            } else {
-                                mSavngBtn.setText("Petrolio");
-                                tipo = "petrolio";
-                                setLineChartData(tipo, MainActivity.OIL_ARRAY_LIST);
-                            }
-                            break;
-                        case "petrolio":
-                            if (nCategoria == 4) {
-                                mSavngBtn.setText("Sabbia");
-                                tipo = "sabbia";
-                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
-                            } else if ( nCategoria == 5) {
-                                mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
-                                tipo = "co2";
-                                setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-                            } else {
-                                mSavngBtn.setText("Acqua");
-                                tipo = "acqua";
-                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
-                            }
-                            break;
-                        default:
-                            mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
-                            tipo = "co2";
-                            setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                        }
                     }
+                });
+            } else {
+                mGraficoCard.setVisibility(View.GONE);
+                mHintCard.setVisibility(View.VISIBLE);
+                if (nCategoria == 2) {
+                    mHintBody.setText("Ricordati di gettare i rifiuti non riciclabili nel bidone del secco residuo! " +
+                            "I rifiuti non smaltiti correttamente possono restare nell'ambiente anche per migliaia di anni, " +
+                            "basti pensare che un semplice pannolino impiega 500 anni per decomporsi naturalmente.");
+                } else {
+                    mHintBody.setText("I rifiuti speciali sono generalmente riciclati dall'azienda che svolge il servizio " +
+                            "ambientale locale. Contatta un operatore ecologico o porta il tuo rifiuto ad un'isola ecologica, " +
+                            "qui i vari materiali di cui è composto verranno smaltiti separatamente ed eventualmente recuperati.");
                 }
-            });
+            }
         } else {
             mGraficoCard.setVisibility(View.GONE);
-            mHintCard.setVisibility(View.VISIBLE);
-            if (nCategoria == 2) {
-                mHintBody.setText("Ricordati di gettare i rifiuti non riciclabili nel bidone del secco residuo! " +
-                        "I rifiuti non smaltiti correttamente possono restare nell'ambiente anche per migliaia di anni, " +
-                        "basti pensare che un semplice pannolino impiega 500 anni per decomporsi naturalmente.");
-            } else {
-                mHintBody.setText("I rifiuti speciali sono generalmente riciclati dall'azienda che svolge il servizio " +
-                        "ambientale locale. Contatta un operatore ecologico o porta il tuo rifiuto ad un'isola ecologica, " +
-                        "qui i vari materiali di cui è composto verranno smaltiti separatamente ed eventualmente recuperati.");
-            }
-
+            mHintCard.setVisibility(View.GONE);
         }
 
         loadCuriosita();
