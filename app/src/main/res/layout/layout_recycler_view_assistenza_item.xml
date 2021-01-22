@@ -2,24 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recView_assItem_constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20sp"
+    android:padding="20dp"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
 
-    <!-- Funzionalità -->
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_archive" />
+
     <TextView
         android:id="@+id/recView_assItem_funzionalitaTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/nunito_semibold"
         android:text="Funzionalità"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
