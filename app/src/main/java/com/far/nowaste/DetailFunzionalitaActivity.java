@@ -29,7 +29,7 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     // view
-    TextView testoTextView, domandaTextView, rispTextView;
+    TextView testoTextView;
     ImageView mArrowBtn;
     RecyclerView mFAQList;
     FirestoreRecyclerAdapter adapter;
@@ -75,7 +75,7 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
             @NonNull
             @Override
             public DetailFunzionalitaActivity.FAQViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_faq_item ,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_recycler_view_faq_item,parent, false);
                 return new DetailFunzionalitaActivity.FAQViewHolder(view);
             }
 
@@ -106,14 +106,14 @@ public class DetailFunzionalitaActivity extends AppCompatActivity {
     private class FAQViewHolder extends RecyclerView.ViewHolder{
 
         TextView rDomanda, rRisposta;
-        //ImageView rArrowBtn;
+        ImageView rArrowBtn;
         ConstraintLayout itemLayout;
 
         public FAQViewHolder(@NonNull View itemView) {
             super(itemView);
             rDomanda = itemView.findViewById(R.id.recView_faq_domandaTextView);
             rRisposta = itemView.findViewById(R.id.recView_faq_rispostaTextView);
-            //rArrowBtn = itemView.findViewById(R.id.recView_faq_ImageBtn);
+            rArrowBtn = itemView.findViewById(R.id.recView_faq_ImageBtn);
             itemLayout = itemView.findViewById(R.id.recView_assItem_constraintLayout);
         }
     }
