@@ -6,15 +6,6 @@ public class Luogo {
     double lat, lng;
     boolean visible;
 
-    // costruttore
-    public Luogo(String nome, String categoria, double lat, double lng, boolean visible){
-        this.nome = nome;
-        this.categoria = categoria;
-        this.lat = lat;
-        this.lng = lng;
-        this.visible = visible;
-    }
-
     //costruttore vuoto utile per Firebase
     private Luogo() {}
 
