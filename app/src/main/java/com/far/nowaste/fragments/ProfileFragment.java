@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
     TextView mFullName, mEmail;
 
     // grafici
-    TextView tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali;
+    TextView tvPlastica, tvOrganico, tvSecco, tvCarta, tvVetro, tvMetalli, tvElettrici, tvSpeciali, tvWarning;
     PieChart pieChart;
     BarChart barChart;
     MaterialButton mCO2Btn, mOilBtn, mEnergyBtn;
@@ -83,6 +83,7 @@ public class ProfileFragment extends Fragment {
         mCO2Btn = view.findViewById(R.id.co2SavingButton);
         mOilBtn = view.findViewById(R.id.oilSavingButton);
         mEnergyBtn = view.findViewById(R.id.energySavingButton);
+        tvWarning = view.findViewById(R.id.profilo_warning);
 
         colors = new ArrayList<>();
         colors.add(ContextCompat.getColor(getContext(), R.color.plastica));
@@ -98,6 +99,8 @@ public class ProfileFragment extends Fragment {
 
         retrieveCurrentUser();
         retrieveUserData();
+
+        tvWarning.setVisibility(View.GONE);
 
         tipo = "co2";
         mCO2Btn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
@@ -309,9 +312,21 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setBarChartData(int[] quantita) {
-        for (int i = 0; i < 8; i++) {
-            barChart.addBar(new BarModel(quantita[i] + "", (float) quantita[i], colors.get(i)));
+        boolean nonNullo = false;
+        for (int item : quantita) {
+            if (item != 0) {
+                nonNullo = true;
+                break;
+            }
         }
-        barChart.startAnimation();
+
+        if (nonNullo) {
+            for (int i = 0; i < 8; i++) {
+                barChart.addBar(new BarModel(quantita[i] + "", (float) quantita[i], colors.get(i)));
+            }
+            barChart.startAnimation();
+        } else {
+            tvWarning.setVisibility(View.VISIBLE);
+        }
     }
 }
