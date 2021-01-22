@@ -30,6 +30,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,13 +51,16 @@ public class CategoriaActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     ConstraintLayout mCardLayout, mListLayout, mExpandLayout;
-    MaterialCardView mCuriositaCard;
+    MaterialCardView mGraficoCard, mCuriositaCard, mHintCard;
     ValueLineChart mLineChart;
-    TextView mCategoriaTitle, mCuriositaTV, mWarning;
+    TextView mCuriositaTV, mWarning;
     ImageView mArrowBtn;
+    MaterialButton mSavngBtn;
 
     RecyclerView mFirestoreList;
     FirestoreRecyclerAdapter adapter;
+
+    String tipo;
 
     String categoria;
     int nCategoria;
@@ -88,16 +92,18 @@ public class CategoriaActivity extends AppCompatActivity {
         // cambia il titolo della toolbar
         mToolbar.setTitle(categoria);
 
+        mGraficoCard = findViewById(R.id.grafico_card);
         mCardLayout = findViewById(R.id.cards_layout);
+        mHintCard = findViewById(R.id.hint_card);
         mListLayout = findViewById(R.id.listaCategoria_layout);
         mExpandLayout = findViewById(R.id.categoria_expand);
 
         mCuriositaCard = findViewById(R.id.categoria_curiosita_card);
-        mCategoriaTitle = findViewById(R.id.categoria_titolo);
         mLineChart = findViewById(R.id.categoria_lineChart);
         mCuriositaTV = findViewById(R.id.categoria_curiosita_TV);
         mArrowBtn = findViewById(R.id.categoria_arrow);
         mWarning = findViewById(R.id.categoria_warning);
+        mSavngBtn = findViewById(R.id.categoria_savingButton);
 
         mFirestoreList = findViewById(R.id.categoria_recyclerView);
 
@@ -111,9 +117,65 @@ public class CategoriaActivity extends AppCompatActivity {
             }
         });
 
-        mCategoriaTitle.setText(Html.fromHtml("Andamento risparmio di CO<sub><small><small>2</small></small></sub>"));
+        if (nCategoria != 2 && nCategoria != 7) {
+            mGraficoCard.setVisibility(View.VISIBLE);
+            mHintCard.setVisibility(View.GONE);
+            tipo = "co2";
+            setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+            mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
 
-        setLineChartData(MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+            mSavngBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (tipo) {
+                        case "co2":
+                            if (nCategoria == 1) {
+                                mSavngBtn.setText("Fertilizzante");
+                                tipo = "fertilizzante";
+                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                            } else {
+                                mSavngBtn.setText("Energia");
+                                tipo = "energia";
+                                setLineChartData(tipo, MainActivity.ENERGY_ARRAY_LIST);
+                            }
+                            break;
+                        case "energia":
+                            if (nCategoria == 6) {
+                                mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                                tipo = "co2";
+                                setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                            } else {
+                                mSavngBtn.setText("Petrolio");
+                                tipo = "petrolio";
+                                setLineChartData(tipo, MainActivity.OIL_ARRAY_LIST);
+                            }
+                            break;
+                        case "petrolio":
+                            if (nCategoria == 4) {
+                                mSavngBtn.setText("Sabbia");
+                                tipo = "sabbia";
+                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                            } else if ( nCategoria == 5) {
+                                mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                                tipo = "co2";
+                                setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                            } else {
+                                mSavngBtn.setText("Acqua");
+                                tipo = "acqua";
+                                setLineChartData(tipo, MainActivity.OTHER_ARRAY_LIST);
+                            }
+                            break;
+                        default:
+                            mSavngBtn.setText(Html.fromHtml("CO<sub><small><small>2</small></small></sub>"));
+                            tipo = "co2";
+                            setLineChartData(tipo, MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
+                    }
+                }
+            });
+        } else {
+            mGraficoCard.setVisibility(View.GONE);
+            mHintCard.setVisibility(View.VISIBLE);
+        }
 
         loadCuriosita();
 
@@ -132,34 +194,35 @@ public class CategoriaActivity extends AppCompatActivity {
         adapter.stopListening();
     }
 
-    private void  setLineChartData(ArrayList<ArrayList<Saving>> arrayOfArray) {
+    private void  setLineChartData(String tipo, ArrayList<ArrayList<Saving>> arrayOfArray) {
+        mLineChart.clearChart();
         ValueLineSeries series = new ValueLineSeries();
 
         // assegna il colore corrispondente
-        switch (nCategoria) {
-            case 0:
+        switch (tipo) {
+            case "co2":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.plastica), 150));
+                mLineChart.setIndicatorTextUnit("g");
                 break;
-            case 1:
+            case "energia":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.organico), 150));
+                mLineChart.setIndicatorTextUnit("Wh");
                 break;
-            case 2:
+            case "petrolio":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.secco), 150));
+                mLineChart.setIndicatorTextUnit("g");
                 break;
-            case 3:
+            case "acqua":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.carta), 150));
+                mLineChart.setIndicatorTextUnit("mL");
                 break;
-            case 4:
+            case "sabbia":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.vetro), 150));
+                mLineChart.setIndicatorTextUnit("g");
                 break;
-            case 5:
+            case "fertilizzante":
                 series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.metalli), 150));
-                break;
-            case 6:
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.elettrici), 150));
-                break;
-            case 7:
-                series.setColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(getApplicationContext(), R.color.speciali), 150));
+                mLineChart.setIndicatorTextUnit("g");
                 break;
         }
 

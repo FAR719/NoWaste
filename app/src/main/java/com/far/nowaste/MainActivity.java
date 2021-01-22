@@ -595,6 +595,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     CURRENT_USER = documentSnapshot.toObject(Utente.class);
                     updateHeader();
                     retrieveUserSavings();
+
+                    // retrieve QUANTITA
+                    List<Integer> quantita = (List<Integer>) documentSnapshot.get("quantita");
+                    QUANTITA = Ints.toArray(quantita);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -684,22 +688,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         }
-
-        // retrieve QUANTITA
-        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
-        fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                List<Integer> quantita = (List<Integer>) documentSnapshot.get("quantita");
-                QUANTITA = Ints.toArray(quantita);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("LOG", "Error! " + e.getLocalizedMessage());
-            }
-        });
     }
 
     public void showSnackbar(String string) {

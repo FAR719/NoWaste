@@ -175,13 +175,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void retrieveCurrentUser() {
-        if (MainActivity.CURRENT_USER != null) {
+        if (MainActivity.CURRENT_USER != null || MainActivity.QUANTITA != null) {
             // imposta nome, cognome e immagine
             mFullName.setText(MainActivity.CURRENT_USER.getFullName());
             mEmail.setText(MainActivity.CURRENT_USER.getEmail());
             if (!MainActivity.CURRENT_USER.getImage().equals("")) {
                 Glide.with(getContext()).load(MainActivity.CURRENT_USER.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
             }
+            setBarChartData(MainActivity.QUANTITA);
         } else {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fUser = fAuth.getCurrentUser();
@@ -197,6 +198,12 @@ public class ProfileFragment extends Fragment {
                     if (!utente.getImage().equals("")) {
                         Glide.with(getContext()).load(utente.getImage()).apply(RequestOptions.circleCropTransform()).into(mImage);
                     }
+
+                    // retrieve quantita
+                    List<Integer> quantitaList = (List<Integer>) documentSnapshot.get("quantita");
+                    int [] quantita = new int[7];
+                    quantita = Ints.toArray(quantitaList);
+                    setBarChartData(quantita);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -208,7 +215,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void retrieveUserData() {
-        if (MainActivity.CARBON_DIOXIDE_ARRAY_LIST == null || MainActivity.QUANTITA == null) {
+        if (MainActivity.CARBON_DIOXIDE_ARRAY_LIST == null) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid())
                     .collection("carbon_dioxide").orderBy("year", Query.Direction.ASCENDING)
@@ -239,27 +246,8 @@ public class ProfileFragment extends Fragment {
                     Log.e("LOG", "Error! " + e.getLocalizedMessage());
                 }
             });
-
-            // retrieve QUANTITA
-            fStore = FirebaseFirestore.getInstance();
-            fStore.collection("users").document(fAuth.getCurrentUser().getUid()).get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            List<Integer> quantitaList = (List<Integer>) documentSnapshot.get("quantita");
-                            int [] quantita = new int[7];
-                            quantita = Ints.toArray(quantitaList);
-                            setBarChartData(quantita);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e("LOG", "Error! " + e.getLocalizedMessage());
-                }
-            });
         } else {
             setPieChartData("co2", MainActivity.CARBON_DIOXIDE_ARRAY_LIST);
-            setBarChartData(MainActivity.QUANTITA);
         }
     }
 
@@ -267,14 +255,10 @@ public class ProfileFragment extends Fragment {
         pieChart.clearChart();
         String unit;
         // aggiorna la descrizione
-        if (type.equals("co2")) {
-            unit = " g";
+        if (type.equals("energia")) {
+            unit = " Wh";
         } else {
-            if (type.equals("petrolio")) {
-                unit = " g";
-            } else {
-                unit = " Wh";
-            }
+            unit = " g";
         }
 
         for (int i = 0; i < 8; i++) {
