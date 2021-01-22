@@ -242,6 +242,8 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void caricaLuoghi(){
+        LatLng myPosition = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fStore.collection("luoghi").orderBy("nome").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -255,11 +257,14 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
                     MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(luogo.getNome()).visible(false)
                             .snippet(luogo.getCategoria()).icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
+                    if(SphericalUtil.computeDistanceBetween(myPosition,markerOptions.getPosition()) < 500){
+                        markerOptions.visible(true);
+                    }
                     mapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
                             googleMap.addMarker(markerOptions);
+
                         }
                     });
                 }
