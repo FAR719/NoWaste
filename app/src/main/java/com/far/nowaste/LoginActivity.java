@@ -254,6 +254,11 @@ public class LoginActivity extends AppCompatActivity {
         if (fAuth.getCurrentUser() != null && !fAuth.getCurrentUser().isEmailVerified()) {
             fAuth.signOut();
             MainActivity.CURRENT_USER = null;
+            MainActivity.SETTIMANALE = null;
+            MainActivity.CARBON_DIOXIDE_ARRAY_LIST = null;
+            MainActivity.ENERGY_ARRAY_LIST = null;
+            MainActivity.OIL_ARRAY_LIST = null;
+            MainActivity.QUANTITA = null;
         }
         this.finish();
         return super.onOptionsItemSelected(item);

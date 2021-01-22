@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivityForResult(new Intent(getApplicationContext(), LoginActivity.class), 1);
     }
 
-    public void changeEmail(String password, String email){
+    public void changeEmail(String email, String password){
         FirebaseFirestore fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser user = fAuth.getCurrentUser();
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onSuccess(Void aVoid) {
                         Log.d("TAG", "Account eliminato da FireStore.");
                         // se esiste, elimina la proPic da storage
-                        if (CURRENT_USER.getImage() != null) {
+                        if (!CURRENT_USER.getImage().equals("")) {
                             storage = FirebaseStorage.getInstance();
                             storageReference = storage.getReference();
                             final String key = CURRENT_USER.getEmail();

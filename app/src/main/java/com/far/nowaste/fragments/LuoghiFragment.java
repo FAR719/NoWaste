@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.AutoTransition;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,7 +105,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
 
         // calcola le altezze della mappa e le grandezze dei pulsanti
         final float scale = getContext().getResources().getDisplayMetrics().density;
-        collapsedheight = (int) (300 * scale + 0.5f);
+        collapsedheight = (int) (400 * scale + 0.5f);
         expandedHeight = parent.getHeight();
         miniFAB = (int) (40 * scale + 0.5f);
         normalFAB = (int) (56 * scale + 0.5f);
@@ -318,12 +319,15 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
             fullScreenBtn.setImageDrawable(fsExitIcon);
             gpsBtn.setCustomSize(normalFAB);
             listaLayout.animate().alpha(0f).setInterpolator(interpolator).setDuration(1000).start();
+            mListaLuoghi.setVisibility(View.GONE);
         } else {
             layoutParams.height = collapsedheight;
             fullScreenBtn.setCustomSize(miniFAB);
             fullScreenBtn.setImageDrawable(fsIcon);
             gpsBtn.setCustomSize(miniFAB);
             listaLayout.animate().alpha(1f).setInterpolator(interpolator).setDuration(1000).start();
+            mListaLuoghi.setVisibility(View.VISIBLE);
+            mListaLuoghi.setAdapter(luogoAdapter);
         }
         ViewGroup root = (ViewGroup) parent;
         android.transition.TransitionManager.beginDelayedTransition(root);

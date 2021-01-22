@@ -310,6 +310,7 @@ public class ListaEventiActivity extends AppCompatActivity {
             boolean eventoCreato = data.getBooleanExtra("com.far.nowaste.NEW_EVENT_REQUEST", false);
             if (eventoCreato) {
                 showSnackbar("Evento creato!");
+                recView.setAdapter(adapter);
             }
         } else if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
             boolean eventoModificato = data.getBooleanExtra("com.far.nowaste.MODIFY_EVENT_REQUEST", false);
