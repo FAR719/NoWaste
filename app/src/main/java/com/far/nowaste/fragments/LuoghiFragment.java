@@ -404,6 +404,7 @@ public class LuoghiFragment extends Fragment implements OnMapReadyCallback {
         public void onBindViewHolder(@NonNull LuogoViewHolder holder, int position) {
             if (!markerList.get(position).isVisible()) {
                 holder.itemLayout.setVisibility(View.GONE);
+                holder.itemLayout.setMaxHeight(0);
             } else {
                 holder.mNome.setText(markerList.get(position).getTitle());
                 holder.mCategoria.setText(markerList.get(position).getSnippet());

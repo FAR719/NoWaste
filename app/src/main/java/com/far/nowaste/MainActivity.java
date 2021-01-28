@@ -42,7 +42,6 @@ import com.far.nowaste.objects.Saving;
 import com.far.nowaste.objects.Settimanale;
 import com.far.nowaste.objects.Utente;
 import com.far.nowaste.ui.main.SearchToolbarAnimation;
-import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -612,7 +611,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void retrieveUserSavings() {
+        // inizializzazione liste
+        CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
+        }
+
+        OIL_ARRAY_LIST = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
+        }
+
+        ENERGY_ARRAY_LIST = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
+        }
+
+        OTHER_ARRAY_LIST = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
+        }
+
         String[] typeList = new String[] {"carbon_dioxide", "oil", "energy", "water", "fertilizer", "sand"};
+
         for (String type : typeList) {
             FirebaseFirestore fStore = FirebaseFirestore.getInstance();
             fStore.collection("users").document(fAuth.getCurrentUser().getUid())
@@ -620,26 +641,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .orderBy("month", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    // inizializzazione liste
-                    CARBON_DIOXIDE_ARRAY_LIST = new ArrayList<>();
-                    for (int i = 0; i < 8; i++) {
-                        CARBON_DIOXIDE_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                    }
 
-                    OIL_ARRAY_LIST = new ArrayList<>();
-                    for (int i = 0; i < 8; i++) {
-                        OIL_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                    }
-
-                    ENERGY_ARRAY_LIST = new ArrayList<>();
-                    for (int i = 0; i < 8; i++) {
-                        ENERGY_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                    }
-
-                    OTHER_ARRAY_LIST = new ArrayList<>();
-                    for (int i = 0; i < 8; i++) {
-                        OTHER_ARRAY_LIST.add(i, new ArrayList<Saving>());
-                    }
 
                     switch (type) {
                         case "carbon_dioxide":
@@ -680,6 +682,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.e("LOG", "Error! " + e.getLocalizedMessage());
+                    CARBON_DIOXIDE_ARRAY_LIST = null;
+                    OIL_ARRAY_LIST = null;
+                    ENERGY_ARRAY_LIST = null;
+                    OTHER_ARRAY_LIST = null;
                 }
             });
         }
