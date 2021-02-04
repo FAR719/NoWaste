@@ -59,7 +59,4 @@
             app:srcCompat="@drawable/ic_add" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 </RelativeLayout>
-
-
